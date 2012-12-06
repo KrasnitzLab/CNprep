@@ -70,9 +70,9 @@ function(segall,ratall=NULL,idcol=NULL,startcol=NULL,
 		if(distrib=="Rparallel"){
 			ncores<-min(njobs,length(profnames),detectCores())
 			cl<-parallel::makeCluster(getOption("cl.cores",ncores))
-			parallel::clusterEvalQ(cl=cl,expr=library(rlecuyer))
-			parallel::clusterEvalQ(cl=cl,expr=library(mclust))
-			parallel::clusterEvalQ(cl=cl,expr=library(CNprep))
+			parallel::clusterEvalQ(cl=cl,expr=requireNamespace("rlecuyer"))
+			parallel::clusterEvalQ(cl=cl,expr=requireNamespace("mclust"))
+			parallel::clusterEvalQ(cl=cl,expr=requireNamespace("CNprep"))
 		}
 		processed<-switch(distrib,
 			vanilla=lapply(X=profpack,FUN=CNclusterNcenter,blsize=blsize,
