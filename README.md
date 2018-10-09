@@ -16,4 +16,4 @@ This package and the underlying CNVMetrics code are distributed under
 the GPL-2. You are free to use and redistribute this software. 
 
 For more information on GPL-2 License see
-[https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt]https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
+[https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt](https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
