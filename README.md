@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/belleau/CNPrep.svg?branch=master)](https://travis-ci.org/belleau/CNPrep)
-[![codecov](https://codecov.io/gh/belleau/CNPrep/branch/master/graph/badge.svg)](https://codecov.io/gh/belleau/CNPrep)
+[![Build Status](https://travis-ci.org/belleau/CNprep.svg?branch=master)](https://travis-ci.org/belleau/CNprep)
+[![codecov](https://codecov.io/gh/belleau/CNprep/branch/master/graph/badge.svg)](https://codecov.io/gh/belleau/CNprep)
 
-# CNPrep
+# CNprep
 
 A R package that evaluates DNA copy number data, using both their initial form (copy number as a noisy function of genomic position) and their approximation by a piecewise-constant function (segmentation), for the purpose of identifying genomic regions where the copy number differs from the norm.
 
