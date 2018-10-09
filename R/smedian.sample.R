@@ -1,3 +1,20 @@
+#' @title TODO
+#' 
+#' @description TODO
+#' 
+#' @param pos TODO
+#' 
+#' @param v TODO
+#' 
+#' @return TODO
+#' 
+#' @examples
+#' 
+#' # TODO
+#' 
+#' @author Alexander Krasnitz, Guoli Sun
+#' @importFrom stats median
+#' @keywords internal
 smedian.sample <-
 function(pos, v)
 {
