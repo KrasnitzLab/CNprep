@@ -1,3 +1,24 @@
+#' @title TODO
+#' 
+#' @description TODO
+#' 
+#' @param segtable TODO
+#' 
+#' @param gapind TODO
+#' 
+#' @param StartProbe TODO
+#' 
+#' @param EndProbe TODO
+#' 
+#' @return TODO
+#' 
+#' @examples
+#' 
+#' # TODO
+#' 
+#' @author Alexander Krasnitz, Guoli Sun
+#' @importFrom stats runif
+#' @keywords internal
 breakIntoGaps<-function(segtable,gapind,StartProbe,EndProbe){
 	if(sum(segtable[,gapind])==0)
 		return(as.matrix(segtable[,c(StartProbe,EndProbe)]))

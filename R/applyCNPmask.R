@@ -1,6 +1,128 @@
-applyCNPmask<-function(segtable,chrom,startPos,endPos,startProbe,endProbe,
-	eventIndex,masktable,maskchrom,maskstart,maskend,maskindex,mincover=1,
-	indexvals=c(-1,1)){
+#' @title Apply a mask to a table of copy number events.
+#' 
+#' @description A mask is applied to amplified or deleted segments as 
+#' tabulated in \code{segtable}. A decision whether to mask a segment 
+#' is taken based on what portion of the segment is covered by the mask. A 
+#' position is chosen at random within a segment to be masked, the flanking 
+#' segments are extended to that position and the segment to be masked is 
+#' indicated as such in the value returned.
+#' 
+#' @param segtable A matrix or a data frame with columns named or enumerated 
+#' by the values of 
+#' \code{chrom, startPos, endPos, startProbe, endProbe, eventIndex}. 
+#' 
+#' @param chrom A character string specifying the name for the column in 
+#' \code{segtable} tabulating the (integer) chromosome number for each segment.
+#' 
+#' @param startPos A character strings or integers specifying the 
+#' name or number of columns in \code{segtable} that tabulates the (integer) 
+#' genomic start coordinate of each segment.
+#' 
+#' @param endPos A character strings or integers specifying the 
+#' name or number of columns in \code{segtable} that tabulates the (integer) 
+#' genomic end coordinate of each segment.
+#' 
+#' @param startProbe A character strings specifying the names of 
+#' columns in \code{segtable} that tabulates the (integer) start postion 
+#' of each segment in internal units such as probe numbers for 
+#' data of CGH microarray origin.
+#' 
+#' @param endProbe A character strings specifying the names of 
+#' columns in \code{segtable} that tabulates the (integer) end postion 
+#' of each segment in internal units such as probe numbers for 
+#' data of CGH microarray origin.
+#' 
+#' @param eventIndex A character string giving the name of a column in 
+#' \code{segtable} where copy number variation status of the segments is 
+#' tabulated. 
+#' 
+#' @param masktable A matrix or a data frame with columns named or 
+#' enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} and 
+#' with rows corresponding to genomic intervals that comprise the mask.
+#' 
+#' @param maskchrom A character string or integers 
+#' specifying the name or number of columns in \code{masktable} that tabulates 
+#' the chromosome number of the intervals comprising the mask. 
+#' 
+#' @param maskstart A character string or integers 
+#' specifying the name or number of columns in \code{masktable} that tabulates 
+#' the genomic start coordinates of the intervals comprising the mask. 
+#' 
+#' @param maskend A character string or integers 
+#' specifying the name or number of columns in \code{masktable} that tabulates 
+#' the genomic end coordinates of the intervals comprising the mask. 
+#' 
+#' @param maskindex A numeric vector corresponding to \code{eventIndex}, 
+#' specifying copy number events status for measuring units.
+#' 
+#' @param mincover A numeric value specifying the minimal portion of the 
+#' segment that must be covered by the mask in order to trigger masking.
+#' 
+#' @param indexvals A numeric vector of length 2 specifying the two values 
+#' in \code{maskindex} to be matched with values in \code{eventIndex} to 
+#' determine the events that are to be masked.
+#' 
+#' @return A matrix with same number of observations/rows as \code{segtable} 
+#' and with following three columns:
+#' \itemize{
+#' \item{startProbe,endProbe}{ An integer vector for the start and end 
+#' positions of the segments after masking. }
+#' \item{toremove}{ An integer vector whose values are 1 if the segment 
+#' is masked and 0 otherwise. }
+#' }
+#' 
+#' @details Masking is performed separately for each value in 
+#' \code{indexvals}. Segments (rows of \code{segtable}) with that 
+#' value of \code{eventIndex} are examined for coverage by mask intervals 
+#' with that value of \code{maskindex} in \code{masktable}. If the coverage 
+#' is at least \code{mincover}, the segment is slated for masking, while its 
+#' flanking segments are extended to a random point within the segment 
+#' being masked.
+#' 
+#' @examples
+#' 
+#' \dontrun{
+#' data(segexample)
+#' data(ratexample)
+#' data(normsegs)
+#' data(cnpexample)
+#' segtable<-CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
+#'     ratall=ratexample,"ID","start","end",chromcol="chrom",
+#'     bpstartcol="chrom.pos.start", bpendcol="chrom.pos.end",
+#'     blsize=50,minjoin=0.25,cweight=0.4,bstimes=50,
+#'     chromrange=1:22,distrib="Rparallel",njobs=2,modelNames="E",
+#'     normalength=normsegs[,1], normalmedian=normsegs[,2])
+#' 
+#' ## Form a eventIndex vector
+#' eventIndex<-rep(0,nrow(segtable))
+#' eventIndex[segtable[,"marginalprob"]<1e-4&segtable[,"negtail"]> 0.999 & 
+#'     segtable[,"mediandev"]<0] <- -1
+#' eventIndex[segtable[,"marginalprob"]<1e-4&segtable[,"negtail"]> 0.999 &
+#'     segtable[,"mediandev"]>0] <- 1
+#' segtable<-cbind(segtable,eventIndex)
+#' 
+#' ## Form a cnpindex vector
+#' namps17<-cnpexample[cnpexample[,"copy.num"]=="amp",]
+#' aCNPmask<-makeCNPmask(imat=namps17,chromcol=2,startcol=3,endcol=4,
+#'     nprof=1203,uthresh=0.02,dthresh=0.008)
+#' ndels17<-cnpexample[cnpexample[,"copy.num"]=="del",]
+#' dCNPmask<-makeCNPmask(imat=ndels17,chromcol=2,startcol=3,endcol=4,
+#'     nprof=1203,uthresh=0.02,dthresh=0.008)
+#' cnptable<-rbind(cbind(aCNPmask,cnpindex=1),cbind(dCNPmask,cnpindex=-1))
+#' 
+#' ## Run the CNP test
+#' myCNPtable<-applyCNPmask(segtable,"chrom",startPos="chrom.pos.start",
+#'     endPos="chrom.pos.end","start","end","eventIndex",masktable=cnptable,
+#'     "chrom", maskstart="start",maskend="end",maskindex="cnpindex",
+#'     mincover=0.005,indexvals=c(-1,1))
+#' }
+#' 
+#' 
+#' @author Alexander Krasnitz
+#' @export
+applyCNPmask <- function(segtable,chrom,startPos,endPos,startProbe,endProbe,
+	eventIndex,masktable,maskchrom,maskstart,maskend,maskindex, mincover=1,
+	indexvals=c(-1,1)) {
 	breakCNPs<-by(segtable,INDICES=as.factor(segtable[,chrom]),
 		FUN=breakIntoCNPs.chrom,chrom=chrom,startPos=startPos,endPos=endPos,
 		startProbe=startProbe,endProbe=endProbe,eventIndex=eventIndex,

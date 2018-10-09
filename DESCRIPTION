@@ -7,8 +7,11 @@ Author: Alex Krasnitz, Guoli Sun
 Maintainer: Guoli Sun <guolisun87@gmail.com>
 Description: This package evaluates DNA copy number data, using both their initial form (copy number as a noisy function of genomic position) and their approximation by a piecewise-constant function (segmentation), for the purpose of identifying genomic regions where the copy number differs from the norm.
 License: GPL-2
+Encoding: UTF-8
 Depends: R (>= 2.10), parallel, mclust, rlecuyer
+Suggests: testthat
 Packaged: 2014-12-31 17:11:09 UTC; gsun
 NeedsCompilation: no
 Repository: CRAN
 Date/Publication: 2014-12-31 18:26:36
+RoxygenNote: 6.1.0

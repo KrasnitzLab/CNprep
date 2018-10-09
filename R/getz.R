@@ -1,5 +1,25 @@
-getz <-
-function(logr,emfit,zgroup,times){ 
+#' @title TODO
+#' 
+#' @description TODO
+#' 
+#' @param logr TODO
+#' 
+#' @param emfit TODO
+#' 
+#' @param zgroup TODO
+#' 
+#' @param times TODO
+#' 
+#' @return TODO
+#' 
+#' @examples
+#' 
+#' # TODO
+#' 
+#' @author Alexander Krasnitz, Guoli Sun
+#' @importFrom stats predict
+#' @keywords internal
+getz <- function(logr, emfit, zgroup, times){ 
 	if(is.null(emfit$z))gz<-matrix(ncol=1,data=rep(1,length(logr)))
 	else gz<-predict(emfit,newdata=logr)$z
 	isfin<-matrix(ncol=ncol(gz),nrow=nrow(gz),data=is.finite(gz))
