@@ -3,7 +3,7 @@
 library(CNprep)
 
 
-### Tests CNpreprocessing() results
+### Tests smedian.sample() results
 
 context("smedian.sample() results")
 
