@@ -41,3 +41,20 @@ test_that("smedian.sample() must return expected results 02", {
     
     expect_equal(results, expected)
 })
+
+test_that("smedian.sample() must return expected results when NA present", {
+    
+    RNGkind("default")
+    
+    position <- c(1, 5)
+    values <- c(0.072073840, NA, NA, NA, NA,
+                0.111907384, NA, NA, NA, -0.000843732)
+    
+    set.seed(3311)
+    
+    results <- CNprep:::smedian.sample(position, values)
+    
+    expected <- 0.07207384000
+    
+    expect_equal(results, expected)
+})
