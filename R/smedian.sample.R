@@ -5,14 +5,14 @@
 #' from a specified vector. Only a subsection of the vector is used for the
 #' sampling, as the first and last position are set by user.
 #' 
-#' @param pos A \code{vector} of 2 \code{integer} that represent the first and 
+#' @param pos a \code{vector} of 2 \code{integer} that represent the first and 
 #' last positions of \code{vector} \code{v} to used for the sampling step.
 #' 
-#' @param v A \code{vector} of \code{double} containing the values used for
+#' @param v a \code{vector} of \code{double} containing the values used for
 #' sampling. However, only a subsection of the \code{vector}, as set 
 #' by \code{pos}, is used.
 #' 
-#' @return A \code{double} which is the median of the sampled values.
+#' @return a \code{double} which is the median of the sampled values.
 #' 
 #' @examples
 #' 
@@ -32,7 +32,6 @@
 #' @keywords internal
 smedian.sample <- function(pos, v)
 {
-    ## TODO: remove NA before of after selection ??????
 	w <- v[pos[1]:pos[2]][!is.na(v[pos[1]:pos[2]])]
-	return(median(sample(w, length(w), replace=T), na.rm=T))
+	return(median(sample(w, length(w), replace=TRUE), na.rm=TRUE))
 }
