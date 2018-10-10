@@ -3,7 +3,7 @@
 \name{smedian.sample}
 \alias{smedian.sample}
 \title{Calculate the median of the sampled values with replacement from
-a specified vector.}
+a contiguous subsection of specified vector.}
 \usage{
 smedian.sample(pos, v)
 }
@@ -20,7 +20,7 @@ a \code{double} which is the median of the sampled values.
 }
 \description{
 Calculate the median of the sampled values with replacement 
-from a specified vector. Only a subsection of the vector is used for the
+from a specified vector. Only a contiguous subsection of the vector is used for the
 sampling, as the first and last position are set by user.
 }
 \examples{

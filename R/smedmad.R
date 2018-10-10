@@ -1,7 +1,8 @@
 #' @title Calculate the median and median absolute deviation of the values from
-#' a specified vector.
+#' a contiguous subsection of specified vector.
 #' 
-#' @description Compute the median and the median absolute deviation,TODO
+#' @description Compute the median and the median absolute deviation, only a 
+#' contiguous subsection of the vector is used for the calculation
 #' 
 #' @param pos a \code{vector} of 2 \code{integer} that represent the first and 
 #' last positions of \code{vector} \code{v} to used for the calculation.

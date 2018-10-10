@@ -3,7 +3,7 @@
 \name{smedian}
 \alias{smedian}
 \title{Calculate the median of the values from
-a specified vector.}
+a contiguous subsection of specified vector.}
 \usage{
 smedian(pos, v)
 }
@@ -20,7 +20,7 @@ a \code{double} which is the median of the values.
 }
 \description{
 Calculate the median of the values from a specified vector. 
-Only a subsection of the vector is used for the calculation, as the first 
+Only a contiguous subsection of the vector is used for the calculation, as the first 
 and last position are set by user.
 }
 \examples{

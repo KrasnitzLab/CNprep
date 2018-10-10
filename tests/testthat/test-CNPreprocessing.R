@@ -58,6 +58,7 @@ test_that("CNpreprocessing() must return expected results", {
         blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
         distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
         normalmedian=normSegs, myseed = 444)
+    row.names(results) <- NULL
     
     expected <- segExample
     
@@ -72,6 +73,7 @@ test_that("CNpreprocessing() must return expected results", {
     expected$maxzsigma <- c(0.0001142289, 0.0001142289, 0.0001142289, 0.0110507019, 0.0110507019)
     expected$samplesize <- c(111, 75, 41, 67, 42)
     expected$negtail <- c(1.0000000000, 1.0000000000, 1.0000000000, 0.0003729368, 0.9913913579)
-    row.names(expected) <- c("X6", "X7", "X5", "X1", "X1.1")
+    row.names(expected) <- NULL
+    
     expect_equal(results, expected)
 })
