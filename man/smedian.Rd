@@ -8,15 +8,15 @@ a specified vector.}
 smedian(pos, v)
 }
 \arguments{
-\item{pos}{A \code{vector} of 2 \code{integer} that represent the first and 
+\item{pos}{a \code{vector} of 2 \code{integer} that represent the first and 
 last positions of \code{vector} \code{v} to used for the calculation.}
 
-\item{v}{A \code{vector} of \code{double} containing the values used for
+\item{v}{a \code{vector} of \code{double} containing the values used for
 the calculation. However, only a subsection of the \code{vector}, as set 
 by \code{pos}, is used.}
 }
 \value{
-A \code{double} which is the median of the values.
+a \code{double} which is the median of the values.
 }
 \description{
 Calculate the median of the values from a specified vector. 

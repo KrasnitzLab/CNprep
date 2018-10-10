@@ -5,14 +5,14 @@
 #' Only a subsection of the vector is used for the calculation, as the first 
 #' and last position are set by user.
 #' 
-#' @param pos A \code{vector} of 2 \code{integer} that represent the first and 
+#' @param pos a \code{vector} of 2 \code{integer} that represent the first and 
 #' last positions of \code{vector} \code{v} to used for the calculation.
 #' 
-#' @param v A \code{vector} of \code{double} containing the values used for
+#' @param v a \code{vector} of \code{double} containing the values used for
 #' the calculation. However, only a subsection of the \code{vector}, as set 
 #' by \code{pos}, is used.
 #' 
-#' @return  A \code{double} which is the median of the values.
+#' @return  a \code{double} which is the median of the values.
 #' 
 #' @examples
 #' 
