@@ -1,3 +1,27 @@
+#' @title TODO
+#' 
+#' @description TODO
+#' 
+#' @param mysegs TODO
+#' 
+#' @param ratcol TODO
+#' 
+#' @param startcol TODO
+#' 
+#' @param endcol TODO
+#' 
+#' @param blocksize TODO
+#' 
+#' @param times TODO
+#' 
+#' @return TODO
+#' 
+#' @examples
+#' 
+#' # TODO
+#' 
+#' @author Alexander Krasnitz, Guoli Sun
+#' @keywords internal
 segsample <-
 function(mysegs,ratcol,startcol="StartProbe",endcol="EndProbe",
 	blocksize=0,times=0){
