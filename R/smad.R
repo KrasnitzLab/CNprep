@@ -1,8 +1,8 @@
 #' @title Calculate the median absolute deviation of the values from
-#' a specified vector.
+#' a contiguous subsection of specified vector.
 #' 
 #' @description Compute the median absolute deviation for a specified vector of
-#' values.  Only a subsection of the vector is used for the calculation, as 
+#' values.  Only a contiguous subsection of the vector is used for the calculation, as 
 #' the first and last position are set by user.
 #' 
 #' @param pos a \code{vector} of 2 \code{integer} that represent the first and 

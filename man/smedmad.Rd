@@ -3,7 +3,7 @@
 \name{smedmad}
 \alias{smedmad}
 \title{Calculate the median and median absolute deviation of the values from
-a specified vector.}
+a contiguous subsection of specified vector.}
 \usage{
 smedmad(pos, v)
 }
@@ -20,7 +20,8 @@ a \code{vector} of 2 \code{double} which are the median and
 the median absolute deviation of the values.
 }
 \description{
-Compute the median and the median absolute deviation,TODO
+Compute the median and the median absolute deviation, only a 
+contiguous subsection of the vector is used for the calculation
 }
 \examples{
 

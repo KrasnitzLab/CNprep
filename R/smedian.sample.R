@@ -1,8 +1,8 @@
 #' @title Calculate the median of the sampled values with replacement from
-#' a specified vector.
+#' a contiguous subsection of specified vector.
 #' 
 #' @description Calculate the median of the sampled values with replacement 
-#' from a specified vector. Only a subsection of the vector is used for the
+#' from a specified vector. Only a contiguous subsection of the vector is used for the
 #' sampling, as the first and last position are set by user.
 #' 
 #' @param pos a \code{vector} of 2 \code{integer} that represent the first and 

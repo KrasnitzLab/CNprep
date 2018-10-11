@@ -3,7 +3,7 @@
 \name{smad}
 \alias{smad}
 \title{Calculate the median absolute deviation of the values from
-a specified vector.}
+a contiguous subsection of specified vector.}
 \usage{
 smad(pos, v)
 }
@@ -20,7 +20,7 @@ a \code{double} which is the median of the values.
 }
 \description{
 Compute the median absolute deviation for a specified vector of
-values.  Only a subsection of the vector is used for the calculation, as 
+values.  Only a contiguous subsection of the vector is used for the calculation, as 
 the first and last position are set by user.
 }
 \examples{
