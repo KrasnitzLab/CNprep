@@ -1,5 +1,24 @@
-consolidate <-
-function(emfit,minover){ 
+#' @title TODO
+#' 
+#' @description TODO
+#' 
+#' @param emfit An object of class \code{Mclust} providing a 
+#' mixture model estimation. 
+#' 
+#' @param minover A single \code{numeric} value between \code{0} and \code{1} 
+#' specifying the degree of overlap above which two clusters will be joined 
+#' into one.
+#' 
+#' @return TODO
+#'
+#' @examples
+#'
+#' # TODO
+#' 
+#' @author Alexander Krasnitz, Guoli Sun
+#' @importFrom mclust Mclust
+#' @keywords internal
+consolidate <- function(emfit, minover) { 
 	newem<-list(mu=emfit$parameters$mean,pro=emfit$parameters$pro,z=emfit$z,
 		groups=matrix(nrow=length(emfit$parameters$mean),
 		ncol=length(emfit$parameters$mean),data=0),
