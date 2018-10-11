@@ -1,6 +1,6 @@
-#' @title Calculate the weighted median of a specified vector.
+#' @title Calculate the lower weighted median of a specified vector.
 #' 
-#' @description Compute the weighted median of a specified vector.
+#' @description Compute the lower weighted median of a specified vector.
 #' 
 #' @param v a \code{vector} of \code{double} containing the values used for
 #' the calculation.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/weighted.median.R
 \name{weighted.median}
 \alias{weighted.median}
-\title{Calculate the weighted median of a specified vector.}
+\title{Calculate the lower weighted median of a specified vector.}
 \usage{
 weighted.median(v, weights)
 }
@@ -17,7 +17,7 @@ each value of the \code{v} vector.}
 a \code{double} which is the weighted median of the vector.
 }
 \description{
-Compute the weighted median of a specified vector.
+Compute the lower weighted median of a specified vector.
 }
 \examples{
 
