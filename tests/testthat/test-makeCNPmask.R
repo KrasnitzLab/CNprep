@@ -48,7 +48,8 @@ test_that("makeCNPmask() must return no result", {
                            startcol="chrom.start", endcol="chrom.end",
                            nprof=100, uthresh=0.02, dthresh=0.008)
     
-    expected <- matrix(data = as.double(c(NULL)), ncol=3,nrow=0,dimnames=list(NULL,c("chrom","start","end")))
+    expected <- matrix(data = as.double(c(NULL)), ncol = 3, nrow = 0,
+                       dimnames = list(NULL, c("chrom", "start", "end")))
     
     expect_equal(results, expected)
 })
