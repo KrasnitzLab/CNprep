@@ -9,53 +9,53 @@ applyCNPmask(segtable, chrom, startPos, endPos, startProbe, endProbe,
   mincover = 1, indexvals = c(-1, 1))
 }
 \arguments{
-\item{segtable}{A matrix or a data frame with columns named or enumerated 
-by the values of 
+\item{segtable}{a \code{matrix} or a \code{data.frame} with columns 
+named or enumerated by the values of 
 \code{chrom, startPos, endPos, startProbe, endProbe, eventIndex}.}
 
-\item{chrom}{A character string specifying the name for the column in 
+\item{chrom}{a \code{character} string specifying the name for the column in 
 \code{segtable} tabulating the (integer) chromosome number for each segment.}
 
-\item{startPos}{A character strings or integers specifying the 
+\item{startPos}{a \code{character} string or integer specifying the 
 name or number of columns in \code{segtable} that tabulates the (integer) 
 genomic start coordinate of each segment.}
 
-\item{endPos}{A character strings or integers specifying the 
+\item{endPos}{a \code{character} string or integer specifying the 
 name or number of columns in \code{segtable} that tabulates the (integer) 
 genomic end coordinate of each segment.}
 
-\item{startProbe}{A character strings specifying the names of 
+\item{startProbe}{a \code{character} string specifying the names of 
 columns in \code{segtable} that tabulates the (integer) start postion 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 
-\item{endProbe}{A character strings specifying the names of 
+\item{endProbe}{a \code{character} string specifying the names of 
 columns in \code{segtable} that tabulates the (integer) end postion 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 
-\item{eventIndex}{A character string giving the name of a column in 
+\item{eventIndex}{a \code{character} string giving the name of a column in 
 \code{segtable} where copy number variation status of the segments is 
 tabulated.}
 
-\item{masktable}{A matrix or a data frame with columns named or 
+\item{masktable}{a \code{matrix} or a \code{data.frame} with columns named or 
 enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} and 
 with rows corresponding to genomic intervals that comprise the mask.}
 
-\item{maskchrom}{A character string or integers 
+\item{maskchrom}{a \code{character} string or \code{integer} 
 specifying the name or number of columns in \code{masktable} that tabulates 
 the chromosome number of the intervals comprising the mask.}
 
-\item{maskstart}{A character string or integers 
+\item{maskstart}{a \code{character} string or \code{integer} 
 specifying the name or number of columns in \code{masktable} that tabulates 
 the genomic start coordinates of the intervals comprising the mask.}
 
-\item{maskend}{A character string or integers 
+\item{maskend}{a \code{character} string or \code{integer} 
 specifying the name or number of columns in \code{masktable} that tabulates 
 the genomic end coordinates of the intervals comprising the mask.}
 
-\item{maskindex}{A numeric vector corresponding to \code{eventIndex}, 
-specifying copy number events status for measuring units.}
+\item{maskindex}{a \code{numeric} \code{vector} corresponding to 
+\code{eventIndex}, specifying copy number events status for measuring units.}
 
 \item{mincover}{A numeric value specifying the minimal portion of the 
 segment that must be covered by the mask in order to trigger masking.}

@@ -7,53 +7,53 @@
 #' segments are extended to that position and the segment to be masked is 
 #' indicated as such in the value returned.
 #' 
-#' @param segtable A matrix or a data frame with columns named or enumerated 
-#' by the values of 
+#' @param segtable a \code{matrix} or a \code{data.frame} with columns 
+#' named or enumerated by the values of 
 #' \code{chrom, startPos, endPos, startProbe, endProbe, eventIndex}. 
 #' 
-#' @param chrom A character string specifying the name for the column in 
+#' @param chrom a \code{character} string specifying the name for the column in 
 #' \code{segtable} tabulating the (integer) chromosome number for each segment.
 #' 
-#' @param startPos A character strings or integers specifying the 
+#' @param startPos a \code{character} string or integer specifying the 
 #' name or number of columns in \code{segtable} that tabulates the (integer) 
 #' genomic start coordinate of each segment.
 #' 
-#' @param endPos A character strings or integers specifying the 
+#' @param endPos a \code{character} string or integer specifying the 
 #' name or number of columns in \code{segtable} that tabulates the (integer) 
 #' genomic end coordinate of each segment.
 #' 
-#' @param startProbe A character strings specifying the names of 
+#' @param startProbe a \code{character} string specifying the names of 
 #' columns in \code{segtable} that tabulates the (integer) start postion 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
-#' @param endProbe A character strings specifying the names of 
+#' @param endProbe a \code{character} string specifying the names of 
 #' columns in \code{segtable} that tabulates the (integer) end postion 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
-#' @param eventIndex A character string giving the name of a column in 
+#' @param eventIndex a \code{character} string giving the name of a column in 
 #' \code{segtable} where copy number variation status of the segments is 
 #' tabulated. 
 #' 
-#' @param masktable A matrix or a data frame with columns named or 
+#' @param masktable a \code{matrix} or a \code{data.frame} with columns named or 
 #' enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} and 
 #' with rows corresponding to genomic intervals that comprise the mask.
 #' 
-#' @param maskchrom A character string or integers 
+#' @param maskchrom a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{masktable} that tabulates 
 #' the chromosome number of the intervals comprising the mask. 
 #' 
-#' @param maskstart A character string or integers 
+#' @param maskstart a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{masktable} that tabulates 
 #' the genomic start coordinates of the intervals comprising the mask. 
 #' 
-#' @param maskend A character string or integers 
+#' @param maskend a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{masktable} that tabulates 
 #' the genomic end coordinates of the intervals comprising the mask. 
 #' 
-#' @param maskindex A numeric vector corresponding to \code{eventIndex}, 
-#' specifying copy number events status for measuring units.
+#' @param maskindex a \code{numeric} \code{vector} corresponding to 
+#' \code{eventIndex}, specifying copy number events status for measuring units.
 #' 
 #' @param mincover A numeric value specifying the minimal portion of the 
 #' segment that must be covered by the mask in order to trigger masking.
@@ -124,14 +124,14 @@ applyCNPmask <- function(segtable, chrom, startPos, endPos, startProbe,
                          endProbe, eventIndex, masktable, maskchrom, maskstart,
                          maskend, maskindex, mincover=1, indexvals=c(-1,1)) 
 {
-	breakCNPs<-by(segtable, INDICES=as.factor(segtable[,chrom]),
+	breakCNPs <- by(segtable, INDICES=as.factor(segtable[,chrom]),
 		FUN=breakIntoCNPs.chrom,chrom=chrom,startPos=startPos,endPos=endPos,
 		startProbe=startProbe,endProbe=endProbe,eventIndex=eventIndex,
 		cnptable=masktable,cnpchrom=maskchrom,cnpstart=maskstart,
 		cnpend=maskend,cnpindex=maskindex,mincover=mincover,indexvals=indexvals,
 		simplify=TRUE)
 	
-	myCNPs<-matrix(ncol=3, byrow=TRUE, data=unlist(lapply(breakCNPs, t)))	
-	dimnames(myCNPs)[[2]]<-c("StartProbe", "EndProbe", "toremove")
+	myCNPs <- matrix(ncol=3, byrow=TRUE, data=unlist(lapply(breakCNPs, t)))	
+	dimnames(myCNPs)[[2]] <- c("StartProbe", "EndProbe", "toremove")
 	return(as.matrix(myCNPs))
 }

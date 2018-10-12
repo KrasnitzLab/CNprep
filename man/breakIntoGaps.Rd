@@ -7,13 +7,19 @@
 breakIntoGaps(segtable, gapind, StartProbe, EndProbe)
 }
 \arguments{
-\item{segtable}{TODO}
+\item{segtable}{a \code{matrix} or a \code{data.frame} TODO}
 
-\item{gapind}{TODO}
+\item{gapind}{a \code{character} string TODO}
 
-\item{StartProbe}{TODO}
+\item{StartProbe}{a \code{character} string specifying the names of 
+columns in \code{segtable} that tabulates the (integer) start postion 
+of each segment in internal units such as probe numbers for 
+data of CGH microarray origin.}
 
-\item{EndProbe}{TODO}
+\item{EndProbe}{a \code{character} string specifying the names of 
+columns in \code{segtable} that tabulates the (integer) end postion 
+of each segment in internal units such as probe numbers for 
+data of CGH microarray origin.}
 }
 \value{
 TODO

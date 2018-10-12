@@ -2,13 +2,17 @@
 #' 
 #' @description TODO
 #' 
-#' @param mysegs TODO
+#' @param mysegs a \code{data.frame} TODO
 #' 
 #' @param ratcol TODO
 #' 
-#' @param startcol TODO
+#' @param startcol a \code{character} string specifying the name of column 
+#' in \code{mysegs} that tabulates the (integer) start postion of each segment 
+#' in internal units such as probe numbers for data of CGH microarray origin.
 #' 
-#' @param endcol TODO
+#' @param endcol a \code{character} string specifying the name of column 
+#' in \code{mysegs} that tabulates the (integer) end postion of each segment 
+#' in internal units such as probe numbers for data of CGH microarray origin.
 #' 
 #' @param blocksize TODO
 #' 
@@ -22,9 +26,9 @@
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
-segsample <-
-function(mysegs,ratcol,startcol="StartProbe",endcol="EndProbe",
-	blocksize=0,times=0){
+segsample <- function(mysegs, ratcol, startcol="StartProbe", endcol="EndProbe",
+	blocksize=0, times=0)
+{
 	if(blocksize==0&times==0)stop("One of blocksize or times must be set")
 	if(blocksize!=0&times!=0)stop("Only one of blocksize or times can be set")
 	segtable<-mysegs[,c(startcol,endcol),drop=F]
