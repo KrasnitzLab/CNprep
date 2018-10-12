@@ -9,9 +9,10 @@ Description: This package evaluates DNA copy number data, using both their initi
 License: GPL-2
 Encoding: UTF-8
 Depends: R (>= 2.10), parallel, mclust, rlecuyer
-Suggests: testthat
+Suggests: testthat, knitr, rmarkdown
 Packaged: 2014-12-31 17:11:09 UTC; gsun
 NeedsCompilation: no
 Repository: CRAN
+VignetteBuilder: knitr
 Date/Publication: 2014-12-31 18:26:36
 RoxygenNote: 6.1.0
