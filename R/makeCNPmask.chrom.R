@@ -1,4 +1,30 @@
-makeCNPmask.chrom<-function(imat,startcol=1,endcol=2,nprof=1,uthresh,dthresh){
+#' @title TODO
+#' 
+#' @description TODO
+#' 
+#' @param imat TODO 
+#' 
+#' @param startcol TODO
+#' 
+#' @param endcol TODO
+#' 
+#' @param nprof TODO
+#' 
+#' @param uthresh TODO
+#' 
+#' @param dthresh TODO
+#' 
+#' @return TODO
+#'
+#' @examples
+#'
+#' # TODO
+#' 
+#' @author Alexander Krasnitz, Guoli Sun
+#' @keywords internal
+makeCNPmask.chrom <- function(imat, startcol=1, endcol=2, nprof=1, uthresh,
+                              dthresh)
+{
 	astart<-imat[,startcol]
 	aend<-imat[,endcol]
 	z<-cbind(c(astart,aend,aend+1),
@@ -25,4 +51,4 @@ makeCNPmask.chrom<-function(imat,startcol=1,endcol=2,nprof=1,uthresh,dthresh){
 	else{
 		return(matrix(ncol=3,nrow=0,dimnames=list(NULL,c("chrom","start","end"))))
 	}
-	}
+}
