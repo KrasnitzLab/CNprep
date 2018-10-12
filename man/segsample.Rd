@@ -8,13 +8,17 @@ segsample(mysegs, ratcol, startcol = "StartProbe", endcol = "EndProbe",
   blocksize = 0, times = 0)
 }
 \arguments{
-\item{mysegs}{TODO}
+\item{mysegs}{a \code{data.frame} TODO}
 
 \item{ratcol}{TODO}
 
-\item{startcol}{TODO}
+\item{startcol}{a \code{character} string specifying the name of column 
+in \code{mysegs} that tabulates the (integer) start postion of each segment 
+in internal units such as probe numbers for data of CGH microarray origin.}
 
-\item{endcol}{TODO}
+\item{endcol}{a \code{character} string specifying the name of column 
+in \code{mysegs} that tabulates the (integer) end postion of each segment 
+in internal units such as probe numbers for data of CGH microarray origin.}
 
 \item{blocksize}{TODO}
 
