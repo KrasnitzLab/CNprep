@@ -2,6 +2,7 @@
 title: "CNprep"
 author: "Alex Krasnitz, Guoli Sun"
 date: "`r Sys.Date()`"
+bibliography: CNprep_biblio.bibtex
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{CNprep}
@@ -35,9 +36,28 @@ following:
 > Alex Krasnitz and Guoli Sun (2014). CNprep: Pre-process DNA Copy Number (CN) Data for Detection of CN Events. R package version 2.0. https://CRAN.R-project.org/package=CNprep
 
 
-## Introduction
+# Introduction
+
+Copy number variation is a significant source of variation in the human genome.
+Copy number variants (CNVs) has been associated with a number of diseases, such 
+as Tourette Disorder [@Wang2018] and especially 
+cancer [@Pelttari2018; @Franch-Exposito2018a]. Even 
+more, CNVs can potentially to be used biomarker for cancer 
+diagnosis [@Pan2018].
 
 The *CNprep* package evaluates DNA copy number data, using both their initial 
 form (copy number as a noisy function of genomic position) and their 
 approximation by a piecewise-constant function (segmentation), for the purpose 
 of identifying genomic regions where the copy number differs from the norm.
+
+
+# Session info
+
+Here is the output of sessionInfo() on the system on which this document 
+was compiled:
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+# References
