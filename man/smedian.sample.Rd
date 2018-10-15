@@ -20,8 +20,8 @@ a \code{double} which is the median of the sampled values.
 }
 \description{
 Calculate the median of the sampled values with replacement 
-from a specified vector. Only a contiguous subsection of the vector is used for the
-sampling, as the first and last position are set by user.
+from a specified vector. Only a contiguous subsection of the vector is 
+used for the sampling, as the first and last position are set by user.
 }
 \examples{
 
@@ -29,9 +29,10 @@ sampling, as the first and last position are set by user.
 position <- c(1, 10)
 
 ## A value vector used to do sampling with replacement
-values <- c(0.072073840, 0.119913919, 0.154459489, 0.040994620, -0.082843732,
-    0.093052725, 0.170908930, 0.086624752, -0.003855011, -0.195791649,
-    0.012126180, 0.043428961, 0.028435453, 0.075708220, 0.020358061)
+values <- c(0.072073840, 0.119913919, 0.154459489, 0.040994620, 
+    -0.082843732, 0.093052725, 0.170908930, 0.086624752, -0.003855011, 
+    -0.195791649, 0.012126180, 0.043428961, 0.028435453, 0.075708220, 
+    0.020358061)
 
 ## Calculate the median of the sampled values from the subsetted vector
 CNprep:::smedian.sample(pos=position, v=values)
