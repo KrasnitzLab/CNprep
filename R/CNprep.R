@@ -170,3 +170,76 @@ NULL
 #' #    mincover=0.005,indexvals=c(-1,1))
 #' 
 NULL
+
+#' @title Annotation table for ROMA CGH platform and human genome version 17.
+#' 
+#' @description Whole genome annotation table using Representational 
+#' Oligonucleotide Microarray Analysis (ROMA) CGH platform, 
+#' human genome version 17.
+#' 
+#' @name annotexample
+#'
+#' @docType data
+#'
+#' @aliases annotexample
+#'
+#' @format A \code{data.frame} with 83055 observations on the following 3 
+#' variables.
+#' \describe{
+#' \item{\code{PROBEID}}{a \code{character} \code{vector} of probe names.}
+#' \item{\code{CHROM}}{a \code{numeric} \code{vector} of chromosome positions.}
+#' \item{\code{CHROM.POS}}{a \code{numeric} \code{vector} of genomic 
+#' positions.}
+#' }
+#'
+#' @return a \code{data.frame} with 83055 observations on the following 3 
+#' variables. 
+#' \describe{
+#' \item{\code{PROBEID}}{a \code{character} \code{vector} of probe names.}
+#' \item{\code{CHROM}}{a \code{numeric} \code{vector} of chromosome positions.}
+#' \item{\code{CHROM.POS}}{a \code{numeric} \code{vector} of genomic 
+#' positions.}
+#' }
+#' 
+#' @details The values in the chromosome column are all integer, with 
+#' 23 corresponding to X, 24 to Y and 25 to a set of non-human test probes.
+#' 
+#' @seealso
+#' \itemize{
+#' \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
+#' data for detection of CN events.}
+#' }
+#'
+#' @usage data(annotexample)
+#'
+#' @keywords datasets
+#'
+#' @source GEO accession GPL9775, 
+#' http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL9775
+#' 
+#' @examples
+#'
+#' ## Loading annotation table dataset
+#' data(annotexample)
+#'
+#' ## Loading other datasets
+#' data(ratexample)
+#' data(segexample)
+#' data(normsegs)
+#' 
+#' ## How to use annotexample, when segment table does not have columns 
+#' ## of integer postions in terms of measuring units(probes), such 
+#' ## as "mysegs" below 
+#' 
+#' mysegs<-segexample[,c(1,5:12)]
+#' 
+#' ## Analysis limited to chromosomes 1 and 2
+#' ## The bstimes variable should be higher for a real analysis
+#' segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, idcol="ID",
+#'     chromcol="chrom", bpstartcol="chrom.pos.start", bpendcol="chrom.pos.end",
+#'     annot=annotexample, annotstartcol="CHROM.POS", annotendcol="CHROM.POS",
+#'     annotchromcol="CHROM", blsize=50, minjoin=0.25, cweight=0.4, bstimes=3,
+#'     chromrange=1:2, distrib="vanilla", njobs=1, modelNames="E", 
+#'     normalength=normsegs[,1], normalmedian=normsegs[,2])
+#' 
+NULL
