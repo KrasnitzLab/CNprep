@@ -36,9 +36,9 @@
 #' \code{segtable} where copy number variation status of the segments is 
 #' tabulated. 
 #' 
-#' @param masktable a \code{matrix} or a \code{data.frame} with columns named or 
-#' enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} and 
-#' with rows corresponding to genomic intervals that comprise the mask.
+#' @param masktable a \code{matrix} or a \code{data.frame} with columns named 
+#' or enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} 
+#' and with rows corresponding to genomic intervals that comprise the mask.
 #' 
 #' @param maskchrom a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{masktable} that tabulates 
@@ -121,15 +121,15 @@
 #' @author Alexander Krasnitz
 #' @export
 applyCNPmask <- function(segtable, chrom, startPos, endPos, startProbe,
-                         endProbe, eventIndex, masktable, maskchrom, maskstart,
-                         maskend, maskindex, mincover=1, indexvals=c(-1,1)) 
+                    endProbe, eventIndex, masktable, maskchrom, maskstart,
+                    maskend, maskindex, mincover=1, indexvals=c(-1,1)) 
 {
-	breakCNPs <- by(segtable, INDICES=as.factor(segtable[,chrom]),
-		FUN=breakIntoCNPs.chrom,chrom=chrom,startPos=startPos,endPos=endPos,
-		startProbe=startProbe,endProbe=endProbe,eventIndex=eventIndex,
-		cnptable=masktable,cnpchrom=maskchrom,cnpstart=maskstart,
-		cnpend=maskend,cnpindex=maskindex,mincover=mincover,indexvals=indexvals,
-		simplify=TRUE)
+    breakCNPs <- by(segtable, INDICES=as.factor(segtable[,chrom]),
+        FUN=breakIntoCNPs.chrom, chrom=chrom, startPos=startPos, endPos=endPos,
+        startProbe=startProbe, endProbe=endProbe, eventIndex=eventIndex,
+        cnptable=masktable, cnpchrom=maskchrom, cnpstart=maskstart,
+        cnpend=maskend, cnpindex=maskindex, mincover=mincover,
+        indexvals=indexvals, simplify=TRUE)
 	
 	myCNPs <- matrix(ncol=3, byrow=TRUE, data=unlist(lapply(breakCNPs, t)))	
 	dimnames(myCNPs)[[2]] <- c("StartProbe", "EndProbe", "toremove")
