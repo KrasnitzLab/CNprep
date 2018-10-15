@@ -91,7 +91,8 @@ breakIntoCNPs.chrom <- function(segtable, chrom, startPos, endPos, startProbe,
             cnpendmat <- t(matrix(ncol=length(amps),
                             data=rep(acnpinchr[,cnpend],length(amps))))
             cnpcover <- rowSums(pmax(matrix(nrow=nrow(cnpendmat),
-                            ncol=ncol(cnpendmat),data=0),(pmin(segendmat,cnpendmat)-
+                            ncol=ncol(cnpendmat),data=0),
+                            (pmin(segendmat,cnpendmat)-
                             pmax(segstartmat,cnpstartmat)+1)))/
                             (segtable[amps,endPos]-segtable[amps,startPos]+1)
             toremove[amps[cnpcover>mincover]] <- 1
