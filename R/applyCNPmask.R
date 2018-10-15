@@ -36,9 +36,9 @@
 #' \code{segtable} where copy number variation status of the segments is 
 #' tabulated. 
 #' 
-#' @param masktable a \code{matrix} or a \code{data.frame} with columns named or 
-#' enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} and 
-#' with rows corresponding to genomic intervals that comprise the mask.
+#' @param masktable a \code{matrix} or a \code{data.frame} with columns named 
+#' or enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} 
+#' and with rows corresponding to genomic intervals that comprise the mask.
 #' 
 #' @param maskchrom a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{masktable} that tabulates 

@@ -162,10 +162,10 @@ central value}
 \item{segz}{the probability that the segment is in the central cluster}
 \item{marginalprob}{marginal probability for the segment in the central 
 cluster}
-\item{negtail}{the probability of finding the deviation as observed or larger 
-in a collection of central segments}
-\item{negtailnormad}{the probability of finding the deviation/MAD as observed 
-or larger in a collection of central segments}
+\item{negtail}{the probability of finding the deviation as observed or 
+larger in a collection of central segments}
+\item{negtailnormad}{the probability of finding the deviation/MAD as 
+observed or larger in a collection of central segments}
 \item{negtailnormerror}{the probability of finding the deviation/error as 
 observed or larger in a collection of central segments}
 }

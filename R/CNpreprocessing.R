@@ -152,10 +152,10 @@
 #' \item{segz}{the probability that the segment is in the central cluster}
 #' \item{marginalprob}{marginal probability for the segment in the central 
 #' cluster}
-#' \item{negtail}{the probability of finding the deviation as observed or larger 
-#' in a collection of central segments}
-#' \item{negtailnormad}{the probability of finding the deviation/MAD as observed 
-#' or larger in a collection of central segments}
+#' \item{negtail}{the probability of finding the deviation as observed or 
+#' larger in a collection of central segments}
+#' \item{negtailnormad}{the probability of finding the deviation/MAD as 
+#' observed or larger in a collection of central segments}
 #' \item{negtailnormerror}{the probability of finding the deviation/error as 
 #' observed or larger in a collection of central segments}
 #' }
@@ -274,7 +274,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
 			if(!all(!is.na(startprobe)&!is.na(endprobe)))
 				stop("Incomplete start and end annotation of segments\n")
 			segall<-data.frame(segall,startprobe,endprobe)
-			dimnames(segall)[[2]][(ncol(segall)-1):ncol(segall)]<-c("StartProbe","EndProbe")
+			dimnames(segall)[[2]][(ncol(segall)-1):ncol(segall)] <- c("StartProbe", "EndProbe")
 			startcol<-"StartProbe"
 			endcol<-"EndProbe"
 		}
@@ -285,7 +285,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
 			names(profpack[[pn]])<-c("seg","rat","stream","sub")
 			profpack[[pn]]$seg<-
 				segall[segall[,idcol]==pn,c(startcol,endcol,chromcol), drop=FALSE]
-			dimnames(profpack[[pn]]$seg)[[2]]<-c("StartProbe", "EndProbe", "chrom")
+			dimnames(profpack[[pn]]$seg)[[2]] <- c("StartProbe", 
+			                                        "EndProbe", "chrom")
 			profpack[[pn]]$rat<-ratall[,pn]
 			profpack[[pn]]$stream<-pn
 			profpack[[pn]]$sub<-match(pn,profnames)
@@ -301,17 +302,19 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
 			parallel::clusterEvalQ(cl=cl, expr=requireNamespace("CNprep"))
 		}
 		processed<-switch(distrib,
-			vanilla=lapply(X=profpack,FUN=CNclusterNcenter,blsize=blsize,
-				minjoin=minjoin,ntrial=ntrial,bestbic=bestbic,modelNames=modelNames,
-				cweight=cweight,bstimes=bstimes,chromrange=chromrange,seedme=myseed),
-			Rparallel=parLapply(cl,X=profpack,fun=CNclusterNcenter,blsize=blsize,
-				minjoin=minjoin,ntrial=ntrial,bestbic=bestbic,modelNames=modelNames,
-				cweight=cweight,bstimes=bstimes,chromrange=chromrange,seedme=myseed))
-		if(distrib=="Rparallel")stopCluster(cl)
+			vanilla=lapply(X=profpack, FUN=CNclusterNcenter, blsize=blsize,
+				minjoin=minjoin, ntrial=ntrial, bestbic=bestbic,
+				modelNames=modelNames, cweight=cweight, bstimes=bstimes, 
+				chromrange=chromrange, seedme=myseed),
+			Rparallel=parLapply(cl, X=profpack, fun=CNclusterNcenter,
+			    blsize=blsize, minjoin=minjoin, ntrial=ntrial, 
+			    bestbic=bestbic, modelNames=modelNames, cweight=cweight,
+			    bstimes=bstimes, chromrange=chromrange, seedme=myseed))
+		if (distrib=="Rparallel") stopCluster(cl)
 		segall<-cbind(segall,do.call(rbind,processed))
 		dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)]<-
-			c("segmedian","segmad","mediandev","segerr","centerz","marginalprob",
-			"maxz","maxzmean","maxzsigma")
+			c("segmedian", "segmad", "mediandev", "segerr", "centerz",
+			  "marginalprob", "maxz", "maxzmean", "maxzsigma")
 		medcol<-"mediandev"
 		madcol<-"segmad"
 		errorcol<-"segerr"
@@ -328,8 +331,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
 		if(!is.null(madcol))tumormad<-segall[,madcol]
 		if(!is.null(errorcol))tumorerror<-segall[,errorcol]
 		segall<-cbind(segall, normalComparison(normalmedian, normalength,
-  		    tumormedian, tumorlength, normalmad, normalerror, tumormad, 
-  		    tumorerror))
+		          tumormedian, tumorlength, normalmad, normalerror, tumormad, 
+		          tumorerror))
 	}
 	return(segall)
 }

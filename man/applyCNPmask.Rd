@@ -38,9 +38,9 @@ data of CGH microarray origin.}
 \code{segtable} where copy number variation status of the segments is 
 tabulated.}
 
-\item{masktable}{a \code{matrix} or a \code{data.frame} with columns named or 
-enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} and 
-with rows corresponding to genomic intervals that comprise the mask.}
+\item{masktable}{a \code{matrix} or a \code{data.frame} with columns named 
+or enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} 
+and with rows corresponding to genomic intervals that comprise the mask.}
 
 \item{maskchrom}{a \code{character} string or \code{integer} 
 specifying the name or number of columns in \code{masktable} that tabulates 
