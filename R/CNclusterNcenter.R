@@ -103,7 +103,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
 	    segs[segs[,3]==0,3] <- 1e-10 
 	}
 	
-	segzall <- getz(segs[,3],bestem,newem$groups,times=bstimes)
+	segzall <- getz(segs[,3], bestem, newem$groups, times=bstimes)
 	centerz <- segzall[,newem$center]
 	maxz <- segzall[nrow(segzall)*(max.col(segzall)-1)+(1:nrow(segzall))]
 	maxzcol <- max.col(segzall)
@@ -111,7 +111,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
 	maxzsigma <- sqrt(newem$sigmasq[maxzcol])
 	cpb <- centerprob(segs[,3],bestem,newem$groups,times=bstimes,newem$center)
 	w <- t(matrix(nrow=bstimes,data=segs[,3]))
-	segerr<-sqrt(apply(w,1,var,na.rm=T))
+	segerr<-sqrt(apply(w, 1, var, na.rm=TRUE))
 	.lec.CurrentStreamEnd()
         .lec.DeleteStream(segrat$stream)
         
