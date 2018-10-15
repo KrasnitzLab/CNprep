@@ -130,8 +130,8 @@ applyCNPmask <- function(segtable, chrom, startPos, endPos, startProbe,
         cnptable=masktable, cnpchrom=maskchrom, cnpstart=maskstart,
         cnpend=maskend, cnpindex=maskindex, mincover=mincover,
         indexvals=indexvals, simplify=TRUE)
-	
-	myCNPs <- matrix(ncol=3, byrow=TRUE, data=unlist(lapply(breakCNPs, t)))	
-	dimnames(myCNPs)[[2]] <- c("StartProbe", "EndProbe", "toremove")
-	return(as.matrix(myCNPs))
+
+    myCNPs <- matrix(ncol=3, byrow=TRUE, data=unlist(lapply(breakCNPs, t)))
+    dimnames(myCNPs)[[2]] <- c("StartProbe", "EndProbe", "toremove")
+    return(as.matrix(myCNPs))
 }

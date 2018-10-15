@@ -27,8 +27,8 @@
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
 normalComparison <- function(normalmedian, normalength, tumormedian, 
-                             tumorlength, normalmad=NULL, normalerror=NULL, 
-                             tumormad=NULL, tumorerror=NULL){
+                                tumorlength, normalmad=NULL, normalerror=NULL, 
+                                tumormad=NULL, tumorerror=NULL) {
 	nisnull <- c(!(is.null(normalmad)|is.null(tumormad)),
 		!(is.null(normalerror)|is.null(tumorerror)))
 	nsred <- matrix(ncol=2+sum(nisnull), length(normalmedian),
@@ -43,11 +43,11 @@ normalComparison <- function(normalmedian, normalength, tumormedian,
 	z[,2] <- cumsum(z[,2])/lnorm
 	z <- z[z[,3]!=0,,drop=FALSE]
 	negtail <- z[order(z[,3]),2]
-	if(nisnull[1]){
-		z <- cbind(c(nsred[,"mediandev"]/nsred[,"segmad"],
-  		tumormedian/tumormad),c(nsred[,"length"],
-  		rep(0,length(tumormedian))),
-			c(rep(0,nrow(nsred)),1:length(tumormedian)))
+    if(nisnull[1]) {
+        z <- cbind(c(nsred[,"mediandev"]/nsred[,"segmad"],
+                        tumormedian/tumormad),c(nsred[,"length"],
+                        rep(0,length(tumormedian))), 
+                        c(rep(0,nrow(nsred)), 1:length(tumormedian)))
 		z <- z[order(z[,1]),,drop=FALSE]
 		z[,2] <- cumsum(z[,2])/lnorm
 		z <- z[z[,3]!=0,,drop=FALSE]
@@ -62,8 +62,8 @@ normalComparison <- function(normalmedian, normalength, tumormedian,
 		z <- z[z[,3]!=0,,drop=FALSE]
 		negtailnormerror <- z[order(z[,3]),2]
 	}
-	return(matrix(ncol=2+sum(nisnull),data=c(lnorm%/%tumorlength,
-		negtail,if(nisnull[1])negtailnormad,if(nisnull[2])negtailnormerror),
-		dimnames=list(NULL,c("samplesize", "negtail",if(nisnull[1])"negtailnormad",
-		if(nisnull[2])"negtailnormerror"))))
+	return(matrix(ncol=2+sum(nisnull), data=c(lnorm%/%tumorlength,
+		negtail, if(nisnull[1])negtailnormad, if(nisnull[2])negtailnormerror),
+		dimnames=list(NULL,c("samplesize", "negtail",
+	    if(nisnull[1])"negtailnormad", if(nisnull[2])"negtailnormerror"))))
 }

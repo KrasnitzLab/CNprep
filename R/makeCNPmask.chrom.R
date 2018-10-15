@@ -23,7 +23,7 @@
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
 makeCNPmask.chrom <- function(imat, startcol=1, endcol=2, nprof=1, uthresh,
-                              dthresh)
+                                dthresh)
 {
 	astart<-imat[,startcol]
 	aend<-imat[,endcol]
