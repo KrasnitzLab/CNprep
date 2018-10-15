@@ -29,9 +29,9 @@ getz <- function(logr, emfit, zgroup, times){
 	cisfin <- matrix(ncol=ncol(isfin),
 		data=apply(isfin,2,cumsum)[seq(from=times,to=nrow(isfin),by=times),])
 	cisfin <- cisfin-
-		rbind(matrix(nrow=1,data=rep(0,ncol(cisfin))),cisfin[-nrow(gz),,drop=F])
+		rbind(matrix(nrow=1,data=rep(0,ncol(cisfin))),cisfin[-nrow(gz),,drop=FALSE])
 	gz<-
-		(gz-rbind(matrix(nrow=1,data=rep(0,ncol(gz))),gz[-nrow(gz),,drop=F]))/times
+		(gz-rbind(matrix(nrow=1,data=rep(0,ncol(gz))),gz[-nrow(gz),,drop=FALSE]))/times
 	gz[cisfin<times]<-NA
 	return(gz%*%t(zgroup))
 }
