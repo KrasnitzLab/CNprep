@@ -45,25 +45,29 @@
 #' 
 #' @examples
 #' 
-#' # Load a table of copy number events collected from 1203 profiles.
+#' ## Load a table of copy number events collected from 1203 profiles.
 #' data(cnpexample)
-#' # Create a table of gain (amplification) events only.
-#' #amps<-cnpexample[cnpexample[,"copy.num"]=="amp",]
-#' # Create a mask using this table.
-#' #ampCNPmask<-makeCNPmask(imat=amps,chromcol="chrom",startcol="chrom.start", 
-#' #     endcol="chrom.end",nprof=1203,uthresh=0.02,dthresh=0.008)
 #' 
+#' ## Create a table of gain (amplification) events only.
+#' amps <- cnpexample[cnpexample[,"copy.num"] == "amp",]
+#' 
+#' # Create a mask using this table.
+#' ampCNPmask <- makeCNPmask(imat = amps, chromcol = "chrom",
+#'     startcol = "chrom.start", endcol = "chrom.end", nprof = 1203,
+#'     uthresh = 0.02, dthresh = 0.008)
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @export
 makeCNPmask <- function(imat, chromcol=1, startcol=2, endcol=3, nprof=1,
-                        uthresh, dthresh){
-	CNPmask <- by(imat,INDICES=as.factor(imat[,chromcol]),FUN=makeCNPmask.chrom,
-		startcol=startcol,endcol=endcol,nprof=nprof,uthresh=uthresh,
-		dthresh=dthresh,simplify=TRUE)
-	myCNPmask <- matrix(ncol=2, byrow=TRUE, data=unlist(lapply(CNPmask,t)))
-	myCNPmask <- cbind(unlist(lapply(1:length(unique(imat[,chromcol])),
-		FUN=function(x) rep(as.numeric(names(CNPmask)[x]), nrow(CNPmask[[x]])))), myCNPmask)
-	dimnames(myCNPmask)[[2]] <- c("chrom", "start", "end")
-	return(myCNPmask)
+                        uthresh, dthresh)
+{
+    CNPmask <- by(imat,INDICES=as.factor(imat[,chromcol]),FUN=makeCNPmask.chrom,
+        startcol=startcol,endcol=endcol,nprof=nprof,uthresh=uthresh,
+        dthresh=dthresh,simplify=TRUE)
+    myCNPmask <- matrix(ncol=2, byrow=TRUE, data=unlist(lapply(CNPmask,t)))
+    myCNPmask <- cbind(unlist(lapply(1:length(unique(imat[,chromcol])),
+        FUN=function(x) rep(as.numeric(names(CNPmask)[x]), 
+                                nrow(CNPmask[[x]])))), myCNPmask)
+    dimnames(myCNPmask)[[2]] <- c("chrom", "start", "end")
+    return(myCNPmask)
 }

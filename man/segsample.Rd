@@ -14,15 +14,17 @@ segsample(mysegs, ratcol, startcol = "StartProbe", endcol = "EndProbe",
 
 \item{startcol}{a \code{character} string specifying the name of column 
 in \code{mysegs} that tabulates the (integer) start postion of each segment 
-in internal units such as probe numbers for data of CGH microarray origin.}
+in internal units such as probe numbers for data of CGH microarray origin.
+Default: "StartProbe".}
 
 \item{endcol}{a \code{character} string specifying the name of column 
 in \code{mysegs} that tabulates the (integer) end postion of each segment 
-in internal units such as probe numbers for data of CGH microarray origin.}
+in internal units such as probe numbers for data of CGH microarray origin.
+Default: "EndProbe".}
 
-\item{blocksize}{TODO}
+\item{blocksize}{TODO . Default: \code{0}.}
 
-\item{times}{TODO}
+\item{times}{TODO . Default: \code{0}.}
 }
 \value{
 TODO

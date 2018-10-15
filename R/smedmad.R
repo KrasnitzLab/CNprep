@@ -23,13 +23,13 @@
 #' values <- c(0.172073840, 0.012913919, 0.134459489, 0.040994620, -0.182843732,
 #'     0.093052725, 0.170908930, 0.086624752, -0.003855011, -0.195791649)
 #'     
-#' ## Calculate the meidan and median absolute deviation of the values from the 
+#' ## Calculate the median and median absolute deviation of the values from the 
 #' ## subsetted vector
-#' CNprep:::smedmad(pos=position, v=values)
+#' CNprep:::smedmad(pos = position, v = values)
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @importFrom stats median mad
 #' @keywords internal
 smedmad <- function(pos, v) {
-	c(median(v[pos[1]:pos[2]], na.rm=TRUE), mad(v[pos[1]:pos[2]], na.rm=TRUE))
+    c(median(v[pos[1]:pos[2]], na.rm=TRUE), mad(v[pos[1]:pos[2]], na.rm=TRUE))
 }
