@@ -2,15 +2,20 @@
 % Please edit documentation in R/segsample.R
 \name{segsample}
 \alias{segsample}
-\title{TODO}
+\title{Calculate the median of the samples copy number values from bins 
+associated to selected segments. The median can be calculated zero, one or
+multiples times for each segments according to the specified parameters.}
 \usage{
 segsample(mysegs, ratcol, startcol = "StartProbe", endcol = "EndProbe",
   blocksize = 0, times = 0)
 }
 \arguments{
-\item{mysegs}{a \code{data.frame} TODO}
+\item{mysegs}{a \code{data.frame} containing information about the segments.}
 
-\item{ratcol}{TODO}
+\item{ratcol}{a \code{vector} containing the copy number values (usually in
+log2) for each bin associated to a segment present in \code{mysegs}. The
+length of the \code{vector} should correspond to the total number of bins
+present in \code{mysegs}.}
 
 \item{startcol}{a \code{character} string specifying the name of column 
 in \code{mysegs} that tabulates the (integer) start postion of each segment 
@@ -22,19 +27,49 @@ in \code{mysegs} that tabulates the (integer) end postion of each segment
 in internal units such as probe numbers for data of CGH microarray origin.
 Default: "EndProbe".}
 
-\item{blocksize}{TODO . Default: \code{0}.}
+\item{blocksize}{a \code{integer} specifying how many bins must be
+present in a segment so that the segment is selected to be sampled. 
+Either \code{blocksize} or \code{times} must be specified by user.
+Default: \code{0}.}
 
-\item{times}{TODO . Default: \code{0}.}
+\item{times}{a \code{integer} \code{vector} specifying the number of times
+each segment must be sampled. The length of the \code{vector} must 
+correspond to the number of rows in \code{mysegs}.
+Either \code{blocksize} or \code{times} must be specified by user.
+Default: \code{0}.}
 }
 \value{
-TODO
+a \code{data.frame} cotaining the information about the selected
+segments and the median of the sampled copy number values with replacement 
+from the associated bins.
 }
 \description{
-TODO
+This function calculates the median of the samples copy number
+values from bins associated to selected segments. The median of the samples
+copy number values can be calculated multiple times for the same segments.
+There is two way to select the number of times the median is calculated for
+a segment. The first way is using a minimum number of bins per 
+segments; the integer division of the current number of bins with the 
+specified minimum number of bins gives the number of times the median is
+calculated. The second way is to pass a vector directly specifying the 
+number of times the median is calculated for each segment.
 }
 \examples{
 
-# TODO
+## Create a data.frame with 3 segments on chromosome 1
+segData <- data.frame(StartProbe = c(1, 9, 13), EndProbe = c(8, 12, 15),
+    chrom = c(1,1,1), segmedian = c(0.06662475, 0.06719237, 0.07111544),
+    segmad = c(0.06213208, 0.04722233, 0.07633202))
+    
+## Copy number ratio (in log2) for each bin 
+## Multiples bins are associated to 1 segment
+ratcol <- c(0.062073840, 0.10913919,  0.143459489,  0.033994620, 
+    -0.072243732, 0.082252725,  0.151908930,  0.101589490,  0.08554752, 
+    -0.011155011, -0.122291649, 0.063634112,  0.110149474,  0.043328961,  
+    0.1632174529)
+    
+## 
+CNprep:::segsample(mysegs = segData, ratcol = ratcol, blocksize = 4)
 
 }
 \author{
