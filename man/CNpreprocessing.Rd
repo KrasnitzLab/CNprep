@@ -8,9 +8,9 @@ CNpreprocessing(segall, ratall = NULL, idcol = NULL, startcol = NULL,
   endcol = NULL, medcol = NULL, madcol = NULL, errorcol = NULL,
   chromcol = NULL, bpstartcol = NULL, bpendcol = NULL,
   annot = NULL, annotstartcol = NULL, annotendcol = NULL,
-  annotchromcol = NULL, useend = F, blsize = NULL, minjoin = NULL,
-  ntrial = 10, bestbic = -1e+07, modelNames = "E", cweight = NULL,
-  bstimes = NULL, chromrange = NULL, myseed = 123,
+  annotchromcol = NULL, useend = FALSE, blsize = NULL,
+  minjoin = NULL, ntrial = 10, bestbic = -1e+07, modelNames = "E",
+  cweight = NULL, bstimes = NULL, chromrange = NULL, myseed = 123,
   distrib = c("vanilla", "Rparallel"), njobs = 1, normalength = NULL,
   normalmedian = NULL, normalmad = NULL, normalerror = NULL)
 }
@@ -91,7 +91,8 @@ microarrays.}
 \item{useend}{A single logical value specifying whether the segment end 
 positions as given by the \code{bpendcol} of \code{segall} are to be 
 looked up in the \code{annotendcol} column of \code{annot} 
-(if \code{useend=TRUE}) or in the \code{annotstartcol} column (default).}
+(if \code{useend=TRUE}) or in the \code{annotstartcol} column (default). 
+Default: \code{FALSE}.}
 
 \item{blsize}{A single \code{integer} specifying the bootstrap sampling 
 rate of segment medians to generate input for model-based clustering. The 

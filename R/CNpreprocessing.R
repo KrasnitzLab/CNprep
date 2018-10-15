@@ -82,7 +82,8 @@
 #' @param useend A single logical value specifying whether the segment end 
 #' positions as given by the \code{bpendcol} of \code{segall} are to be 
 #' looked up in the \code{annotendcol} column of \code{annot} 
-#' (if \code{useend=TRUE}) or in the \code{annotstartcol} column (default).
+#' (if \code{useend=TRUE}) or in the \code{annotstartcol} column (default). 
+#' Default: \code{FALSE}.
 #' 
 #' @param blsize A single \code{integer} specifying the bootstrap sampling 
 #' rate of segment medians to generate input for model-based clustering. The 
@@ -222,13 +223,14 @@
 #' @author Alexander Krasnitz
 #' @importFrom parallel makeCluster clusterEvalQ parLapply stopCluster detectCores
 #' @export
-CNpreprocessing <- function(segall,ratall=NULL,idcol=NULL,startcol=NULL,
-	endcol=NULL,medcol=NULL,madcol=NULL,errorcol=NULL,chromcol=NULL,
-	bpstartcol=NULL,bpendcol=NULL,annot=NULL,annotstartcol=NULL,annotendcol=NULL,
-	annotchromcol=NULL,useend=F,blsize=NULL,minjoin=NULL,ntrial=10,bestbic=-1e7,
-	modelNames="E",cweight=NULL,bstimes=NULL,
-	chromrange=NULL,myseed=123,distrib=c("vanilla","Rparallel"),njobs=1,
-	normalength=NULL,normalmedian=NULL,normalmad=NULL,normalerror=NULL) {
+CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
+	endcol=NULL, medcol=NULL, madcol=NULL, errorcol=NULL, chromcol=NULL,
+	bpstartcol=NULL, bpendcol=NULL, annot=NULL, annotstartcol=NULL, 
+	annotendcol=NULL, annotchromcol=NULL, useend=FALSE, blsize=NULL, 
+	minjoin=NULL, ntrial=10, bestbic=-1e7, modelNames="E", cweight=NULL,
+	bstimes=NULL, chromrange=NULL, myseed=123, distrib=c("vanilla","Rparallel"),
+	njobs=1, normalength=NULL, normalmedian=NULL, normalmad=NULL,
+	normalerror=NULL) {
     
 	#try to see what's possible with this input
 	if(is.null(idcol)){
@@ -282,8 +284,8 @@ CNpreprocessing <- function(segall,ratall=NULL,idcol=NULL,startcol=NULL,
 			profpack[[pn]]<-vector(mode="list",length=4)
 			names(profpack[[pn]])<-c("seg","rat","stream","sub")
 			profpack[[pn]]$seg<-
-				segall[segall[,idcol]==pn,c(startcol,endcol,chromcol),drop=F]
-			dimnames(profpack[[pn]]$seg)[[2]]<-c("StartProbe","EndProbe","chrom")
+				segall[segall[,idcol]==pn,c(startcol,endcol,chromcol), drop=FALSE]
+			dimnames(profpack[[pn]]$seg)[[2]]<-c("StartProbe", "EndProbe", "chrom")
 			profpack[[pn]]$rat<-ratall[,pn]
 			profpack[[pn]]$stream<-pn
 			profpack[[pn]]$sub<-match(pn,profnames)
@@ -294,9 +296,9 @@ CNpreprocessing <- function(segall,ratall=NULL,idcol=NULL,startcol=NULL,
 		if(distrib=="Rparallel"){
 			ncores<-min(njobs,length(profnames),detectCores())
 			cl<-parallel::makeCluster(getOption("cl.cores",ncores))
-			parallel::clusterEvalQ(cl=cl,expr=requireNamespace("rlecuyer"))
-			parallel::clusterEvalQ(cl=cl,expr=requireNamespace("mclust"))
-			parallel::clusterEvalQ(cl=cl,expr=requireNamespace("CNprep"))
+			parallel::clusterEvalQ(cl=cl, expr=requireNamespace("rlecuyer"))
+			parallel::clusterEvalQ(cl=cl, expr=requireNamespace("mclust"))
+			parallel::clusterEvalQ(cl=cl, expr=requireNamespace("CNprep"))
 		}
 		processed<-switch(distrib,
 			vanilla=lapply(X=profpack,FUN=CNclusterNcenter,blsize=blsize,
@@ -325,8 +327,9 @@ CNpreprocessing <- function(segall,ratall=NULL,idcol=NULL,startcol=NULL,
 		tumormedian<-segall[,medcol]
 		if(!is.null(madcol))tumormad<-segall[,madcol]
 		if(!is.null(errorcol))tumorerror<-segall[,errorcol]
-		segall<-cbind(segall,normalComparison(normalmedian,normalength,
-  		tumormedian,tumorlength,normalmad,normalerror,tumormad,tumorerror))
+		segall<-cbind(segall, normalComparison(normalmedian, normalength,
+  		    tumormedian, tumorlength, normalmad, normalerror, tumormad, 
+  		    tumorerror))
 	}
 	return(segall)
 }
