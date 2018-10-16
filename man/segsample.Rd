@@ -45,7 +45,8 @@ from the associated bins.
 \description{
 This function calculates the median of the samples copy number
 values from bins associated to selected segments. The median of the samples
-copy number values can be calculated multiple times for the same segments.
+copy number values can be calculated multiple times for the same segments 
+(sampling with replacement, bootstrap).
 There is two way to select the number of times the median is calculated for
 a segment. The first way is using a minimum number of bins per 
 segments; the integer division of the current number of bins with the 
