@@ -104,4 +104,46 @@ test_that("CNpreprocessing() must return expected message when not ratall", {
                                distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
                                normalmedian=normSegs, myseed = 444), message)
 })
+
+
+test_that("CNpreprocessing() must return error when not idcol", {
     
+    message <- "Found unmatched segmented profile IDs"
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol = NULL, 
+                               "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                               bpendcol="chrom.pos.end",
+                               blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                               distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                               normalmedian=normSegs, myseed = 444), message)
+    
+})
+
+test_that("CNpreprocessing() must return expected message when not idcol and no ratall", {
+    
+    message <- "Found a single segmented profile with no ID \\nNo raw table, proceeding to comparison"
+    
+    expect_output(CNpreprocessing(segall=segExample, ratall=NULL, idcol = NULL, 
+                                 "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                 bpendcol="chrom.pos.end",
+                                 blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                                 distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                 normalmedian=normSegs, myseed = 443), message)
+    
+})
+
+test_that("CNpreprocessing() must return expected results when not idcol and no ratall", {
+    
+    
+    results <- CNpreprocessing(segall=segExample, ratall=NULL, idcol = NULL, 
+                                  "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                  bpendcol="chrom.pos.end",
+                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                  normalmedian=normSegs, myseed = 433)
+    
+    expected <- segExample
+    
+    expect_equal(results, expected)
+})
+
