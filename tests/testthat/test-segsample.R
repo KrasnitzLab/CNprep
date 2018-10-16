@@ -5,7 +5,7 @@ library(CNprep)
 
 ### Tests segsample() results
 
-context("segsample() results")
+#context("segsample() results")
 
 test_that("segsample() must return expected results 01", {
     
