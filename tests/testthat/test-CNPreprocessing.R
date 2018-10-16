@@ -77,3 +77,31 @@ test_that("CNpreprocessing() must return expected results", {
     
     expect_equal(results, expected)
 })
+
+
+test_that("CNpreprocessing() must return expected results when not ratall", {
+    
+    results <- CNpreprocessing(segall=segExample, ratall=NULL, "ID", 
+                               "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                               bpendcol="chrom.pos.end",
+                               blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                               distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                               normalmedian=normSegs, myseed = 444)
+    
+    expected <- segExample
+    
+    expect_equal(results, expected)
+})
+
+test_that("CNpreprocessing() must return expected message when not ratall", {
+    
+    message <- "No raw table, proceeding to comparison"
+    
+    expect_output(CNpreprocessing(segall=segExample, ratall=NULL, "ID", 
+                               "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                               bpendcol="chrom.pos.end",
+                               blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                               distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                               normalmedian=normSegs, myseed = 444), message)
+})
+    
