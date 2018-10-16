@@ -4,7 +4,7 @@
 \alias{segsample}
 \title{Calculate the median of the samples copy number values from bins 
 associated to selected segments. The median can be calculated zero, one or
-multiples times for each segments according to the specified parameters.}
+multiples times for each segment according to the specified parameters.}
 \usage{
 segsample(mysegs, ratcol, startcol = "StartProbe", endcol = "EndProbe",
   blocksize = 0, times = 0)
@@ -32,9 +32,8 @@ present in a segment so that the segment is selected to be sampled.
 Either \code{blocksize} or \code{times} must be specified by user.
 Default: \code{0}.}
 
-\item{times}{a \code{integer} \code{vector} specifying the number of times
-each segment must be sampled. The length of the \code{vector} must 
-correspond to the number of rows in \code{mysegs}.
+\item{times}{a \code{integer} specifying the number of times
+each segment must be sampled. 
 Either \code{blocksize} or \code{times} must be specified by user.
 Default: \code{0}.}
 }
@@ -51,8 +50,8 @@ There is two way to select the number of times the median is calculated for
 a segment. The first way is using a minimum number of bins per 
 segments; the integer division of the current number of bins with the 
 specified minimum number of bins gives the number of times the median is
-calculated. The second way is to pass a vector directly specifying the 
-number of times the median is calculated for each segment.
+calculated. The second way is to pass an integer that directly specifying 
+the number of times the median is calculated for each segment.
 }
 \examples{
 
@@ -68,8 +67,12 @@ ratcol <- c(0.062073840, 0.10913919,  0.143459489,  0.033994620,
     -0.011155011, -0.122291649, 0.063634112,  0.110149474,  0.043328961,  
     0.1632174529)
     
-## 
+## Use an integer division to determine the number of times each
+## segment is sampled
 CNprep:::segsample(mysegs = segData, ratcol = ratcol, blocksize = 4)
+
+## Each segment is sampled the same number of times
+CNprep:::segsample(mysegs = segData, ratcol = ratcol, times = 2)
 
 }
 \author{
