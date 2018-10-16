@@ -12,7 +12,8 @@ CNpreprocessing(segall, ratall = NULL, idcol = NULL, startcol = NULL,
   minjoin = NULL, ntrial = 10, bestbic = -1e+07, modelNames = "E",
   cweight = NULL, bstimes = NULL, chromrange = NULL, myseed = 123,
   distrib = c("vanilla", "Rparallel"), njobs = 1, normalength = NULL,
-  normalmedian = NULL, normalmad = NULL, normalerror = NULL)
+  normalmedian = NULL, normalmad = NULL, normalerror = NULL,
+  weightall = NULL)
 }
 \arguments{
 \item{segall}{A \code{matrix} or a \code{data.frame} for segmented copy 
@@ -26,7 +27,8 @@ to be pre-processed.}
 \item{ratall}{A \code{matrix} whose rows correspond to genomic positions 
 and columns to copy number profiles. Its matrix elements are functions of 
 copy number, most often log ratios of copy number to the expected standard 
-value, such as 2 in diploid genomes.}
+value, such as 2 in diploid genomes. The column must have a name and must
+corresponds to the element of idcol the segall}
 
 \item{idcol}{A \code{character} string specifying the name for the 
 column in \code{segall} tabulating the profile IDs.}
@@ -149,6 +151,10 @@ of the normal reference segments.}
 \item{normalerror}{A numeric vector, 
 of the same length as \code{normalength}, specifying the error values
 of the normal reference segments.}
+
+\item{weightall}{A \code{matrix} whose rows correspond to genomic positions 
+and columns to copy number profiles (same as ratall). Its matrix elements are functions of 
+weight of the genomic region.}
 }
 \value{
 The input \code{segall} data frame to which some or all of 

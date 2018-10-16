@@ -17,7 +17,8 @@
 #' @param ratall A \code{matrix} whose rows correspond to genomic positions 
 #' and columns to copy number profiles. Its matrix elements are functions of 
 #' copy number, most often log ratios of copy number to the expected standard 
-#' value, such as 2 in diploid genomes.
+#' value, such as 2 in diploid genomes. The column must have a name and must
+#' corresponds to the element of idcol the segall
 #' 
 #' @param idcol A \code{character} string specifying the name for the 
 #' column in \code{segall} tabulating the profile IDs.
@@ -141,6 +142,10 @@
 #' of the same length as \code{normalength}, specifying the error values
 #' of the normal reference segments.
 #' 
+#' @param weightall A \code{matrix} whose rows correspond to genomic positions 
+#' and columns to copy number profiles (same as ratall). Its matrix elements are functions of 
+#' weight of the genomic region.
+#' 
 #' @return The input \code{segall} data frame to which some or all of 
 #' the following columns may be bound, depending on the availability of input:
 #' \itemize{
@@ -230,7 +235,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
     minjoin=NULL, ntrial=10, bestbic=-1e7, modelNames="E", cweight=NULL,
     bstimes=NULL, chromrange=NULL, myseed=123, distrib=c("vanilla","Rparallel"),
     njobs=1, normalength=NULL, normalmedian=NULL, normalmad=NULL,
-    normalerror=NULL) {
+    normalerror=NULL, weightall=NULL) {
 
     #try to see what's possible with this input
     if(is.null(idcol)){
@@ -240,9 +245,18 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
                 stop("Ambiguity: more than 1 numeric column in raw data table\n")
             else {
                 idrat <- which(apply(ratall,2,data.class)=="numeric")
-                segall <- data.frame(rep(as.character(idrat),nrow(segall)), segall)
+                if(is.null(names(idrat))){
+                    stop("ratall must have column names\n")
+                }
+                # Give the name of column name of ratall to the segment mod PB
+                segall <- data.frame(rep(names(idrat),nrow(segall)), segall)
                 idcol <- "ID"
                 dimnames(segall)[[2]][1] <- idcol
+                if(!is.null(weightall)){
+                    if(sum(apply(weightall,2,data.class)=="numeric")>1){
+                        stop("Ambiguity: more than 1 numeric column in weight data table\n")
+                    }
+                }
             }
         }
     }
@@ -250,8 +264,17 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
     if(is.null(ratall))cat("No raw table, proceeding to comparison\n")
     else {
         profnames <- unique(segall[,idcol])
+        
+        # Validate if the idcol of segall are in ratall and weightall
         if(!all(profnames%in%dimnames(ratall)[[2]]))
             stop("Found unmatched segmented profile IDs\n")
+        
+        if(!(is.null(weightall))){
+            if(!all(profnames%in%dimnames(weightall)[[2]])){
+                stop("Found unmatched segmented profile IDs in weightall\n")
+            }
+        }
+        
         if(is.null(startcol)|is.null(endcol)){ #will need an annotation table
             if(is.null(bpstartcol)|is.null(bpendcol)|is.null(chromcol))
                 stop("Unable to proceed: incomplete segment annotation\n")
@@ -282,8 +305,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
         profpack<-vector(mode="list",length=length(profnames))
         names(profpack)<-profnames
         for(pn in profnames){
-            profpack[[pn]] <- vector(mode="list",length=4)
-            names(profpack[[pn]]) <- c("seg","rat","stream","sub")
+            profpack[[pn]] <- vector(mode="list",length=5)
+            names(profpack[[pn]]) <- c("seg","rat","stream","sub", "weight")
             profpack[[pn]]$seg<-
                 segall[segall[,idcol]==pn,c(startcol,endcol,chromcol), drop=FALSE]
             dimnames(profpack[[pn]]$seg)[[2]] <- c("StartProbe", 
@@ -291,6 +314,11 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
             profpack[[pn]]$rat <- ratall[,pn]
             profpack[[pn]]$stream <- pn
             profpack[[pn]]$sub <- match(pn,profnames)
+            if(!(is.null(weightall))){
+                profpack[[pn]]$weight <- weightall[,pn]
+            } else {
+                profpack[[pn]]$weight <- NULL
+            }
         }
         rm(ratall)
         gc()
