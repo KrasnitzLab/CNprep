@@ -40,6 +40,11 @@
 #' Either \code{blocksize} or \code{times} must be specified by user.
 #' Default: \code{0}.
 #' 
+#' @param weightcol \code{vector} of \code{double} containing the values used for
+#' the weight. However, only a subsection of the \code{vector}, as set 
+#' by \code{pos}, is used.
+#' Default: \code{NULL}.
+#' 
 #' @return a \code{data.frame} cotaining the information about the selected
 #' segments and the median of the sampled copy number values with replacement 
 #' from the associated bins.
@@ -68,7 +73,7 @@
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
 segsample <- function(mysegs, ratcol, startcol="StartProbe", endcol="EndProbe",
-                        blocksize=0, times=0)
+                        blocksize=0, times=0, weightcol=NULL)
 {
     if(blocksize == 0 & times == 0) stop("One of blocksize or times must be set")
     if(blocksize != 0 & times != 0) stop("Only one of blocksize or times can be set")
@@ -78,5 +83,5 @@ segsample <- function(mysegs, ratcol, startcol="StartProbe", endcol="EndProbe",
         segtable[rep(1:nrow(segtable),
         times=(segtable[,endcol]-segtable[,startcol]+1)%/%blocksize),]
     if (times != 0) segtable <- segtable[rep(1:nrow(segtable), each=times),]
-    return(cbind(segtable, apply(segtable, 1, smedian.sample, v = ratcol)))
+    return(cbind(segtable, apply(segtable, 1, smedian.sample, v = ratcol, w=weightcol)))
 }

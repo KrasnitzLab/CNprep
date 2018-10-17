@@ -5,7 +5,7 @@
 \title{Calculate the median of the sampled values with replacement from
 a contiguous subsection of specified vector.}
 \usage{
-smedian.sample(pos, v)
+smedian.sample(pos, v, w = NULL)
 }
 \arguments{
 \item{pos}{a \code{vector} of 2 \code{integer} that represent the first and 
@@ -14,6 +14,11 @@ last positions of \code{vector} \code{v} to used for the sampling step.}
 \item{v}{a \code{vector} of \code{double} containing the values used for
 sampling. However, only a subsection of the \code{vector}, as set 
 by \code{pos}, is used.}
+
+\item{w}{\code{vector} of \code{double} containing the values used for
+the weight. However, only a subsection of the \code{vector}, as set 
+by \code{pos}, is used.
+Default: \code{NULL}.}
 }
 \value{
 a \code{double} which is the median of the sampled values.

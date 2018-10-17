@@ -12,6 +12,11 @@
 #' sampling. However, only a subsection of the \code{vector}, as set 
 #' by \code{pos}, is used.
 #' 
+#' @param w \code{vector} of \code{double} containing the values used for
+#' the weight. However, only a subsection of the \code{vector}, as set 
+#' by \code{pos}, is used.
+#' Default: \code{NULL}.
+#' 
 #' @return a \code{double} which is the median of the sampled values.
 #' 
 #' @examples
@@ -31,8 +36,18 @@
 #' @author Alexander Krasnitz, Guoli Sun
 #' @importFrom stats median
 #' @keywords internal
-smedian.sample <- function(pos, v)
+smedian.sample <- function(pos, v, w = NULL)
 {
-    w <- v[pos[1]:pos[2]][!is.na(v[pos[1]:pos[2]])]
-    return(median(sample(w, length(w), replace = TRUE), na.rm = TRUE))
+    vP <- v[pos[1]:pos[2]][!is.na(v[pos[1]:pos[2]])]
+    res <- NULL
+    if(length(w) > 0){
+        wP <- w[pos[1]:pos[2]][!is.na(w[pos[1]:pos[2]])]
+        swP <- sum(wP)
+        sel <- sample(seq_len(length(vP)), length(vP), prob=wP/swP, replace = TRUE)
+        res <- weighted.median(vP[sel], wP[sel])
+    } else{
+        res <- median(sample(vP, length(vP), replace = TRUE), na.rm = TRUE)
+    }
+        
+    return(res)
 }

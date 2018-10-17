@@ -7,7 +7,7 @@ associated to selected segments. The median can be calculated zero, one or
 multiples times for each segment according to the specified parameters.}
 \usage{
 segsample(mysegs, ratcol, startcol = "StartProbe", endcol = "EndProbe",
-  blocksize = 0, times = 0)
+  blocksize = 0, times = 0, weightcol = NULL)
 }
 \arguments{
 \item{mysegs}{a \code{data.frame} containing information about the segments.}
@@ -36,6 +36,11 @@ Default: \code{0}.}
 each segment must be sampled. 
 Either \code{blocksize} or \code{times} must be specified by user.
 Default: \code{0}.}
+
+\item{weightcol}{\code{vector} of \code{double} containing the values used for
+the weight. However, only a subsection of the \code{vector}, as set 
+by \code{pos}, is used.
+Default: \code{NULL}.}
 }
 \value{
 a \code{data.frame} cotaining the information about the selected

@@ -64,7 +64,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     medcol<-"segmedian"
     madcol<-"segmad"
     weigthcol<-"weigth"
-    
+    # mod for weight
     segrat$seg<-cbind(segrat$seg,
                         t(apply(segrat$seg[,c(startcol, endcol, chromcol),
                         drop=FALSE], 1, smedmad, v=segrat$rat, w=segrat$weight)))
@@ -77,9 +77,17 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     aux<-cumsum(aux)
     aux[seguse[,endcol]] <- 1
     ratuse<-segrat$rat[aux == 1]
-
+    
+    # mod for weight
+    if(length(segrat$weight) > 0){
+        weightuse <- segrat$weight[aux==1]
+    } else{
+        weightuse <- NULL
+    }
+    
     for(j in 1:ntrial) {
-        aaa <- segsample(seguse, ratuse, blocksize=blsize)
+        # mod for weight
+        aaa <- segsample(seguse, ratuse, blocksize=blsize, weightcol=weightuse)
         if(all(unique(aaa[,3])==0)) { aaa[,3] <- 1e-10 }
         emfit <- Mclust(aaa[,3], maxG=15, modelNames=modelNames)
         if (emfit$bic>=bestbic) {
@@ -99,7 +107,8 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     }
 
     mediandev <- segrat$seg[,medcol]-profcenter
-    segs <- segsample(segrat$seg, segrat$rat, times=bstimes)
+    # mod for weight
+    segs <- segsample(segrat$seg, segrat$rat, times=bstimes, weightcol=segrat$weight)
 
     if (all(unique(aaa[,3]) == 1e-10)) { 
         segs[segs[,3]==0,3] <- 1e-10 
