@@ -63,10 +63,11 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     chromcol<-"chrom"
     medcol<-"segmedian"
     madcol<-"segmad"
-
+    weigthcol<-"weigth"
+    
     segrat$seg<-cbind(segrat$seg,
                         t(apply(segrat$seg[,c(startcol, endcol, chromcol),
-                        drop=FALSE], 1, smedmad, v=segrat$rat)))
+                        drop=FALSE], 1, smedmad, v=segrat$rat, w=segrat$weight)))
 
     dimnames(segrat$seg)[[2]] <- c(startcol, endcol, chromcol, medcol, madcol)
     seguse<-segrat$seg[segrat$seg[,chromcol] %in% chromrange,,drop=FALSE]

@@ -2,10 +2,10 @@
 % Please edit documentation in R/smedmad.R
 \name{smedmad}
 \alias{smedmad}
-\title{Calculate the median and median absolute deviation of the values from
-a contiguous subsection of specified vector.}
+\title{Calculate the median and median absolute deviation of the values  (weighted if w is not 
+\code{NULL}) from a contiguous subsection of specified vector.}
 \usage{
-smedmad(pos, v)
+smedmad(pos, v, w = NULL)
 }
 \arguments{
 \item{pos}{a \code{vector} of 2 \code{integer} that represent the first and 
@@ -14,6 +14,10 @@ last positions of \code{vector} \code{v} to used for the calculation.}
 \item{v}{a \code{vector} of \code{double} containing the values used for
 the calculation. However, only a subsection of the \code{vector}, as set 
 by \code{pos}, is used.}
+
+\item{w}{\code{vector} of \code{double} containing the values used for
+the weight. However, only a subsection of the \code{vector}, as set 
+by \code{pos}, is used.}
 }
 \value{
 a \code{vector} of 2 \code{double} which are the median and
@@ -21,7 +25,8 @@ the median absolute deviation of the values.
 }
 \description{
 Compute the median and the median absolute deviation, only a 
-contiguous subsection of the vector is used for the calculation
+contiguous subsection of the vector is used for the calculation. If w is
+not \code{NULL} the weighted median and the weighted mad is computed.
 }
 \examples{
 

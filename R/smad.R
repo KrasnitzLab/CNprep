@@ -12,6 +12,12 @@
 #' the calculation. However, only a subsection of the \code{vector}, as set 
 #' by \code{pos}, is used.
 #' 
+#' @param w \code{vector} of \code{double} containing the values used for
+#' the weight. However, only a subsection of the \code{vector}, as set 
+#' by \code{pos}, is used.
+#' 
+#' @param cN a \code{double} a scale factor for the weighted mad
+#' 
 #' @return a \code{double} which is the median of the values.
 #' 
 #' @examples
@@ -30,6 +36,14 @@
 #' @author Alexander Krasnitz, Guoli Sun
 #' @importFrom stats mad
 #' @keywords internal
-smad <- function(pos, v) {
-    mad(v[pos[1]:pos[2]], na.rm=TRUE)
+smad <- function(pos, v, w=NULL, cN=1.4826) {
+    res <- NULL
+    if(length(w) > 0){
+        res <- weighted.median(abs(v[pos[1]:pos[2]] -
+                                       weighted.median(v[pos[1]:pos[2]], w[pos[1]:pos[2]])),
+                               w[pos[1]:pos[2]]) * cN
+    } else{
+        res <- mad(v[pos[1]:pos[2]],na.rm=T)
+    }
+    return(res)
 }
