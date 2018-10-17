@@ -42,6 +42,25 @@ test_that("smedian.sample() must return expected results 02", {
     expect_equal(results, expected)
 })
 
+test_that("smedian.sample() with weight must return expected results 03", {
+    
+    RNGkind("default")
+    
+    position <- c(1, 5)
+    values <- c(0.072073840, 0.119913919, 0.154459489, 0.040994620, -0.082843732,
+                0.111907384, 0.001913919, 0.032259489, 0.140994620, -0.000843732)
+    w <- c(0.3, 0.5, 0.4, 0.6, 0.7, 0.3, 0.8, 0.2, 0.1, 0.4)
+    
+    set.seed(2111)
+    
+    results <- CNprep:::smedian.sample(position, values, w)
+    
+    expected <- -0.08284373
+    
+    expect_equal(results, expected)
+})
+
+
 test_that("smedian.sample() must return expected results when NA present", {
     
     RNGkind("default")
