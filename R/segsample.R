@@ -12,6 +12,8 @@
 #' specified minimum number of bins gives the number of times the median is
 #' calculated. The second way is to pass an integer that directly specifying 
 #' the number of times the median is calculated for each segment. 
+#' If \code{weightcol} is not \code{NULL} the weighted median and
+#' a weighted boostrap are computed. 
 #' 
 #' @param mysegs a \code{data.frame} containing information about the segments.
 #' 

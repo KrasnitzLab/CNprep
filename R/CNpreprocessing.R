@@ -145,6 +145,7 @@
 #' @param weightall A \code{matrix} whose rows correspond to genomic positions 
 #' and columns to copy number profiles (same as ratall). Its matrix elements are functions of 
 #' weight of the genomic region.
+#' Default: \code{NULL}.
 #' 
 #' @return The input \code{segall} data frame to which some or all of 
 #' the following columns may be bound, depending on the availability of input:

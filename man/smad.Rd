@@ -17,9 +17,11 @@ by \code{pos}, is used.}
 
 \item{w}{\code{vector} of \code{double} containing the values used for
 the weight. However, only a subsection of the \code{vector}, as set 
-by \code{pos}, is used.}
+by \code{pos}, is used.
+Default: \code{NULL}.}
 
-\item{cN}{a \code{double} a scale factor for the weighted mad}
+\item{cN}{a \code{double} a scale factor for the weighted mad
+Default: 1.4826.}
 }
 \value{
 a \code{double} which is the median of the values.
@@ -27,7 +29,8 @@ a \code{double} which is the median of the values.
 \description{
 Compute the median absolute deviation for a specified vector of
 values.  Only a contiguous subsection of the vector is used for the calculation, as 
-the first and last position are set by user.
+the first and last position are set by user. If \code{w} is not \code{NULL}
+the weighted mad is computed
 }
 \examples{
 

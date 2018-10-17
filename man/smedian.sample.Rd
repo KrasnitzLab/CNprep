@@ -27,6 +27,8 @@ a \code{double} which is the median of the sampled values.
 Calculate the median of the sampled values with replacement 
 from a specified vector. Only a contiguous subsection of the vector is 
 used for the sampling, as the first and last position are set by user.
+If \code{w} is not null the weighted median and weighted bootstrap 
+are computed
 }
 \examples{
 

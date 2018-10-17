@@ -154,7 +154,8 @@ of the normal reference segments.}
 
 \item{weightall}{A \code{matrix} whose rows correspond to genomic positions 
 and columns to copy number profiles (same as ratall). Its matrix elements are functions of 
-weight of the genomic region.}
+weight of the genomic region.
+Default: \code{NULL}.}
 }
 \value{
 The input \code{segall} data frame to which some or all of 

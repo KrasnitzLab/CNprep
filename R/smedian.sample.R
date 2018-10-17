@@ -4,6 +4,8 @@
 #' @description Calculate the median of the sampled values with replacement 
 #' from a specified vector. Only a contiguous subsection of the vector is 
 #' used for the sampling, as the first and last position are set by user.
+#' If \code{w} is not null the weighted median and weighted bootstrap 
+#' are computed
 #' 
 #' @param pos a \code{vector} of 2 \code{integer} that represent the first and 
 #' last positions of \code{vector} \code{v} to used for the sampling step.
