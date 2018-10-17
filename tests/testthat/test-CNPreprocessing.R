@@ -28,6 +28,14 @@ rateExample <- matrix(data = c(0.0720738404241163, 0.119913919265996, 0.15445948
 
 colnames(rateExample) <- c("WZ1")
 
+weightExample <- matrix(data = c(0.512212, 0.392772, 0.434267, 0.493263, 0.488931, 0.377457, 0.494703, 0.177088, 0.227386, 0.492717, 0.555187,
+                   0.568054, 0.585616, 0.426607, 0.558966, 0.676231, 0.179728, 0.666528, 0.844281, 0.642988, 0.790807, 0.612881,
+                   0.816053, 0.708305, 0.552298, 0.721812, 0.684443, 0.700101, 0.737285, 0.778402, 0.748436, 0.656391, 0.533381,
+                   0.786814, 0.837422, 0.629526, 0.727452, 0.635297, 0.571190, 0.595246, 0.790430, 0.829967, 0.559348, 0.633930, 
+                   0.579300, 0.728961, 0.696930, 0.788638, 0.782530, 0.712650), ncol = 1)
+
+colnames(weightExample) <- c("WZ2")
+
 normSegs <- matrix(data = c(0.023032697, 0.0069878681,  0.0013329618, 0.0110395179,  
                             0.0007606011, 0.0023178528, -0.0076653454, -0.0044130592, 
                             -0.0044268312, -0.0362319897, 
@@ -255,5 +263,19 @@ test_that("CNpreprocessing() must return expected results when not idcol and no 
     expected <- segExample
     
     expect_equal(results, expected)
+})
+
+
+test_that("CNpreprocessing() must return expected message when weightall don't have the same colnames than the ID of segall", {
+    
+    message <- "Found unmatched segmented profile IDs in weightall"
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol = "ID", 
+                                  "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                  bpendcol="chrom.pos.end",
+                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                  normalmedian=normSegs, myseed = 443, weightall = weightExample), message)
+    
 })
 
