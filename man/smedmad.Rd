@@ -2,8 +2,9 @@
 % Please edit documentation in R/smedmad.R
 \name{smedmad}
 \alias{smedmad}
-\title{Calculate the median and median absolute deviation of the values  (weighted if w is not 
-\code{NULL}) from a contiguous subsection of specified vector.}
+\title{Calculate the median and median absolute deviation of the 
+values (weighted when specified) from a contiguous subsection of 
+specified vector.}
 \usage{
 smedmad(pos, v, w = NULL)
 }
@@ -15,9 +16,10 @@ last positions of \code{vector} \code{v} to used for the calculation.}
 the calculation. However, only a subsection of the \code{vector}, as set 
 by \code{pos}, is used.}
 
-\item{w}{\code{vector} of \code{double} containing the values used for
+\item{w}{a \code{vector} of \code{double} containing the values used for
 the weight. However, only a subsection of the \code{vector}, as set 
-by \code{pos}, is used.
+by \code{pos}, is used. When \code{NULL}, the weight is not used in
+the calculation.
 Default: \code{NULL}.}
 }
 \value{
@@ -44,6 +46,6 @@ CNprep:::smedmad(pos = position, v = values)
 
 }
 \author{
-Alexander Krasnitz, Guoli Sun
+Alexander Krasnitz, Guoli Sun, Pascal Belleau
 }
 \keyword{internal}

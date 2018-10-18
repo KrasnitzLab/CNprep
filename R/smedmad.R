@@ -1,5 +1,6 @@
-#' @title Calculate the median and median absolute deviation of the values  (weighted if w is not 
-#' \code{NULL}) from a contiguous subsection of specified vector.
+#' @title Calculate the median and median absolute deviation of the 
+#' values (weighted when specified) from a contiguous subsection of 
+#' specified vector.
 #' 
 #' @description Compute the median and the median absolute deviation, only a 
 #' contiguous subsection of the vector is used for the calculation. If w is
@@ -12,9 +13,10 @@
 #' the calculation. However, only a subsection of the \code{vector}, as set 
 #' by \code{pos}, is used.
 #' 
-#' @param w \code{vector} of \code{double} containing the values used for
+#' @param w a \code{vector} of \code{double} containing the values used for
 #' the weight. However, only a subsection of the \code{vector}, as set 
-#' by \code{pos}, is used.
+#' by \code{pos}, is used. When \code{NULL}, the weight is not used in
+#' the calculation.
 #' Default: \code{NULL}.
 #' 
 #' @return a \code{vector} of 2 \code{double} which are the median and
@@ -33,15 +35,19 @@
 #' ## subsetted vector
 #' CNprep:::smedmad(pos = position, v = values)
 #' 
-#' @author Alexander Krasnitz, Guoli Sun
+#' @author Alexander Krasnitz, Guoli Sun, Pascal Belleau
 #' @importFrom stats median mad
 #' @keywords internal
 smedmad <- function(pos, v, w=NULL) {
     res <- NULL
-    if(length(w) > 0){
-        res <- c(weighted.median(v[pos[1]:pos[2]], w[pos[1]:pos[2]]), smad(pos, v, w=w))
-    } else{
-        res <- c(median(v[pos[1]:pos[2]], na.rm=TRUE), mad(v[pos[1]:pos[2]], na.rm=TRUE))
+    
+    if (length(w) > 0) {
+        res <- c(weighted.median(v[pos[1]:pos[2]], w[pos[1]:pos[2]]), 
+                    smad(pos, v, w=w))
+    } else {
+        res <- c(median(v[pos[1]:pos[2]], na.rm=TRUE), mad(v[pos[1]:pos[2]], 
+                                                            na.rm=TRUE))
     }
+    
     return(res)
 }
