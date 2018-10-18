@@ -58,11 +58,13 @@ the genomic end coordinates of the intervals comprising the mask.}
 \code{eventIndex}, specifying copy number events status for measuring units.}
 
 \item{mincover}{A numeric value specifying the minimal portion of the 
-segment that must be covered by the mask in order to trigger masking.}
+segment that must be covered by the mask in order to trigger masking.
+Default: \code{1}.}
 
 \item{indexvals}{A numeric vector of length 2 specifying the two values 
 in \code{maskindex} to be matched with values in \code{eventIndex} to 
-determine the events that are to be masked.}
+determine the events that are to be masked.
+Default: \code{c(-1, 1)}.}
 }
 \value{
 A matrix with same number of observations/rows as \code{segtable} 
@@ -109,9 +111,9 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
 
 ## Form a eventIndex vector
 eventIndex <- rep(0,nrow(segtable))
-eventIndex[segtable[,"marginalprob"]<1e-4&segtable[,"negtail"]> 0.999 & 
+eventIndex[segtable[,"marginalprob"]<1e-4 & segtable[,"negtail"]> 0.999 & 
     segtable[,"mediandev"]<0] <- -1
-eventIndex[segtable[,"marginalprob"]<1e-4&segtable[,"negtail"]> 0.999 &
+eventIndex[segtable[,"marginalprob"]<1e-4 & segtable[,"negtail"]> 0.999 &
     segtable[,"mediandev"]>0] <- 1
 segtable <- cbind(segtable,eventIndex)
 
