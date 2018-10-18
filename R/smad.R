@@ -1,10 +1,10 @@
 #' @title Calculate the median absolute deviation of the values from
 #' a contiguous subsection of specified vector.
 #' 
-#' @description Compute the median absolute deviation for a specified vector of
-#' values.  Only a contiguous subsection of the vector is used for the calculation, as 
-#' the first and last position are set by user. If \code{w} is not \code{NULL}
-#' the weighted mad is computed
+#' @description Compute the median absolute deviation for a specified vector 
+#' of values. Only a contiguous subsection of the vector is used for the 
+#' calculation, as the first and last position are set by user. When \code{w} 
+#' is not \code{NULL}, the weighted mad is computed.
 #' 
 #' @param pos a \code{vector} of 2 \code{integer} that represent the first and 
 #' last positions of \code{vector} \code{v} to used for the calculation.
@@ -15,13 +15,15 @@
 #' 
 #' @param w \code{vector} of \code{double} containing the values used for
 #' the weight. However, only a subsection of the \code{vector}, as set 
-#' by \code{pos}, is used.
+#' by \code{pos}, is used. When \code{NULL}, the weight is not used in
+#' the calculation.
 #' Default: \code{NULL}.
 #' 
 #' @param cN a \code{double} a scale factor for the weighted mad
-#' Default: 1.4826.
+#' Default: \code{1.4826}.
 #' 
-#' @return a \code{double} which is the median of the values.
+#' @return a \code{double} which is the median absolute deviation of 
+#' the values.
 #' 
 #' @examples
 #' 
@@ -36,17 +38,17 @@
 #' ## subsetted vector
 #' CNprep:::smad(pos=position, v=values)
 #' 
-#' @author Alexander Krasnitz, Guoli Sun
+#' @author Alexander Krasnitz, Guoli Sun, Pascal Belleau
 #' @importFrom stats mad
 #' @keywords internal
 smad <- function(pos, v, w=NULL, cN=1.4826) {
     res <- NULL
-    if(length(w) > 0){
+    if (length(w) > 0) {
         res <- weighted.median(abs(v[pos[1]:pos[2]] -
-                                       weighted.median(v[pos[1]:pos[2]], w[pos[1]:pos[2]])),
-                               w[pos[1]:pos[2]]) * cN
-    } else{
-        res <- mad(v[pos[1]:pos[2]],na.rm=T)
+                        weighted.median(v[pos[1]:pos[2]], w[pos[1]:pos[2]])),
+                                w[pos[1]:pos[2]]) * cN
+    } else {
+        res <- mad(v[pos[1]:pos[2]], na.rm = TRUE)
     }
     return(res)
 }
