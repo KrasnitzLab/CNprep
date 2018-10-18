@@ -2,23 +2,43 @@
 % Please edit documentation in R/consolidate.R
 \name{consolidate}
 \alias{consolidate}
-\title{TODO}
+\title{Extract, modify and return information from a provided mixture model 
+estimation for the clusters.}
 \usage{
 consolidate(emfit, minover)
 }
 \arguments{
 \item{emfit}{An object of class \code{Mclust} providing a 
-mixture model estimation.}
+mixture model estimation for the clusters.}
 
 \item{minover}{A single \code{numeric} value between \code{0} and \code{1} 
 specifying the degree of overlap above which two clusters will be joined 
 into one.}
 }
 \value{
-TODO
+a \code{list} containing information about the updated mixture
+model for the clusters: 
+\itemize{
+\item{ \code{mu}: a \code{vector} of \code{double} which are the mean 
+of each cluster in the model.}
+\item{ \code{pro}: a \code{vector} of \code{double} which are the mixing 
+proportion fo each cluster in the model.}
+\item{ \code{z}: a \code{matrix} of \code{double} whose \emph{[i,k]}th 
+entry is
+the probability that observation \emph{i} in the dataset belongs to the 
+\emph{k}th cluster.}
+\item{ \code{groups}: a \code{matrix}  }
+\item{ \code{ngroups}: a \code{integer} specifying the number of clusters
+in the model. }
+\item{ \code{sigmasq}: a \code{vector} of \code{double} whose \emph{k}th 
+component is 
+the variance for the \emph{k}th cluster in the mixture model.}
+}
 }
 \description{
-TODO
+Extract information from the provided mixture model 
+estimation for the clusters and merge clusters that exceed a specified 
+overlap value. The udpated information about the model is returned.
 }
 \examples{
 
