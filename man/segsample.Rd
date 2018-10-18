@@ -37,13 +37,13 @@ each segment must be sampled.
 Either \code{blocksize} or \code{times} must be specified by user.
 Default: \code{0}.}
 
-\item{weightcol}{\code{vector} of \code{double} containing the values used for
-the weight. However, only a subsection of the \code{vector}, as set 
-by \code{pos}, is used.
-Default: \code{NULL}.}
+\item{weightcol}{\code{vector} of \code{double} containing the values used 
+for the weight assign to each bin. The lenght of the \code{vector} should 
+be the same than \code{ratcol}. When \code{NULL}, the weight is not 
+used in the calculation.  Default: \code{NULL}.}
 }
 \value{
-a \code{data.frame} cotaining the information about the selected
+a \code{data.frame} containing the information about the selected
 segments and the median of the sampled copy number values with replacement 
 from the associated bins.
 }
@@ -84,6 +84,6 @@ CNprep:::segsample(mysegs = segData, ratcol = ratcol, times = 2)
 
 }
 \author{
-Alexander Krasnitz, Guoli Sun
+Alexander Krasnitz, Guoli Sun, Pascal Belleau
 }
 \keyword{internal}

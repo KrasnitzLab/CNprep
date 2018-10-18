@@ -42,12 +42,12 @@
 #' Either \code{blocksize} or \code{times} must be specified by user.
 #' Default: \code{0}.
 #' 
-#' @param weightcol \code{vector} of \code{double} containing the values used for
-#' the weight. However, only a subsection of the \code{vector}, as set 
-#' by \code{pos}, is used.
-#' Default: \code{NULL}.
+#' @param weightcol \code{vector} of \code{double} containing the values used 
+#' for the weight assign to each bin. The lenght of the \code{vector} should 
+#' be the same than \code{ratcol}. When \code{NULL}, the weight is not 
+#' used in the calculation.  Default: \code{NULL}.
 #' 
-#' @return a \code{data.frame} cotaining the information about the selected
+#' @return a \code{data.frame} containing the information about the selected
 #' segments and the median of the sampled copy number values with replacement 
 #' from the associated bins.
 #' 
@@ -72,7 +72,7 @@
 #' ## Each segment is sampled the same number of times
 #' CNprep:::segsample(mysegs = segData, ratcol = ratcol, times = 2)
 #' 
-#' @author Alexander Krasnitz, Guoli Sun
+#' @author Alexander Krasnitz, Guoli Sun, Pascal Belleau
 #' @keywords internal
 segsample <- function(mysegs, ratcol, startcol="StartProbe", endcol="EndProbe",
                         blocksize=0, times=0, weightcol=NULL)
@@ -90,12 +90,18 @@ segsample <- function(mysegs, ratcol, startcol="StartProbe", endcol="EndProbe",
     segtable <- mysegs[,c(startcol,endcol), drop=FALSE]
     ## Comment Pascal: at least one result should be different from zero
 
+    ## The number of times each segment is repeated depends of the number
+    ## of bins present in the segment
     if (blocksize != 0) {
         segtable <- segtable[rep(1:nrow(segtable),
-            times=(segtable[,endcol]-segtable[,startcol]+1)%/%blocksize),]
+            times = (segtable[,endcol]-segtable[,startcol]+1)%/%blocksize),]
     }
     
-    if (times != 0) segtable <- segtable[rep(1:nrow(segtable), each=times),]
-    return(cbind(segtable, apply(segtable, 1, smedian.sample, v = ratcol, w=weightcol)))
-
+    ## Each segment is repeated the same number of times
+    if (times != 0) {
+        segtable <- segtable[rep(1:nrow(segtable), each=times),]
+    }
+    
+    return(cbind(segtable, apply(segtable, 1, smedian.sample, 
+                                    v = ratcol, w = weightcol)))
 }
