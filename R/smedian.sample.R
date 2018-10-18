@@ -4,8 +4,8 @@
 #' @description Calculate the median of the sampled values with replacement 
 #' from a specified vector. Only a contiguous subsection of the vector is 
 #' used for the sampling, as the first and last position are set by user.
-#' If \code{w} is not null the weighted median and weighted bootstrap 
-#' are computed
+#' When \code{w} is not \code{NULL}, the weighted median and weighted 
+#' bootstrap are computed
 #' 
 #' @param pos a \code{vector} of 2 \code{integer} that represent the first and 
 #' last positions of \code{vector} \code{v} to used for the sampling step.
@@ -16,7 +16,8 @@
 #' 
 #' @param w \code{vector} of \code{double} containing the values used for
 #' the weight. However, only a subsection of the \code{vector}, as set 
-#' by \code{pos}, is used.
+#' by \code{pos}, is used. When \code{NULL}, the weight is not used
+#' in the calculation.
 #' Default: \code{NULL}.
 #' 
 #' @return a \code{double} which is the median of the sampled values.
@@ -35,19 +36,20 @@
 #' ## Calculate the median of the sampled values from the subsetted vector
 #' CNprep:::smedian.sample(pos=position, v=values)
 #' 
-#' @author Alexander Krasnitz, Guoli Sun
+#' @author Alexander Krasnitz, Guoli Sun, Pascal Belleau
 #' @importFrom stats median
 #' @keywords internal
 smedian.sample <- function(pos, v, w = NULL)
 {
     vP <- v[pos[1]:pos[2]][!is.na(v[pos[1]:pos[2]])]
     res <- NULL
-    if(length(w) > 0){
+    if (length(w) > 0) {
         wP <- w[pos[1]:pos[2]][!is.na(w[pos[1]:pos[2]])]
         swP <- sum(wP)
-        sel <- sample(seq_len(length(vP)), length(vP), prob=wP/swP, replace = TRUE)
+        sel <- sample(seq_len(length(vP)), length(vP), prob=wP/swP, 
+                        replace = TRUE)
         res <- weighted.median(vP[sel], wP[sel])
-    } else{
+    } else {
         res <- median(sample(vP, length(vP), replace = TRUE), na.rm = TRUE)
     }
         

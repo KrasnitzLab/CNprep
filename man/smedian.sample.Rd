@@ -17,7 +17,8 @@ by \code{pos}, is used.}
 
 \item{w}{\code{vector} of \code{double} containing the values used for
 the weight. However, only a subsection of the \code{vector}, as set 
-by \code{pos}, is used.
+by \code{pos}, is used. When \code{NULL}, the weight is not used
+in the calculation.
 Default: \code{NULL}.}
 }
 \value{
@@ -27,8 +28,8 @@ a \code{double} which is the median of the sampled values.
 Calculate the median of the sampled values with replacement 
 from a specified vector. Only a contiguous subsection of the vector is 
 used for the sampling, as the first and last position are set by user.
-If \code{w} is not null the weighted median and weighted bootstrap 
-are computed
+When \code{w} is not \code{NULL}, the weighted median and weighted 
+bootstrap are computed
 }
 \examples{
 
@@ -46,6 +47,6 @@ CNprep:::smedian.sample(pos=position, v=values)
 
 }
 \author{
-Alexander Krasnitz, Guoli Sun
+Alexander Krasnitz, Guoli Sun, Pascal Belleau
 }
 \keyword{internal}
