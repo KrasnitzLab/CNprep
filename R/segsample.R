@@ -90,9 +90,11 @@ segsample <- function(mysegs, ratcol, startcol="StartProbe", endcol="EndProbe",
     segtable <- mysegs[,c(startcol,endcol), drop=FALSE]
     ## Comment Pascal: at least one result should be different from zero
 
-    if (blocksize != 0) segtable<-
-        segtable[rep(1:nrow(segtable),
-        times=(segtable[,endcol]-segtable[,startcol]+1)%/%blocksize),]
+    if (blocksize != 0) {
+        segtable <- segtable[rep(1:nrow(segtable),
+            times=(segtable[,endcol]-segtable[,startcol]+1)%/%blocksize),]
+    }
+    
     if (times != 0) segtable <- segtable[rep(1:nrow(segtable), each=times),]
     return(cbind(segtable, apply(segtable, 1, smedian.sample, v = ratcol, w=weightcol)))
 
