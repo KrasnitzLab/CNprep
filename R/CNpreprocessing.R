@@ -143,8 +143,8 @@
 #' of the normal reference segments.
 #' 
 #' @param weightall A \code{matrix} whose rows correspond to genomic positions 
-#' and columns to copy number profiles (same as ratall). Its matrix elements are functions of 
-#' weight of the genomic region.
+#' and columns to copy number profiles (same as ratall). Its matrix elements 
+#' are functions of weight of the genomic region.
 #' Default: \code{NULL}.
 #' 
 #' @return The input \code{segall} data frame to which some or all of 
@@ -239,39 +239,42 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
     normalerror=NULL, weightall=NULL) {
 
     #try to see what's possible with this input
-    if(is.null(idcol)){
+    if (is.null(idcol)) {
         cat("Found a single segmented profile with no ID","\n")
-        if(!is.null(ratall)){
-            if(sum(apply(ratall,2,data.class)=="numeric")>1)
-                stop("Ambiguity: more than 1 numeric column in raw data table\n")
-            else {
-                idrat <- which(apply(ratall,2,data.class)=="numeric")
-                if(is.null(names(idrat))){
+        if (!is.null(ratall)) {
+            if (sum(apply(ratall, 2, data.class) == "numeric") > 1) {
+                stop(paste0("Ambiguity: more than 1 numeric column in ", 
+                                "raw data table\n"))
+            } else {
+                idrat <- which(apply(ratall, 2, data.class) == "numeric")
+                if (is.null(names(idrat))) {
                     stop("ratall must have column names\n")
                 }
                 # Give the name of column name of ratall to the segment mod PB
                 segall <- data.frame(rep(names(idrat),nrow(segall)), segall)
                 idcol <- "ID"
                 dimnames(segall)[[2]][1] <- idcol
-                if(!is.null(weightall)){
-                    if(sum(apply(weightall,2,data.class)=="numeric")>1){
-                        stop("Ambiguity: more than 1 numeric column in weight data table\n")
+                if (!is.null(weightall)) {
+                    if(sum(apply(weightall, 2, data.class) == "numeric") > 1) {
+                        stop("Ambiguity: more than 1 numeric column ", 
+                                "in weight data table\n")
                     }
                 }
             }
         }
     }
 
-    if(is.null(ratall))cat("No raw table, proceeding to comparison\n")
-    else {
+    if (is.null(ratall)) {
+        cat("No raw table, proceeding to comparison\n")
+    } else {
         profnames <- unique(segall[,idcol])
         
         # Validate if the idcol of segall are in ratall and weightall
         if(!all(profnames%in%dimnames(ratall)[[2]]))
             stop("Found unmatched segmented profile IDs\n")
         
-        if(!(is.null(weightall))){
-            if(!all(profnames%in%dimnames(weightall)[[2]])){
+        if (!(is.null(weightall))) {
+            if (!all(profnames%in%dimnames(weightall)[[2]])) {
                 stop("Found unmatched segmented profile IDs in weightall\n")
             }
         }
@@ -298,16 +301,16 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
                                 ceiling((annot[,annotchromcol]-1)*maxbpend+annot[,annotstartcol])))
             if(!all(!is.na(startprobe)&!is.na(endprobe)))
                 stop("Incomplete start and end annotation of segments\n")
-            segall <- data.frame(segall,startprobe,endprobe)
+            segall <- data.frame(segall, startprobe, endprobe)
             dimnames(segall)[[2]][(ncol(segall)-1):ncol(segall)] <- c("StartProbe", "EndProbe")
             startcol <- "StartProbe"
             endcol <- "EndProbe"
         }
-        profpack<-vector(mode="list",length=length(profnames))
-        names(profpack)<-profnames
-        for(pn in profnames){
-            profpack[[pn]] <- vector(mode="list",length=5)
-            names(profpack[[pn]]) <- c("seg","rat","stream","sub", "weight")
+        profpack <- vector(mode = "list", length = length(profnames))
+        names(profpack) <- profnames
+        for (pn in profnames) {
+            profpack[[pn]] <- vector(mode = "list", length = 5)
+            names(profpack[[pn]]) <- c("seg", "rat", "stream", "sub", "weight")
             profpack[[pn]]$seg<-
                 segall[segall[,idcol]==pn,c(startcol,endcol,chromcol), drop=FALSE]
             dimnames(profpack[[pn]]$seg)[[2]] <- c("StartProbe", 
