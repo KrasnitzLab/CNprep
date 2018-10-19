@@ -335,7 +335,7 @@ test_that("CNpreprocessing() must return expected results when not idcol and no 
 })
 
 
-test_that("CNpreprocessing() must return expected message when weightall don't have the same colnames than the ID of segall", {
+test_that("CNpreprocessing() must return expected error when weightall don't have the same colnames than the ID of segall", {
     
     message <- "Found unmatched segmented profile IDs in weightall"
     
@@ -345,6 +345,22 @@ test_that("CNpreprocessing() must return expected message when weightall don't h
                                   blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                   distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
                                   normalmedian=normSegs, myseed = 443, weightall = weightExample), message)
+    
+})
+
+test_that("CNpreprocessing() must return expected error when ratall column name doesn't match a segmented profile", {
+    
+    message <- "Found unmatched segmented profile IDs\n"
+    
+    tempRat <- rateExample
+    colnames(tempRat) <- c("TOTO")
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=tempRat, idcol = "ID", 
+                                 startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                 bpendcol="chrom.pos.end",
+                                 blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                                 distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                 normalmedian=normSegs, myseed = 443, weightall = weightExample), message)
     
 })
 
