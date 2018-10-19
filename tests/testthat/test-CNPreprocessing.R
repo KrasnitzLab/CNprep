@@ -145,8 +145,8 @@ test_that("CNpreprocessing() must return expected results 02", {
     
     set.seed(1111)
     
-    results <- CNpreprocessing(segall=segExample, ratall=rateExample, "ID", 
-                               "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+    results <- CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+                               startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                bpendcol="chrom.pos.end",
                                blsize=3, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
@@ -178,8 +178,8 @@ test_that("CNpreprocessing() must return expected results 03", {
     
     set.seed(2211)
     
-    results <- CNpreprocessing(segall=segExample, ratall=rateExample, "ID", 
-                               "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+    results <- CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+                               startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                bpendcol="chrom.pos.end",
                                blsize=3, minjoin=0.25, cweight=0.2, bstimes=1, chromrange=1,
                                distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
@@ -210,8 +210,8 @@ test_that("CNpreprocessing() with weight must return expected results 04", {
     
     set.seed(112211)
     
-    results <- CNpreprocessing(segall=segExample, ratall=rateExample, "ID", 
-                               "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+    results <- CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+                               startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                bpendcol="chrom.pos.end",
                                blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
@@ -239,8 +239,8 @@ test_that("CNpreprocessing() with weight must return expected results 04", {
 
 test_that("CNpreprocessing() must return expected results when not ratall", {
     
-    results <- CNpreprocessing(segall=segExample, ratall=NULL, "ID", 
-                               "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+    results <- CNpreprocessing(segall=segExample, ratall=NULL, idcol="ID", 
+                               startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                bpendcol="chrom.pos.end",
                                blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
@@ -255,12 +255,26 @@ test_that("CNpreprocessing() must return expected message when not ratall", {
     
     message <- "No raw table, proceeding to comparison"
     
-    expect_output(CNpreprocessing(segall=segExample, ratall=NULL, "ID", 
+    expect_output(CNpreprocessing(segall=segExample, ratall=NULL, idcol = "ID", 
                                "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                bpendcol="chrom.pos.end",
                                blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
                                normalmedian=normSegs, myseed = 444), message)
+})
+
+test_that("CNpreprocessing() must return expected message when ambiguious ratall", {
+    
+    message <- "Ambiguity: more than 1 numeric column in raw data table\n"
+    
+    tempRatAll <- cbind(rateExample, rateExample)
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=tempRatAll, idcol = NULL, 
+                                  startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                  bpendcol="chrom.pos.end",
+                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                  normalmedian=normSegs, myseed = 444), message)
 })
 
 
@@ -269,7 +283,7 @@ test_that("CNpreprocessing() must return error when not idcol", {
     message <- "Ambiguity: more than 1 numeric column in raw data table" #"Found unmatched segmented profile IDs"
     
     expect_error(CNpreprocessing(segall=segExample1, ratall=rateExample1, idcol = NULL, 
-                               "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                               startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                bpendcol="chrom.pos.end",
                                blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
@@ -282,7 +296,7 @@ test_that("CNpreprocessing() must return expected message when not idcol and no 
     message <- "Found a single segmented profile with no ID \\nNo raw table, proceeding to comparison"
     
     expect_output(CNpreprocessing(segall=segExample, ratall=NULL, idcol = NULL, 
-                                 "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                 startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                  bpendcol="chrom.pos.end",
                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
@@ -294,7 +308,7 @@ test_that("CNpreprocessing() must return expected results when not idcol and no 
     
     
     results <- CNpreprocessing(segall=segExample, ratall=NULL, idcol = NULL, 
-                                  "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                  startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                   bpendcol="chrom.pos.end",
                                   blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                   distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
@@ -311,7 +325,7 @@ test_that("CNpreprocessing() must return expected message when weightall don't h
     message <- "Found unmatched segmented profile IDs in weightall"
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol = "ID", 
-                                  "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                  startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                   bpendcol="chrom.pos.end",
                                   blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                   distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
