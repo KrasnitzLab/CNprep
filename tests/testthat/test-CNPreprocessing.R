@@ -277,6 +277,21 @@ test_that("CNpreprocessing() must return expected message when ambiguious ratall
                                   normalmedian=normSegs, myseed = 444), message)
 })
 
+test_that("CNpreprocessing() must return expected message when no idcol and ratall without colnames", {
+    
+    message <- "ratall must have column names\n"
+    
+    tempRat <- rateExample
+    colnames(tempRat) <- NULL
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=tempRat, idcol = NULL, 
+                                 startcol = "start", "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                 bpendcol="chrom.pos.end",
+                                 blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                                 distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                 normalmedian=normSegs, myseed = 444), message)
+})
+
 
 test_that("CNpreprocessing() must return error when not idcol", {
     
