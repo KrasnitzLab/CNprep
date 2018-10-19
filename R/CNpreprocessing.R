@@ -299,7 +299,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
                         "annotation table\n"))
             }
             
-            maxbpstart <- max(c(segall[,bpstartcol], annot[,annotstartcol]))+1
+            maxbpstart <- max(c(segall[,bpstartcol], 
+                                    annot[,annotstartcol])) + 1
             maxbpend <- ifelse(useend, max(c(segall[,bpendcol], annot[,annotendcol])),
                                 max(c(segall[,bpendcol],annot[,annotstartcol])))+1
             startprobe <- match((segall[,chromcol]-1)*maxbpstart+segall[,bpstartcol],
