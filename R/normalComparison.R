@@ -2,21 +2,21 @@
 #' 
 #' @description TODO
 #' 
-#' @param normalmedian TODO
+#' @param normalmedian a \code{matrix} of \code{double} of one column. TODO
 #' 
-#' @param normalength TODO
+#' @param normalength a \code{matrix} of \code{double} of one column. TODO
 #' 
-#' @param tumormedian TODO
+#' @param tumormedian a \code{vector} of \code{double}. TODO
 #' 
-#' @param tumorlength TODO. Default: \code{NULL}.
+#' @param tumorlength a \code{vector} of \code{double}. Default: \code{NULL}.
 #' 
 #' @param normalmad TODO. Default: \code{NULL}.
 #' 
 #' @param normalerror TODO. Default: \code{NULL}.
 #' 
-#' @param tumormad TODO. Default: \code{NULL}.
+#' @param tumormad a \code{vector} of \code{double}. Default: \code{NULL}.
 #' 
-#' @param tumorerror TODO. Default: \code{NULL}.
+#' @param tumorerror TODO.  Default: \code{NULL}.
 #' 
 #' @return TODO
 #' 
@@ -30,8 +30,8 @@ normalComparison <- function(normalmedian, normalength, tumormedian,
                                 tumorlength, normalmad=NULL, normalerror=NULL, 
                                 tumormad=NULL, tumorerror=NULL) 
 {
-    nisnull <- c(!(is.null(normalmad)|is.null(tumormad)),
-                    !(is.null(normalerror)|is.null(tumorerror)))
+    nisnull <- c(!(is.null(normalmad) | is.null(tumormad)),
+                    !(is.null(normalerror) | is.null(tumorerror)))
     nsred <- matrix(ncol=2+sum(nisnull), length(normalmedian),
                 data=c(normalength, normalmedian,
                 if(nisnull[1])normalmad, if(nisnull[2])normalerror),
@@ -39,8 +39,8 @@ normalComparison <- function(normalmedian, normalength, tumormedian,
                 if(nisnull[1])"segmad", if(nisnull[2])"segerr")))
     nsred <- nsred[order(nsred[,"mediandev"]),,drop=FALSE]
     lnorm <- sum(nsred[,"length"])
-    z <- cbind(c(nsred[,"mediandev"],tumormedian),c(nsred[,"length"],
-            rep(0,length(tumormedian))), c(rep(0,nrow(nsred)), 
+    z <- cbind(c(nsred[,"mediandev"], tumormedian), c(nsred[,"length"],
+            rep(0, length(tumormedian))), c(rep(0, nrow(nsred)), 
                                             1:length(tumormedian)))
     z <- z[order(z[,1]),,drop=FALSE]
     z[,2] <- cumsum(z[,2])/lnorm

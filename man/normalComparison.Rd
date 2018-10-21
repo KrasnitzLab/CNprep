@@ -9,21 +9,21 @@ normalComparison(normalmedian, normalength, tumormedian, tumorlength,
   tumorerror = NULL)
 }
 \arguments{
-\item{normalmedian}{TODO}
+\item{normalmedian}{a \code{matrix} of \code{double} of one column. TODO}
 
-\item{normalength}{TODO}
+\item{normalength}{a \code{matrix} of \code{double} of one column. TODO}
 
-\item{tumormedian}{TODO}
+\item{tumormedian}{a \code{vector} of \code{double}. TODO}
 
-\item{tumorlength}{TODO. Default: \code{NULL}.}
+\item{tumorlength}{a \code{vector} of \code{double}. Default: \code{NULL}.}
 
 \item{normalmad}{TODO. Default: \code{NULL}.}
 
 \item{normalerror}{TODO. Default: \code{NULL}.}
 
-\item{tumormad}{TODO. Default: \code{NULL}.}
+\item{tumormad}{a \code{vector} of \code{double}. Default: \code{NULL}.}
 
-\item{tumorerror}{TODO. Default: \code{NULL}.}
+\item{tumorerror}{TODO.  Default: \code{NULL}.}
 }
 \value{
 TODO
