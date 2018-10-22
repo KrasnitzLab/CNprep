@@ -4,7 +4,8 @@
 #' 
 #' @param logr TODO
 #' 
-#' @param emfit TODO
+#' @param emfit An object of class \code{Mclust} providing a 
+#' mixture model estimation for the clusters. 
 #' 
 #' @param zgroup TODO
 #' 
@@ -20,9 +21,12 @@
 #' @importFrom stats predict
 #' @keywords internal
 getz <- function(logr, emfit, zgroup, times){ 
-    if(is.null(emfit$z))gz<-matrix(ncol=1,data=rep(1,length(logr)))
-    else gz <- predict(emfit, newdata=logr)$z
-    isfin<-matrix(ncol=ncol(gz),nrow=nrow(gz),data=is.finite(gz))
+    if (is.null(emfit$z)) {
+        gz <- matrix(ncol=1, data=rep(1, length(logr)))
+    } else {
+        gz <- predict(emfit, newdata=logr)$z
+    }
+    isfin <- matrix(ncol=ncol(gz), nrow=nrow(gz), data=is.finite(gz))
     gz[!isfin] <- 0 #just being honest: we don't know how to assign these
     gz <- matrix(ncol=ncol(gz),
         data = apply(gz,2,cumsum)[seq(from=times, to=nrow(gz), by=times),])
