@@ -43,7 +43,9 @@ Copy number variants (CNVs) has been associated with a number of diseases, such
 as Tourette Disorder [@Wang2018] and especially 
 cancer [@Pelttari2018; @Franch-Exposito2018a]. Even 
 more, CNVs can potentially to be used biomarker for cancer 
-diagnosis [@Pan2018].
+diagnosis [@Pan2018]. The spectrum of alterations, in somatic DNA copy number 
+variation, is broad and includes both amplifications and deletions ranging 
+from less than a single gene to an entire chromosome [@Kendall2011].
 
 The *CNprep* package evaluates DNA copy number data, using both their initial 
 form (copy number as a noisy function of genomic position) and their 
