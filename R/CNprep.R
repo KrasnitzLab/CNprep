@@ -84,7 +84,7 @@ NULL
 #' ## of integer postions in terms of measuring units(probes), such 
 #' ## as "mysegs" below 
 #' 
-#' mysegs<-segexample[,c(1,5:12)]
+#' mysegs <- segexample[, c(1,5:12)]
 #' 
 #' ## Analysis limited to chromosomes 1 and 2
 #' ## The bstimes variable should be higher for a real analysis
