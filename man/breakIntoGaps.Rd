@@ -2,34 +2,52 @@
 % Please edit documentation in R/breakIntoGaps.R
 \name{breakIntoGaps}
 \alias{breakIntoGaps}
-\title{TODO}
+\title{Update the start and end positions of each segment in function of 
+the segments to be removed.}
 \usage{
 breakIntoGaps(segtable, gapind, StartProbe, EndProbe)
 }
 \arguments{
-\item{segtable}{a \code{matrix} or a \code{data.frame} TODO}
+\item{segtable}{a \code{matrix} or a \code{data.frame} for segmented copy 
+number profiles that contains a column that identifies the segments to 
+remove.}
 
-\item{gapind}{a \code{character} string TODO}
+\item{gapind}{a \code{character} string specifying the name of the 
+column in \code{segtable} that identify the segments to remove.}
 
-\item{StartProbe}{a \code{character} string specifying the names of 
-columns in \code{segtable} that tabulates the (integer) start postion 
+\item{StartProbe}{a \code{character} string specifying the name of 
+column in \code{segtable} that tabulates the (integer) start position 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 
-\item{EndProbe}{a \code{character} string specifying the names of 
-columns in \code{segtable} that tabulates the (integer) end postion 
+\item{EndProbe}{a \code{character} string specifying the name of 
+column in \code{segtable} that tabulates the (integer) end position 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 }
 \value{
-TODO
+a \code{matrix} containing 2 columns that represent the updated
+start and end positions of each segment.
 }
 \description{
-TODO
+Dispatch the bins associated to a segment to be removed to
+the surronding segments.
 }
 \examples{
 
-# TODO
+## Load dataset
+data(segexample)
+
+## Use only a subsection of the dataset
+mysegs <- segexample[1:10, ]
+
+## Add colum identifying segment to remove
+mysegs$toremove <- rep(c(0, 1, 0, 1), 4)
+
+## Dispatch the bins from the segments marked to remove (value of 1 in 
+## the toremove column) to the adjacent segments
+CNprep:::breakIntoGaps(segtable = mysegs, gapind="toremove", 
+    StartProbe="start", EndProbe="end")
 
 }
 \author{
