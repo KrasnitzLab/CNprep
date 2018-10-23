@@ -33,7 +33,7 @@
 #' mysegs <- segexample[1:10, ]
 #' 
 #' ## Add colum identifying segment to remove
-#' mysegs$toremove <- rep(c(0, 1, 0, 1), 4)
+#' mysegs$toremove <- rep(c(0, 1), 5)
 #' 
 #' ## Dispatch the bins from the segments marked to remove (value of 1 in 
 #' ## the toremove column) to the adjacent segments
