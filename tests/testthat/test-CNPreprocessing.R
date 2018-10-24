@@ -237,30 +237,20 @@ test_that("CNpreprocessing() with weight must return expected results 04", {
 })
 
 
-test_that("CNpreprocessing() must return expected results when not ratall", {
+test_that("CNpreprocessing() must return expected results and output message when not ratall", {
     
-    results <- CNpreprocessing(segall=segExample, ratall=NULL, idcol="ID", 
+    message <- "No raw table, proceeding to comparison"
+    
+    expect_output(results <- CNpreprocessing(segall=segExample, ratall=NULL, idcol="ID", 
                                startcol = "start", endcol = "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                bpendcol="chrom.pos.end", medcol = NULL, madcol = NULL, errorcol = NULL,
                                blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
-                               normalmedian=normSegs, myseed = 444)
+                               normalmedian=normSegs, myseed = 444), message)
     
     expected <- segExample
     
     expect_equal(results, expected)
-})
-
-test_that("CNpreprocessing() must return expected message when not ratall", {
-    
-    message <- "No raw table, proceeding to comparison"
-    
-    expect_output(CNpreprocessing(segall=segExample, ratall=NULL, idcol = "ID", 
-                               startcol = "start", endcol = "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
-                               bpendcol="chrom.pos.end",  medcol = NULL, madcol = NULL, errorcol = NULL,
-                               blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
-                               distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
-                               normalmedian=normSegs, myseed = 444), message)
 })
 
 test_that("CNpreprocessing() must return expected message when ambiguious ratall", {
@@ -306,34 +296,21 @@ test_that("CNpreprocessing() must return error when not idcol", {
     
 })
 
-test_that("CNpreprocessing() must return expected message when not idcol and no ratall", {
+test_that("CNpreprocessing() must return expected message and results when not idcol and no ratall", {
     
     message <- "Found a single segmented profile with no ID \\nNo raw table, proceeding to comparison"
     
-    expect_output(CNpreprocessing(segall=segExample, ratall=NULL, idcol = NULL, 
+    expect_output(results <- CNpreprocessing(segall=segExample, ratall=NULL, idcol = NULL, 
                                  startcol = "start", endcol = "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
                                  bpendcol="chrom.pos.end", medcol = NULL, madcol = NULL, errorcol = NULL,
                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
                                  normalmedian=normSegs, myseed = 443), message)
     
-})
-
-test_that("CNpreprocessing() must return expected results when not idcol and no ratall", {
-    
-    
-    results <- CNpreprocessing(segall=segExample, ratall=NULL, idcol = NULL, 
-                                  startcol = "start", endcol = "end", chromcol="chrom", bpstartcol="chrom.pos.start", 
-                                  bpendcol="chrom.pos.end",  medcol = NULL, madcol = NULL, errorcol = NULL,
-                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
-                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
-                                  normalmedian=normSegs, myseed = 433)
-    
     expected <- segExample
     
     expect_equal(results, expected)
 })
-
 
 test_that("CNpreprocessing() must return expected error when weightall don't have the same colnames than the ID of segall", {
     
@@ -439,4 +416,46 @@ test_that("CNpreprocessing() with null startcol, endcol, startprobe and endprobe
                                  annotstartcol = "CHROM.POS", annotendcol = "CHROM.POS",
                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
                                  normalmedian=normSegs, myseed = 444, weightExample1), message)
+})
+
+test_that("CNpreprocessing() with null startcol, endcol adn values for annot must return expected results", {
+    
+    RNGkind("default")
+    
+    set.seed(42211)
+    
+    annotExample <- data.frame(PROBEID=c("nim-6-1-B", "nim-5-1-A", "nim-9-1-A", "nim-16-1-B", "nim-17-1-A", 
+                                         "nim-6-1-B", "nim-5-1-A", "nim-9-1-A", "nim-16-1-B", "nim-17-1-A"),
+                               CHROM=rep(1, 10), CHROM.POS=c(932544, 16004440, 38093655, 78729960, 103416416,
+                                                            15844870, 37974708, 78619856, 103394039, 142176090))
+    
+    expect_warning(results <- CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+                                 startcol = NULL, endcol = NULL, chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                 bpendcol="chrom.pos.end", annot=annotExample, medcol=NULL, madcol=NULL, errorcol=NULL, 
+                                 blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1, useend = FALSE,
+                                 annotstartcol = "CHROM.POS", annotendcol = "CHROM.POS", annotchromcol="CHROM",
+                                 distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                 normalmedian=normSegs, myseed = 444, weightExample1))
+    
+    
+    row.names(results) <- NULL
+    
+    expected <- segExample
+    
+    expected$StartProbe <- c(1, 2, 3, 4, 5)
+    expected$EndProbe <- c(6, 7, 8, 9, 10)
+    expected$segmedian <- c(0.08256328250089, 0.10648332192183, 0.09667110714486, 0.08983873841879, 0.08983873841879)
+    expected$segmad <- c(0.05850287682781, 0.08332343599035, 0.08411150788184, 0.04395528719948, 0.06784447480959)
+    expected$mediandev <- c(0.08641829351676, 0.11033833293770, 0.10052611816073, 0.09369374943466, 0.09369374943466)
+    expected$segerr <- as.double(rep(NA, 5))
+    expected$centerz <- c(1.00000000000000, 0.0000000000000, 1.00000000000000, 0.0000000000000, 0.0000000000000)
+    expected$marginalprob <- c(0.00000046390640, 0.0000000000000, 0.22555869023189, 0.0000000000000, 0.0000000000000)
+    expected$maxz <- c(0.9999999999999, 1.0000000000000, 1.0000000000000, 1.0000000000000, 1.0000000000000)
+    expected$maxzmean <- c(0.00000000000000, 0.07288299989931, 0.00000000000000, 0.15214400000367, 0.07288299989931)
+    expected$maxzsigma <- c(0.02284194928854, 0.00317693636188, 0.02284194928854, 0.00317693636188, 0.00317693636188)
+    expected$samplesize <- c(111, 75, 41, 67, 42)
+    expected$negtail <- c(1.0000000000000, 1.0000000000000, 1.0000000000000, 1.00000000000000, 1.00000000000000)
+    row.names(expected) <- NULL
+    
+    expect_equal(results, expected)
 })
