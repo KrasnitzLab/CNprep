@@ -364,3 +364,18 @@ test_that("CNpreprocessing() must return expected error when ratall column name 
     
 })
 
+
+test_that("CNpreprocessing() with null startcol and endcoll must return expected error", {
+    
+    message <- "No annotation table; unable to determine boundary probes/bins"
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+                               startcol = NULL, endcol = NULL, chromcol="chrom", bpstartcol="chrom.pos.start", 
+                               bpendcol="chrom.pos.end",
+                               blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                               distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                               normalmedian=normSegs, myseed = 444, weightExample1), message)
+})
+
+
+
