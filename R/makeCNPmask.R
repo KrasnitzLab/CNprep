@@ -65,7 +65,7 @@ makeCNPmask <- function(imat, chromcol=1, startcol=2, endcol=3, nprof=1,
         startcol=startcol,endcol=endcol,nprof=nprof,uthresh=uthresh,
         dthresh=dthresh,simplify=TRUE)
     myCNPmask <- matrix(ncol=2, byrow=TRUE, data=unlist(lapply(CNPmask,t)))
-    myCNPmask <- cbind(unlist(lapply(1:length(unique(imat[,chromcol])),
+    myCNPmask <- cbind(unlist(lapply(seq_len(length(unique(imat[,chromcol]))),
         FUN=function(x) rep(as.numeric(names(CNPmask)[x]), 
                                 nrow(CNPmask[[x]])))), myCNPmask)
     dimnames(myCNPmask)[[2]] <- c("chrom", "start", "end")

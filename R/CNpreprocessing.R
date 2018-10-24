@@ -288,7 +288,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
             }
             if (is.null(annot)) {
                 stop(paste0("No annotation table; unable to determine ", 
-                     "boundary probes/bins\n"))
+                                "boundary probes/bins\n"))
             }
             if (is.null(annotstartcol) | is.null(annotchromcol)) {
                 stop(paste0("No start and chrom column names provided for ", 

@@ -93,13 +93,13 @@ segsample <- function(mysegs, ratcol, startcol="StartProbe", endcol="EndProbe",
     ## The number of times each segment is repeated depends of the number
     ## of bins present in the segment
     if (blocksize != 0) {
-        segtable <- segtable[rep(1:nrow(segtable),
+        segtable <- segtable[rep(seq_len(nrow(segtable)),
             times = (segtable[,endcol]-segtable[,startcol]+1)%/%blocksize),]
     }
     
     ## Each segment is repeated the same number of times
     if (times != 0) {
-        segtable <- segtable[rep(1:nrow(segtable), each=times),]
+        segtable <- segtable[rep(seq_len(nrow(segtable)), each=times),]
     }
     
     return(cbind(segtable, apply(segtable, 1, smedian.sample, 
