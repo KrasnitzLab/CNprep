@@ -365,7 +365,7 @@ test_that("CNpreprocessing() must return expected error when ratall column name 
 })
 
 
-test_that("CNpreprocessing() with null startcol and endcoll must return expected error", {
+test_that("CNpreprocessing() with null startcol and endcol must return expected error", {
     
     message <- "No annotation table; unable to determine boundary probes/bins"
     
@@ -377,5 +377,16 @@ test_that("CNpreprocessing() with null startcol and endcoll must return expected
                                normalmedian=normSegs, myseed = 444, weightExample1), message)
 })
 
+test_that("CNpreprocessing() with null startcol, endcol, bpstartcol and bpendcol must return expected error", {
+    
+    message <- "Unable to proceed: incomplete segment annotation"
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+                                 startcol = NULL, endcol = NULL, chromcol="chrom", bpstartcol=NULL, 
+                                 bpendcol=NULL,
+                                 blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                                 distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                 normalmedian=normSegs, myseed = 444, weightExample1), message)
+})
 
 
