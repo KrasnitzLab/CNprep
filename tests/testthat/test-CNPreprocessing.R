@@ -389,4 +389,14 @@ test_that("CNpreprocessing() with null startcol, endcol, bpstartcol and bpendcol
                                  normalmedian=normSegs, myseed = 444, weightExample1), message)
 })
 
-
+test_that("CNpreprocessing() with null startcol, endcol, chromrange must return expected error", {
+    
+    message <- "No start and chrom column names provided for annotation table"
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+                                 startcol = NULL, endcol = NULL, chromcol="chrom", bpstartcol="chrom.pos.start",
+                                 bpendcol="chrom.pos.end", medcol=NULL, madcol=NULL, errorcol=NULL, 
+                                 blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=NULL,
+                                 distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                 normalmedian=normSegs, myseed = 444, weightExample1), message)
+})
