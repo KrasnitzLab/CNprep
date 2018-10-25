@@ -55,7 +55,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     ## Create and assign seeds
     .lec.CreateStream(segrat$stream)
     .lec.SetSeed(segrat$stream,seedme)
-    for( j in 1:segrat$sub) .lec.ResetNextSubstream(segrat$stream)
+    for (j in 1:segrat$sub) .lec.ResetNextSubstream(segrat$stream)
         .lec.CurrentStream(segrat$stream)
 
     startcol <- "StartProbe"
@@ -68,7 +68,8 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     # Modified for weight
     segrat$seg <- cbind(segrat$seg,
                         t(apply(segrat$seg[,c(startcol, endcol, chromcol),
-                        drop=FALSE], 1, smedmad, v=segrat$rat, w=segrat$weight)))
+                        drop=FALSE], 1, smedmad, v=segrat$rat, 
+                        w=segrat$weight)))
 
     dimnames(segrat$seg)[[2]] <- c(startcol, endcol, chromcol, medcol, madcol)
     seguse<-segrat$seg[segrat$seg[,chromcol] %in% chromrange,,drop=FALSE]
@@ -103,15 +104,16 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     newem<-consolidate(bestem,minjoin)
     newem<-get.center(newem,cweight)
     
-    if (length(bestem$parameters$mean)==1) { 
+    if (length(bestem$parameters$mean) == 1) { 
         profcenter <- median(bestaaa[,3]) 
     } else { 
         profcenter <- weighted.median(bestaaa[,3], newem$z[,newem$center]) 
     }
 
-    mediandev <- segrat$seg[,medcol]-profcenter
+    mediandev <- segrat$seg[,medcol] - profcenter
     # mod for weight
-    segs <- segsample(segrat$seg, segrat$rat, times=bstimes, weightcol=segrat$weight)
+    segs <- segsample(segrat$seg, segrat$rat, times=bstimes, 
+                        weightcol=segrat$weight)
 
     if (all(unique(aaa[,3]) == 1e-10)) { 
         segs[segs[,3]==0,3] <- 1e-10 
@@ -119,7 +121,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
 
     segzall <- getz(segs[,3], bestem, newem$groups, times=bstimes)
     centerz <- segzall[,newem$center]
-    maxz <- segzall[nrow(segzall)*(max.col(segzall)-1)+(1:nrow(segzall))]
+    maxz <- segzall[nrow(segzall)*(max.col(segzall) - 1) + (1:nrow(segzall))]
     maxzcol <- max.col(segzall)
     maxzmean <- newem$mu[maxzcol]-newem$mu[newem$center]
     maxzsigma <- sqrt(newem$sigmasq[maxzcol])
