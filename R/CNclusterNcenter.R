@@ -44,9 +44,9 @@
 #'
 #' # TODO
 #' 
-#' @author Alexander Krasnitz, Guoli Sun
+#' @author Alexander Krasnitz, Guoli Sun, Pascal Belleau
 #' @importFrom rlecuyer .lec.CreateStream .lec.SetSeed .lec.ResetNextSubstream .lec.CurrentStream .lec.CurrentStreamEnd .lec.DeleteStream
-#' @importFrom mclust Mclust
+#' @importFrom mclust Mclust mclustBIC
 #' @importFrom stats median var
 #' @keywords internal
 CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
@@ -58,14 +58,15 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     for( j in 1:segrat$sub) .lec.ResetNextSubstream(segrat$stream)
         .lec.CurrentStream(segrat$stream)
 
-    startcol<-"StartProbe"
-    endcol<-"EndProbe"
-    chromcol<-"chrom"
-    medcol<-"segmedian"
-    madcol<-"segmad"
-    weigthcol<-"weigth"
-    # mod for weight
-    segrat$seg<-cbind(segrat$seg,
+    startcol <- "StartProbe"
+    endcol <- "EndProbe"
+    chromcol <- "chrom"
+    medcol <- "segmedian"
+    madcol <- "segmad"
+    weigthcol <- "weigth"
+    
+    # Modified for weight
+    segrat$seg <- cbind(segrat$seg,
                         t(apply(segrat$seg[,c(startcol, endcol, chromcol),
                         drop=FALSE], 1, smedmad, v=segrat$rat, w=segrat$weight)))
 
@@ -80,7 +81,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     
     # mod for weight
     if(length(segrat$weight) > 0){
-        weightuse <- segrat$weight[aux==1]
+        weightuse <- segrat$weight[aux == 1]
     } else{
         weightuse <- NULL
     }
@@ -88,7 +89,9 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     for(j in 1:ntrial) {
         # mod for weight
         aaa <- segsample(seguse, ratuse, blocksize=blsize, weightcol=weightuse)
-        if(all(unique(aaa[,3])==0)) { aaa[,3] <- 1e-10 }
+        if (all(unique(aaa[,3]) == 0)) { 
+            aaa[,3] <- 1e-10 
+        }
         emfit <- Mclust(aaa[,3], maxG=15, modelNames=modelNames)
         if (emfit$bic>=bestbic) {
             bestaaa <- aaa

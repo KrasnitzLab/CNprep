@@ -56,6 +56,6 @@ TODO
 
 }
 \author{
-Alexander Krasnitz, Guoli Sun
+Alexander Krasnitz, Guoli Sun, Pascal Belleau
 }
 \keyword{internal}
