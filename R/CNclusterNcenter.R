@@ -94,7 +94,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
             aaa[,3] <- 1e-10 
         }
         emfit <- Mclust(aaa[,3], maxG=15, modelNames=modelNames)
-        if (emfit$bic>=bestbic) {
+        if (emfit$bic >= bestbic) {
             bestaaa <- aaa
             bestem <- emfit
             bestbic <- emfit$bic
