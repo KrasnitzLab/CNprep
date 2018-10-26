@@ -2,17 +2,14 @@
 % Please edit documentation in R/breakIntoCNPs.chrom.R
 \name{breakIntoCNPs.chrom}
 \alias{breakIntoCNPs.chrom}
-\title{TODO}
+\title{Apply a mask to a table of copy number events for a specified
+chromosome.}
 \usage{
 breakIntoCNPs.chrom(segtable, chrom, startPos, endPos, startProbe,
   endProbe, eventIndex, cnptable, cnpchrom, cnpstart, cnpend, cnpindex,
   mincover, indexvals)
 }
 \arguments{
-\item{segtable}{a \code{matrix} or a \code{data.frame} with columns 
-named or enumerated by the values of 
-\code{chrom, startPos, endPos, startProbe, endProbe, eventIndex}.}
-
 \item{chrom}{a \code{character} string specifying the name for the column in 
 \code{segtable} tabulating the (integer) chromosome number for each segment.}
 
@@ -62,15 +59,37 @@ specifying the degree of overlap above which two clusters will be joined
 into one.}
 
 \item{indexvals}{a \code{numeric} \code{vector} of length 2 
-specifying the two values in \code{maskindex} to be matched 
+specifying the two values in \code{cnpindex} to be matched 
 with values in \code{eventIndex} to 
 determine the events that are to be masked.}
 }
 \value{
-TODO
+a \code{matrix} with same number of observations/rows as 
+\code{segtable} and with following three columns:
+\itemize{
+\item{startProbe,endProbe}{ An integer vector for the start and end 
+positions of the segments after masking. }
+\item{toremove}{ An integer vector whose values are 1 if the segment 
+is masked and 0 otherwise. }
+}
 }
 \description{
-TODO
+A mask is applied to amplified or deleted segments specific
+to one chromosome as 
+tabulated in \code{segtable}. A decision whether to mask a segment 
+is taken based on what portion of the segment is covered by the mask. A 
+position is chosen at random within a segment to be masked, the flanking 
+segments are extended to that position and the segment to be masked is 
+indicated as such in the value returned.
+}
+\details{
+Masking is performed separately for each value in 
+\code{indexvals}. Segments (rows of \code{segtable}) with that 
+value of \code{eventIndex} are examined for coverage by mask intervals 
+with that value of \code{cnpindex} in \code{cnptable}. If the coverage 
+is at least \code{mincover}, the segment is slated for masking, while its 
+flanking segments are extended to a random point within the segment 
+being masked.
 }
 \examples{
 

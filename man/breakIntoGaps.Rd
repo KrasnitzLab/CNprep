@@ -45,7 +45,7 @@ mysegs <- segexample[1:10, ]
 mysegs$toremove <- rep(c(0, 1), 5)
 
 ## Dispatch the bins from the segments marked to remove (value of 1 in 
-## the toremove column) to the adjacent segments
+## the "toremove" column) to the adjacent segments
 CNprep:::breakIntoGaps(segtable = mysegs, gapind="toremove", 
     StartProbe="start", EndProbe="end")
 

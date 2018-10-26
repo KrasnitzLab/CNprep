@@ -57,18 +57,18 @@ the genomic end coordinates of the intervals comprising the mask.}
 \item{maskindex}{a \code{numeric} \code{vector} corresponding to 
 \code{eventIndex}, specifying copy number events status for measuring units.}
 
-\item{mincover}{A numeric value specifying the minimal portion of the 
+\item{mincover}{a \code{numeric} value specifying the minimal portion of the 
 segment that must be covered by the mask in order to trigger masking.
 Default: \code{1}.}
 
-\item{indexvals}{A numeric vector of length 2 specifying the two values 
-in \code{maskindex} to be matched with values in \code{eventIndex} to 
-determine the events that are to be masked.
+\item{indexvals}{a \code{numeric} \code{vector} of length 2 specifying the
+two values in \code{maskindex} to be matched with values in 
+\code{eventIndex} to determine the events that are to be masked.
 Default: \code{c(-1, 1)}.}
 }
 \value{
-A matrix with same number of observations/rows as \code{segtable} 
-and with following three columns:
+a \code{matrix} with same number of observations/rows as 
+\code{segtable} and with following three columns:
 \itemize{
 \item{startProbe,endProbe}{ An integer vector for the start and end 
 positions of the segments after masking. }
@@ -129,9 +129,9 @@ cnptable <- rbind(cbind(aCNPmask, cnpindex=1), cbind(dCNPmask, cnpindex=-1))
 ## Run the CNPmask
 myCNPtable <- applyCNPmask(segtable=segtable, chrom="chrom",
     startPos="chrom.pos.start", endPos="chrom.pos.end", startProbe="start", 
-    endProbe="end", eventIndex="eventIndex",masktable=cnptable,
+    endProbe="end", eventIndex="eventIndex", masktable=cnptable,
     maskchrom="chrom", maskstart="start", maskend="end",
-    maskindex="cnpindex", mincover=0.005,indexvals=c(-1,1))
+    maskindex="cnpindex", mincover=0.005, indexvals=c(-1,1))
 
 ## Show some results
 head(myCNPtable)

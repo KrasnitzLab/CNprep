@@ -55,17 +55,17 @@
 #' @param maskindex a \code{numeric} \code{vector} corresponding to 
 #' \code{eventIndex}, specifying copy number events status for measuring units.
 #' 
-#' @param mincover A numeric value specifying the minimal portion of the 
+#' @param mincover a \code{numeric} value specifying the minimal portion of the 
 #' segment that must be covered by the mask in order to trigger masking.
 #' Default: \code{1}.
 #' 
-#' @param indexvals A numeric vector of length 2 specifying the two values 
-#' in \code{maskindex} to be matched with values in \code{eventIndex} to 
-#' determine the events that are to be masked.
+#' @param indexvals a \code{numeric} \code{vector} of length 2 specifying the  
+#' two values in \code{maskindex} to be matched with values in 
+#' \code{eventIndex} to determine the events that are to be masked.
 #' Default: \code{c(-1, 1)}.
 #' 
-#' @return A matrix with same number of observations/rows as \code{segtable} 
-#' and with following three columns:
+#' @return a \code{matrix} with same number of observations/rows as 
+#' \code{segtable} and with following three columns:
 #' \itemize{
 #' \item{startProbe,endProbe}{ An integer vector for the start and end 
 #' positions of the segments after masking. }
@@ -117,9 +117,9 @@
 #' ## Run the CNPmask
 #' myCNPtable <- applyCNPmask(segtable=segtable, chrom="chrom",
 #'     startPos="chrom.pos.start", endPos="chrom.pos.end", startProbe="start", 
-#'     endProbe="end", eventIndex="eventIndex",masktable=cnptable,
+#'     endProbe="end", eventIndex="eventIndex", masktable=cnptable,
 #'     maskchrom="chrom", maskstart="start", maskend="end",
-#'     maskindex="cnpindex", mincover=0.005,indexvals=c(-1,1))
+#'     maskindex="cnpindex", mincover=0.005, indexvals=c(-1,1))
 #' 
 #' ## Show some results
 #' head(myCNPtable)
@@ -131,6 +131,7 @@ applyCNPmask <- function(segtable, chrom, startPos, endPos, startProbe,
                     endProbe, eventIndex, masktable, maskchrom, maskstart,
                     maskend, maskindex, mincover=1, indexvals=c(-1,1)) 
 {
+    ## Run the analysis for each chromosome separately
     breakCNPs <- by(segtable, INDICES=as.factor(segtable[,chrom]),
         FUN=breakIntoCNPs.chrom, chrom=chrom, startPos=startPos, endPos=endPos,
         startProbe=startProbe, endProbe=endProbe, eventIndex=eventIndex,
@@ -138,7 +139,9 @@ applyCNPmask <- function(segtable, chrom, startPos, endPos, startProbe,
         cnpend=maskend, cnpindex=maskindex, mincover=mincover,
         indexvals=indexvals, simplify=TRUE)
 
+    ## Format results into a matrix with specific column names
     myCNPs <- matrix(ncol=3, byrow=TRUE, data=unlist(lapply(breakCNPs, t)))
     dimnames(myCNPs)[[2]] <- c("StartProbe", "EndProbe", "toremove")
+    
     return(as.matrix(myCNPs))
 }
