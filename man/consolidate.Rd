@@ -8,10 +8,10 @@ estimation for the clusters.}
 consolidate(emfit, minover)
 }
 \arguments{
-\item{emfit}{An object of class \code{Mclust} providing a 
+\item{emfit}{an object of class \code{Mclust} providing a 
 mixture model estimation for the clusters.}
 
-\item{minover}{A single \code{numeric} value between \code{0} and \code{1} 
+\item{minover}{a single \code{numeric} value between \code{0} and \code{1} 
 specifying the degree of overlap above which two clusters will be joined 
 into one.}
 }

@@ -7,13 +7,14 @@
 centerprob(logr, emfit, zgroup, times, center)
 }
 \arguments{
-\item{logr}{TODO}
+\item{logr}{a \code{vector} of \code{double} TODO}
 
-\item{emfit}{TODO}
+\item{emfit}{an object of class \code{Mclust} providing a 
+mixture model estimation for the clusters.}
 
-\item{times}{TODO}
+\item{times}{a \code{integer} TODO}
 
-\item{center}{TODO}
+\item{center}{a \code{integer} TODO}
 }
 \value{
 TODO

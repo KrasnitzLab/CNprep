@@ -5,10 +5,10 @@
 #' estimation for the clusters and merge clusters that exceed a specified 
 #' overlap value. The udpated information about the model is returned.
 #' 
-#' @param emfit An object of class \code{Mclust} providing a 
+#' @param emfit an object of class \code{Mclust} providing a 
 #' mixture model estimation for the clusters. 
 #' 
-#' @param minover A single \code{numeric} value between \code{0} and \code{1} 
+#' @param minover a single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the degree of overlap above which two clusters will be joined 
 #' into one.
 #' 
