@@ -7,15 +7,19 @@
 get.center(emfit, mincenter)
 }
 \arguments{
-\item{emfit}{TODO}
+\item{emfit}{a \code{list} containing information about the updated mixture
+model for the clusters as given by an object of class 
+\code{Mclust}.}
 
 \item{mincenter}{TODO}
 }
-\value{
-TODO
-}
 \description{
 TODO
+}
+\details{
+The \code{emfit} parameter correspond to an object of class 
+\code{Mclust} that has been modified by the \code{CNprep:::consolidate}
+function.
 }
 \examples{
 
