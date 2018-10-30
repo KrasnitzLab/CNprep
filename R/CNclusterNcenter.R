@@ -80,16 +80,20 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     aux[seguse[,endcol]] <- 1
     ratuse<-segrat$rat[aux == 1]
     
-    # mod for weight
-    if(length(segrat$weight) > 0){
+    # Modified for weight
+    if (length(segrat$weight) > 0) {
         weightuse <- segrat$weight[aux == 1]
     } else{
         weightuse <- NULL
     }
     
-    for(j in 1:ntrial) {
-        # mod for weight
+    for(j in seq_len(ntrial)) {
+        # Modified for weight
         aaa <- segsample(seguse, ratuse, blocksize=blsize, weightcol=weightuse)
+        ## Ensure that all values are not the same; otherwise, Mclust crashes
+        if (var(aaa[,3]) < 2e-19) {
+            aaa[,3][1] <- aaa[,3][1] + 1e-10
+        }
         if (all(unique(aaa[,3]) == 0)) { 
             aaa[,3] <- 1e-10 
         }
@@ -101,7 +105,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
         }
     }
 
-    newem<-consolidate(bestem, minjoin)
+    newem <- consolidate(bestem, minjoin)
     newem<-get.center(newem, cweight)
     
     if (length(bestem$parameters$mean) == 1) { 
@@ -111,7 +115,8 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     }
 
     mediandev <- segrat$seg[,medcol] - profcenter
-    # mod for weight
+    
+    # Modified for weight
     segs <- segsample(segrat$seg, segrat$rat, times=bstimes, 
                         weightcol=segrat$weight)
 

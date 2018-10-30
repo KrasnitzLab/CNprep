@@ -5,7 +5,7 @@ library(CNprep)
 segExample <- data.frame(ID=c(rep("WZ1", 5)), 
                          start=c(1, 16, 23, 31, 38),
                          end=c(15, 22, 30, 37, 50),
-                         num.probes=c(15, 7, 8, 720, 518),
+                         num.probes=c(15, 7, 8, 7, 13),
                          seg.median=c(0.047797239, -0.215466818, 0.043107477, -0.225908644,  
                                       0.037204403),
                          chrom=c(rep(1, 5)),
@@ -353,7 +353,7 @@ test_that("CNpreprocessing() with null startcol and endcol must return expected 
                                bpendcol="chrom.pos.end", annot=NULL, medcol=NULL, madcol=NULL, errorcol=NULL, 
                                blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
                                distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
-                               normalmedian=normSegs, myseed = 444, weightExample1), message)
+                               normalmedian=normSegs, myseed = 444, weightall=weightExample1), message)
 })
 
 test_that("CNpreprocessing() with null startcol, endcol, bpstartcol and bpendcol must return expected error", {
@@ -383,12 +383,12 @@ test_that("CNpreprocessing() with null startcol, endcol, chromrange must return 
                                  annotstartcol=NULL, annotendcol = NULL, annot=annoteEx,
                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=NULL,
                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
-                                 normalmedian=normSegs, myseed = 444, weightExample1), message)
+                                 normalmedian=normSegs, myseed = 444, weightall=weightExample1), message)
 })
 
 test_that("CNpreprocessing() with null startcol, endcol and annotendcol, value for annot and true for useend,  must return expected error", {
     
-    message <- "End column name required but not provided in annotation table"
+    message <- "No start and chrom column names provided for annotation table\n"
     
     annoteEx <- data.frame(PROBEID=c("nim-6-1-B", "nim-5-1-A", "nim-9-1-A", "nim-16-1-B", "nim-17-1-A", "nim-18-1-B"),
                             CHROM=rep(1, 6), CHROM.POS=c(932544, 1036579, 1212756, 1753322, 1759922, 1782231))
@@ -399,12 +399,12 @@ test_that("CNpreprocessing() with null startcol, endcol and annotendcol, value f
                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1, useend = TRUE,
                                  annotstartcol = "CHROM.POS", annotendcol = NULL,
                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
-                                 normalmedian=normSegs, myseed = 444, weightExample1), message)
+                                 normalmedian=normSegs, myseed = 444, weightall=weightExample1), message)
 })
 
 test_that("CNpreprocessing() with null startcol, endcol, startprobe and endprobe, value for annot and true for useend,  must return expected error", {
     
-    message <- "Incomplete start and end annotation of segments"
+    message <- "No start and chrom column names provided for annotation table\n"
     
     annoteEx <- data.frame(PROBEID=c("nim-6-1-B", "nim-5-1-A", "nim-9-1-A", "nim-16-1-B", "nim-17-1-A", "nim-18-1-B"),
                            CHROM=rep(1, 6), CHROM.POS=c(932544, 1036579, 1212756, 1753322, 1759922, 1782231))
@@ -415,27 +415,28 @@ test_that("CNpreprocessing() with null startcol, endcol, startprobe and endprobe
                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1, useend = TRUE,
                                  annotstartcol = "CHROM.POS", annotendcol = "CHROM.POS",
                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
-                                 normalmedian=normSegs, myseed = 444, weightExample1), message)
+                                 normalmedian=normSegs, myseed = 444, weightall=weightExample1), message)
 })
 
 test_that("CNpreprocessing() with null startcol, endcol adn values for annot must return expected results", {
     
     RNGkind("default")
     
-    set.seed(42211)
+    set.seed(42111)
     
     annotExample <- data.frame(PROBEID=c("nim-6-1-B", "nim-5-1-A", "nim-9-1-A", "nim-16-1-B", "nim-17-1-A", 
                                          "nim-6-1-B", "nim-5-1-A", "nim-9-1-A", "nim-16-1-B", "nim-17-1-A"),
                                CHROM=rep(1, 10), CHROM.POS=c(932544, 16004440, 38093655, 78729960, 103416416,
                                                             15844870, 37974708, 78619856, 103394039, 142176090))
     
-    expect_warning(results <- CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+    results <- CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
                                  startcol = NULL, endcol = NULL, chromcol="chrom", bpstartcol="chrom.pos.start", 
                                  bpendcol="chrom.pos.end", annot=annotExample, medcol=NULL, madcol=NULL, errorcol=NULL, 
                                  blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1, useend = FALSE,
+                                 ntrial=3, bestbic=-1e7, 
                                  annotstartcol = "CHROM.POS", annotendcol = "CHROM.POS", annotchromcol="CHROM",
                                  distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
-                                 normalmedian=normSegs, myseed = 444, weightExample1))
+                                 normalmedian=normSegs, myseed = 444, weightall = weightExample1)
     
     
     row.names(results) <- NULL
@@ -444,15 +445,15 @@ test_that("CNpreprocessing() with null startcol, endcol adn values for annot mus
     
     expected$StartProbe <- c(1, 2, 3, 4, 5)
     expected$EndProbe <- c(6, 7, 8, 9, 10)
-    expected$segmedian <- c(0.08256328250089, 0.10648332192183, 0.09667110714486, 0.08983873841879, 0.08983873841879)
-    expected$segmad <- c(0.05850287682781, 0.08332343599035, 0.08411150788184, 0.04395528719948, 0.06784447480959)
-    expected$mediandev <- c(0.08641829351676, 0.11033833293770, 0.10052611816073, 0.09369374943466, 0.09369374943466)
-    expected$segerr <- as.double(rep(NA, 5))
-    expected$centerz <- c(1.00000000000000, 0.0000000000000, 1.00000000000000, 0.0000000000000, 0.0000000000000)
-    expected$marginalprob <- c(0.00000046390640, 0.0000000000000, 0.22555869023189, 0.0000000000000, 0.0000000000000)
-    expected$maxz <- c(0.9999999999999, 1.0000000000000, 1.0000000000000, 1.0000000000000, 1.0000000000000)
-    expected$maxzmean <- c(0.00000000000000, 0.07288299989931, 0.00000000000000, 0.15214400000367, 0.07288299989931)
-    expected$maxzsigma <- c(0.02284194928854, 0.00317693636188, 0.02284194928854, 0.00317693636188, 0.00317693636188)
+    expected$segmedian <- c(0.072073840424116, 0.093052724577655, 0.093052724577655, 0.086624752259920, 0.086624752259920)
+    expected$segmad <- c(0.046078052764650, 0.077181346410686, 0.077181346410686, 0.067651234652412, 0.124959721630923)
+    expected$mediandev <- c(0.075928851439987, 0.096907735593526, 0.096907735593526, 0.090479763275791, 0.090479763275791)
+    expected$segerr <- as.numeric(rep(NA, 5))
+    expected$centerz <- c(1.00000000000000, 1.0000000000000, 1.00000000000000, 1.000000000000000, 1.000000000000000)
+    expected$marginalprob <- c(0.0000000000000, 0.0000000000000, 0.0000000000000, 0.0000000000000, 0.308537543306507)
+    expected$maxz <- c(1.0000000000000, 1.0000000000000, 1.0000000000000, 1.0000000000000, 1.0000000000000)
+    expected$maxzmean <- c(0.00000000000000, 0.00000000000000, 0.00000000000000, 0.00000000000000, 0.00000000000000)
+    expected$maxzsigma <- c(0.000000000040000, 0.000000000040000, 0.000000000040000, 0.000000000040000, 0.000000000040000)
     expected$samplesize <- c(111, 75, 41, 67, 42)
     expected$negtail <- c(1.0000000000000, 1.0000000000000, 1.0000000000000, 1.00000000000000, 1.00000000000000)
     row.names(expected) <- NULL
