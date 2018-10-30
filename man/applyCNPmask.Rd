@@ -101,12 +101,14 @@ data(ratexample)
 data(normsegs)
 data(cnpexample)
 
-## Create a table with segment information
-segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
+## Create a table with segment information for sample WZ1
+## In real analysis, ntrial should be higher
+segExampleWZ1 <- subset(segexample, ID == "WZ1")
+segtable <- CNpreprocessing(segall=segExampleWZ1,
     ratall=ratexample, idcol="ID", startcol="start", endcol="end",
-    chromcol="chrom", bpstartcol="chrom.pos.start", 
+    chromcol="chrom", bpstartcol="chrom.pos.start", ntrial = 5,  
     bpendcol="chrom.pos.end", blsize=50, minjoin=0.25, cweight=0.4,
-    bstimes=50, chromrange=1:22, distrib="vanilla", njobs=1, modelNames="E",
+    bstimes=50, chromrange=1:10, distrib="vanilla", njobs=1, modelNames="E",
     normalength=normsegs[,1], normalmedian=normsegs[,2])
 
 ## Form a eventIndex vector

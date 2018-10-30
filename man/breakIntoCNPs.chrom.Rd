@@ -10,6 +10,11 @@ breakIntoCNPs.chrom(segtable, chrom, startPos, endPos, startProbe,
   mincover, indexvals)
 }
 \arguments{
+\item{segtable}{a \code{matrix} or a \code{data.frame} with columns 
+named or enumerated by the values of 
+\code{chrom, startPos, endPos, startProbe, endProbe, eventIndex}. The
+\code{matrix} must contain information for only one chromosome.}
+
 \item{chrom}{a \code{character} string specifying the name for the column in 
 \code{segtable} tabulating the (integer) chromosome number for each segment.}
 
@@ -93,7 +98,41 @@ being masked.
 }
 \examples{
 
-# TODO
+## Load datasets
+data(segexample)
+data(ratexample)
+data(normsegs)
+
+## Create a table with segment information
+## for sample WZ1 and chromosome 1
+segChrom1 <- subset(segexample, ID == "WZ1" & chrom == 1)
+
+## Pre-process DNA copy number for chromosome 1
+## In real analysis, ntrial should be higher
+segtable <- CNpreprocessing(segall=segChrom1,
+    ratall=ratexample, idcol="ID", startcol="start", endcol="end",
+    chromcol="chrom", bpstartcol="chrom.pos.start", ntrial=5,
+    bpendcol="chrom.pos.end", blsize=50, minjoin=0.25, cweight=0.4,
+    bstimes=5, chromrange=1:1, distrib="vanilla", njobs=1, modelNames="E",
+    normalength=normsegs[,1], normalmedian=normsegs[,2])
+    
+## Add an eventIndex column to the segment table
+## 1 means amplification and -1 means deletion
+eventIndex <- c(0, 1, 1, -1, 1, 0)
+segtable <- cbind(segtable, eventIndex)
+
+## Create a mask data.frame using amplification and deletion events
+## In cnpindex column, 1 means amplification and -1 means deletion
+cnptable <- data.frame(chrom=rep(1,4), start=c(932530, 57590281, 
+    78729900, 142343042), end=c(15844890, 57699072, 103394100, 235420384), 
+    cnpindex=c(1, 1, -1, -1))
+
+# Apply a mask to a table of copy number events for chromosome 1
+CNprep:::breakIntoCNPs.chrom(segtable=segtable, chrom="chrom", 
+    startPos="chrom.pos.start", endPos="chrom.pos.end", startProbe="start", 
+    endProb="end", eventIndex="eventIndex", cnptable=cnptable,
+    cnpchrom="chrom", cnpstart="start", cnpend="end",
+    cnpindex="cnpindex", mincover=0.1, indexvals=c(-1,1))
 
 }
 \author{
