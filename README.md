@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/belleau/CNprep.svg?branch=master)](https://travis-ci.org/belleau/CNprep)
 [![codecov](https://codecov.io/gh/belleau/CNprep/branch/master/graph/badge.svg)](https://codecov.io/gh/belleau/CNprep)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
 # CNprep
 
