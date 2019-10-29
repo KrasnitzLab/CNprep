@@ -19,7 +19,7 @@ test_that("smedian.sample() must return expected results 01", {
     
     results <- CNprep:::smedian.sample(position, values)
     
-    expected <- 0.0720738400
+    expected <- 0.119913919000
     
     expect_equal(results, expected)
 })
