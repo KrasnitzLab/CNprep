@@ -19,12 +19,14 @@
 #' @importFrom mclust Mclust
 #' @keywords internal
 consolidate <- function(emfit, minover) { 
-    newem<-list(mu=emfit$parameters$mean,pro=emfit$parameters$pro,z=emfit$z,
-        groups=matrix(nrow=length(emfit$parameters$mean),
-        ncol=length(emfit$parameters$mean),data=0),
-        ngroups=length(emfit$parameters$mean),
-        sigmasq=emfit$parameters$variance$sigmasq)
-    if(is.null(emfit$z))newem$z<-matrix(ncol=1,data=rep(1,emfit$n))
+    newem <- list(mu = emfit$parameters$mean, pro = emfit$parameters$pro,
+            z = emfit$z,
+            groups = matrix(nrow=length(emfit$parameters$mean),
+            ncol = length(emfit$parameters$mean), data=0),
+            ngroups = length(emfit$parameters$mean),
+            sigmasq = emfit$parameters$variance$sigmasq)
+    
+    if(is.null(emfit$z))newem$z <- matrix(ncol=1,data=rep(1,emfit$n))
     if(length(newem$sigmasq)==1)
         newem$sigmasq<-rep(newem$sigmasq,length(emfit$parameters$mean))
     diag(newem$groups)<-1
