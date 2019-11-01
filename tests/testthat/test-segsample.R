@@ -23,14 +23,15 @@ test_that("segsample() must return expected results 01", {
     
     set.seed(222)
     
-    results <- CNprep:::segsample(mysegs=segData, ratcol=ratcol, startcol="StartProbe", endcol="EndProbe",
-                                 blocksize=5,times=0)
+    results <- CNprep:::segsample(mysegs=segData, ratcol=ratcol, 
+                                    startcol="StartProbe", endcol="EndProbe",
+                                    blocksize=5, times=0)
     
     colnames(results)[3] <- "results"
     
     expected <- data.frame(StartProbe=c(1, 7),
                            EndProbe=c(6, 12),
-                           results=c(0.09305272500, 0.08662475200))
+                           results=c(0.093052725000, 0.135599210000))
     
     expect_equal(results, expected)
 })
@@ -58,7 +59,8 @@ test_that("segsample() must return expected results 02", {
     
     expected <- data.frame(StartProbe=c(1, 1, 9),
                            EndProbe=c(8, 8, 13),
-                           results=c(0.1211032045000, 0.0466946200000, 0.1114494740000))
+                           results=c(0.094183165000, 0.066076840000, 
+                                        0.063634112000))
     row.names(expected) <- c("1",   "1.1", "2")
     
     expect_equal(results, expected)
@@ -80,16 +82,18 @@ test_that("segsample() must return expected results when using parameter times 0
     
     set.seed(222)
     
-    results <- CNprep:::segsample(mysegs=segData, ratcol=ratcol, startcol="StartProbe", endcol="EndProbe",
+    results <- CNprep:::segsample(mysegs=segData, ratcol=ratcol, 
+                                    startcol="StartProbe", endcol="EndProbe",
                                     times=2)
     
     colnames(results)[3] <- "results"
     
     expected <- data.frame(StartProbe=c(1, 1, 9, 9, 14, 14),
                            EndProbe=c(8, 8, 13 , 13, 15, 15),
-                           results=c(0.094183165000000, 0.066076840000000, 0.086624752000000,
-                                     -0.003855011000000, 0.101801745000000, 0.101801745000000))
-    row.names(expected) <- c("1",   "1.1", "2", "2.1", "3", "3.1")
+                           results=c(0.119916919000, 0.066076840000, 
+                                     0.063634112000, 0.086624752000, 
+                                     0.043428961000, 0.160174529000))
+    row.names(expected) <- c("1", "1.1", "2", "2.1", "3", "3.1")
     
     expect_equal(results, expected)
 })
@@ -117,9 +121,11 @@ test_that("segsample() must return expected results when using parameter times 0
     
     expected <- data.frame(StartProbe=c(1, 1, 1, 7, 7, 7, 13, 13, 13),
                            EndProbe=c(6, 6, 6, 12, 12, 12, 15, 15, 15),
-                           results=c(0.09305272500, 0.13718670400, 0.10648332200, 0.02988955050,
-                                     0.08196180100, 0.07512943200, 0.10944947400, 0.16017452900,
-                                     0.10944947400))
+                           results=c(0.095993879500, -0.005384946000, 
+                                        0.093052725000, 0.086624752000,
+                                        -0.003855011000, 0.081961801000, 
+                                        0.160174529000, 0.109449474000,
+                                        0.109449474000))
     row.names(expected) <- c("1", "1.1", "1.2", "2", "2.1", "2.2", "3", "3.1", "3.2")
     
     expect_equal(results, expected)
@@ -144,7 +150,7 @@ test_that("segsample() must return error when times and blocksize not set", {
                  message)
 })
 
-test_that("segsample() must return error both times and blocksize set", {
+test_that("segsample() must return error when both times and blocksize set", {
     
     message = "Only one of blocksize or times can be set"
     segData <- data.frame(StartProbe=c(1, 7, 13),

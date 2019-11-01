@@ -322,8 +322,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
         madcol<-"segmad"
         errorcol<-"segerr"
     }
-    if(!(is.null(normalength)|is.null(normalmedian)|is.null(medcol))){
-        if(is.null(bpstartcol)|is.null(bpendcol)){  #try to annotate
+    if (!(is.null(normalength)|is.null(normalmedian)|is.null(medcol))) {
+        if (is.null(bpstartcol)|is.null(bpendcol)) {  #try to annotate
             if(is.null(startcol)|is.null(endcol)|is.null(annot)|is.null(annotstartcol)
                 |is.null(annotendcol))stop("Insufficient annotation for comparison")
             tumorlength <- annot[segall[,endcol],annotendcol]-
