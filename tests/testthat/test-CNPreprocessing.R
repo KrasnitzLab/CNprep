@@ -245,3 +245,27 @@ test_that("CNpreprocessing() must return expected results when not idcol and no 
     expect_equal(results, expected)
 })
 
+test_that("CNpreprocessing() must return expected error when not startcol and no bpstartcol", {
+    
+    message <- "Unable to proceed: incomplete segment annotation"
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+                               startcol=NULL,  endcol="end", chromcol="chrom", bpstartcol=NULL, 
+                               bpendcol="chrom.pos.end",
+                               blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                               distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                               normalmedian=normSegs, myseed = 444), message)
+})
+
+test_that("CNpreprocessing() must return expected error when not startcol and no annotation table", {
+    
+    message <- "No annotation table; unable to determine boundary probes/bin"
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", 
+                                 startcol=NULL,  endcol="end", chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                 bpendcol="chrom.pos.end",
+                                 blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=1,
+                                 distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                 normalmedian=normSegs, myseed = 444), message)
+})
+
