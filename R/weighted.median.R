@@ -20,7 +20,7 @@
 #' weight <- c(1, 1, 1, 1, 0, 0, 0, 0)
 #' 
 #' ## Calculation of the weighted median
-#' CNprep:::weighted.median(v=values, weights=weight)
+#' CNprep:::weighted.median(v = values, weights = weight)
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
@@ -29,5 +29,5 @@ weighted.median <- function(v, weights)
     weights <- weights[order(v)]
     v <- sort(v)
     sw <- sum(weights)
-    return(v[which.min(abs(cumsum(weights)-0.5*sw))])
+    return(v[which.min(abs(cumsum(weights) - 0.5 * sw))])
 }
