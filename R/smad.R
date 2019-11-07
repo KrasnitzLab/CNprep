@@ -2,8 +2,8 @@
 #' a contiguous subsection of specified vector.
 #' 
 #' @description Compute the median absolute deviation for a specified vector of
-#' values.  Only a contiguous subsection of the vector is used for the calculation, as 
-#' the first and last position are set by user.
+#' values.  Only a contiguous subsection of the vector is used for the 
+#' calculation, as the first and last position are set by user.
 #' 
 #' @param pos a \code{vector} of 2 \code{integer} that represent the first and 
 #' last positions of \code{vector} \code{v} to used for the calculation.
@@ -31,5 +31,5 @@
 #' @importFrom stats mad
 #' @keywords internal
 smad <- function(pos, v) {
-    mad(v[pos[1]:pos[2]], na.rm=TRUE)
+    mad(v[pos[1]:pos[2]], na.rm = TRUE)
 }
