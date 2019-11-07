@@ -29,7 +29,7 @@ values <- c(0.06363411, 0.04342896, 0.07207384, 0.07319237, 0.07273546,
 weight <- c(1, 1, 1, 1, 0, 0, 0, 0)
 
 ## Calculation of the weighted median
-CNprep:::weighted.median(v=values, weights=weight)
+CNprep:::weighted.median(v = values, weights = weight)
 
 }
 \author{

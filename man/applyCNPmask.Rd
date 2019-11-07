@@ -102,36 +102,39 @@ data(normsegs)
 data(cnpexample)
 
 ## Create a table with segment information
-segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
-    ratall=ratexample, idcol="ID", startcol="start", endcol="end",
-    chromcol="chrom", bpstartcol="chrom.pos.start", 
-    bpendcol="chrom.pos.end", blsize=50, minjoin=0.25, cweight=0.4,
-    bstimes=50, chromrange=1:22, distrib="vanilla", njobs=1, modelNames="E",
-    normalength=normsegs[,1], normalmedian=normsegs[,2])
+segtable <- CNpreprocessing(segall = segexample[segexample[,"ID"] == "WZ1",],
+    ratall = ratexample, idcol = "ID", startcol = "start", endcol = "end",
+    chromcol = "chrom", bpstartcol = "chrom.pos.start", 
+    bpendcol = "chrom.pos.end", blsize = 50, minjoin = 0.25, cweight = 0.4,
+    bstimes = 50, chromrange = 1:22, distrib = "vanilla", njobs = 1, 
+    modelNames = "E", normalength = normsegs[,1], 
+    normalmedian = normsegs[,2])
 
 ## Form a eventIndex vector
-eventIndex <- rep(0,nrow(segtable))
-eventIndex[segtable[,"marginalprob"]<1e-4 & segtable[,"negtail"]> 0.999 & 
-    segtable[,"mediandev"]<0] <- -1
-eventIndex[segtable[,"marginalprob"]<1e-4 & segtable[,"negtail"]> 0.999 &
-    segtable[,"mediandev"]>0] <- 1
-segtable <- cbind(segtable,eventIndex)
+eventIndex <- rep(0, nrow(segtable))
+eventIndex[segtable[,"marginalprob"] < 1e-4 & segtable[,"negtail"] > 0.999 & 
+    segtable[,"mediandev"] < 0] <- -1
+eventIndex[segtable[,"marginalprob"] < 1e-4 & segtable[,"negtail"] > 0.999 &
+    segtable[,"mediandev"] > 0] <- 1
+segtable <- cbind(segtable, eventIndex)
 
 ## Form a cnpindex vector
-namps17 <- cnpexample[cnpexample[,"copy.num"]=="amp",]
-aCNPmask <- makeCNPmask(imat=namps17, chromcol=2, startcol=3, endcol=4,
-    nprof=1203, uthresh=0.02, dthresh=0.008)
-ndels17 <- cnpexample[cnpexample[,"copy.num"]=="del",]
-dCNPmask <- makeCNPmask(imat=ndels17, chromcol=2, startcol=3, endcol=4,
-    nprof=1203, uthresh=0.02, dthresh=0.008)
-cnptable <- rbind(cbind(aCNPmask, cnpindex=1), cbind(dCNPmask, cnpindex=-1))
+namps17 <- cnpexample[cnpexample[,"copy.num"] == "amp",]
+aCNPmask <- makeCNPmask(imat = namps17, chromcol = 2, startcol = 3, 
+    endcol = 4, nprof = 1203, uthresh = 0.02, dthresh = 0.008)
+ndels17 <- cnpexample[cnpexample[,"copy.num"] == "del",]
+dCNPmask <- makeCNPmask(imat = ndels17, chromcol = 2, startcol = 3, 
+    endcol = 4, nprof = 1203, uthresh = 0.02, dthresh = 0.008)
+cnptable <- rbind(cbind(aCNPmask, cnpindex = 1), 
+    cbind(dCNPmask, cnpindex = -1))
 
 ## Run the CNPmask
-myCNPtable <- applyCNPmask(segtable=segtable, chrom="chrom",
-    startPos="chrom.pos.start", endPos="chrom.pos.end", startProbe="start", 
-    endProbe="end", eventIndex="eventIndex",masktable=cnptable,
-    maskchrom="chrom", maskstart="start", maskend="end",
-    maskindex="cnpindex", mincover=0.005,indexvals=c(-1,1))
+myCNPtable <- applyCNPmask(segtable = segtable, chrom = "chrom",
+    startPos = "chrom.pos.start", endPos = "chrom.pos.end", 
+    startProbe = "start", endProbe = "end", eventIndex = "eventIndex",
+    masktable = cnptable, maskchrom = "chrom", maskstart = "start", 
+    maskend = "end", maskindex = "cnpindex", mincover = 0.005,
+    indexvals = c(-1, 1))
 
 ## Show some results
 head(myCNPtable)

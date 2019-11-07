@@ -20,8 +20,8 @@ a \code{double} which is the median of the values.
 }
 \description{
 Calculate the median of the values from a specified vector. 
-Only a contiguous subsection of the vector is used for the calculation, as the first 
-and last position are set by user.
+Only a contiguous subsection of the vector is used for the calculation, as 
+the first and last position are set by user.
 }
 \examples{
 
@@ -34,7 +34,7 @@ values <- c(0.072073840, 0.119913919, 0.154459489, 0.040994620, -0.082843732,
     0.012126180, 0.043428961, 0.028435453, 0.075708220, 0.020358061)
 
 ## Calculate the median of the values from the subsetted vector
-CNprep:::smedian(pos=position, v=values)
+CNprep:::smedian(pos = position, v = values)
 
 }
 \author{
