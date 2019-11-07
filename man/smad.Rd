@@ -20,8 +20,8 @@ a \code{double} which is the median of the values.
 }
 \description{
 Compute the median absolute deviation for a specified vector of
-values.  Only a contiguous subsection of the vector is used for the calculation, as 
-the first and last position are set by user.
+values.  Only a contiguous subsection of the vector is used for the 
+calculation, as the first and last position are set by user.
 }
 \examples{
 
