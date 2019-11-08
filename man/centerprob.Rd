@@ -7,7 +7,7 @@
 centerprob(logr, emfit, zgroup, times, center)
 }
 \arguments{
-\item{logr}{TODO}
+\item{logr}{TODO a \code{vector} of \code{numeric}}
 
 \item{emfit}{An object of class \code{Mclust} providing a 
 mixture model estimation.}
@@ -17,7 +17,7 @@ mixture model estimation.}
 \item{center}{TODO}
 }
 \value{
-TODO
+TODO a \code{vector} of \code{numeric}
 }
 \description{
 TODO
