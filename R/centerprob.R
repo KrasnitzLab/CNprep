@@ -7,7 +7,9 @@
 #' @param emfit An object of class \code{Mclust} providing a 
 #' mixture model estimation. 
 #' 
-#' @param times TODO
+#' @param times A single \code{double} value specifying the number of 
+#' time the median of each segment is sampled in order to predict the cluster 
+#' assignment for the segment.
 #' 
 #' @param center TODO
 #' 

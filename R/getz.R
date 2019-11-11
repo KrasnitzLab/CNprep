@@ -9,7 +9,9 @@
 #' 
 #' @param zgroup TODO
 #' 
-#' @param times TODO
+#' @param times A single \code{double} value specifying the number of 
+#' time the median of each segment is sampled in order to predict the cluster 
+#' assignment for the segment.
 #' 
 #' @return TODO
 #' 

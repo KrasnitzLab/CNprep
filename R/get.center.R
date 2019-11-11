@@ -2,7 +2,8 @@
 #' 
 #' @description TODO
 #' 
-#' @param emfit TODO 
+#' @param emfit An object of class \code{Mclust} providing a 
+#' mixture model estimation. 
 #' 
 #' @param mincenter TODO
 #' 

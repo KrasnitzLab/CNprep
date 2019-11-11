@@ -12,7 +12,9 @@ centerprob(logr, emfit, zgroup, times, center)
 \item{emfit}{An object of class \code{Mclust} providing a 
 mixture model estimation.}
 
-\item{times}{TODO}
+\item{times}{A single \code{double} value specifying the number of 
+time the median of each segment is sampled in order to predict the cluster 
+assignment for the segment.}
 
 \item{center}{TODO}
 }
