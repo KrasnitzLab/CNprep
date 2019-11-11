@@ -7,7 +7,8 @@
 get.center(emfit, mincenter)
 }
 \arguments{
-\item{emfit}{TODO}
+\item{emfit}{An object of class \code{Mclust} providing a 
+mixture model estimation.}
 
 \item{mincenter}{TODO}
 }
