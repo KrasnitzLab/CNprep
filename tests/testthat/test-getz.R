@@ -32,7 +32,7 @@ test_that("getz() must return expected results 01", {
                                 8.4843243542e-13, 1.0000000000e+00, 9.9999908204e-01,
                                 7.1054273576e-15, 3.2942020223e-09, 1.0000000000e+00,
                                 4.4237131507e-32, 0.0000000000e+00, 1.0000000000e+00,
-                                0.0000000000e+00, 0.0000000000e+00), byrow = F, nrow=5)
+                                0.0000000000e+00, 0.0000000000e+00), byrow = FALSE, nrow=5)
     
     
     results <- CNprep:::getz(logr = logr, emfit = EMexample, zgroup = zgroup, 
@@ -64,7 +64,7 @@ test_that("getz() must return expected results 02", {
     
     
     expected <- matrix(data = c(rep(1.0000000000e+00, 5), 
-                                rep(0.0000000000e+00, 20)), byrow = F, nrow=5)
+                                rep(0.0000000000e+00, 20)), byrow = FALSE, nrow=5)
     
     
     results <- CNprep:::getz(logr = logr, emfit = tempEM, zgroup = zgroup, 
