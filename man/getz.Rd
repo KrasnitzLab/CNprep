@@ -9,7 +9,8 @@ getz(logr, emfit, zgroup, times)
 \arguments{
 \item{logr}{TODO}
 
-\item{emfit}{TODO}
+\item{emfit}{An object of class \code{Mclust} providing a 
+mixture model estimation.}
 
 \item{zgroup}{TODO}
 
