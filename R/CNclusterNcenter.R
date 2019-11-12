@@ -55,7 +55,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     ## Create and assign seeds
     .lec.CreateStream(segrat$stream)
     .lec.SetSeed(segrat$stream,seedme)
-    for( j in 1:segrat$sub) .lec.ResetNextSubstream(segrat$stream)
+    for( j in seq_len(segrat$sub)) .lec.ResetNextSubstream(segrat$stream)
         .lec.CurrentStream(segrat$stream)
 
     startcol<-"StartProbe"
@@ -80,7 +80,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     
     ratuse <- segrat$rat[aux == 1]
 
-    for(j in 1:ntrial) {
+    for(j in seq_len(ntrial)) {
         aaa <- segsample(seguse, ratuse, blocksize = blsize)
         if (all(unique(aaa[,3]) == 0)) { 
             aaa[,3] <- 1e-10 
@@ -112,7 +112,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     segzall <- getz(segs[,3], bestem, newem$groups, times = bstimes)
     centerz <- segzall[, newem$center]
     maxz <- segzall[nrow(segzall) * (max.col(segzall) - 1) + 
-                            (1:nrow(segzall))]
+                            (seq_len(nrow(segzall)))]
     
     maxzcol <- max.col(segzall)
     maxzmean <- newem$mu[maxzcol] - newem$mu[newem$center]
@@ -125,6 +125,6 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     .lec.CurrentStreamEnd()
     .lec.DeleteStream(segrat$stream)
         
-    return(cbind(segrat$seg[, medcol], segrat$seg[, madcol], mediandev, segerr, 
+    return(cbind(segrat$seg[, medcol], segrat$seg[,madcol], mediandev, segerr, 
                     centerz, cpb, maxz, maxzmean, maxzsigma))
 }
