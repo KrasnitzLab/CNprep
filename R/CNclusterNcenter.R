@@ -58,11 +58,11 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     for( j in seq_len(segrat$sub)) .lec.ResetNextSubstream(segrat$stream)
         .lec.CurrentStream(segrat$stream)
 
-    startcol<-"StartProbe"
-    endcol<-"EndProbe"
-    chromcol<-"chrom"
-    medcol<-"segmedian"
-    madcol<-"segmad"
+    startcol <- "StartProbe"
+    endcol   <- "EndProbe"
+    chromcol <- "chrom"
+    medcol   <- "segmedian"
+    madcol   <- "segmad"
 
     segrat$seg<-cbind(segrat$seg,
                         t(apply(segrat$seg[,c(startcol, endcol, chromcol),
