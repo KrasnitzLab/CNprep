@@ -1,33 +1,62 @@
-#' @title TODO
+#' @title Redistribute probes/bins in removed segments into the adjacent 
+#' segments.
 #' 
-#' @description TODO
+#' @description This function redistributes the probes/bins from a removed 
+#' segment into the adjacent segments for one specific chromosome at the time.
 #' 
-#' @param segtable a \code{matrix} or a \code{data.frame} TODO 
+#' @param segtable a \code{matrix} or a \code{data.frame} with 3 columns 
+#' named or enumerated by the values of 
+#' \code{StartProbe, EndProbe, gapind}. 
 #' 
-#' @param gapind a \code{character} string TODO
+#' @param gapind a \code{character} string specifying the name of the column
+#' in \code{segtable} that tabulates the segments to remove. The value \code{1}
+#' identifies segments to remove while \code{0} identifies segments to keep.
 #' 
-#' @param StartProbe a \code{character} string specifying the names of 
-#' columns in \code{segtable} that tabulates the (integer) start postion 
+#' @param StartProbe a \code{character} string specifying the name of the 
+#' column in \code{segtable} that tabulates the (integer) start postion 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
-#' @param EndProbe a \code{character} string specifying the names of 
-#' columns in \code{segtable} that tabulates the (integer) end postion 
+#' @param EndProbe a \code{character} string specifying the name of the
+#' column in \code{segtable} that tabulates the (integer) end postion 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
-#' @return TODO
+#' @return a \code{matrix} of \code{numeric} with 2 columns: 
+#' \enumerate{
+#'     \item the updated start position (integer) of each segment in internal 
+#'     units. This column has the same name than the \code{StartProbe} 
+#'     parameter.
+#'     \item the updated end position (integer) of each segment in internal 
+#'     units. This column has the same name than the \code{EndProbe} parameter.
+#' }
 #' 
 #' @examples
 #' 
-#' # TODO
+#' # Table containing information about segments in the chromosome
+#' # The table must have a column with the information about segments
+#' # to be removed
+#' segTable <- data.frame(ID = c(rep("WZ1", 5)), 
+#'     start = c(1, 16, 23, 31, 38),
+#'     end = c(15, 22, 30, 37, 50),
+#'     seg.median = c(0.03779, -0.51546, 0.2431, -0.2259, 0.0372),
+#'     chrom = c(rep(1, 5)),
+#'     chrom.pos.start = c(932544, 16004440, 38093655, 78729960, 103416416),
+#'     chrom.pos.end = c(15844870, 37974708, 78619856, 103394039, 142176090),
+#'     eventIndex = c(0, 0, 1, 0, -1),
+#'     toremove = c(0, 1, 0, 1, 0))
+#'     
+#' # This function redistributes the bins/probes from a removed segment into 
+#' # the adjacent segments  
+#' CNprep:::breakIntoGaps(segtable = segTable, gapind = "toremove",
+#'     StartProbe = "start", EndProbe = "end")
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @importFrom stats runif
 #' @keywords internal
 breakIntoGaps <- function(segtable, gapind, StartProbe, EndProbe) {
     
-    ## There is no bin to remove, the positions can be returned without 
+    ## There is no probe/bin to remove, the positions can be returned without 
     ## modification
     if (sum(segtable[, gapind]) == 0) {
         return(as.matrix(segtable[, c(StartProbe, EndProbe)]))
@@ -37,7 +66,7 @@ breakIntoGaps <- function(segtable, gapind, StartProbe, EndProbe) {
     gapstart <- which(gapstep == 1)
     gapend   <- which(gapstep == -1) - 1
     
-    if(length(gapend) < length(gapstart)) {
+    if (length(gapend) < length(gapstart)) {
         gapend <- c(gapend, nrow(segtable))
     }
     

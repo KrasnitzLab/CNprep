@@ -1,6 +1,8 @@
-#' @title Redistribute bins in removed segments into the adjacent segments
+#' @title Determine which segments have to be removed and redistribute 
+#' probes/bins in removed segments
 #' 
-#' @description This function redistributes the bins from a removed segment 
+#' @description This function determines which segments have to be removed and
+#' redistributes the probes/bins from a removed segment 
 #' into the adjacent segments for one specific chromosome at the time.
 #' 
 #' @param segtable a \code{matrix} or a \code{data.frame} with columns 
@@ -18,17 +20,17 @@
 #' name or number of columns in \code{segtable} that tabulates the (integer) 
 #' genomic end coordinate of each segment.
 #' 
-#' @param startProbe a \code{character} string specifying the names of 
-#' columns in \code{segtable} that tabulates the (integer) start postion 
+#' @param startProbe a \code{character} string specifying the name of 
+#' column in \code{segtable} that tabulates the (integer) start position 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
-#' @param endProbe a \code{character} string specifying the names of 
-#' columns in \code{segtable} that tabulates the (integer) end postion 
+#' @param endProbe a \code{character} string specifying the name of the
+#' column in \code{segtable} that tabulates the (integer) end position 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
-#' @param eventIndex a \code{character} string giving the name of a column in 
+#' @param eventIndex a \code{character} string giving the name of the column in 
 #' \code{segtable} where copy number variation status of the segments is 
 #' tabulated. 
 #' 
@@ -60,7 +62,16 @@
 #' with values in \code{eventIndex} to 
 #' determine the events that are to be masked.
 #' 
-#' @return TODO
+#' @return a \code{matrix} of \code{numeric} with 3 columns: 
+#' \enumerate{
+#'     \item the updated start position (integer) of each segment in internal 
+#'     units. This column has the same name than the \code{startProbe} 
+#'     parameter.
+#'     \item the updated end position (integer) of each segment in internal 
+#'     units. This column has the same name than the \code{endProbe} parameter.
+#'     \item \code{0} when the segment is retained, \code{1} when the segment
+#'     is removed. This column is called "toremove".
+#' }
 #'
 #' @examples
 #'
@@ -79,8 +90,8 @@
 #'     c(11844870, 48619856, 182176090), rep(1,3)), ncol = 4, byrow = FALSE,
 #'     dimnames=list(NULL, c("chrom", "start", "end", "cnpindex")))
 #'     
-#' # This function redistributes the bins from a removed segment into the 
-#' # adjacent segments  
+#' # This function redistributes the bins/probes from a removed segment into 
+#' # the adjacent segments  
 #' CNprep:::breakIntoCNPs.chrom(segtable = segTable, chrom = "chrom", 
 #'     startPos = "chrom.pos.start", endPos = "chrom.pos.end", 
 #'     startProbe = "start", endProbe = "end", 
@@ -105,6 +116,7 @@ breakIntoCNPs.chrom <- function(segtable, chrom, startPos, endPos, startProbe,
     
     cnpsinchr <- cnptable[cnptable[, cnpchrom] == chr,, drop = FALSE]
     
+    ## Select segments that should be removed
     for (i in indexvals) {
         if (sum(segtable[,eventIndex] == i) > 0 & 
                     sum(cnpsinchr[, cnpindex] == i) > 0) {
