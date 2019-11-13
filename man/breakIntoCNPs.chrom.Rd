@@ -2,7 +2,7 @@
 % Please edit documentation in R/breakIntoCNPs.chrom.R
 \name{breakIntoCNPs.chrom}
 \alias{breakIntoCNPs.chrom}
-\title{TODO}
+\title{Redistribute bins in removed segments into the adjacent segments}
 \usage{
 breakIntoCNPs.chrom(segtable, chrom, startPos, endPos, startProbe,
   endProbe, eventIndex, cnptable, cnpchrom, cnpstart, cnpend, cnpindex,
@@ -70,11 +70,35 @@ determine the events that are to be masked.}
 TODO
 }
 \description{
-TODO
+This function redistributes the bins from a removed segment 
+into the adjacent segments for one specific chromosome at the time.
 }
 \examples{
 
-# TODO
+# Table containing information about segments in the chromosome
+segTable <- data.frame(ID = c(rep("WZ1", 5)), 
+    start = c(1, 16, 23, 31, 38),
+    end = c(15, 22, 30, 37, 50),
+    seg.median = c(0.03779, -0.51546, 0.2431, -0.2259, 0.0372),
+    chrom = c(rep(1, 5)),
+    chrom.pos.start = c(932544, 16004440, 38093655, 78729960, 103416416),
+    chrom.pos.end = c(15844870, 37974708, 78619856, 103394039, 142176090),
+    eventIndex = c(0, 0, 1, 0, -1))
+    
+# Table with copy number information
+cnptable <- matrix(c(rep(1, 3), c(932544, 38093688, 123416446), 
+    c(11844870, 48619856, 182176090), rep(1,3)), ncol = 4, byrow = FALSE,
+    dimnames=list(NULL, c("chrom", "start", "end", "cnpindex")))
+    
+# This function redistributes the bins from a removed segment into the 
+# adjacent segments  
+CNprep:::breakIntoCNPs.chrom(segtable = segTable, chrom = "chrom", 
+    startPos = "chrom.pos.start", endPos = "chrom.pos.end", 
+    startProbe = "start", endProbe = "end", 
+    eventIndex = "eventIndex", 
+    cnptable = cnptable, cnpchrom = "chrom",  
+    cnpstart = "start", cnpend = "end", cnpindex = "cnpindex", 
+    mincover = 0.005, indexvals = c(-1, 1))
 
 }
 \author{
