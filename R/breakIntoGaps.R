@@ -1,22 +1,35 @@
-#' @title TODO
+#' @title Redistribute probes/bins in removed segments into the adjacent 
+#' segments.
 #' 
-#' @description TODO
+#' @description This function redistributes the probes/bins from a removed 
+#' segment into the adjacent segments for one specific chromosome at the time.
 #' 
-#' @param segtable a \code{matrix} or a \code{data.frame} TODO 
+#' @param segtable a \code{matrix} or a \code{data.frame} with 3 columns 
+#' named or enumerated by the values of 
+#' \code{StartProbe, EndProbe, gapind}. 
 #' 
-#' @param gapind a \code{character} string TODO
+#' @param gapind a \code{character} string specifying the name of the column
+#' in \code{segtable} that tabulates the segments to remove. The value \code{1}
+#' identifies segments to remove while \code{0} identifies segments to keep.
 #' 
-#' @param StartProbe a \code{character} string specifying the names of 
-#' columns in \code{segtable} that tabulates the (integer) start postion 
+#' @param StartProbe a \code{character} string specifying the name of the 
+#' column in \code{segtable} that tabulates the (integer) start postion 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
-#' @param EndProbe a \code{character} string specifying the names of 
-#' columns in \code{segtable} that tabulates the (integer) end postion 
+#' @param EndProbe a \code{character} string specifying the name of the
+#' column in \code{segtable} that tabulates the (integer) end postion 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
-#' @return TODO
+#' @return a \code{matrix} of \code{numeric} with 2 columns: 
+#' \enumerate{
+#'     \item the updated start position (integer) of each segment in internal 
+#'     units. This column has the same name than the \code{StartProbe} 
+#'     parameter.
+#'     \item the updated end position (integer) of each segment in internal 
+#'     units. This column has the same name than the \code{EndProbe} parameter.
+#' }
 #' 
 #' @examples
 #' 
@@ -27,7 +40,7 @@
 #' @keywords internal
 breakIntoGaps <- function(segtable, gapind, StartProbe, EndProbe) {
     
-    ## There is no bin to remove, the positions can be returned without 
+    ## There is no probe/bin to remove, the positions can be returned without 
     ## modification
     if (sum(segtable[, gapind]) == 0) {
         return(as.matrix(segtable[, c(StartProbe, EndProbe)]))

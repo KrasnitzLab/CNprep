@@ -2,30 +2,43 @@
 % Please edit documentation in R/breakIntoGaps.R
 \name{breakIntoGaps}
 \alias{breakIntoGaps}
-\title{TODO}
+\title{Redistribute probes/bins in removed segments into the adjacent 
+segments.}
 \usage{
 breakIntoGaps(segtable, gapind, StartProbe, EndProbe)
 }
 \arguments{
-\item{segtable}{a \code{matrix} or a \code{data.frame} TODO}
+\item{segtable}{a \code{matrix} or a \code{data.frame} with 3 columns 
+named or enumerated by the values of 
+\code{StartProbe, EndProbe, gapind}.}
 
-\item{gapind}{a \code{character} string TODO}
+\item{gapind}{a \code{character} string specifying the name of the column
+in \code{segtable} that tabulates the segments to remove. The value \code{1}
+identifies segments to remove while \code{0} identifies segments to keep.}
 
-\item{StartProbe}{a \code{character} string specifying the names of 
-columns in \code{segtable} that tabulates the (integer) start postion 
+\item{StartProbe}{a \code{character} string specifying the name of the 
+column in \code{segtable} that tabulates the (integer) start postion 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 
-\item{EndProbe}{a \code{character} string specifying the names of 
-columns in \code{segtable} that tabulates the (integer) end postion 
+\item{EndProbe}{a \code{character} string specifying the name of the
+column in \code{segtable} that tabulates the (integer) end postion 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 }
 \value{
-TODO
+a \code{matrix} of \code{numeric} with 2 columns: 
+\enumerate{
+    \item the updated start position (integer) of each segment in internal 
+    units. This column has the same name than the \code{StartProbe} 
+    parameter.
+    \item the updated end position (integer) of each segment in internal 
+    units. This column has the same name than the \code{EndProbe} parameter.
+}
 }
 \description{
-TODO
+This function redistributes the probes/bins from a removed 
+segment into the adjacent segments for one specific chromosome at the time.
 }
 \examples{
 
