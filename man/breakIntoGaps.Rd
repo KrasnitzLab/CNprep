@@ -42,7 +42,23 @@ segment into the adjacent segments for one specific chromosome at the time.
 }
 \examples{
 
-# TODO
+# Table containing information about segments in the chromosome
+# The table must have a column with the information about segments
+# to be removed
+segTable <- data.frame(ID = c(rep("WZ1", 5)), 
+    start = c(1, 16, 23, 31, 38),
+    end = c(15, 22, 30, 37, 50),
+    seg.median = c(0.03779, -0.51546, 0.2431, -0.2259, 0.0372),
+    chrom = c(rep(1, 5)),
+    chrom.pos.start = c(932544, 16004440, 38093655, 78729960, 103416416),
+    chrom.pos.end = c(15844870, 37974708, 78619856, 103394039, 142176090),
+    eventIndex = c(0, 0, 1, 0, -1),
+    toremove = c(0, 1, 0, 1, 0))
+    
+# This function redistributes the bins/probes from a removed segment into 
+# the adjacent segments  
+CNprep:::breakIntoGaps(segtable = segTable, gapind = "toremove",
+    StartProbe = "start", EndProbe = "end")
 
 }
 \author{
