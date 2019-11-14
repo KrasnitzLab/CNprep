@@ -57,33 +57,34 @@ in the study (typically log ratios), tabulates the (numeric) values for
 the error (\code{errorcol}) related to  
 the function (\code{medcol}) for the segment.}
 
-\item{chromcol}{A character string specifying the name for the column in 
-\code{segall} tabulating the (integer) chromosome number for each segment.}
+\item{chromcol}{A \code{character} string specifying the name for the 
+column in \code{segall} tabulating the (integer) chromosome number for 
+each segment.}
 
-\item{bpstartcol}{A character string specifying the name of 
+\item{bpstartcol}{A \code{character} string specifying the name of 
 column in \code{segall} that tabulates the (integer) genomic start 
 coordinate of each segment.}
 
-\item{bpendcol}{A character string specifying the name of 
+\item{bpendcol}{A \code{character} string specifying the name of 
 column in \code{segall} that tabulates the (integer) genomic end 
 coordinate of each segment.}
 
-\item{annot}{A matrix or a data frame that contains the annotation for 
+\item{annot}{A matrix or a \code{data.frame} that contains the annotation for 
 the copy number measurement platform in the study. It is generally expected 
 to contain columns with names specified by 
 \code{annotstartcol, annotendcol, annotchromcol}.}
 
-\item{annotstartcol}{A character string 
+\item{annotstartcol}{A \code{character} string 
 specifying the name of column in \code{annot} that tabulates the (integer) 
 genomic start coordinates in case of CGH
 microarrays.}
 
-\item{annotendcol}{A character string 
+\item{annotendcol}{A \code{character} string 
 specifying the name of column in \code{annot} that tabulates the (integer) 
 genomic end coordinates in case of CGH
 microarrays.}
 
-\item{annotchromcol}{A character string 
+\item{annotchromcol}{A \code{character} string 
 specifying the name of column in \code{annot} that tabulates the chromosome
 number for each copy number measuring unit, such as a probe in case of CGH
 microarrays.}
@@ -104,7 +105,7 @@ degree of overlap above which two clusters will be joined into one.}
 
 \item{ntrial}{A single integer specifying the number of times a model-based 
 clustering is attempted for each profile in order to achieve the 
-highest Bayesian information criterion (BIC).}
+highest Bayesian information criterion (BIC). The default is \code{10}.}
 
 \item{bestbic}{A single \code{numeric} value for initalizing BIC 
 maximization. A large negative value is recommended. The default 
@@ -135,23 +136,23 @@ for multi-core processing.}
 \item{njobs}{A single integer specifying the number of worker jobs 
 to create in case of distributed computation. Default: \code{1}.}
 
-\item{normalength}{An integer vector specifying the genomic lengths of 
-segments in the normal reference data.}
+\item{normalength}{An integer \code{vector} specifying the genomic lengths 
+of segments in the normal reference data.}
 
-\item{normalmedian}{A numeric vector, 
+\item{normalmedian}{A numeric \code{vector}, 
 of the same length as \code{normalength}, specifying the segment values
 of the normal reference segments.}
 
-\item{normalmad}{A numeric vector, 
+\item{normalmad}{A numeric \code{vector}, 
 of the same length as \code{normalength}, specifying the value spreads 
 of the normal reference segments.}
 
-\item{normalerror}{A numeric vector, 
+\item{normalerror}{A numeric \code{vector}, 
 of the same length as \code{normalength}, specifying the error values
 of the normal reference segments.}
 }
 \value{
-The input \code{segall} data frame to which some or all of 
+The input \code{segall} \code{data.frame} to which some or all of 
 the following columns may be bound, depending on the availability of input:
 \itemize{
 \item{segmedian}{Median function of copy number}
