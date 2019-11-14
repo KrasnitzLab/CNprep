@@ -275,6 +275,43 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
 })
 
 
+test_that("CNpreprocessing() must return expected error when annotation table given without end column name and useend set to TRUE", {
+    
+    message <- paste0("End column name required but not provided in annotation table\n")
+    
+    annotationTmp <- data.frame(PROBEID=c(paste0("ZZ-", 1:10)), CHROM=c(rep(1, 10)), CHROM.POS=c(932544, 1036579, 1212746,
+                                                                                                 1750583, 1750999, 1760583,
+                                                                                                 1850583, 100394039, 101394030,
+                                                                                                 106394039))
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", useend = TRUE,
+                                 startcol=NULL,  endcol=NULL, chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                 bpendcol="chrom.pos.end", annot = annotationTmp, annotchromcol = "CHROM",
+                                 annotstartcol="CHROM.POS",annotendcol=NULL,
+                                 blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=NULL,
+                                 distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                 normalmedian=normSegs, myseed = 444), message)
+})
+
+test_that("CNpreprocessing() must return expected error when annotation table given without end column name and useend set to FALSE", {
+    
+    message <- paste0("Incomplete start and end annotation of segments")
+    
+    annotationTmp <- data.frame(PROBEID=c(paste0("ZZ-", 1:10)), CHROM=c(rep(1, 10)), CHROM.POS=c(932544, 1036579, 1212746,
+                                                                                                 1750583, 1750999, 1760583,
+                                                                                                 1850583, 100394039, 101394030,
+                                                                                                 106394039))
+    
+    expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idcol="ID", useend = FALSE,
+                                 startcol=NULL,  endcol=NULL, chromcol="chrom", bpstartcol="chrom.pos.start", 
+                                 bpendcol="chrom.pos.end", annot = annotationTmp, annotchromcol = "CHROM",
+                                 annotstartcol="CHROM.POS",annotendcol=NULL,
+                                 blsize=5, minjoin=0.25, cweight=0.4, bstimes=1, chromrange=NULL,
+                                 distrib="vanilla", njobs=1, modelNames="E", normalength=normalLength,
+                                 normalmedian=normSegs, myseed = 444), message)
+})
+
+
 test_that("CNpreprocessing() must return expected error when not startcol and no annotation table", {
     
     message <- "No annotation table; unable to determine boundary probes/bin"
