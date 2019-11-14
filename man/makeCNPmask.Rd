@@ -8,32 +8,36 @@ makeCNPmask(imat, chromcol = 1, startcol = 2, endcol = 3,
   nprof = 1, uthresh, dthresh)
 }
 \arguments{
-\item{imat}{A matrix or a data frame tabulating the chromosome number and 
-endpoint positions of the interval events.}
+\item{imat}{A \code{matrix} or a \code{data.frame} tabulating the chromosome 
+numbers and endpoint positions of the interval events.}
 
-\item{chromcol}{A character string or integer 
-specifying the column of \code{imat} containing the chromosome number 
+\item{chromcol}{A \code{character} string or \code{numeric} representing an
+integer  
+specifying the column of \code{imat} containing the chromosome numbers 
 of the interval events.}
 
-\item{startcol}{A character string or integer 
+\item{startcol}{A \code{character} string or \code{numeric} representing an
+integer   
 specifying the column of \code{imat} containing the left (right) endpoint of
 the interval events.}
 
-\item{endcol}{A character string or integer 
+\item{endcol}{A \code{character} string or \code{numeric} representing an
+integer 
 specifying the column of \code{imat} containing the right endpoint 
 of the interval events.}
 
-\item{nprof}{An integer specifying the number of copy number profiles from 
-which the events originate.}
+\item{nprof}{An \code{numeric} acting as an integer specifying the number 
+of copy number profiles from which the events originated. Default: \code{1}.}
 
-\item{uthresh}{A numeric, specifying the upper threshold for 
+\item{uthresh}{A \code{numeric} specifying the upper threshold for 
 the event frequency or (if \code{nprof = 1}) for the event count.}
 
-\item{dthresh}{A numeric, specifying the upper and lower thresholds for 
+\item{dthresh}{A \code{numeric} specifying the upper and lower thresholds for 
 the event frequency or (if \code{nprof = 1}) for the event count.}
 }
 \value{
-An integer matrix with three columns, called 
+A \code{matrix} of \code{numeric} (used as integer) 
+with three columns, called 
 "chrom","start" and "end", specifying the chromosome number and 
 boundary positions of the mask.
 }

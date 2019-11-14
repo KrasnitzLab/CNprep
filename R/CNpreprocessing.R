@@ -48,33 +48,34 @@
 #' the error (\code{errorcol}) related to  
 #' the function (\code{medcol}) for the segment.
 #' 
-#' @param chromcol A character string specifying the name for the column in 
-#' \code{segall} tabulating the (integer) chromosome number for each segment.
+#' @param chromcol A \code{character} string specifying the name for the 
+#' column in \code{segall} tabulating the (integer) chromosome number for 
+#' each segment.
 #' 
-#' @param bpstartcol A character string specifying the name of 
+#' @param bpstartcol A \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic start 
 #' coordinate of each segment.
 #' 
-#' @param bpendcol A character string specifying the name of 
+#' @param bpendcol A \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic end 
 #' coordinate of each segment.
 #' 
-#' @param annot A matrix or a data frame that contains the annotation for 
+#' @param annot A matrix or a \code{data.frame} that contains the annotation for 
 #' the copy number measurement platform in the study. It is generally expected 
 #' to contain columns with names specified by 
 #' \code{annotstartcol, annotendcol, annotchromcol}.
 #' 
-#' @param annotstartcol A character string 
+#' @param annotstartcol A \code{character} string 
 #' specifying the name of column in \code{annot} that tabulates the (integer) 
 #' genomic start coordinates in case of CGH
 #' microarrays.
 #' 
-#' @param annotendcol A character string 
+#' @param annotendcol A \code{character} string 
 #' specifying the name of column in \code{annot} that tabulates the (integer) 
 #' genomic end coordinates in case of CGH
 #' microarrays.
 #' 
-#' @param annotchromcol A character string 
+#' @param annotchromcol A \code{character} string 
 #' specifying the name of column in \code{annot} that tabulates the chromosome
 #' number for each copy number measuring unit, such as a probe in case of CGH
 #' microarrays.
@@ -95,7 +96,7 @@
 #' 
 #' @param ntrial A single integer specifying the number of times a model-based 
 #' clustering is attempted for each profile in order to achieve the 
-#' highest Bayesian information criterion (BIC).
+#' highest Bayesian information criterion (BIC). The default is \code{10}.
 #' 
 #' @param bestbic A single \code{numeric} value for initalizing BIC 
 #' maximization. A large negative value is recommended. The default 
@@ -126,22 +127,22 @@
 #' @param njobs A single integer specifying the number of worker jobs 
 #' to create in case of distributed computation. Default: \code{1}.
 #' 
-#' @param normalength An integer vector specifying the genomic lengths of 
-#' segments in the normal reference data.
+#' @param normalength An integer \code{vector} specifying the genomic lengths 
+#' of segments in the normal reference data.
 #' 
-#' @param normalmedian A numeric vector, 
+#' @param normalmedian A numeric \code{vector}, 
 #' of the same length as \code{normalength}, specifying the segment values
 #' of the normal reference segments.
 #' 
-#' @param normalmad A numeric vector, 
+#' @param normalmad A numeric \code{vector}, 
 #' of the same length as \code{normalength}, specifying the value spreads 
 #' of the normal reference segments.
 #' 
-#' @param normalerror A numeric vector, 
+#' @param normalerror A numeric \code{vector}, 
 #' of the same length as \code{normalength}, specifying the error values
 #' of the normal reference segments.
 #' 
-#' @return The input \code{segall} data frame to which some or all of 
+#' @return The input \code{segall} \code{data.frame} to which some or all of 
 #' the following columns may be bound, depending on the availability of input:
 #' \itemize{
 #' \item{segmedian}{Median function of copy number}
@@ -316,7 +317,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
             names(profpack[[pn]]) <- c("seg", "rat", "stream", "sub")
             profpack[[pn]]$seg <-
                 segall[segall[,idcol] == pn, c(startcol, endcol, chromcol), 
-                        drop=FALSE]
+                        drop = FALSE]
             dimnames(profpack[[pn]]$seg)[[2]] <- c("StartProbe", 
                                                     "EndProbe", "chrom")
             profpack[[pn]]$rat <- ratall[,pn]
@@ -329,20 +330,20 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
         distrib <- match.arg(distrib)
 
         if (distrib=="Rparallel") {
-            ncores <- min(njobs,length(profnames),detectCores())
-            cl <- parallel::makeCluster(getOption("cl.cores",ncores))
+            ncores <- min(njobs, length(profnames), detectCores())
+            cl <- parallel::makeCluster(getOption("cl.cores", ncores))
             parallel::clusterEvalQ(cl=cl, expr=requireNamespace("rlecuyer"))
             parallel::clusterEvalQ(cl=cl, expr=requireNamespace("mclust"))
             parallel::clusterEvalQ(cl=cl, expr=requireNamespace("CNprep"))
         }
 
         processed<-switch(distrib,
-            vanilla=lapply(X=profpack, FUN=CNclusterNcenter, blsize=blsize,
-                minjoin=minjoin, ntrial=ntrial, bestbic=bestbic,
-                modelNames=modelNames, cweight=cweight, bstimes=bstimes, 
-                chromrange=chromrange, seedme=myseed),
-            Rparallel=parLapply(cl, X=profpack, fun=CNclusterNcenter,
-                blsize=blsize, minjoin=minjoin, ntrial=ntrial, 
+            vanilla=lapply(X = profpack, FUN = CNclusterNcenter, blsize=blsize,
+                minjoin = minjoin, ntrial = ntrial, bestbic = bestbic,
+                modelNames = modelNames, cweight = cweight, bstimes = bstimes, 
+                chromrange = chromrange, seedme = myseed),
+            Rparallel=parLapply(cl, X = profpack, fun=CNclusterNcenter,
+                blsize=blsize, minjoin = minjoin, ntrial = ntrial, 
                 bestbic=bestbic, modelNames=modelNames, cweight=cweight,
                 bstimes=bstimes, chromrange=chromrange, seedme=myseed))
         if (distrib=="Rparallel") stopCluster(cl)
@@ -364,17 +365,17 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
             tumorlength <- annot[segall[,endcol], annotendcol] -
                 annot[segall[,startcol], annotstartcol] + 1
         } else {
-            tumorlength<-segall[,bpendcol]-segall[,bpstartcol] + 1
+            tumorlength<-segall[, bpendcol] - segall[, bpstartcol] + 1
         }
         
-        tumormedian <- segall[,medcol]
+        tumormedian <- segall[, medcol]
         
         if (!is.null(madcol)) {
-            tumormad<-segall[,madcol]
+            tumormad<-segall[, madcol]
         }
         
         if (!is.null(errorcol)) {
-            tumorerror<-segall[,errorcol]
+            tumorerror<-segall[, errorcol]
         }
         
         segall <- cbind(segall, normalComparison(normalmedian, normalength,
