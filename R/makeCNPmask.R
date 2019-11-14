@@ -7,7 +7,7 @@
 #' threshold that contain interval regions with the count above the upper 
 #' threshold.
 #' 
-#' @param imat A \cod{matrix} or a \code{data.frame} tabulating the chromosome 
+#' @param imat A \code{matrix} or a \code{data.frame} tabulating the chromosome 
 #' numbers and endpoint positions of the interval events. 
 #' 
 #' @param chromcol A \code{character} string or \code{numeric} representing an
