@@ -26,7 +26,7 @@ integer
 specifying the column of \code{imat} containing the right endpoint 
 of the interval events.}
 
-\item{nprof}{An \code{numeric} acting as an integer specifying the number 
+\item{nprof}{A \code{numeric} acting as an integer specifying the number 
 of copy number profiles from which the events originated. Default: \code{1}.}
 
 \item{uthresh}{A \code{numeric} specifying the upper threshold for 
