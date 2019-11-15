@@ -49,8 +49,8 @@ normalComparison <- function(normalmedian, normalength, tumormedian,
     nsred <- nsred[order(nsred[, "mediandev"]),, drop = FALSE]
     lnorm <- sum(nsred[, "length"])
     z <- cbind(c(nsred[, "mediandev"], tumormedian), c(nsred[, "length"],
-            rep(0,length(tumormedian))), c(rep(0, nrow(nsred)), 
-                                            1:length(tumormedian)))
+            rep(0, length(tumormedian))), c(rep(0, nrow(nsred)), 
+                                            seq_len(length(tumormedian))))
     z <- z[order(z[,1]),, drop = FALSE]
     z[,2] <- cumsum(z[,2])/lnorm
     z <- z[z[,3] !=0 ,, drop = FALSE]
@@ -59,7 +59,7 @@ normalComparison <- function(normalmedian, normalength, tumormedian,
         z <- cbind(c(nsred[, "mediandev"]/nsred[, "segmad"],
                         tumormedian/tumormad),c(nsred[, "length"],
                         rep(0,length(tumormedian))), 
-                        c(rep(0,nrow(nsred)), 1:length(tumormedian)))
+                        c(rep(0,nrow(nsred)), seq_len(length(tumormedian))))
         z <- z[order(z[,1]),,drop = FALSE]
         z[,2] <- cumsum(z[,2])/lnorm
         z <- z[z[,3]!=0,, drop = FALSE]
@@ -69,8 +69,8 @@ normalComparison <- function(normalmedian, normalength, tumormedian,
     if (nisnull[2]) {
         z <- cbind(c(nsred[, "mediandev"]/nsred[, "segerr"], 
                         tumormedian/tumorerror),
-                c(nsred[,"length"],rep(0,length(tumormedian))),
-                c(rep(0,nrow(nsred)),1:length(tumormedian)))
+                c(nsred[, "length"], rep(0, length(tumormedian))),
+                c(rep(0,nrow(nsred)), seq_len(length(tumormedian))))
         z <- z[order(z[,1]),, drop = FALSE]
         z[,2] <- cumsum(z[,2])/lnorm
         z <- z[z[,3]!=0,, drop = FALSE]
