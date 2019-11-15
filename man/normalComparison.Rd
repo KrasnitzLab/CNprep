@@ -9,17 +9,24 @@ normalComparison(normalmedian, normalength, tumormedian, tumorlength,
   tumorerror = NULL)
 }
 \arguments{
-\item{normalmedian}{TODO}
+\item{normalmedian}{A numeric \code{vector}, 
+of the same length as \code{normalength}, specifying the segment values
+of the normal reference segments.}
 
-\item{normalength}{TODO}
+\item{normalength}{An integer \code{vector} specifying the genomic lengths 
+of segments in the normal reference data.}
 
 \item{tumormedian}{TODO}
 
 \item{tumorlength}{TODO. Default: \code{NULL}.}
 
-\item{normalmad}{TODO. Default: \code{NULL}.}
+\item{normalmad}{A numeric \code{vector}, 
+of the same length as \code{normalength}, specifying the value spreads 
+of the normal reference segments. Default: \code{NULL}.}
 
-\item{normalerror}{TODO. Default: \code{NULL}.}
+\item{normalerror}{A numeric \code{vector}, 
+of the same length as \code{normalength}, specifying the error values
+of the normal reference segments.Default: \code{NULL}.}
 
 \item{tumormad}{TODO. Default: \code{NULL}.}
 
