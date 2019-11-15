@@ -67,9 +67,9 @@ data(cnpexample)
 amps <- cnpexample[cnpexample[,"copy.num"] == "amp",]
 
 # Create a mask using this table.
-ampCNPmask <- makeCNPmask(imat = amps, chromcol = "chrom",
-    startcol = "chrom.start", endcol = "chrom.end", nprof = 1203,
-    uthresh = 0.02, dthresh = 0.008)
+ampCNPmask <- makeCNPmask(imat=amps, chromcol="chrom",
+    startcol="chrom.start", endcol="chrom.end", nprof=1203,
+    uthresh=0.02, dthresh=0.008)
 
 }
 \author{
