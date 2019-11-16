@@ -25,7 +25,7 @@
 #' specifying the column of \code{imat} containing the right endpoint 
 #' of the interval events.
 #' 
-#' @param nprof An \code{numeric} acting as an integer specifying the number 
+#' @param nprof A \code{numeric} acting as an integer specifying the number 
 #' of copy number profiles from which the events originated. Default: \code{1}.
 #' 
 #' @param uthresh A \code{numeric} specifying the upper threshold for 

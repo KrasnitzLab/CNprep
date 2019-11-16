@@ -2,29 +2,43 @@
 % Please edit documentation in R/makeCNPmask.chrom.R
 \name{makeCNPmask.chrom}
 \alias{makeCNPmask.chrom}
-\title{TODO}
+\title{Given a set of copy-number events, create a DNA copy-number mask for
+one specific chromosome.}
 \usage{
 makeCNPmask.chrom(imat, startcol = 1, endcol = 2, nprof = 1, uthresh,
   dthresh)
 }
 \arguments{
-\item{imat}{TODO}
+\item{imat}{A \code{matrix} or a \code{data.frame} tabulating the chromosome 
+numbers and endpoint positions of the interval events.}
 
-\item{startcol}{TODO}
+\item{startcol}{A \code{character} string or \code{numeric} (representing an
+integer) specifying the column of \code{imat} containing the left 
+endpoint of the interval events. Default: \code{1}.}
 
-\item{endcol}{TODO}
+\item{endcol}{A \code{character} string or \code{numeric} (representing an
+integer) specifying the column of \code{imat} containing the right endpoint 
+of the interval events. Default: \code{2}.}
 
-\item{nprof}{TODO}
+\item{nprof}{A \code{numeric} acting as an integer specifying the number 
+of copy number profiles from which the events originated. Default: \code{1}.}
 
-\item{uthresh}{TODO}
+\item{uthresh}{A \code{numeric} specifying the upper threshold for 
+the event frequency or (if \code{nprof = 1}) for the event count.}
 
-\item{dthresh}{TODO}
+\item{dthresh}{A \code{numeric} specifying the upper and lower thresholds for 
+the event frequency or (if \code{nprof = 1}) for the event count.}
 }
 \value{
 TODO
 }
 \description{
-TODO
+The function takes as an input a set of intervals with 
+integer-valued boundary positions. It then finds interval regions where 
+the event count is above each of two thresholds, upper and lower, and 
+returns those interval regions with the count above the lower 
+threshold that contain interval regions with the count above the upper 
+threshold. This is done for one specific chromosome.
 }
 \examples{
 
