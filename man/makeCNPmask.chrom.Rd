@@ -30,7 +30,13 @@ the event frequency or (if \code{nprof = 1}) for the event count.}
 the event frequency or (if \code{nprof = 1}) for the event count.}
 }
 \value{
-TODO
+A \code{matrix} of \code{numeric} (used as integer) 
+with three columns that represent the masked regions:
+\itemize{
+\item "chrom", the chromosome number
+\item "start", the starting position of a masked region
+\item  "end", the ending position of a masked region
+}
 }
 \description{
 The function takes as an input a set of intervals with 
@@ -42,7 +48,19 @@ threshold. This is done for one specific chromosome.
 }
 \examples{
 
-# TODO
+## Load a table of copy number events collected from 1203 profiles.
+data(cnpexample)
+
+## Create a table with chromosome 2 only.
+del <- cnpexample[cnpexample$chrom == 2,]
+
+## Create a table of deletion events only.
+del <- del[del[,"copy.num"] == "del",]
+
+# Create a mask for chromosome 2 using this table.
+delCNPmask <- CNprep:::makeCNPmask.chrom(imat=del,
+    startcol="chrom.start", endcol="chrom.end", nprof=1203,
+    uthresh=0.02, dthresh=0.008)
 
 }
 \author{
