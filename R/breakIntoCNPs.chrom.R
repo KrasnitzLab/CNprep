@@ -5,59 +5,59 @@
 #' redistributes the probes/bins from a removed segment 
 #' into the adjacent segments for one specific chromosome at the time.
 #' 
-#' @param segtable a \code{matrix} or a \code{data.frame} with columns 
+#' @param segTable a \code{matrix} or a \code{data.frame} with columns 
 #' named or enumerated by the values of 
 #' \code{chrom, startPos, endPos, startProbe, endProbe, eventIndex}. 
 #' 
 #' @param chrom a \code{character} string specifying the name for the column in 
-#' \code{segtable} tabulating the (integer) chromosome number for each segment.
+#' \code{segTable} tabulating the (integer) chromosome number for each segment.
 #' 
 #' @param startPos a \code{character} string or integer specifying the 
-#' name or number of columns in \code{segtable} that tabulates the (integer) 
+#' name or number of columns in \code{segTable} that tabulates the (integer) 
 #' genomic start coordinate of each segment.
 #' 
 #' @param endPos a \code{character} string or integer specifying the 
-#' name or number of columns in \code{segtable} that tabulates the (integer) 
+#' name or number of columns in \code{segTable} that tabulates the (integer) 
 #' genomic end coordinate of each segment.
 #' 
 #' @param startProbe a \code{character} string specifying the name of 
-#' column in \code{segtable} that tabulates the (integer) start position 
+#' column in \code{segTable} that tabulates the (integer) start position 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
 #' @param endProbe a \code{character} string specifying the name of the
-#' column in \code{segtable} that tabulates the (integer) end position 
+#' column in \code{segTable} that tabulates the (integer) end position 
 #' of each segment in internal units such as probe numbers for 
 #' data of CGH microarray origin.
 #' 
 #' @param eventIndex a \code{character} string giving the name of the column in 
-#' \code{segtable} where copy number variation status of the segments is 
+#' \code{segTable} where copy number variation status of the segments is 
 #' tabulated. 
 #' 
-#' @param cnptable a \code{matrix} or a \code{data.frame} with columns named or 
-#' enumerated as given by \code{cnpchrom, cnpstart, cnpend, cnpindex} and 
+#' @param cnpTable a \code{matrix} or a \code{data.frame} with columns named or 
+#' enumerated as given by \code{cnpChrom, cnpStart, cnpEnd, cnpIndex} and 
 #' with rows corresponding to genomic intervals that comprise the mask.
 #' 
-#' @param cnpchrom a \code{character} string or \code{integer} 
-#' specifying the name or number of columns in \code{cnptable} that tabulates 
+#' @param cnpChrom a \code{character} string or \code{integer} 
+#' specifying the name or number of columns in \code{cnpTable} that tabulates 
 #' the chromosome number of the intervals comprising the mask. 
 #' 
-#' @param cnpstart a \code{character} string or \code{integer} 
+#' @param cnpStart a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{masktable} that tabulates 
 #' the genomic start coordinates of the intervals comprising the mask.
 #' 
-#' @param cnpend a \code{character} string or \code{integer} 
+#' @param cnpEnd a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{masktable} that tabulates 
 #' the genomic end coordinates of the intervals comprising the mask. 
 #' 
-#' @param cnpindex a \code{numeric} \code{vector} corresponding to 
+#' @param cnpIndex a \code{numeric} \code{vector} corresponding to 
 #' \code{eventIndex}, specifying copy number events status for measuring units.
 #' 
-#' @param mincover A single \code{numeric} value between \code{0} and \code{1} 
+#' @param minCover A single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the degree of overlap above which two clusters will be joined 
 #' into one.
 #' 
-#' @param indexvals a \code{numeric} \code{vector} of length 2 
+#' @param indexVals a \code{numeric} \code{vector} of length 2 
 #' specifying the two values in \code{maskindex} to be matched 
 #' with values in \code{eventIndex} to 
 #' determine the events that are to be masked.
@@ -69,7 +69,8 @@
 #'     parameter.
 #'     \item the updated end position (integer) of each segment in internal 
 #'     units. This column has the same name than the \code{endProbe} parameter.
-#'     \item \code{0} when the segment is retained, \code{1} when the segment
+#'     \item the masked result: \code{0} when the segment is retained, 
+#'     \code{1} when the segment
 #'     is removed. This column is called "toremove".
 #' }
 #'
@@ -92,69 +93,69 @@
 #'     
 #' # This function redistributes the bins/probes from a removed segment into 
 #' # the adjacent segments  
-#' CNprep:::breakIntoCNPs.chrom(segtable=segTable, chrom="chrom", 
+#' CNprep:::breakIntoCNPs.chrom(segTable=segTable, chrom="chrom", 
 #'     startPos="chrom.pos.start", endPos="chrom.pos.end", 
 #'     startProbe="start", endProbe="end", 
 #'     eventIndex="eventIndex", 
-#'     cnptable=cnptable, cnpchrom="chrom",  
-#'     cnpstart="start", cnpend="end", cnpindex="cnpindex", 
-#'     mincover=0.005, indexvals=c(-1, 1))
+#'     cnpTable=cnptable, cnpChrom="chrom",  
+#'     cnpStart="start", cnpEnd="end", cnpIndex="cnpindex", 
+#'     minCover=0.005, indexVals=c(-1, 1))
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
-breakIntoCNPs.chrom <- function(segtable, chrom, startPos, endPos, startProbe,
-    endProbe, eventIndex, cnptable, cnpchrom, cnpstart, cnpend, cnpindex, 
-    mincover, indexvals)
+breakIntoCNPs.chrom <- function(segTable, chrom, startPos, endPos, startProbe,
+    endProbe, eventIndex, cnpTable, cnpChrom, cnpStart, cnpEnd, cnpIndex, 
+    minCover, indexVals)
 {
     ## List of segments that will be masked
     ## Initialy, non are masked (all set to zero)
-    toremove <- rep(0, nrow(segtable))
-    segtable <- cbind(segtable, toremove)
-    chr <- segtable[1, chrom]
+    toremove <- rep(0, nrow(segTable))
+    segTable <- cbind(segTable, toremove)
+    chr <- segTable[1, chrom]
     
     ## When there is not segment with an event or when the copy number
     ## table have not entry for the specific chromosome, 
     ## an empty remove matrix is returned
-    if (sum(segtable[,eventIndex] != 0) == 0 | 
-                sum(cnptable[, cnpchrom] == chr) == 0) {
-        return(as.matrix(segtable[,c(startProbe, endProbe, "toremove")]))
+    if (sum(segTable[,eventIndex] != 0) == 0 | 
+                sum(cnpTable[, cnpChrom] == chr) == 0) {
+        return(as.matrix(segTable[,c(startProbe, endProbe, "toremove")]))
     }
     
     ## Only retain copy number 
-    cnpsinchr <- cnptable[cnptable[, cnpchrom] == chr,, drop=FALSE]
+    cnpsinchr <- cnpTable[cnpTable[, cnpChrom] == chr,, drop=FALSE]
     
     ## Select segments that should be removed
-    for (i in indexvals) {
-        if (sum(segtable[,eventIndex] == i) > 0 & 
-                    sum(cnpsinchr[, cnpindex] == i) > 0) {
-            acnpinchr <- cnpsinchr[cnpsinchr[, cnpindex] == i,, drop=FALSE]
-            amps <- which(segtable[, eventIndex] == i)
+    for (i in indexVals) {
+        if (sum(segTable[,eventIndex] == i) > 0 & 
+                    sum(cnpsinchr[, cnpIndex] == i) > 0) {
+            acnpinchr <- cnpsinchr[cnpsinchr[, cnpIndex] == i,, drop=FALSE]
+            amps <- which(segTable[, eventIndex] == i)
             segstartmat <- matrix(ncol = nrow(acnpinchr),
-                                    data = rep(segtable[amps, startPos], 
+                                    data = rep(segTable[amps, startPos], 
                                     nrow(acnpinchr)))
             segendmat <- matrix(ncol = nrow(acnpinchr),
-                            data = rep(segtable[amps, endPos], nrow(acnpinchr)))
+                            data = rep(segTable[amps, endPos], nrow(acnpinchr)))
             cnpstartmat <- t(matrix(ncol = length(amps),
-                            data = rep(acnpinchr[, cnpstart], length(amps))))
+                            data = rep(acnpinchr[, cnpStart], length(amps))))
             cnpendmat <- t(matrix(ncol = length(amps),
-                            data = rep(acnpinchr[, cnpend], length(amps))))
+                            data = rep(acnpinchr[, cnpEnd], length(amps))))
             cnpcover <- rowSums(pmax(matrix(nrow = nrow(cnpendmat),
                             ncol = ncol(cnpendmat), data = 0), 
                             (pmin(segendmat, cnpendmat) -
                             pmax(segstartmat, cnpstartmat) + 1))) /
-                            (segtable[amps, endPos] - 
-                            segtable[amps, startPos] + 1)
+                            (segTable[amps, endPos] - 
+                            segTable[amps, startPos] + 1)
             
-            toremove[amps[cnpcover > mincover]] <- 1
+            toremove[amps[cnpcover > minCover]] <- 1
         }
     }
     
-    segtable[, "toremove"] <- toremove
+    segTable[, "toremove"] <- toremove
     
     if (sum(toremove) > 0) {
-        segtable[, c(startProbe, endProbe)] <-
-            breakIntoGaps(segtable, "toremove", startProbe, endProbe)
+        segTable[, c(startProbe, endProbe)] <-
+            breakIntoGaps(segTable, "toremove", startProbe, endProbe)
     }
     
-    return(as.matrix(segtable[, c(startProbe, endProbe, "toremove")]))
+    return(as.matrix(segTable[, c(startProbe, endProbe, "toremove")]))
 }

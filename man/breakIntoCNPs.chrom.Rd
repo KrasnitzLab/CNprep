@@ -5,64 +5,64 @@
 \title{Determine which segments have to be removed and redistribute 
 probes/bins from removed segments}
 \usage{
-breakIntoCNPs.chrom(segtable, chrom, startPos, endPos, startProbe,
-  endProbe, eventIndex, cnptable, cnpchrom, cnpstart, cnpend, cnpindex,
-  mincover, indexvals)
+breakIntoCNPs.chrom(segTable, chrom, startPos, endPos, startProbe,
+  endProbe, eventIndex, cnpTable, cnpChrom, cnpStart, cnpEnd, cnpIndex,
+  minCover, indexVals)
 }
 \arguments{
-\item{segtable}{a \code{matrix} or a \code{data.frame} with columns 
+\item{segTable}{a \code{matrix} or a \code{data.frame} with columns 
 named or enumerated by the values of 
 \code{chrom, startPos, endPos, startProbe, endProbe, eventIndex}.}
 
 \item{chrom}{a \code{character} string specifying the name for the column in 
-\code{segtable} tabulating the (integer) chromosome number for each segment.}
+\code{segTable} tabulating the (integer) chromosome number for each segment.}
 
 \item{startPos}{a \code{character} string or integer specifying the 
-name or number of columns in \code{segtable} that tabulates the (integer) 
+name or number of columns in \code{segTable} that tabulates the (integer) 
 genomic start coordinate of each segment.}
 
 \item{endPos}{a \code{character} string or integer specifying the 
-name or number of columns in \code{segtable} that tabulates the (integer) 
+name or number of columns in \code{segTable} that tabulates the (integer) 
 genomic end coordinate of each segment.}
 
 \item{startProbe}{a \code{character} string specifying the name of 
-column in \code{segtable} that tabulates the (integer) start position 
+column in \code{segTable} that tabulates the (integer) start position 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 
 \item{endProbe}{a \code{character} string specifying the name of the
-column in \code{segtable} that tabulates the (integer) end position 
+column in \code{segTable} that tabulates the (integer) end position 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 
 \item{eventIndex}{a \code{character} string giving the name of the column in 
-\code{segtable} where copy number variation status of the segments is 
+\code{segTable} where copy number variation status of the segments is 
 tabulated.}
 
-\item{cnptable}{a \code{matrix} or a \code{data.frame} with columns named or 
-enumerated as given by \code{cnpchrom, cnpstart, cnpend, cnpindex} and 
+\item{cnpTable}{a \code{matrix} or a \code{data.frame} with columns named or 
+enumerated as given by \code{cnpChrom, cnpStart, cnpEnd, cnpIndex} and 
 with rows corresponding to genomic intervals that comprise the mask.}
 
-\item{cnpchrom}{a \code{character} string or \code{integer} 
-specifying the name or number of columns in \code{cnptable} that tabulates 
+\item{cnpChrom}{a \code{character} string or \code{integer} 
+specifying the name or number of columns in \code{cnpTable} that tabulates 
 the chromosome number of the intervals comprising the mask.}
 
-\item{cnpstart}{a \code{character} string or \code{integer} 
+\item{cnpStart}{a \code{character} string or \code{integer} 
 specifying the name or number of columns in \code{masktable} that tabulates 
 the genomic start coordinates of the intervals comprising the mask.}
 
-\item{cnpend}{a \code{character} string or \code{integer} 
+\item{cnpEnd}{a \code{character} string or \code{integer} 
 specifying the name or number of columns in \code{masktable} that tabulates 
 the genomic end coordinates of the intervals comprising the mask.}
 
-\item{cnpindex}{a \code{numeric} \code{vector} corresponding to 
+\item{cnpIndex}{a \code{numeric} \code{vector} corresponding to 
 \code{eventIndex}, specifying copy number events status for measuring units.}
 
-\item{mincover}{A single \code{numeric} value between \code{0} and \code{1} 
+\item{minCover}{A single \code{numeric} value between \code{0} and \code{1} 
 specifying the degree of overlap above which two clusters will be joined 
 into one.}
 
-\item{indexvals}{a \code{numeric} \code{vector} of length 2 
+\item{indexVals}{a \code{numeric} \code{vector} of length 2 
 specifying the two values in \code{maskindex} to be matched 
 with values in \code{eventIndex} to 
 determine the events that are to be masked.}
@@ -75,7 +75,8 @@ a \code{matrix} of \code{numeric} with 3 columns:
     parameter.
     \item the updated end position (integer) of each segment in internal 
     units. This column has the same name than the \code{endProbe} parameter.
-    \item \code{0} when the segment is retained, \code{1} when the segment
+    \item the masked result: \code{0} when the segment is retained, 
+    \code{1} when the segment
     is removed. This column is called "toremove".
 }
 }
@@ -103,13 +104,13 @@ cnptable <- matrix(c(rep(1, 3), c(932544, 38093688, 123416446),
     
 # This function redistributes the bins/probes from a removed segment into 
 # the adjacent segments  
-CNprep:::breakIntoCNPs.chrom(segtable=segTable, chrom="chrom", 
+CNprep:::breakIntoCNPs.chrom(segTable=segTable, chrom="chrom", 
     startPos="chrom.pos.start", endPos="chrom.pos.end", 
     startProbe="start", endProbe="end", 
     eventIndex="eventIndex", 
-    cnptable=cnptable, cnpchrom="chrom",  
-    cnpstart="start", cnpend="end", cnpindex="cnpindex", 
-    mincover=0.005, indexvals=c(-1, 1))
+    cnpTable=cnptable, cnpChrom="chrom",  
+    cnpStart="start", cnpEnd="end", cnpIndex="cnpindex", 
+    minCover=0.005, indexVals=c(-1, 1))
 
 }
 \author{

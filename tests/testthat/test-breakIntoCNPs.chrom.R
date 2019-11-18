@@ -71,7 +71,7 @@ test_that("breakIntoCNPs.chrom() must return expected results 01", {
                                  eventIndex=c(0,0,1,0,-1))
     
     cnptableTemp01 <- matrix(c(rep(1, 3), c(932544, 38093688, 123416446), 
-                               c(11844870, 48619856, 182176090), rep(1,3)), ncol = 4, byrow = FALSE)
+                               c(11844870, 48619856, 182176090), rep(1,3)), ncol=4, byrow=FALSE)
     
     colnames(cnptableTemp01) <- c("chrom", "start", "end", "cnpindex")
     
@@ -80,17 +80,17 @@ test_that("breakIntoCNPs.chrom() must return expected results 01", {
 
     set.seed(111223)
     
-    results <- CNprep:::breakIntoCNPs.chrom(segtable=segTableTemp01, chrom = "chrom", 
-                            startPos = "chrom.pos.start", endPos = "chrom.pos.end", 
-                            startProbe = "start",
-                            endProbe = "end", 
-                            eventIndex = "eventIndex", 
-                            cnptable = cnptableTemp01, cnpchrom = "chrom", 
-                            cnpstart = "start", cnpend = "end", cnpindex = "cnpindex", 
-                            mincover = 0.005, indexvals = c(-1, 1))
+    results <- CNprep:::breakIntoCNPs.chrom(segTable=segTableTemp01, chrom="chrom", 
+                            startPos="chrom.pos.start", endPos="chrom.pos.end", 
+                            startProbe="start",
+                            endProbe="end", 
+                            eventIndex="eventIndex", 
+                            cnpTable=cnptableTemp01, cnpChrom="chrom", 
+                            cnpStart="start", cnpEnd="end", cnpIndex="cnpindex", 
+                            minCover=0.005, indexVals=c(-1, 1))
     
     
-    expected <- matrix(c(1, 16, 23, 25, 38, 15, 24, 30, 37, 50, 0, 0, 1, 0, 0), ncol = 3, byrow = FALSE)
+    expected <- matrix(c(1, 16, 23, 25, 38, 15, 24, 30, 37, 50, 0, 0, 1, 0, 0), ncol=3, byrow=FALSE)
     colnames(expected) <- c("start", "end", "toremove")
     
     expect_equal(results, expected)
@@ -117,7 +117,7 @@ test_that("breakIntoCNPs.chrom() must return expected results when eventIndex al
                                  eventIndex=c(0,0,0,0,0))
     
     cnptableTemp01 <- matrix(c(rep(1, 3), c(932544, 38093688, 123416446), 
-                               c(11844870, 48619856, 182176090), rep(1,3)), ncol = 4, byrow = FALSE)
+                               c(11844870, 48619856, 182176090), rep(1,3)), ncol=4, byrow=FALSE)
     
     colnames(cnptableTemp01) <- c("chrom", "start", "end", "cnpindex")
     
@@ -126,17 +126,17 @@ test_that("breakIntoCNPs.chrom() must return expected results when eventIndex al
     
     set.seed(123)
     
-    results <- CNprep:::breakIntoCNPs.chrom(segtable=segTableTemp01, chrom = "chrom", 
-                                            startPos = "chrom.pos.start", endPos = "chrom.pos.end", 
-                                            startProbe = "start",
-                                            endProbe = "end", 
-                                            eventIndex = "eventIndex", 
-                                            cnptable = cnptableTemp01, cnpchrom = "chrom", 
-                                            cnpstart = "start", cnpend = "end", cnpindex = "cnpindex", 
-                                            mincover = 0.005, indexvals = c(-1, 1))
+    results <- CNprep:::breakIntoCNPs.chrom(segTable=segTableTemp01, chrom="chrom", 
+                                            startPos="chrom.pos.start", endPos="chrom.pos.end", 
+                                            startProbe="start",
+                                            endProbe="end", 
+                                            eventIndex="eventIndex", 
+                                            cnpTable=cnptableTemp01, cnpChrom="chrom", 
+                                            cnpStart="start", cnpEnd="end", cnpIndex="cnpindex", 
+                                            minCover=0.005, indexVals=c(-1, 1))
     
     
-    expected <- matrix(c(1, 16, 23, 31, 38, 15, 22, 30, 37, 50, 0, 0, 0, 0, 0), ncol = 3, byrow = FALSE)
+    expected <- matrix(c(1, 16, 23, 31, 38, 15, 22, 30, 37, 50, 0, 0, 0, 0, 0), ncol=3, byrow=FALSE)
     colnames(expected) <- c("start", "end", "toremove")
     
     expect_equal(results, expected)
