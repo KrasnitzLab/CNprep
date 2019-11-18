@@ -9,8 +9,8 @@
 #' 
 #' @return TODO A \code{list} containing:
 #' \itemize{
-#' \item \code{mu} TODO}
-#' \itme \code{pro} A vector whose \emph{k}th component is the mixing 
+#' \item \code{mu} TODO
+#' \item \code{pro} A vector whose \emph{k}th component is the mixing 
 #' proportion for the \emph{k}th component of the mixture model. If missing, 
 #' equal proportions are assumed.
 #' \item \code{z} A matrix whose \emph{[i,k]}th entry is the probability that 
