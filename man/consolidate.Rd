@@ -14,9 +14,6 @@ mixture model estimation.}
 specifying the degree of overlap above which two clusters will be joined 
 into one.}
 }
-\value{
-TODO
-}
 \description{
 TODO
 }

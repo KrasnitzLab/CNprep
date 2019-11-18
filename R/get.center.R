@@ -7,8 +7,20 @@
 #' 
 #' @param mincenter TODO
 #' 
-#' @return TODO
-#'
+#' @return TODO A \code{list} containing:
+#' \itemize{
+#' \item \code{mu} TODO}
+#' \itme \code{pro} A vector whose \emph{k}th component is the mixing 
+#' proportion for the \emph{k}th component of the mixture model. If missing, 
+#' equal proportions are assumed.
+#' \item \code{z} A matrix whose \emph{[i,k]}th entry is the probability that 
+#' observation \emph{i} in the test data belongs to the \emph{k}th class.
+#' \item \code{groups} TODO
+#' \item \code{ngroups} TODO
+#' \item \code{sigmasq} TODO
+#' \item \code{center} TODO
+#' }
+#' 
 #' @examples
 #'
 #' # TODO
@@ -22,7 +34,7 @@ get.center <- function(emfit, mincenter)
                     groups=emfit$groups, ngroups=emfit$ngroups, 
                     sigmasq=emfit$sigmasq, center=which.min(abs(emfit$mu)))
     
-    while (newem$ngroups>1) {
+    while (newem$ngroups > 1) {
         omu <- order(abs(newem$mu))
         if (newem$pro[omu[1]] < mincenter) {
             gl <- min(omu[seq_len(2)])

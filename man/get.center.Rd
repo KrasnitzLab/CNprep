@@ -12,9 +12,6 @@ mixture model estimation.}
 
 \item{mincenter}{TODO}
 }
-\value{
-TODO
-}
 \description{
 TODO
 }
