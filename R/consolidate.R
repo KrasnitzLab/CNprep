@@ -21,17 +21,17 @@
 consolidate <- function(emfit, minover) { 
     
     ## Create new object using input parameter
-    newem <- list(mu = emfit$parameters$mean, 
-                    pro = emfit$parameters$pro,
-                    z = emfit$z,
-                    groups = matrix(nrow = length(emfit$parameters$mean),
-                                ncol = length(emfit$parameters$mean), data = 0),
-                    ngroups = length(emfit$parameters$mean),
-                    sigmasq = emfit$parameters$variance$sigmasq)
+    newem <- list(mu=emfit$parameters$mean, 
+                    pro=emfit$parameters$pro,
+                    z=emfit$z,
+                    groups=matrix(nrow=length(emfit$parameters$mean),
+                                ncol=length(emfit$parameters$mean), data=0),
+                    ngroups=length(emfit$parameters$mean),
+                    sigmasq=emfit$parameters$variance$sigmasq)
     
     ## Ensure that z value is a matrix in the newem object
     if (is.null(emfit$z)) {
-        newem$z <- matrix(ncol = 1, data = rep(1, emfit$n))
+        newem$z <- matrix(ncol=1, data=rep(1, emfit$n))
     }
     
     ## Ensure that sigmasq has the same length than mu in newem object
@@ -51,9 +51,9 @@ consolidate <- function(emfit, minover) {
             gl <- min(g1, g2)
             gr <- max(g1, g2)
             newem$z[,gl] <- newem$z[,gl] + newem$z[,gr]
-            newem$z <- matrix(ncol = ncol(newem$z) - 1, 
-                                nrow = nrow(newem$z),
-                                data = newem$z[, -gr])
+            newem$z <- matrix(ncol=ncol(newem$z) - 1, 
+                                nrow=nrow(newem$z),
+                                data=newem$z[, -gr])
             
             numu <- (newem$mu[gl]*newem$pro[gl]+newem$mu[gr]*newem$pro[gr])/
                             (newem$pro[gl]+newem$pro[gr])

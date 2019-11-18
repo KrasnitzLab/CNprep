@@ -70,7 +70,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
 
     dimnames(segrat$seg)[[2]] <- c(startcol, endcol, chromcol, medcol, madcol)
     
-    seguse <- segrat$seg[segrat$seg[, chromcol] %in% chromrange,, drop = FALSE]
+    seguse <- segrat$seg[segrat$seg[, chromcol] %in% chromrange,, drop=FALSE]
     
     aux <- rep(0, length(segrat$rat))
     aux[seguse[, startcol]] <- 1
@@ -81,11 +81,11 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     ratuse <- segrat$rat[aux == 1]
 
     for(j in seq_len(ntrial)) {
-        aaa <- segsample(seguse, ratuse, blocksize = blsize)
+        aaa <- segsample(seguse, ratuse, blocksize=blsize)
         if (all(unique(aaa[,3]) == 0)) { 
             aaa[,3] <- 1e-10 
         }
-        emfit <- Mclust(aaa[,3], maxG = 15, modelNames = modelNames)
+        emfit <- Mclust(aaa[,3], maxG=15, modelNames=modelNames)
         if (emfit$bic >= bestbic) {
             bestaaa <- aaa
             bestem  <- emfit
@@ -106,10 +106,10 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     segs <- segsample(segrat$seg, segrat$rat, times = bstimes)
 
     if (all(unique(aaa[,3]) == 1e-10)) { 
-        segs[segs[,3] == 0,3] <- 1e-10 
+        segs[segs[,3] == 0, 3] <- 1e-10 
     }
 
-    segzall <- getz(segs[,3], bestem, newem$groups, times = bstimes)
+    segzall <- getz(segs[,3], bestem, newem$groups, times=bstimes)
     centerz <- segzall[, newem$center]
     maxz <- segzall[nrow(segzall) * (max.col(segzall) - 1) + 
                             (seq_len(nrow(segzall)))]
@@ -117,10 +117,10 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     maxzcol <- max.col(segzall)
     maxzmean <- newem$mu[maxzcol] - newem$mu[newem$center]
     maxzsigma <- sqrt(newem$sigmasq[maxzcol])
-    cpb <- centerprob(segs[,3], bestem, newem$groups, times = bstimes, 
+    cpb <- centerprob(segs[,3], bestem, newem$groups, times=bstimes, 
                 newem$center)
-    w <- t(matrix(nrow = bstimes, data = segs[,3]))
-    segerr <- sqrt(apply(w, 1, var, na.rm = TRUE))
+    w <- t(matrix(nrow=bstimes, data=segs[,3]))
+    segerr <- sqrt(apply(w, 1, var, na.rm=TRUE))
     
     .lec.CurrentStreamEnd()
     .lec.DeleteStream(segrat$stream)
