@@ -14,6 +14,22 @@ mixture model estimation.}
 specifying the degree of overlap above which two clusters will be joined 
 into one.}
 }
+\value{
+TODO A \code{list} containing:
+\itemize{
+\item \code{mu} TODO
+\item \code{pro} A \code{vector} whose \emph{k}th component is the mixing 
+proportion for the \emph{k}th component of the mixture model. If missing, 
+equal proportions are assumed.
+\item \code{z} A \code{matrix} whose \emph{[i,k]}th entry is the probability 
+that observation \emph{i} in the test data belongs to the \emph{k}th class.
+\item \code{groups} TODO
+\item \code{ngroups} TODO
+\item \code{sigmasq}  A scalar giving the common variance for all 
+components in the mixture model "E".
+\item \code{center} TODO
+}
+}
 \description{
 TODO
 }

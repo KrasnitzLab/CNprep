@@ -12,6 +12,21 @@ mixture model estimation.}
 
 \item{mincenter}{TODO}
 }
+\value{
+TODO A \code{list} containing:
+\itemize{
+\item \code{mu} TODO
+\item \code{pro} A vector whose \emph{k}th component is the mixing 
+proportion for the \emph{k}th component of the mixture model. If missing, 
+equal proportions are assumed.
+\item \code{z} A matrix whose \emph{[i,k]}th entry is the probability that 
+observation \emph{i} in the test data belongs to the \emph{k}th class.
+\item \code{groups} TODO
+\item \code{ngroups} TODO
+\item \code{sigmasq} TODO
+\item \code{center} TODO
+}
+}
 \description{
 TODO
 }
