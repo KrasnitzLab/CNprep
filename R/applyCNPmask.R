@@ -37,30 +37,30 @@
 #' tabulated. 
 #' 
 #' @param maskTable a \code{matrix} or a \code{data.frame} with columns named 
-#' or enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} 
+#' or enumerated as given by \code{maskChrom, maskStart, maskEnd, maskIndex} 
 #' and with rows corresponding to genomic intervals that comprise the mask.
 #' 
-#' @param maskchrom a \code{character} string or \code{integer} 
+#' @param maskChrom a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{maskTable} that tabulates 
 #' the chromosome number of the intervals comprising the mask. 
 #' 
-#' @param maskstart a \code{character} string or \code{integer} 
+#' @param maskStart a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{maskTable} that tabulates 
 #' the genomic start coordinates of the intervals comprising the mask. 
 #' 
-#' @param maskend a \code{character} string or \code{integer} 
+#' @param maskEnd a \code{character} string or \code{integer} 
 #' specifying the name or number of columns in \code{maskTable} that tabulates 
 #' the genomic end coordinates of the intervals comprising the mask. 
 #' 
-#' @param maskindex a \code{numeric} \code{vector} corresponding to 
+#' @param maskIndex a \code{numeric} \code{vector} corresponding to 
 #' \code{eventIndex}, specifying copy number events status for measuring units.
 #' 
 #' @param minCover A numeric value specifying the minimal portion of the 
 #' segment that must be covered by the mask in order to trigger masking.
 #' Default: \code{1}.
 #' 
-#' @param indexvals A numeric vector of length 2 specifying the two values 
-#' in \code{maskindex} to be matched with values in \code{eventIndex} to 
+#' @param indexVals A numeric vector of length 2 specifying the two values 
+#' in \code{maskIndex} to be matched with values in \code{eventIndex} to 
 #' determine the events that are to be masked.
 #' Default: \code{c(-1, 1)}.
 #' 
@@ -74,9 +74,9 @@
 #' }
 #' 
 #' @details Masking is performed separately for each value in 
-#' \code{indexvals}. Segments (rows of \code{segTable}) with that 
+#' \code{indexVals}. Segments (rows of \code{segTable}) with that 
 #' value of \code{eventIndex} are examined for coverage by mask intervals 
-#' with that value of \code{maskindex} in \code{maskTable}. If the coverage 
+#' with that value of \code{maskIndex} in \code{maskTable}. If the coverage 
 #' is at least \code{minCover}, the segment is slated for masking, while its 
 #' flanking segments are extended to a random point within the segment 
 #' being masked.
@@ -120,9 +120,9 @@
 #' myCNPtable <- applyCNPmask(segTable=segtable, chrom="chrom",
 #'     startPos="chrom.pos.start", endPos="chrom.pos.end", 
 #'     startProbe="start", endProbe="end", eventIndex="eventIndex",
-#'     maskTable=cnptable, maskchrom="chrom", maskstart="start", 
-#'     maskend="end", maskindex="cnpindex", minCover=0.005,
-#'     indexvals=c(-1, 1))
+#'     maskTable=cnptable, maskChrom="chrom", maskStart="start", 
+#'     maskEnd="end", maskIndex="cnpindex", minCover=0.005,
+#'     indexVals=c(-1, 1))
 #' 
 #' ## Show some results
 #' head(myCNPtable)
@@ -131,15 +131,15 @@
 #' @author Alexander Krasnitz
 #' @export
 applyCNPmask <- function(segTable, chrom, startPos, endPos, startProbe,
-                    endProbe, eventIndex, maskTable, maskchrom, maskstart,
-                    maskend, maskindex, minCover=1, indexvals=c(-1, 1)) 
+                    endProbe, eventIndex, maskTable, maskChrom, maskStart,
+                    maskEnd, maskIndex, minCover=1, indexVals=c(-1, 1)) 
 {
     breakCNPs <- by(segTable, INDICES = as.factor(segTable[,chrom]),
         FUN = breakIntoCNPs.chrom, chrom = chrom, startPos = startPos, 
         endPos = endPos, startProbe = startProbe, endProbe = endProbe, 
-        eventIndex = eventIndex, cnptable = maskTable, cnpchrom = maskchrom, 
-        cnpstart = maskstart, cnpend = maskend, cnpindex = maskindex, 
-        mincover = minCover, indexvals = indexvals, simplify = TRUE)
+        eventIndex = eventIndex, cnptable = maskTable, cnpchrom = maskChrom, 
+        cnpstart = maskStart, cnpend = maskEnd, cnpindex = maskIndex, 
+        mincover = minCover, indexvals = indexVals, simplify = TRUE)
 
     myCNPs <- matrix(ncol=3, byrow=TRUE, 
                      data=unlist(lapply(breakCNPs, t)))

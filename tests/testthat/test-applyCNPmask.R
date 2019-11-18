@@ -34,12 +34,12 @@ test_that("applyCNPmask() must return expected results 01", {
     
     set.seed(2111)
     
-    results <- applyCNPmask(segTable = segTableTemp01, chrom = "chrom", 
-                            startPos = "chrom.pos.start", endPos = "chrom.pos.end",
-                            startProbe = "start", endProbe = "end", eventIndex = "eventIndex", 
-                            maskTable = cnptableTemp01, maskchrom = "chrom", maskstart = "start",
-                            maskend = "end", maskindex = "cnpindex", minCover = 0.005,
-                            indexvals = c(-1, 1))
+    results <- applyCNPmask(segTable=segTableTemp01, chrom="chrom", 
+                            startPos="chrom.pos.start", endPos="chrom.pos.end",
+                            startProbe="start", endProbe = "end", eventIndex="eventIndex", 
+                            maskTable = cnptableTemp01, maskChrom="chrom", maskStart="start",
+                            maskEnd="end", maskIndex="cnpindex", minCover=0.005,
+                            indexVals=c(-1, 1))
     
     expected <- matrix(c(1, 16, 23, 29, 38, 15, 28, 30, 37, 50, 0, 0, 1, 0, 0), ncol = 3, byrow = FALSE)
     colnames(expected) <- c("StartProbe", "EndProbe", "toremove")

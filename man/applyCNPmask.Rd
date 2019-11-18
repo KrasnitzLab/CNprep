@@ -5,8 +5,8 @@
 \title{Apply a mask to a table of copy number events.}
 \usage{
 applyCNPmask(segTable, chrom, startPos, endPos, startProbe, endProbe,
-  eventIndex, maskTable, maskchrom, maskstart, maskend, maskindex,
-  minCover = 1, indexvals = c(-1, 1))
+  eventIndex, maskTable, maskChrom, maskStart, maskEnd, maskIndex,
+  minCover = 1, indexVals = c(-1, 1))
 }
 \arguments{
 \item{segTable}{a \code{matrix} or a \code{data.frame} with columns 
@@ -39,30 +39,30 @@ data of CGH microarray origin.}
 tabulated.}
 
 \item{maskTable}{a \code{matrix} or a \code{data.frame} with columns named 
-or enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} 
+or enumerated as given by \code{maskChrom, maskStart, maskEnd, maskIndex} 
 and with rows corresponding to genomic intervals that comprise the mask.}
 
-\item{maskchrom}{a \code{character} string or \code{integer} 
+\item{maskChrom}{a \code{character} string or \code{integer} 
 specifying the name or number of columns in \code{maskTable} that tabulates 
 the chromosome number of the intervals comprising the mask.}
 
-\item{maskstart}{a \code{character} string or \code{integer} 
+\item{maskStart}{a \code{character} string or \code{integer} 
 specifying the name or number of columns in \code{maskTable} that tabulates 
 the genomic start coordinates of the intervals comprising the mask.}
 
-\item{maskend}{a \code{character} string or \code{integer} 
+\item{maskEnd}{a \code{character} string or \code{integer} 
 specifying the name or number of columns in \code{maskTable} that tabulates 
 the genomic end coordinates of the intervals comprising the mask.}
 
-\item{maskindex}{a \code{numeric} \code{vector} corresponding to 
+\item{maskIndex}{a \code{numeric} \code{vector} corresponding to 
 \code{eventIndex}, specifying copy number events status for measuring units.}
 
 \item{minCover}{A numeric value specifying the minimal portion of the 
 segment that must be covered by the mask in order to trigger masking.
 Default: \code{1}.}
 
-\item{indexvals}{A numeric vector of length 2 specifying the two values 
-in \code{maskindex} to be matched with values in \code{eventIndex} to 
+\item{indexVals}{A numeric vector of length 2 specifying the two values 
+in \code{maskIndex} to be matched with values in \code{eventIndex} to 
 determine the events that are to be masked.
 Default: \code{c(-1, 1)}.}
 }
@@ -86,9 +86,9 @@ indicated as such in the value returned.
 }
 \details{
 Masking is performed separately for each value in 
-\code{indexvals}. Segments (rows of \code{segTable}) with that 
+\code{indexVals}. Segments (rows of \code{segTable}) with that 
 value of \code{eventIndex} are examined for coverage by mask intervals 
-with that value of \code{maskindex} in \code{maskTable}. If the coverage 
+with that value of \code{maskIndex} in \code{maskTable}. If the coverage 
 is at least \code{minCover}, the segment is slated for masking, while its 
 flanking segments are extended to a random point within the segment 
 being masked.
@@ -132,9 +132,9 @@ cnptable <- rbind(cbind(aCNPmask, cnpindex=1),
 myCNPtable <- applyCNPmask(segTable=segtable, chrom="chrom",
     startPos="chrom.pos.start", endPos="chrom.pos.end", 
     startProbe="start", endProbe="end", eventIndex="eventIndex",
-    maskTable=cnptable, maskchrom="chrom", maskstart="start", 
-    maskend="end", maskindex="cnpindex", minCover=0.005,
-    indexvals=c(-1, 1))
+    maskTable=cnptable, maskChrom="chrom", maskStart="start", 
+    maskEnd="end", maskIndex="cnpindex", minCover=0.005,
+    indexVals=c(-1, 1))
 
 ## Show some results
 head(myCNPtable)
