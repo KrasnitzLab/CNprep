@@ -101,7 +101,7 @@ data(ratexample)
 data(normsegs)
 data(cnpexample)
 
-## Create a table with segment information
+## Create a table with segment information (table of copy number events)
 segtable <- CNpreprocessing(segall = segexample[segexample[,"ID"] == "WZ1",],
     ratall = ratexample, idcol = "ID", startcol = "start", endcol = "end",
     chromcol = "chrom", bpstartcol = "chrom.pos.start", 
@@ -110,7 +110,8 @@ segtable <- CNpreprocessing(segall = segexample[segexample[,"ID"] == "WZ1",],
     modelNames = "E", normalength = normsegs[,1], 
     normalmedian = normsegs[,2])
 
-## Form a eventIndex vector
+## Add an eventIndex column to segtable that identifies the 
+## amplication (marked as 1) and deletion (marked as -1) events
 eventIndex <- rep(0, nrow(segtable))
 eventIndex[segtable[,"marginalprob"] < 1e-4 & segtable[,"negtail"] > 0.999 & 
     segtable[,"mediandev"] < 0] <- -1
@@ -118,21 +119,21 @@ eventIndex[segtable[,"marginalprob"] < 1e-4 & segtable[,"negtail"] > 0.999 &
     segtable[,"mediandev"] > 0] <- 1
 segtable <- cbind(segtable, eventIndex)
 
-## Form a cnpindex vector
+## Create a mask table using amplification and deletion regions as input
 namps17 <- cnpexample[cnpexample[,"copy.num"] == "amp",]
 aCNPmask <- makeCNPmask(imat=namps17, chromcol=2, startcol=3, 
     endcol=4, nprof=1203, uthresh=0.02, dthresh=0.008)
 ndels17 <- cnpexample[cnpexample[,"copy.num"] == "del",]
 dCNPmask <- makeCNPmask(imat=ndels17, chromcol=2, startcol=3, 
     endcol=4, nprof=1203, uthresh=0.02, dthresh=0.008)
-cnptable <- rbind(cbind(aCNPmask, cnpindex=1), 
+maskTable <- rbind(cbind(aCNPmask, cnpindex=1), 
     cbind(dCNPmask, cnpindex=-1))
 
-## Run the CNPmask
+## Apply a mask to a table of copy number events
 myCNPtable <- applyCNPmask(segTable=segtable, chrom="chrom",
     startPos="chrom.pos.start", endPos="chrom.pos.end", 
     startProbe="start", endProbe="end", eventIndex="eventIndex",
-    maskTable=cnptable, maskChrom="chrom", maskStart="start", 
+    maskTable=maskTable, maskChrom="chrom", maskStart="start", 
     maskEnd="end", maskIndex="cnpindex", minCover=0.005,
     indexVals=c(-1, 1))
 
