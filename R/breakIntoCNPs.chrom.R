@@ -1,5 +1,5 @@
 #' @title Determine which segments have to be removed and redistribute 
-#' probes/bins in removed segments
+#' probes/bins from removed segments
 #' 
 #' @description This function determines which segments have to be removed and
 #' redistributes the probes/bins from a removed segment 
@@ -76,29 +76,29 @@
 #' @examples
 #'
 #' # Table containing information about segments in the chromosome
-#' segTable <- data.frame(ID = c(rep("WZ1", 5)), 
-#'     start = c(1, 16, 23, 31, 38),
-#'     end = c(15, 22, 30, 37, 50),
-#'     seg.median = c(0.03779, -0.51546, 0.2431, -0.2259, 0.0372),
-#'     chrom = c(rep(1, 5)),
-#'     chrom.pos.start = c(932544, 16004440, 38093655, 78729960, 103416416),
-#'     chrom.pos.end = c(15844870, 37974708, 78619856, 103394039, 142176090),
-#'     eventIndex = c(0, 0, 1, 0, -1))
+#' segTable <- data.frame(ID=c(rep("WZ1", 5)), 
+#'     start=c(1, 16, 23, 31, 38),
+#'     end=c(15, 22, 30, 37, 50),
+#'     seg.median=c(0.03779, -0.51546, 0.2431, -0.2259, 0.0372),
+#'     chrom=c(rep(1, 5)),
+#'     chrom.pos.start=c(932544, 16004440, 38093655, 78729960, 103416416),
+#'     chrom.pos.end=c(15844870, 37974708, 78619856, 103394039, 142176090),
+#'     eventIndex=c(0, 0, 1, 0, -1))
 #'     
 #' # Table with copy number information
 #' cnptable <- matrix(c(rep(1, 3), c(932544, 38093688, 123416446), 
-#'     c(11844870, 48619856, 182176090), rep(1,3)), ncol = 4, byrow = FALSE,
+#'     c(11844870, 48619856, 182176090), rep(1,3)), ncol=4, byrow=FALSE,
 #'     dimnames=list(NULL, c("chrom", "start", "end", "cnpindex")))
 #'     
 #' # This function redistributes the bins/probes from a removed segment into 
 #' # the adjacent segments  
-#' CNprep:::breakIntoCNPs.chrom(segtable = segTable, chrom = "chrom", 
-#'     startPos = "chrom.pos.start", endPos = "chrom.pos.end", 
-#'     startProbe = "start", endProbe = "end", 
-#'     eventIndex = "eventIndex", 
-#'     cnptable = cnptable, cnpchrom = "chrom",  
-#'     cnpstart = "start", cnpend = "end", cnpindex = "cnpindex", 
-#'     mincover = 0.005, indexvals = c(-1, 1))
+#' CNprep:::breakIntoCNPs.chrom(segtable=segTable, chrom="chrom", 
+#'     startPos="chrom.pos.start", endPos="chrom.pos.end", 
+#'     startProbe="start", endProbe="end", 
+#'     eventIndex="eventIndex", 
+#'     cnptable=cnptable, cnpchrom="chrom",  
+#'     cnpstart="start", cnpend="end", cnpindex="cnpindex", 
+#'     mincover=0.005, indexvals=c(-1, 1))
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
@@ -106,21 +106,28 @@ breakIntoCNPs.chrom <- function(segtable, chrom, startPos, endPos, startProbe,
     endProbe, eventIndex, cnptable, cnpchrom, cnpstart, cnpend, cnpindex, 
     mincover, indexvals)
 {
+    ## List of segments that will be masked
+    ## Initialy, non are masked (all set to zero)
     toremove <- rep(0, nrow(segtable))
     segtable <- cbind(segtable, toremove)
     chr <- segtable[1, chrom]
+    
+    ## When there is not segment with an event or when the copy number
+    ## table have not entry for the specific chromosome, 
+    ## an empty remove matrix is returned
     if (sum(segtable[,eventIndex] != 0) == 0 | 
                 sum(cnptable[, cnpchrom] == chr) == 0) {
         return(as.matrix(segtable[,c(startProbe, endProbe, "toremove")]))
     }
     
-    cnpsinchr <- cnptable[cnptable[, cnpchrom] == chr,, drop = FALSE]
+    ## Only retain copy number 
+    cnpsinchr <- cnptable[cnptable[, cnpchrom] == chr,, drop=FALSE]
     
     ## Select segments that should be removed
     for (i in indexvals) {
         if (sum(segtable[,eventIndex] == i) > 0 & 
                     sum(cnpsinchr[, cnpindex] == i) > 0) {
-            acnpinchr <- cnpsinchr[cnpsinchr[, cnpindex] == i,, drop = FALSE]
+            acnpinchr <- cnpsinchr[cnpsinchr[, cnpindex] == i,, drop=FALSE]
             amps <- which(segtable[, eventIndex] == i)
             segstartmat <- matrix(ncol = nrow(acnpinchr),
                                     data = rep(segtable[amps, startPos], 

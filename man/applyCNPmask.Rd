@@ -4,60 +4,60 @@
 \alias{applyCNPmask}
 \title{Apply a mask to a table of copy number events.}
 \usage{
-applyCNPmask(segtable, chrom, startPos, endPos, startProbe, endProbe,
-  eventIndex, masktable, maskchrom, maskstart, maskend, maskindex,
-  mincover = 1, indexvals = c(-1, 1))
+applyCNPmask(segTable, chrom, startPos, endPos, startProbe, endProbe,
+  eventIndex, maskTable, maskchrom, maskstart, maskend, maskindex,
+  minCover = 1, indexvals = c(-1, 1))
 }
 \arguments{
-\item{segtable}{a \code{matrix} or a \code{data.frame} with columns 
+\item{segTable}{a \code{matrix} or a \code{data.frame} with columns 
 named or enumerated by the values of 
 \code{chrom, startPos, endPos, startProbe, endProbe, eventIndex}.}
 
 \item{chrom}{a \code{character} string specifying the name for the column in 
-\code{segtable} tabulating the (integer) chromosome number for each segment.}
+\code{segTable} tabulating the (integer) chromosome number for each segment.}
 
 \item{startPos}{a \code{character} string or integer specifying the 
-name or number of columns in \code{segtable} that tabulates the (integer) 
+name or number of columns in \code{segTable} that tabulates the (integer) 
 genomic start coordinate of each segment.}
 
 \item{endPos}{a \code{character} string or integer specifying the 
-name or number of columns in \code{segtable} that tabulates the (integer) 
+name or number of columns in \code{segTable} that tabulates the (integer) 
 genomic end coordinate of each segment.}
 
 \item{startProbe}{a \code{character} string specifying the names of 
-columns in \code{segtable} that tabulates the (integer) start postion 
+columns in \code{segTable} that tabulates the (integer) start postion 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 
 \item{endProbe}{a \code{character} string specifying the names of 
-columns in \code{segtable} that tabulates the (integer) end postion 
+columns in \code{segTable} that tabulates the (integer) end postion 
 of each segment in internal units such as probe numbers for 
 data of CGH microarray origin.}
 
 \item{eventIndex}{a \code{character} string giving the name of a column in 
-\code{segtable} where copy number variation status of the segments is 
+\code{segTable} where copy number variation status of the segments is 
 tabulated.}
 
-\item{masktable}{a \code{matrix} or a \code{data.frame} with columns named 
+\item{maskTable}{a \code{matrix} or a \code{data.frame} with columns named 
 or enumerated as given by \code{maskchrom, maskstart, maskend, maskindex} 
 and with rows corresponding to genomic intervals that comprise the mask.}
 
 \item{maskchrom}{a \code{character} string or \code{integer} 
-specifying the name or number of columns in \code{masktable} that tabulates 
+specifying the name or number of columns in \code{maskTable} that tabulates 
 the chromosome number of the intervals comprising the mask.}
 
 \item{maskstart}{a \code{character} string or \code{integer} 
-specifying the name or number of columns in \code{masktable} that tabulates 
+specifying the name or number of columns in \code{maskTable} that tabulates 
 the genomic start coordinates of the intervals comprising the mask.}
 
 \item{maskend}{a \code{character} string or \code{integer} 
-specifying the name or number of columns in \code{masktable} that tabulates 
+specifying the name or number of columns in \code{maskTable} that tabulates 
 the genomic end coordinates of the intervals comprising the mask.}
 
 \item{maskindex}{a \code{numeric} \code{vector} corresponding to 
 \code{eventIndex}, specifying copy number events status for measuring units.}
 
-\item{mincover}{A numeric value specifying the minimal portion of the 
+\item{minCover}{A numeric value specifying the minimal portion of the 
 segment that must be covered by the mask in order to trigger masking.
 Default: \code{1}.}
 
@@ -67,7 +67,7 @@ determine the events that are to be masked.
 Default: \code{c(-1, 1)}.}
 }
 \value{
-A matrix with same number of observations/rows as \code{segtable} 
+A matrix with same number of observations/rows as \code{segTable} 
 and with following three columns:
 \itemize{
 \item{startProbe,endProbe}{ An integer vector for the start and end 
@@ -78,7 +78,7 @@ is masked and 0 otherwise. }
 }
 \description{
 A mask is applied to amplified or deleted segments as 
-tabulated in \code{segtable}. A decision whether to mask a segment 
+tabulated in \code{segTable}. A decision whether to mask a segment 
 is taken based on what portion of the segment is covered by the mask. A 
 position is chosen at random within a segment to be masked, the flanking 
 segments are extended to that position and the segment to be masked is 
@@ -86,10 +86,10 @@ indicated as such in the value returned.
 }
 \details{
 Masking is performed separately for each value in 
-\code{indexvals}. Segments (rows of \code{segtable}) with that 
+\code{indexvals}. Segments (rows of \code{segTable}) with that 
 value of \code{eventIndex} are examined for coverage by mask intervals 
-with that value of \code{maskindex} in \code{masktable}. If the coverage 
-is at least \code{mincover}, the segment is slated for masking, while its 
+with that value of \code{maskindex} in \code{maskTable}. If the coverage 
+is at least \code{minCover}, the segment is slated for masking, while its 
 flanking segments are extended to a random point within the segment 
 being masked.
 }
@@ -120,21 +120,21 @@ segtable <- cbind(segtable, eventIndex)
 
 ## Form a cnpindex vector
 namps17 <- cnpexample[cnpexample[,"copy.num"] == "amp",]
-aCNPmask <- makeCNPmask(imat = namps17, chromcol = 2, startcol = 3, 
-    endcol = 4, nprof = 1203, uthresh = 0.02, dthresh = 0.008)
+aCNPmask <- makeCNPmask(imat=namps17, chromcol=2, startcol=3, 
+    endcol=4, nprof=1203, uthresh=0.02, dthresh=0.008)
 ndels17 <- cnpexample[cnpexample[,"copy.num"] == "del",]
-dCNPmask <- makeCNPmask(imat = ndels17, chromcol = 2, startcol = 3, 
-    endcol = 4, nprof = 1203, uthresh = 0.02, dthresh = 0.008)
-cnptable <- rbind(cbind(aCNPmask, cnpindex = 1), 
-    cbind(dCNPmask, cnpindex = -1))
+dCNPmask <- makeCNPmask(imat=ndels17, chromcol=2, startcol=3, 
+    endcol=4, nprof=1203, uthresh=0.02, dthresh=0.008)
+cnptable <- rbind(cbind(aCNPmask, cnpindex=1), 
+    cbind(dCNPmask, cnpindex=-1))
 
 ## Run the CNPmask
-myCNPtable <- applyCNPmask(segtable = segtable, chrom = "chrom",
-    startPos = "chrom.pos.start", endPos = "chrom.pos.end", 
-    startProbe = "start", endProbe = "end", eventIndex = "eventIndex",
-    masktable = cnptable, maskchrom = "chrom", maskstart = "start", 
-    maskend = "end", maskindex = "cnpindex", mincover = 0.005,
-    indexvals = c(-1, 1))
+myCNPtable <- applyCNPmask(segTable=segtable, chrom="chrom",
+    startPos="chrom.pos.start", endPos="chrom.pos.end", 
+    startProbe="start", endProbe="end", eventIndex="eventIndex",
+    maskTable=cnptable, maskchrom="chrom", maskstart="start", 
+    maskend="end", maskindex="cnpindex", minCover=0.005,
+    indexvals=c(-1, 1))
 
 ## Show some results
 head(myCNPtable)

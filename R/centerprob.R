@@ -46,9 +46,9 @@ centerprob <- function(logr, emfit, zgroup, times, center) {
     ## Combine columns of z table using indicator matrix zgroup
     gz <- gz %*% t(zgroup)  
     
-    gz <- matrix(ncol = ncol(gz),
-            data = apply(gz, 2, cumsum)[seq(from = times, 
-                                    to = nrow(gz), by = times),] / times)
+    gz <- matrix(ncol=ncol(gz),
+                    data=apply(gz, 2, cumsum)[seq(from=times, 
+                                    to=nrow(gz), by=times),] / times)
     
     ## Mean value within each segment
     gz <- (gz[,center] - c(0, gz[-nrow(gz), center])) / 
