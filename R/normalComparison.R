@@ -34,11 +34,11 @@
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
 normalComparison <- function(normalmedian, normalength, tumormedian, 
-                            tumorlength, normalmad = NULL, normalerror = NULL, 
-                            tumormad = NULL, tumorerror = NULL) 
+                            tumorlength, normalmad=NULL, normalerror=NULL, 
+                            tumormad=NULL, tumorerror=NULL) 
 {
-    nisnull <- c(!(is.null(normalmad)|is.null(tumormad)),
-                    !(is.null(normalerror)|is.null(tumorerror)))
+    nisnull <- c(!(is.null(normalmad) | is.null(tumormad)),
+                    !(is.null(normalerror) | is.null(tumorerror)))
     
     nsred <- matrix(ncol = 2 + sum(nisnull), length(normalmedian),
                 data=c(normalength, normalmedian,
@@ -60,10 +60,10 @@ normalComparison <- function(normalmedian, normalength, tumormedian,
                         tumormedian/tumormad),c(nsred[, "length"],
                         rep(0,length(tumormedian))), 
                         c(rep(0,nrow(nsred)), seq_len(length(tumormedian))))
-        z <- z[order(z[,1]),,drop = FALSE]
+        z <- z[order(z[,1]),,drop=FALSE]
         z[,2] <- cumsum(z[,2])/lnorm
-        z <- z[z[,3]!=0,, drop = FALSE]
-        negtailnormad<-z[order(z[,3]),2]
+        z <- z[z[,3]!=0,, drop=FALSE]
+        negtailnormad<-z[order(z[,3]), 2]
     }
     
     if (nisnull[2]) {
@@ -71,9 +71,9 @@ normalComparison <- function(normalmedian, normalength, tumormedian,
                         tumormedian/tumorerror),
                 c(nsred[, "length"], rep(0, length(tumormedian))),
                 c(rep(0,nrow(nsred)), seq_len(length(tumormedian))))
-        z <- z[order(z[,1]),, drop = FALSE]
+        z <- z[order(z[,1]),, drop=FALSE]
         z[,2] <- cumsum(z[,2])/lnorm
-        z <- z[z[,3]!=0,, drop = FALSE]
+        z <- z[z[,3]!=0,, drop=FALSE]
         negtailnormerror <- z[order(z[,3]),2]
     }
     

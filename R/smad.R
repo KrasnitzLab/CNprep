@@ -31,5 +31,5 @@
 #' @importFrom stats mad
 #' @keywords internal
 smad <- function(pos, v) {
-    mad(v[pos[1]:pos[2]], na.rm = TRUE)
+    mad(v[pos[1]:pos[2]], na.rm=TRUE)
 }

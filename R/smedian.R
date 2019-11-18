@@ -25,11 +25,11 @@
 #'     0.012126180, 0.043428961, 0.028435453, 0.075708220, 0.020358061)
 #' 
 #' ## Calculate the median of the values from the subsetted vector
-#' CNprep:::smedian(pos = position, v = values)
+#' CNprep:::smedian(pos=position, v=values)
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @importFrom stats median
 #' @keywords internal
 smedian <- function(pos, v) {
-    median(v[pos[1]:pos[2]], na.rm = TRUE)
+    median(v[pos[1]:pos[2]], na.rm=TRUE)
 }

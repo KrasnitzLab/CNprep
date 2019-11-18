@@ -25,7 +25,7 @@
 #'     
 #' ## Calculate the median and median absolute deviation of the values from the 
 #' ## subsetted vector
-#' CNprep:::smedmad(pos = position, v = values)
+#' CNprep:::smedmad(pos=position, v=values)
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @importFrom stats median mad

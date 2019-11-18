@@ -34,7 +34,7 @@ values <- c(0.172073840, 0.012913919, 0.134459489, 0.040994620, -0.182843732,
     
 ## Calculate the median and median absolute deviation of the values from the 
 ## subsetted vector
-CNprep:::smedmad(pos = position, v = values)
+CNprep:::smedmad(pos=position, v=values)
 
 }
 \author{

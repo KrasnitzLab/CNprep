@@ -57,9 +57,9 @@ the number of times the median is calculated for each segment.
 \examples{
 
 ## Create a data.frame with 3 segments on chromosome 1
-segData <- data.frame(StartProbe = c(1, 9, 13), EndProbe = c(8, 12, 15),
-    chrom = c(1,1,1), segmedian = c(0.06662475, 0.06719237, 0.07111544),
-    segmad = c(0.06213208, 0.04722233, 0.07633202))
+segData <- data.frame(StartProbe=c(1, 9, 13), EndProbe=c(8, 12, 15),
+    chrom=c(1,1,1), segmedian=c(0.06662475, 0.06719237, 0.07111544),
+    segmad=c(0.06213208, 0.04722233, 0.07633202))
     
 ## Copy number ratio (in log2) for each bin 
 ## Multiples bins are associated to 1 segment
@@ -70,10 +70,10 @@ ratcol <- c(0.062073840, 0.10913919,  0.143459489,  0.033994620,
     
 ## Use an integer division to determine the number of times each
 ## segment is sampled
-CNprep:::segsample(mysegs = segData, ratcol = ratcol, blocksize = 4)
+CNprep:::segsample(mysegs=segData, ratcol=ratcol, blocksize=4)
 
 ## Each segment is sampled the same number of times
-CNprep:::segsample(mysegs = segData, ratcol = ratcol, times = 2)
+CNprep:::segsample(mysegs=segData, ratcol=ratcol, times=2)
 
 }
 \author{
