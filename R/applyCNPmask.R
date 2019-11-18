@@ -138,9 +138,9 @@ applyCNPmask <- function(segTable, chrom, startPos, endPos, startProbe,
     breakCNPs <- by(segTable, INDICES = as.factor(segTable[,chrom]),
         FUN = breakIntoCNPs.chrom, chrom = chrom, startPos = startPos, 
         endPos = endPos, startProbe = startProbe, endProbe = endProbe, 
-        eventIndex = eventIndex, cnptable = maskTable, cnpchrom = maskChrom, 
-        cnpstart = maskStart, cnpend = maskEnd, cnpindex = maskIndex, 
-        mincover = minCover, indexvals = indexVals, simplify = TRUE)
+        eventIndex = eventIndex, cnpTable = maskTable, cnpChrom = maskChrom, 
+        cnpStart = maskStart, cnpEnd = maskEnd, cnpIndex = maskIndex, 
+        minCover = minCover, indexVals = indexVals, simplify = TRUE)
 
     myCNPs <- matrix(ncol=3, byrow=TRUE, 
                      data=unlist(lapply(breakCNPs, t)))
