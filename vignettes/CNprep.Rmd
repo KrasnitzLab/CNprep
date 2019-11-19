@@ -24,8 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## License
 
 The *CNprep* package and the underlying *CNprep* code 
-are distributed under the [GPL-2 License](https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt). You are free to use and 
-redistribute this software. 
+are distributed under the [GPL-2 License](https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt). You are free to use and redistribute this software. 
 
 ## Citing
 
@@ -42,7 +41,7 @@ Copy number variation is a significant source of variation in the human genome.
 Copy number variants (CNVs) has been associated with a number of diseases, such 
 as Tourette Disorder [@Wang2018] and especially 
 cancer [@Pelttari2018; @Franch-Exposito2018a]. Even 
-more, CNVs can potentially to be used biomarker for cancer 
+more, CNVs can potentially be used as biomarker for cancer 
 diagnosis [@Pan2018].
 
 The *CNprep* package evaluates DNA copy number data, using both their initial 
