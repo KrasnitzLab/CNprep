@@ -63,14 +63,14 @@ test_that("breakIntoGaps() must return expected results 01", {
     
     set.seed(1221)
     
-    expected <- matrix(c(1, 16, 23, 28, 38, 15, 27, 30, 37, 50), byrow = FALSE,
-                            nrow = 5)
+    expected <- matrix(c(1, 16, 23, 28, 38, 15, 27, 30, 37, 50), byrow=FALSE,
+                            nrow=5)
     
     colnames(expected) <- c("start", "end")
    
-    results <- CNprep:::breakIntoGaps(segtable = segExample, 
-                                      gapind = "toremove",
-                                      StartProbe = "start", EndProbe = "end")
+    results <- CNprep:::breakIntoGaps(segTable=segExample, 
+                                      gapInd="toremove",
+                                      startProbe="start", endProbe="end")
     
     expect_equal(results, expected)
       
@@ -84,14 +84,14 @@ test_that("breakIntoGaps() must return expected results 02", {
     
     set.seed(121)
     
-    expected <- matrix(c(1, 16, 23, 31, 38, 15, 22, 30, 37, 50), byrow = FALSE,
-                       nrow = 5)
+    expected <- matrix(c(1, 16, 23, 31, 38, 15, 22, 30, 37, 50), byrow=FALSE,
+                       nrow=5)
     
     colnames(expected) <- c("start", "end")
     
-    results <- CNprep:::breakIntoGaps(segtable = segExample2, 
-                                      gapind = "toremove",
-                                      StartProbe = "start", EndProbe = "end")
+    results <- CNprep:::breakIntoGaps(segTable=segExample2, 
+                                      gapInd="toremove",
+                                      startProbe="start", endProbe="end")
     
     expect_equal(results, expected)
     
@@ -106,14 +106,14 @@ test_that("breakIntoGaps() must return expected results 03", {
     
     set.seed(12144)
     
-    expected <- matrix(c(1, 16, 23, 31, 38, 15, 22, 30, 50, 50), byrow = FALSE,
-                       nrow = 5)
+    expected <- matrix(c(1, 16, 23, 31, 38, 15, 22, 30, 50, 50), byrow=FALSE,
+                       nrow=5)
     
     colnames(expected) <- c("start", "end")
     
-    results <- CNprep:::breakIntoGaps(segtable = segExample3, 
-                                      gapind = "toremove",
-                                      StartProbe = "start", EndProbe = "end")
+    results <- CNprep:::breakIntoGaps(segTable= segExample3, 
+                                      gapInd="toremove",
+                                      startProbe="start", endProbe="end")
     
     expect_equal(results, expected)
     

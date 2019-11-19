@@ -88,9 +88,9 @@ indicated as such in the value returned.
 Masking is performed separately for each value in 
 \code{indexVals}. Segments (rows of \code{segTable}) with that 
 value of \code{eventIndex} are examined for coverage by mask intervals 
-with that value of \code{maskIndex} in \code{maskTable}. If the coverage 
-is at least \code{minCover}, the segment is slated for masking, while its 
-flanking segments are extended to a random point within the segment 
+with that same value of \code{maskIndex} in \code{maskTable}. If the 
+coverage is at least \code{minCover}, the segment is slated for masking, 
+while its flanking segments are extended to a random point within the segment 
 being masked.
 }
 \examples{

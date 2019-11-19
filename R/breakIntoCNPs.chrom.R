@@ -108,27 +108,36 @@ breakIntoCNPs.chrom <- function(segTable, chrom, startPos, endPos, startProbe,
     minCover, indexVals)
 {
     ## List of segments that will be masked
-    ## Initialy, non are masked (all set to zero)
+    ## Initialy, none are masked (all set to zero)
     toremove <- rep(0, nrow(segTable))
     segTable <- cbind(segTable, toremove)
+    
+    ## Get information about the currently analysed chromosome
     chr <- segTable[1, chrom]
     
     ## When there is not segment with an event or when the copy number
     ## table have not entry for the specific chromosome, 
-    ## an empty remove matrix is returned
+    ## an empty matrix is returned
     if (sum(segTable[,eventIndex] != 0) == 0 | 
                 sum(cnpTable[, cnpChrom] == chr) == 0) {
         return(as.matrix(segTable[,c(startProbe, endProbe, "toremove")]))
     }
     
-    ## Only retain copy number 
+    ## Only retain copy number in the specified chromosome
     cnpsinchr <- cnpTable[cnpTable[, cnpChrom] == chr,, drop=FALSE]
     
     ## Select segments that should be removed
+    ## Each type of event (amplification/deletion) is treated separately 
     for (i in indexVals) {
+        ## At least one event must be present in the segment table and in 
+        ## the copy number table to run the analysis
         if (sum(segTable[,eventIndex] == i) > 0 & 
                     sum(cnpsinchr[, cnpIndex] == i) > 0) {
+            
+            ## Only retain copy numbers specific to the analysed event
             acnpinchr <- cnpsinchr[cnpsinchr[, cnpIndex] == i,, drop=FALSE]
+            
+            ## Create segment matrix containing only the analysed event
             amps <- which(segTable[, eventIndex] == i)
             segstartmat <- matrix(ncol = nrow(acnpinchr),
                                     data = rep(segTable[amps, startPos], 
@@ -139,6 +148,10 @@ breakIntoCNPs.chrom <- function(segTable, chrom, startPos, endPos, startProbe,
                             data = rep(acnpinchr[, cnpStart], length(amps))))
             cnpendmat <- t(matrix(ncol = length(amps),
                             data = rep(acnpinchr[, cnpEnd], length(amps))))
+            
+            ## For each segment with a specific event, calculate the 
+            ## ratio of coverage by all copy number event associated to 
+            ## the same event
             cnpcover <- rowSums(pmax(matrix(nrow = nrow(cnpendmat),
                             ncol = ncol(cnpendmat), data = 0), 
                             (pmin(segendmat, cnpendmat) -
@@ -146,12 +159,16 @@ breakIntoCNPs.chrom <- function(segTable, chrom, startPos, endPos, startProbe,
                             (segTable[amps, endPos] - 
                             segTable[amps, startPos] + 1)
             
+            ## The segments with a coverage superior to the minimum coverage
+            ## specified are marked to remove
             toremove[amps[cnpcover > minCover]] <- 1
         }
     }
     
     segTable[, "toremove"] <- toremove
     
+    ## When at least one segment is marked to be removed, 
+    ## the probes/bins in the removed segments are assigned to adjacent segments
     if (sum(toremove) > 0) {
         segTable[, c(startProbe, endProbe)] <-
             breakIntoGaps(segTable, "toremove", startProbe, endProbe)
