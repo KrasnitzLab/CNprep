@@ -176,6 +176,51 @@ test_that("CNpreprocessing() must return expected results 03", {
     expect_equal(results, expected)
 })
 
+test_that("CNpreprocessing() must return expected results when columns names are not the one by default", {
+    
+    RNGkind("default")
+    
+    set.seed(2211)
+    
+    segExampleTmp <- segExample
+    colnames(segExampleTmp) <- c("Id", "Start", "End", "Num.Probes",
+                                 "Seg.Median", "Chrom", "Chrom.Pos.Start",
+                                 "Chrom.Pos.End", "Cytoband.Start", 
+                                 "Cytoband.End", "Abs.Pos.Start", "Abs.Pos.End")
+    
+    results <- CNpreprocessing(segall=segExampleTmp, ratall=rateExample, idCol="Id", 
+                               "Start", "End", chromCol="Chrom", bpstartCol="Chrom.Pos.Start", 
+                               bpendCol="Chrom.Pos.End",
+                               blsize=3, minJoin=0.55, cWeight=0.2, bstimes=1, chromRange=1,
+                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs, mySeed = 41)
+    row.names(results) <- NULL
+    
+    expected <- segExample
+    colnames(expected)[1:12] <- c("Id", "Start", "End", "Num.Probes",
+                                 "Seg.Median", "Chrom", "Chrom.Pos.Start",
+                                 "Chrom.Pos.End", "Cytoband.Start", 
+                                 "Cytoband.End", "Abs.Pos.Start", "Abs.Pos.End")
+    
+    
+    expected$segmedian <- c(0.0866247523, 0.0731923746, 0.0768954424, -0.0073122998, 0.0281455711)
+    expected$segmad <- c(0.0640420795, 0.0476423308, 0.0883320200, 0.0410240773, 0.0752964600)
+    expected$mediandev <- c(0.0939370521, 0.0805046744, 0.0842077422, 0.0000000000, 0.0354578709)
+    expected$segerr <- as.double(rep(NA, 5))
+    expected$centerz <- c(0.0000000000000, 0.0000000000000, 0.0000000000000, 1.0000000000000, 1.0000000000000)
+    expected$marginalprob <- c(0.000000000000, 0.000000000000, 0.000000000000, 0.004912523442, 0.097269097009)
+    expected$maxz <- c(1.000000000000, 1.000000000000, 1.000000000000, 1.0000000000000, 1.000000000000)
+    expected$maxzmean <- c(0.088688311377, 0.016544392756, 0.060472662089, 0.0000000000000, 0.000000000000)
+    expected$maxzsigma <- c(0.000286971609, 0.000286971609, 0.000286971609, 0.013376927175, 0.013376927175)
+    expected$samplesize <- c(111, 75, 41, 67, 42)
+    expected$negtail <- c(1.000000000000, 1.000000000000, 1.000000000000, 0.283687947139, 1.000000000000)
+    row.names(expected) <- NULL
+    
+    expect_equal(results, expected)
+})
+
+
+
 
 test_that("CNpreprocessing() must return expected results when not ratall", {
     

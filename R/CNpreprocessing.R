@@ -351,7 +351,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             parallel::clusterEvalQ(cl=cl, expr=requireNamespace("CNprep"))
         }
 
-        processed<-switch(distrib,
+        processed <- switch(distrib,
             vanilla=lapply(X = profpack, FUN = CNclusterNcenter, blsize=blsize,
                 minjoin = minJoin, ntrial = nTrial, bestbic = bestbic,
                 modelNames = modelNames, cweight = cWeight, bstimes = bstimes, 
@@ -360,6 +360,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                 blsize=blsize, minjoin = minJoin, ntrial = nTrial, 
                 bestbic=bestbic, modelNames=modelNames, cweight=cWeight,
                 bstimes=bstimes, chromrange=chromRange, seedme=mySeed))
+        
         if (distrib=="Rparallel") stopCluster(cl)
         segall <- cbind(segall, do.call(rbind, processed))
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
