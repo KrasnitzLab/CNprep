@@ -91,7 +91,7 @@ NULL
 #' ##segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, "ID",
 #' ##    chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
 #' ##    annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
-#' ##   annotChromCol="CHROM", blsize=50, minjoin=0.25, cweight=0.4, bstimes=5,
+#' ##   annotChromCol="CHROM", blsize=50, minjoin=0.25, cWeight=0.4, bstimes=5,
 #' ##    chromrange=1:2, distrib="vanilla", nJobs=1, modelNames="E", 
 #' ##    normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' 
@@ -238,7 +238,7 @@ NULL
 #' segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, idCol="ID",
 #'     chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
 #'     annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
-#'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cweight=0.4, bstimes=3,
+#'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bstimes=3,
 #'     chromRange=1:2, distrib="vanilla", nJobs=1, modelNames="E", 
 #'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' 

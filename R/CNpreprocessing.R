@@ -20,7 +20,9 @@
 #' value, such as 2 in diploid genomes.
 #' 
 #' @param idCol A \code{character} string specifying the name for the 
-#' column in \code{segall} tabulating the profile IDs. Default: \code{NULL}.
+#' column in \code{segall} tabulating the profile IDs. When not specified,
+#' the numerical column of the \code{ratall} object will be used as the
+#' profile IDs. Default: \code{NULL}.
 #' 
 #' @param startCol A \code{character} string specifying the name of column 
 #' in \code{segall} that tabulates the (integer) start postion of each segment 
@@ -109,7 +111,7 @@
 #' the names of models to be used in model-based clustering (see package 
 #' \code{mclust} for further details). The default is \code{"E"}.
 #' 
-#' @param cweight A single \code{numeric} value between \code{0} and \code{1} 
+#' @param cWeight A single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the minimal share of the central cluster in each profile.
 #' 
 #' @param bstimes A single \code{double} value specifying the number of 
@@ -198,30 +200,33 @@
 #' data(normsegs)
 #' 
 #' ## Small toy example
-#' segtable<-CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
-#'     ratall=ratexample, "ID", "start", "end", chromCol="chrom", 
-#'     bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end", blsize=50, 
-#'     minJoin=0.25, cweight=0.4, bstimes=50, chromRange=1:3, 
+#' segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
+#'     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
+#'     chromCol="chrom", bpstartCol="chrom.pos.start", 
+#'     bpendCol="chrom.pos.end", blsize=50, 
+#'     minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
 #'     distrib="vanilla", nJobs=1, modelNames="E", normalLength=normsegs[,1],
 #'     normalMedian=normsegs[,2])
 #'     
 #' \dontrun{
 #' ## Example 1: 5 whole genome analysis, choosing the right format of arguments
-#' segtable<-CNpreprocessing(segall=segexample,ratall=ratexample, "ID", 
+#' segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
 #'    "start","end", chromCol="chrom",bpstartCol="chrom.pos.start",
-#'    bpendCol="chrom.pos.end",blsize=50, minJoin=0.25,cweight=0.4,bstimes=50,
-#'    chromRange=1:22,distrib="Rparallel",nJobs=40, modelNames="E",
-#'    normalLength=normsegs[,1],normalMedian=normsegs[,2])
+#'    bpendCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
+#'    bstimes=50, chromRange=1:22, distrib="Rparallel", nJobs=40, 
+#'    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #'    
 #' ## Example 2: how to use annotexample, when segment table does not have 
 #' columns of integer postions in terms of  measuring units(probes), such as 
 #' "mysegs" below
-#' mysegs<-segexample[,c(1,5:12)]
+#' mysegs <- segexample[,c(1,5:12)]
+#' 
 #' data(annotexample)
-#' segtable<-CNpreprocessing(segall=mysegs,ratall=ratexample, colId="ID",
+#' 
+#' segtable <- CNpreprocessing(segall=mysegs,ratall=ratexample, idCol="ID",
 #'     chromCol="chrom", bpstartCol="chrom.pos.start",bpendCol="chrom.pos.end",
 #'     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
-#'     annotChromCol="CHROM", blsize=50,minJoin=0.25, cweight=0.4, bstimes=50,
+#'     annotChromCol="CHROM", blsize=50,minJoin=0.25, cWeight=0.4, bstimes=50,
 #'     chromRange=1:22, distrib="Rparallel", nJobs=40, modelNames="E", 
 #'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' }
@@ -233,12 +238,15 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     endCol=NULL, medCol=NULL, madCol=NULL, errorCol=NULL, chromCol=NULL,
     bpstartCol=NULL, bpendCol=NULL, annot=NULL, annotStartCol=NULL, 
     annotEndCol=NULL, annotChromCol=NULL, useEnd=FALSE, blsize=NULL, 
-    minJoin=NULL, nTrial=10, bestbic=-1e7, modelNames="E", cweight=NULL,
+    minJoin=NULL, nTrial=10, bestbic=-1e7, modelNames="E", cWeight=NULL,
     bstimes=NULL, chromRange=NULL, mySeed=123, distrib=c("vanilla","Rparallel"),
     nJobs=1, normalLength=NULL, normalMedian=NULL, normalmad=NULL,
     normalerror=NULL) {
 
-    ## Try to see what's possible with this input
+    ## When the column for the profile ID is not specified, see if it can
+    ## deducted from the data
+    ## If only one column in the ratall table is numerical, it will be 
+    ## used as the profile ID column
     if (is.null(idCol)) {
         cat("Found a single segmented profile with no ID","\n")
         if (!is.null(ratall)) {
@@ -346,11 +354,11 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         processed<-switch(distrib,
             vanilla=lapply(X = profpack, FUN = CNclusterNcenter, blsize=blsize,
                 minjoin = minJoin, ntrial = nTrial, bestbic = bestbic,
-                modelNames = modelNames, cweight = cweight, bstimes = bstimes, 
+                modelNames = modelNames, cweight = cWeight, bstimes = bstimes, 
                 chromrange = chromRange, seedme = mySeed),
             Rparallel=parLapply(cl, X = profpack, fun=CNclusterNcenter,
                 blsize=blsize, minjoin = minJoin, ntrial = nTrial, 
-                bestbic=bestbic, modelNames=modelNames, cweight=cweight,
+                bestbic=bestbic, modelNames=modelNames, cweight=cWeight,
                 bstimes=bstimes, chromrange=chromRange, seedme=mySeed))
         if (distrib=="Rparallel") stopCluster(cl)
         segall <- cbind(segall, do.call(rbind, processed))
@@ -377,11 +385,11 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         tumormedian <- segall[, medCol]
         
         if (!is.null(madCol)) {
-            tumormad<-segall[, madCol]
+            tumormad <- segall[, madCol]
         }
         
         if (!is.null(errorCol)) {
-            tumorerror<-segall[, errorCol]
+            tumorerror <- segall[, errorCol]
         }
         
         segall <- cbind(segall, normalComparison(normalMedian, normalLength,
