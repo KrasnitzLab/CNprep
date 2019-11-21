@@ -8,9 +8,9 @@
 #' 
 #' @param segall A \code{matrix} or a \code{data.frame} for segmented copy 
 #' number profiles. It may have a character column, with a name specified 
-#' by \code{idcol}, and/or numeric columns with names specified by 
-#' \code{startcol, endcol, medcol, madcol,errorcol}  
-#' \code{,chromcol, bpstartcol, bpendcol}. Each row of \code{segall} 
+#' by \code{idCol}, and/or numeric columns with names specified by 
+#' \code{startCol, endCol, medcol, madcol,errorcol}  
+#' \code{,chromcol, bpstartCol, bpendCol}. Each row of \code{segall} 
 #' corresponds to a segment belonging to one of the profiles 
 #' to be pre-processed.
 #' 
@@ -19,28 +19,29 @@
 #' copy number, most often log ratios of copy number to the expected standard 
 #' value, such as 2 in diploid genomes.
 #' 
-#' @param idcol A \code{character} string specifying the name for the 
+#' @param idCol A \code{character} string specifying the name for the 
 #' column in \code{segall} tabulating the profile IDs.
 #' 
-#' @param startcol A \code{character} string specifying the name of column 
+#' @param startCol A \code{character} string specifying the name of column 
 #' in \code{segall} that tabulates the (integer) start postion of each segment 
 #' in internal units such as probe numbers for data of CGH microarray origin.
 #' 
-#' @param endcol A \code{character} string specifying the name of column 
+#' @param endCol A \code{character} string specifying the name of column 
 #' in \code{segall} that tabulates the (integer) end postion of each segment 
 #' in internal units such as probe numbers for data of CGH microarray origin.
+#' Default: \code{NULL}.
 #' 
 #' @param medcol A \code{character} string specifying the 
 #' name of column in \code{segall} that, for the function of copy number used 
 #' in the study (typically log ratios), tabulates the (numeric) values for 
 #' the function (\code{medcol}), a measure of its spread (\code{madcol}) and 
-#' its error (\code{errorcol}) for the segment.
+#' its error (\code{errorcol}) for the segment. Default: \code{NULL}.
 #' 
 #' @param madcol A \code{character} string specifying the 
 #' name of column in \code{segall} that, for the function of copy number used 
 #' in the study (typically log ratios), tabulates the (numeric) values for 
 #' a measure of spread (\code{madcol}) related to  
-#' the function (\code{medcol}) for the segment.
+#' the function (\code{medcol}) for the segment. Default: \code{NULL}.
 #' 
 #' @param errorcol A \code{character} string specifying the 
 #' name of column in \code{segall} that, for the function of copy number used 
@@ -52,25 +53,25 @@
 #' column in \code{segall} tabulating the (integer) chromosome number for 
 #' each segment.
 #' 
-#' @param bpstartcol A \code{character} string specifying the name of 
+#' @param bpstartCol A \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic start 
 #' coordinate of each segment.
 #' 
-#' @param bpendcol A \code{character} string specifying the name of 
+#' @param bpendCol A \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic end 
 #' coordinate of each segment.
 #' 
 #' @param annot A matrix or a \code{data.frame} that contains the annotation for 
 #' the copy number measurement platform in the study. It is generally expected 
 #' to contain columns with names specified by 
-#' \code{annotstartcol, annotendcol, annotchromcol}.
+#' \code{annotstartCol, annotendCol, annotchromcol}.
 #' 
-#' @param annotstartcol A \code{character} string 
+#' @param annotstartCol A \code{character} string 
 #' specifying the name of column in \code{annot} that tabulates the (integer) 
 #' genomic start coordinates in case of CGH
 #' microarrays.
 #' 
-#' @param annotendcol A \code{character} string 
+#' @param annotendCol A \code{character} string 
 #' specifying the name of column in \code{annot} that tabulates the (integer) 
 #' genomic end coordinates in case of CGH
 #' microarrays.
@@ -81,9 +82,9 @@
 #' microarrays.
 #' 
 #' @param useend A single logical value specifying whether the segment end 
-#' positions as given by the \code{bpendcol} of \code{segall} are to be 
-#' looked up in the \code{annotendcol} column of \code{annot} 
-#' (if \code{useend=TRUE}) or in the \code{annotstartcol} column (default). 
+#' positions as given by the \code{bpendCol} of \code{segall} are to be 
+#' looked up in the \code{annotendCol} column of \code{annot} 
+#' (if \code{useend=TRUE}) or in the \code{annotstartCol} column (default). 
 #' Default: \code{FALSE}.
 #' 
 #' @param blsize A single \code{integer} specifying the bootstrap sampling 
@@ -111,12 +112,14 @@
 #' 
 #' @param bstimes A single \code{double} value specifying the number of 
 #' time the median of each segment is sampled in order to predict the cluster 
-#' assignment for the segment.
+#' assignment for the segment. Default: \code{NULL}.
 #' 
-#' @param chromrange A \code{integer} vector enumerating chromosomes from 
-#' which segments are to be used for initial model-based clustering.
+#' @param chromrange A \code{integer} \code{vector} enumerating chromosomes 
+#' from which segments are to be used for initial model-based clustering.
+#' Default: \code{NULL}.
 #' 
-#' @param myseed A single integer value to seed the random number generator.
+#' @param mySeed A single \code{integer} value to seed the random number 
+#' generator. Default: \code{123}.
 #' 
 #' @param distrib One of \code{"vanilla", "Rparallel"} to specify the 
 #' distributed computing option for the cluster assignment step. 
@@ -128,19 +131,19 @@
 #' to create in case of distributed computation. Default: \code{1}.
 #' 
 #' @param normalength An integer \code{vector} specifying the genomic lengths 
-#' of segments in the normal reference data.
+#' of segments in the normal reference data. Default: \code{NULL}.
 #' 
 #' @param normalmedian A numeric \code{vector}, 
 #' of the same length as \code{normalength}, specifying the segment values
-#' of the normal reference segments.
+#' of the normal reference segments. Default: \code{NULL}.
 #' 
 #' @param normalmad A numeric \code{vector}, 
 #' of the same length as \code{normalength}, specifying the value spreads 
-#' of the normal reference segments.
+#' of the normal reference segments. Default: \code{NULL}.
 #' 
 #' @param normalerror A numeric \code{vector}, 
 #' of the same length as \code{normalength}, specifying the error values
-#' of the normal reference segments.
+#' of the normal reference segments. Default: \code{NULL}.
 #' 
 #' @return The input \code{segall} \code{data.frame} to which some or all of 
 #' the following columns may be bound, depending on the availability of input:
@@ -195,7 +198,7 @@
 #' ## Small toy example
 #' segtable<-CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
 #'     ratall=ratexample, "ID", "start", "end", chromcol="chrom", 
-#'     bpstartcol="chrom.pos.start", bpendcol="chrom.pos.end", blsize=50, 
+#'     bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end", blsize=50, 
 #'     minjoin=0.25, cweight=0.4, bstimes=50, chromrange=1:3, 
 #'     distrib="vanilla", njobs=1, modelNames="E", normalength=normsegs[,1],
 #'     normalmedian=normsegs[,2])
@@ -203,8 +206,8 @@
 #' \dontrun{
 #' ## Example 1: 5 whole genome analysis, choosing the right format of arguments
 #' segtable<-CNpreprocessing(segall=segexample,ratall=ratexample, "ID", 
-#'    "start","end", chromcol="chrom",bpstartcol="chrom.pos.start",
-#'    bpendcol="chrom.pos.end",blsize=50, minjoin=0.25,cweight=0.4,bstimes=50,
+#'    "start","end", chromcol="chrom",bpstartCol="chrom.pos.start",
+#'    bpendCol="chrom.pos.end",blsize=50, minjoin=0.25,cweight=0.4,bstimes=50,
 #'    chromrange=1:22,distrib="Rparallel",njobs=40, modelNames="E",
 #'    normalength=normsegs[,1],normalmedian=normsegs[,2])
 #'    
@@ -213,39 +216,40 @@
 #' "mysegs" below
 #' mysegs<-segexample[,c(1,5:12)]
 #' data(annotexample)
-#' segtable<-CNpreprocessing(segall=mysegs,ratall=ratexample,"ID",
-#'     chromcol="chrom", bpstartcol="chrom.pos.start",bpendcol="chrom.pos.end",
-#'     annot=annotexample, annotstartcol="CHROM.POS",annotendcol="CHROM.POS",
-#'     annotchromcol="CHROM", blsize=50,minjoin=0.25,cweight=0.4,bstimes=50,
-#'     chromrange=1:22,distrib="Rparallel", njobs=40,modelNames="E", 
-#'     normalength=normsegs[,1],normalmedian=normsegs[,2])
+#' segtable<-CNpreprocessing(segall=mysegs,ratall=ratexample, colId="ID",
+#'     chromcol="chrom", bpstartCol="chrom.pos.start",bpendCol="chrom.pos.end",
+#'     annot=annotexample, annotstartCol="CHROM.POS",annotendCol="CHROM.POS",
+#'     annotchromcol="CHROM", blsize=50,minjoin=0.25, cweight=0.4, bstimes=50,
+#'     chromrange=1:22, distrib="Rparallel", njobs=40, modelNames="E", 
+#'     normalength=normsegs[,1], normalmedian=normsegs[,2])
 #' }
 #' 
 #' @author Alexander Krasnitz
 #' @importFrom parallel makeCluster clusterEvalQ parLapply stopCluster detectCores
 #' @export
-CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
-    endcol=NULL, medcol=NULL, madcol=NULL, errorcol=NULL, chromcol=NULL,
-    bpstartcol=NULL, bpendcol=NULL, annot=NULL, annotstartcol=NULL, 
-    annotendcol=NULL, annotchromcol=NULL, useend=FALSE, blsize=NULL, 
+CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
+    endCol=NULL, medcol=NULL, madcol=NULL, errorcol=NULL, chromcol=NULL,
+    bpstartCol=NULL, bpendCol=NULL, annot=NULL, annotstartCol=NULL, 
+    annotendCol=NULL, annotchromcol=NULL, useend=FALSE, blsize=NULL, 
     minjoin=NULL, ntrial=10, bestbic=-1e7, modelNames="E", cweight=NULL,
-    bstimes=NULL, chromrange=NULL, myseed=123, distrib=c("vanilla","Rparallel"),
+    bstimes=NULL, chromrange=NULL, mySeed=123, distrib=c("vanilla","Rparallel"),
     njobs=1, normalength=NULL, normalmedian=NULL, normalmad=NULL,
     normalerror=NULL) {
 
-    #try to see what's possible with this input
-    if(is.null(idcol)){
+    ## Try to see what's possible with this input
+    if (is.null(idCol)) {
         cat("Found a single segmented profile with no ID","\n")
-        if(!is.null(ratall)){
+        if (!is.null(ratall)) {
             if (sum(apply(ratall, 2, data.class) == "numeric") > 1) {
-                stop(paste0("Ambiguity: more than 1 numeric column in raw ", 
-                                "data table\n"))
+                stop(paste0("Ambiguity: more than 1 numeric column in ",
+                                "\"ratall\" matrix. The \"idCol\" ", 
+                                "parameter should be specified.\n"))
             } else {
                 idrat <- which(apply(ratall, 2, data.class) == "numeric")
                 segall <- data.frame(rep(as.character(idrat), nrow(segall)), 
                                         segall)
-                idcol <- "ID"
-                dimnames(segall)[[2]][1] <- idcol
+                idCol <- "ID"
+                dimnames(segall)[[2]][1] <- idCol
             }
         }
     }
@@ -253,17 +257,17 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
     if (is.null(ratall)) {
         cat("No raw table, proceeding to comparison\n")
     } else {
-        profnames <- unique(segall[,idcol])
+        profnames <- unique(segall[,idCol])
         
         if (!all(profnames %in% dimnames(ratall)[[2]])) {
             stop("Found unmatched segmented profile IDs\n")
         }
         
-        if (is.null(startcol) | is.null(endcol)) { 
+        if (is.null(startCol) | is.null(endCol)) { 
             
             # Will need an annotation table
             
-            if (is.null(bpstartcol) | is.null(bpendcol) | is.null(chromcol)) {
+            if (is.null(bpstartCol) | is.null(bpendCol) | is.null(chromcol)) {
                 stop("Unable to proceed: incomplete segment annotation\n")
             }
             
@@ -276,27 +280,27 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
                                 "boundary probes/bins\n"))
             }
             
-            if (is.null(annotstartcol) | is.null(annotchromcol)) {
+            if (is.null(annotstartCol) | is.null(annotchromcol)) {
                 stop(paste0("No start and chrom column names provided for ", 
                                 "annotation table\n"))
             }
             
-            if (useend & is.null(annotendcol)) {
+            if (useend & is.null(annotendCol)) {
                 stop(paste0("End column name required but not provided in ", 
                             "annotation table\n"))
             }
             
-            maxbpstart <- max(c(segall[,bpstartcol], annot[,annotstartcol])) + 1
+            maxbpstart <- max(c(segall[,bpstartCol], annot[,annotstartCol])) + 1
             maxbpend <- ifelse(useend, 
-                        max(c(segall[,bpendcol], annot[,annotendcol])),
-                        max(c(segall[,bpendcol], annot[,annotstartcol]))) + 1
-            startprobe <- match((segall[,chromcol]-1)*maxbpstart+segall[,bpstartcol],
-                                ceiling((annot[,annotchromcol]-1)*maxbpstart+annot[,annotstartcol]))
+                        max(c(segall[,bpendCol], annot[,annotendCol])),
+                        max(c(segall[,bpendCol], annot[,annotstartCol]))) + 1
+            startprobe <- match((segall[,chromcol]-1)*maxbpstart+segall[,bpstartCol],
+                                ceiling((annot[,annotchromcol]-1)*maxbpstart+annot[,annotstartCol]))
             endprobe <- ifelse(rep(useend,length(startprobe)),
-                            match((segall[,chromcol]-1)*maxbpend+segall[,bpendcol],
-                                ceiling((annot[,annotchromcol]-1)*maxbpend+annot[,annotendcol])),
-                            match((segall[,chromcol]-1)*maxbpend+segall[,bpendcol],
-                                ceiling((annot[,annotchromcol]-1)*maxbpend+annot[,annotstartcol])))
+                            match((segall[,chromcol]-1)*maxbpend+segall[,bpendCol],
+                                ceiling((annot[,annotchromcol]-1)*maxbpend+annot[,annotendCol])),
+                            match((segall[,chromcol]-1)*maxbpend+segall[,bpendCol],
+                                ceiling((annot[,annotchromcol]-1)*maxbpend+annot[,annotstartCol])))
             
             if (!all(!is.na(startprobe) & !is.na(endprobe))) {
                 stop("Incomplete start and end annotation of segments\n")
@@ -305,8 +309,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
             segall <- data.frame(segall, startprobe, endprobe)
             dimnames(segall)[[2]][(ncol(segall)-1):ncol(segall)] <- 
                                                     c("StartProbe", "EndProbe")
-            startcol <- "StartProbe"
-            endcol <- "EndProbe"
+            startCol <- "StartProbe"
+            endCol <- "EndProbe"
         }
         
         profpack <- vector(mode="list", length = length(profnames))
@@ -316,8 +320,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
             profpack[[pn]] <- vector(mode="list", length=4)
             names(profpack[[pn]]) <- c("seg", "rat", "stream", "sub")
             profpack[[pn]]$seg <-
-                segall[segall[,idcol] == pn, c(startcol, endcol, chromcol), 
-                        drop = FALSE]
+                segall[segall[,idCol] == pn, c(startCol, endCol, chromcol), 
+                        drop=FALSE]
             dimnames(profpack[[pn]]$seg)[[2]] <- c("StartProbe", 
                                                     "EndProbe", "chrom")
             profpack[[pn]]$rat <- ratall[,pn]
@@ -341,11 +345,11 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
             vanilla=lapply(X = profpack, FUN = CNclusterNcenter, blsize=blsize,
                 minjoin = minjoin, ntrial = ntrial, bestbic = bestbic,
                 modelNames = modelNames, cweight = cweight, bstimes = bstimes, 
-                chromrange = chromrange, seedme = myseed),
+                chromrange = chromrange, seedme = mySeed),
             Rparallel=parLapply(cl, X = profpack, fun=CNclusterNcenter,
                 blsize=blsize, minjoin = minjoin, ntrial = ntrial, 
                 bestbic=bestbic, modelNames=modelNames, cweight=cweight,
-                bstimes=bstimes, chromrange=chromrange, seedme=myseed))
+                bstimes=bstimes, chromrange=chromrange, seedme=mySeed))
         if (distrib=="Rparallel") stopCluster(cl)
         segall <- cbind(segall, do.call(rbind, processed))
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
@@ -356,16 +360,16 @@ CNpreprocessing <- function(segall, ratall=NULL, idcol=NULL, startcol=NULL,
         errorcol <- "segerr"
     }
     if (!(is.null(normalength) | is.null(normalmedian) | is.null(medcol))) {
-        if (is.null(bpstartcol) | is.null(bpendcol)) {  #try to annotate
-            if (is.null(startcol) | is.null(endcol) | is.null(annot) | 
-                is.null(annotstartcol) | is.null(annotendcol)) {
+        if (is.null(bpstartCol) | is.null(bpendCol)) {  #try to annotate
+            if (is.null(startCol) | is.null(endCol) | is.null(annot) | 
+                is.null(annotstartCol) | is.null(annotendCol)) {
                 stop("Insufficient annotation for comparison")
             }
             
-            tumorlength <- annot[segall[,endcol], annotendcol] -
-                annot[segall[,startcol], annotstartcol] + 1
+            tumorlength <- annot[segall[,endCol], annotendCol] -
+                annot[segall[,startCol], annotstartCol] + 1
         } else {
-            tumorlength<-segall[, bpendcol] - segall[, bpstartcol] + 1
+            tumorlength<-segall[, bpendCol] - segall[, bpstartCol] + 1
         }
         
         tumormedian <- segall[, medcol]

@@ -91,9 +91,9 @@
 #' 
 #' ## Create a table with segment information (table of copy number events)
 #' segtable <- CNpreprocessing(segall = segexample[segexample[,"ID"] == "WZ1",],
-#'     ratall = ratexample, idcol = "ID", startcol = "start", endcol = "end",
-#'     chromcol = "chrom", bpstartcol = "chrom.pos.start", 
-#'     bpendcol = "chrom.pos.end", blsize = 50, minjoin = 0.25, cweight = 0.4,
+#'     ratall = ratexample, idCol = "ID", startCol = "start", endCol = "end",
+#'     chromcol = "chrom", bpstartCol = "chrom.pos.start", 
+#'     bpendCol = "chrom.pos.end", blsize = 50, minjoin = 0.25, cweight = 0.4,
 #'     bstimes = 50, chromrange = 1:22, distrib = "vanilla", njobs = 1, 
 #'     modelNames = "E", normalength = normsegs[,1], 
 #'     normalmedian = normsegs[,2])
