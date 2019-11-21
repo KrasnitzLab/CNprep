@@ -5,21 +5,22 @@
 \title{Pre-process DNA copy number (CN) data for detection of CN events.}
 \usage{
 CNpreprocessing(segall, ratall = NULL, idCol = NULL, startCol = NULL,
-  endCol = NULL, medcol = NULL, madcol = NULL, errorcol = NULL,
-  chromcol = NULL, bpstartCol = NULL, bpendCol = NULL,
-  annot = NULL, annotstartCol = NULL, annotendCol = NULL,
-  annotchromcol = NULL, useend = FALSE, blsize = NULL,
-  minjoin = NULL, ntrial = 10, bestbic = -1e+07, modelNames = "E",
-  cweight = NULL, bstimes = NULL, chromrange = NULL, mySeed = 123,
-  distrib = c("vanilla", "Rparallel"), njobs = 1, normalength = NULL,
-  normalmedian = NULL, normalmad = NULL, normalerror = NULL)
+  endCol = NULL, medCol = NULL, madCol = NULL, errorCol = NULL,
+  chromCol = NULL, bpstartCol = NULL, bpendCol = NULL,
+  annot = NULL, annotStartCol = NULL, annotEndCol = NULL,
+  annotChromCol = NULL, useEnd = FALSE, blsize = NULL,
+  minJoin = NULL, nTrial = 10, bestbic = -1e+07, modelNames = "E",
+  cweight = NULL, bstimes = NULL, chromRange = NULL, mySeed = 123,
+  distrib = c("vanilla", "Rparallel"), nJobs = 1,
+  normalLength = NULL, normalMedian = NULL, normalmad = NULL,
+  normalerror = NULL)
 }
 \arguments{
 \item{segall}{A \code{matrix} or a \code{data.frame} for segmented copy 
 number profiles. It may have a character column, with a name specified 
 by \code{idCol}, and/or numeric columns with names specified by 
-\code{startCol, endCol, medcol, madcol,errorcol}  
-\code{,chromcol, bpstartCol, bpendCol}. Each row of \code{segall} 
+\code{startCol, endCol, medCol, madCol,errorCol}  
+\code{,chromCol, bpstartCol, bpendCol}. Each row of \code{segall} 
 corresponds to a segment belonging to one of the profiles 
 to be pre-processed.}
 
@@ -29,36 +30,37 @@ copy number, most often log ratios of copy number to the expected standard
 value, such as 2 in diploid genomes.}
 
 \item{idCol}{A \code{character} string specifying the name for the 
-column in \code{segall} tabulating the profile IDs.}
+column in \code{segall} tabulating the profile IDs. Default: \code{NULL}.}
 
 \item{startCol}{A \code{character} string specifying the name of column 
 in \code{segall} that tabulates the (integer) start postion of each segment 
-in internal units such as probe numbers for data of CGH microarray origin.}
+in internal units such as probe numbers for data of CGH microarray origin.
+Default: \code{NULL}.}
 
 \item{endCol}{A \code{character} string specifying the name of column 
 in \code{segall} that tabulates the (integer) end postion of each segment 
 in internal units such as probe numbers for data of CGH microarray origin.
 Default: \code{NULL}.}
 
-\item{medcol}{A \code{character} string specifying the 
+\item{medCol}{A \code{character} string specifying the 
 name of column in \code{segall} that, for the function of copy number used 
 in the study (typically log ratios), tabulates the (numeric) values for 
-the function (\code{medcol}), a measure of its spread (\code{madcol}) and 
-its error (\code{errorcol}) for the segment. Default: \code{NULL}.}
+the function (\code{medCol}), a measure of its spread (\code{madCol}) and 
+its error (\code{errorCol}) for the segment. Default: \code{NULL}.}
 
-\item{madcol}{A \code{character} string specifying the 
+\item{madCol}{A \code{character} string specifying the 
 name of column in \code{segall} that, for the function of copy number used 
 in the study (typically log ratios), tabulates the (numeric) values for 
-a measure of spread (\code{madcol}) related to  
-the function (\code{medcol}) for the segment. Default: \code{NULL}.}
+a measure of spread (\code{madCol}) related to  
+the function (\code{medCol}) for the segment. Default: \code{NULL}.}
 
-\item{errorcol}{A \code{character} string specifying the 
+\item{errorCol}{A \code{character} string specifying the 
 name of column in \code{segall} that, for the function of copy number used 
 in the study (typically log ratios), tabulates the (numeric) values for 
-the error (\code{errorcol}) related to  
-the function (\code{medcol}) for the segment.}
+the error (\code{errorCol}) related to  
+the function (\code{medCol}) for the segment. Default: \code{NULL}.}
 
-\item{chromcol}{A \code{character} string specifying the name for the 
+\item{chromCol}{A \code{character} string specifying the name for the 
 column in \code{segall} tabulating the (integer) chromosome number for 
 each segment.}
 
@@ -73,27 +75,27 @@ coordinate of each segment.}
 \item{annot}{A matrix or a \code{data.frame} that contains the annotation for 
 the copy number measurement platform in the study. It is generally expected 
 to contain columns with names specified by 
-\code{annotstartCol, annotendCol, annotchromcol}.}
+\code{annotStartCol, annotEndCol, annotChromCol}.}
 
-\item{annotstartCol}{A \code{character} string 
+\item{annotStartCol}{A \code{character} string 
 specifying the name of column in \code{annot} that tabulates the (integer) 
 genomic start coordinates in case of CGH
 microarrays.}
 
-\item{annotendCol}{A \code{character} string 
+\item{annotEndCol}{A \code{character} string 
 specifying the name of column in \code{annot} that tabulates the (integer) 
 genomic end coordinates in case of CGH
 microarrays.}
 
-\item{annotchromcol}{A \code{character} string 
+\item{annotChromCol}{A \code{character} string 
 specifying the name of column in \code{annot} that tabulates the chromosome
 number for each copy number measuring unit, such as a probe in case of CGH
 microarrays.}
 
-\item{useend}{A single logical value specifying whether the segment end 
+\item{useEnd}{A single logical value specifying whether the segment end 
 positions as given by the \code{bpendCol} of \code{segall} are to be 
-looked up in the \code{annotendCol} column of \code{annot} 
-(if \code{useend=TRUE}) or in the \code{annotstartCol} column (default). 
+looked up in the \code{annotEndCol} column of \code{annot} 
+(if \code{useEnd=TRUE}) or in the \code{annotStartCol} column (default). 
 Default: \code{FALSE}.}
 
 \item{blsize}{A single \code{integer} specifying the bootstrap sampling 
@@ -101,10 +103,11 @@ rate of segment medians to generate input for model-based clustering. The
 number of times a segment is sampled is then given by the (integer) 
 division of the segment length in internal units by \code{blsize}.}
 
-\item{minjoin}{A single numeric value between 0 and 1 specifying the 
+\item{minJoin}{A single numeric value between 0 and 1 specifying the 
 degree of overlap above which two clusters will be joined into one.}
 
-\item{ntrial}{A single integer specifying the number of times a model-based 
+\item{nTrial}{A single \code{integer} specifying the number of times 
+a model-based 
 clustering is attempted for each profile in order to achieve the 
 highest Bayesian information criterion (BIC). The default is \code{10}.}
 
@@ -123,7 +126,7 @@ specifying the minimal share of the central cluster in each profile.}
 time the median of each segment is sampled in order to predict the cluster 
 assignment for the segment. Default: \code{NULL}.}
 
-\item{chromrange}{A \code{integer} \code{vector} enumerating chromosomes 
+\item{chromRange}{A \code{integer} \code{vector} enumerating chromosomes 
 from which segments are to be used for initial model-based clustering.
 Default: \code{NULL}.}
 
@@ -136,22 +139,22 @@ For \code{"vanilla"} (default) no distributed computing is performed. For
 \code{"Rparallel"} the \code{parallel} package of \code{R} core is used 
 for multi-core processing.}
 
-\item{njobs}{A single integer specifying the number of worker jobs 
+\item{nJobs}{A single integer specifying the number of worker jobs 
 to create in case of distributed computation. Default: \code{1}.}
 
-\item{normalength}{An integer \code{vector} specifying the genomic lengths 
+\item{normalLength}{An integer \code{vector} specifying the genomic lengths 
 of segments in the normal reference data. Default: \code{NULL}.}
 
-\item{normalmedian}{A numeric \code{vector}, 
-of the same length as \code{normalength}, specifying the segment values
+\item{normalMedian}{A numeric \code{vector}, 
+of the same length as \code{normalLength}, specifying the segment values
 of the normal reference segments. Default: \code{NULL}.}
 
 \item{normalmad}{A numeric \code{vector}, 
-of the same length as \code{normalength}, specifying the value spreads 
+of the same length as \code{normalLength}, specifying the value spreads 
 of the normal reference segments. Default: \code{NULL}.}
 
 \item{normalerror}{A numeric \code{vector}, 
-of the same length as \code{normalength}, specifying the error values
+of the same length as \code{normalLength}, specifying the error values
 of the normal reference segments. Default: \code{NULL}.}
 }
 \value{
@@ -214,19 +217,19 @@ data(normsegs)
 
 ## Small toy example
 segtable<-CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
-    ratall=ratexample, "ID", "start", "end", chromcol="chrom", 
+    ratall=ratexample, "ID", "start", "end", chromCol="chrom", 
     bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end", blsize=50, 
-    minjoin=0.25, cweight=0.4, bstimes=50, chromrange=1:3, 
-    distrib="vanilla", njobs=1, modelNames="E", normalength=normsegs[,1],
-    normalmedian=normsegs[,2])
+    minJoin=0.25, cweight=0.4, bstimes=50, chromRange=1:3, 
+    distrib="vanilla", nJobs=1, modelNames="E", normalLength=normsegs[,1],
+    normalMedian=normsegs[,2])
     
 \dontrun{
 ## Example 1: 5 whole genome analysis, choosing the right format of arguments
 segtable<-CNpreprocessing(segall=segexample,ratall=ratexample, "ID", 
-   "start","end", chromcol="chrom",bpstartCol="chrom.pos.start",
-   bpendCol="chrom.pos.end",blsize=50, minjoin=0.25,cweight=0.4,bstimes=50,
-   chromrange=1:22,distrib="Rparallel",njobs=40, modelNames="E",
-   normalength=normsegs[,1],normalmedian=normsegs[,2])
+   "start","end", chromCol="chrom",bpstartCol="chrom.pos.start",
+   bpendCol="chrom.pos.end",blsize=50, minJoin=0.25,cweight=0.4,bstimes=50,
+   chromRange=1:22,distrib="Rparallel",nJobs=40, modelNames="E",
+   normalLength=normsegs[,1],normalMedian=normsegs[,2])
    
 ## Example 2: how to use annotexample, when segment table does not have 
 columns of integer postions in terms of  measuring units(probes), such as 
@@ -234,11 +237,11 @@ columns of integer postions in terms of  measuring units(probes), such as
 mysegs<-segexample[,c(1,5:12)]
 data(annotexample)
 segtable<-CNpreprocessing(segall=mysegs,ratall=ratexample, colId="ID",
-    chromcol="chrom", bpstartCol="chrom.pos.start",bpendCol="chrom.pos.end",
-    annot=annotexample, annotstartCol="CHROM.POS",annotendCol="CHROM.POS",
-    annotchromcol="CHROM", blsize=50,minjoin=0.25, cweight=0.4, bstimes=50,
-    chromrange=1:22, distrib="Rparallel", njobs=40, modelNames="E", 
-    normalength=normsegs[,1], normalmedian=normsegs[,2])
+    chromCol="chrom", bpstartCol="chrom.pos.start",bpendCol="chrom.pos.end",
+    annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
+    annotChromCol="CHROM", blsize=50,minJoin=0.25, cweight=0.4, bstimes=50,
+    chromRange=1:22, distrib="Rparallel", nJobs=40, modelNames="E", 
+    normalLength=normsegs[,1], normalMedian=normsegs[,2])
 }
 
 }
