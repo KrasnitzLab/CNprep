@@ -89,11 +89,11 @@ NULL
 #' ## Analysis limited to chromosomes 1 and 2
 #' ## The bstimes variable should be higher for a real analysis
 #' ##segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, "ID",
-#' ##    chromcol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
-#' ##    annot=annotexample, annotstartCol="CHROM.POS", annotendCol="CHROM.POS",
-#' ##   annotchromcol="CHROM", blsize=50, minjoin=0.25, cweight=0.4, bstimes=5,
-#' ##    chromrange=1:2, distrib="vanilla", njobs=1, modelNames="E", 
-#' ##    normalength=normsegs[,1], normalmedian=normsegs[,2])
+#' ##    chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
+#' ##    annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
+#' ##   annotChromCol="CHROM", blsize=50, minjoin=0.25, cWeight=0.4, bstimes=5,
+#' ##    chromrange=1:2, distrib="vanilla", nJobs=1, modelNames="E", 
+#' ##    normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' 
 NULL
 
@@ -236,10 +236,10 @@ NULL
 #' ## Analysis limited to chromosomes 1 and 2
 #' ## The bstimes variable should be higher for a real analysis
 #' segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, idCol="ID",
-#'     chromcol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
-#'     annot=annotexample, annotstartCol="CHROM.POS", annotendCol="CHROM.POS",
-#'     annotchromcol="CHROM", blsize=50, minjoin=0.25, cweight=0.4, bstimes=3,
-#'     chromrange=1:2, distrib="vanilla", njobs=1, modelNames="E", 
-#'     normalength=normsegs[,1], normalmedian=normsegs[,2])
+#'     chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
+#'     annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
+#'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bstimes=3,
+#'     chromRange=1:2, distrib="vanilla", nJobs=1, modelNames="E", 
+#'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' 
 NULL
