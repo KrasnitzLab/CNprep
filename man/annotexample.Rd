@@ -75,8 +75,8 @@ mysegs<-segexample[,c(1,5:12)]
 ## Analysis limited to chromosomes 1 and 2
 ## The bstimes variable should be higher for a real analysis
 ##segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, "ID",
-##    chromcol="chrom", bpstartcol="chrom.pos.start", bpendcol="chrom.pos.end",
-##    annot=annotexample, annotstartcol="CHROM.POS", annotendcol="CHROM.POS",
+##    chromcol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
+##    annot=annotexample, annotstartCol="CHROM.POS", annotendCol="CHROM.POS",
 ##   annotchromcol="CHROM", blsize=50, minjoin=0.25, cweight=0.4, bstimes=5,
 ##    chromrange=1:2, distrib="vanilla", njobs=1, modelNames="E", 
 ##    normalength=normsegs[,1], normalmedian=normsegs[,2])
@@ -94,13 +94,13 @@ data(normsegs)
 ## of integer postions in terms of measuring units(probes), such 
 ## as "mysegs" below 
 
-mysegs<-segexample[,c(1,5:12)]
+mysegs <- segexample[,c(1,5:12)]
 
 ## Analysis limited to chromosomes 1 and 2
 ## The bstimes variable should be higher for a real analysis
-segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, idcol="ID",
-    chromcol="chrom", bpstartcol="chrom.pos.start", bpendcol="chrom.pos.end",
-    annot=annotexample, annotstartcol="CHROM.POS", annotendcol="CHROM.POS",
+segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, idCol="ID",
+    chromcol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
+    annot=annotexample, annotstartCol="CHROM.POS", annotendCol="CHROM.POS",
     annotchromcol="CHROM", blsize=50, minjoin=0.25, cweight=0.4, bstimes=3,
     chromrange=1:2, distrib="vanilla", njobs=1, modelNames="E", 
     normalength=normsegs[,1], normalmedian=normsegs[,2])
