@@ -12,8 +12,8 @@ CNpreprocessing(segall, ratall = NULL, idCol = NULL, startCol = NULL,
   minJoin = NULL, nTrial = 10, bestbic = -1e+07, modelNames = "E",
   cWeight = NULL, bstimes = NULL, chromRange = NULL, mySeed = 123,
   distrib = c("vanilla", "Rparallel"), nJobs = 1,
-  normalLength = NULL, normalMedian = NULL, normalmad = NULL,
-  normalerror = NULL)
+  normalLength = NULL, normalMedian = NULL, normalMad = NULL,
+  normalError = NULL)
 }
 \arguments{
 \item{segall}{A \code{matrix} or a \code{data.frame} for segmented copy 
@@ -30,7 +30,9 @@ copy number, most often log ratios of copy number to the expected standard
 value, such as 2 in diploid genomes.}
 
 \item{idCol}{A \code{character} string specifying the name for the 
-column in \code{segall} tabulating the profile IDs. Default: \code{NULL}.}
+column in \code{segall} tabulating the profile IDs. When not specified,
+the numerical column of the \code{ratall} object will be used as the
+profile IDs. Default: \code{NULL}.}
 
 \item{startCol}{A \code{character} string specifying the name of column 
 in \code{segall} that tabulates the (integer) start postion of each segment 
@@ -72,9 +74,9 @@ coordinate of each segment.}
 column in \code{segall} that tabulates the (integer) genomic end 
 coordinate of each segment.}
 
-\item{annot}{A matrix or a \code{data.frame} that contains the annotation for 
-the copy number measurement platform in the study. It is generally expected 
-to contain columns with names specified by 
+\item{annot}{A matrix or a \code{data.frame} that contains the annotation 
+for the copy number measurement platform in the study. It is generally 
+expected to contain columns with names specified by 
 \code{annotStartCol, annotEndCol, annotChromCol}.}
 
 \item{annotStartCol}{A \code{character} string 
@@ -149,11 +151,11 @@ of segments in the normal reference data. Default: \code{NULL}.}
 of the same length as \code{normalLength}, specifying the segment values
 of the normal reference segments. Default: \code{NULL}.}
 
-\item{normalmad}{A numeric \code{vector}, 
+\item{normalMad}{A numeric \code{vector}, 
 of the same length as \code{normalLength}, specifying the value spreads 
 of the normal reference segments. Default: \code{NULL}.}
 
-\item{normalerror}{A numeric \code{vector}, 
+\item{normalError}{A numeric \code{vector}, 
 of the same length as \code{normalLength}, specifying the error values
 of the normal reference segments. Default: \code{NULL}.}
 }
@@ -216,7 +218,7 @@ data(ratexample)
 data(normsegs)
 
 ## Small toy example
-segtable<-CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
+segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
     chromCol="chrom", bpstartCol="chrom.pos.start", 
     bpendCol="chrom.pos.end", blsize=50, 
@@ -226,7 +228,7 @@ segtable<-CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
     
 \dontrun{
 ## Example 1: 5 whole genome analysis, choosing the right format of arguments
-segtable<-CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
+segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
    "start","end", chromCol="chrom",bpstartCol="chrom.pos.start",
    bpendCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
    bstimes=50, chromRange=1:22, distrib="Rparallel", nJobs=40, 
@@ -235,9 +237,11 @@ segtable<-CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID",
 ## Example 2: how to use annotexample, when segment table does not have 
 columns of integer postions in terms of  measuring units(probes), such as 
 "mysegs" below
-mysegs<-segexample[,c(1,5:12)]
+mysegs <- segexample[,c(1,5:12)]
+
 data(annotexample)
-segtable<-CNpreprocessing(segall=mysegs,ratall=ratexample, idCol="ID",
+
+segtable <- CNpreprocessing(segall=mysegs,ratall=ratexample, idCol="ID",
     chromCol="chrom", bpstartCol="chrom.pos.start",bpendCol="chrom.pos.end",
     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
     annotChromCol="CHROM", blsize=50,minJoin=0.25, cWeight=0.4, bstimes=50,
