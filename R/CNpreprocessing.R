@@ -64,9 +64,9 @@
 #' column in \code{segall} that tabulates the (integer) genomic end 
 #' coordinate of each segment.
 #' 
-#' @param annot A matrix or a \code{data.frame} that contains the annotation for 
-#' the copy number measurement platform in the study. It is generally expected 
-#' to contain columns with names specified by 
+#' @param annot A matrix or a \code{data.frame} that contains the annotation 
+#' for the copy number measurement platform in the study. It is generally 
+#' expected to contain columns with names specified by 
 #' \code{annotStartCol, annotEndCol, annotChromCol}.
 #' 
 #' @param annotStartCol A \code{character} string 
@@ -141,11 +141,11 @@
 #' of the same length as \code{normalLength}, specifying the segment values
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
-#' @param normalmad A numeric \code{vector}, 
+#' @param normalMad A numeric \code{vector}, 
 #' of the same length as \code{normalLength}, specifying the value spreads 
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
-#' @param normalerror A numeric \code{vector}, 
+#' @param normalError A numeric \code{vector}, 
 #' of the same length as \code{normalLength}, specifying the error values
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
@@ -240,8 +240,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     annotEndCol=NULL, annotChromCol=NULL, useEnd=FALSE, blsize=NULL, 
     minJoin=NULL, nTrial=10, bestbic=-1e7, modelNames="E", cWeight=NULL,
     bstimes=NULL, chromRange=NULL, mySeed=123, distrib=c("vanilla","Rparallel"),
-    nJobs=1, normalLength=NULL, normalMedian=NULL, normalmad=NULL,
-    normalerror=NULL) {
+    nJobs=1, normalLength=NULL, normalMedian=NULL, normalMad=NULL,
+    normalError=NULL) {
 
     ## When the column for the profile ID is not specified, see if it can
     ## deducted from the data
@@ -394,7 +394,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         }
         
         segall <- cbind(segall, normalComparison(normalMedian, normalLength,
-                    tumormedian, tumorlength, normalmad, normalerror, tumormad, 
+                    tumormedian, tumorlength, normalMad, normalError, tumormad, 
                     tumorerror))
     }
     

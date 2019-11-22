@@ -1,7 +1,7 @@
 Package: CNprep
 Type: Package
 Title: Pre-process DNA Copy Number (CN) Data for Detection of CN Events
-Version: 2.0
+Version: 2.1.1
 Date: 2012-12-06
 Author: Alex Krasnitz, Guoli Sun
 Maintainer: Guoli Sun <guolisun87@gmail.com>
@@ -17,12 +17,12 @@ Depends: R (>= 3.6),
     mclust, 
     rlecuyer, 
     stats
-Suggests: testthat, 
+Suggests: testthat,
+    BiocStyle,
     knitr, 
     rmarkdown
 Packaged: 2014-12-31 17:11:09 UTC; gsun
 NeedsCompilation: no
-Repository: CRAN
 VignetteBuilder: knitr
 Date/Publication: 2014-12-31 18:26:36
 RoxygenNote: 6.1.1

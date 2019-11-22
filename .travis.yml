@@ -8,7 +8,7 @@ r: release
 #cache: packages
 
 # Packages from Bioconductor needed
-bioc_required: false
+bioc_required: true
 
 # Be strict when checking package
 warnings_are_errors: true

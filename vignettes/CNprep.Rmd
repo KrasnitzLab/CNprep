@@ -3,9 +3,12 @@ title: "CNprep"
 author: "Alex Krasnitz, Guoli Sun"
 date: "`r Sys.Date()`"
 bibliography: CNprep_biblio.bibtex
-output: rmarkdown::html_vignette
+output: 
+    BiocStyle::html_document:
+        toc: true
 vignette: >
   %\VignetteIndexEntry{CNprep}
+  %\VignettePackage{CNprep}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---  
@@ -21,12 +24,12 @@ knitr::opts_chunk$set(echo = TRUE)
 **Compiled date**: `r Sys.Date()`<br />
 **License**: `r packageDescription("CNprep")[["License"]]`<br />
 
-## License
+# License
 
 The *CNprep* package and the underlying *CNprep* code 
 are distributed under the [GPL-2 License](https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt). You are free to use and redistribute this software. 
 
-## Citing
+# Citing
 
 
 If you use this package for a publication, we would ask you to cite the 
