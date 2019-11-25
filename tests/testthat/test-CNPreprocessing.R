@@ -60,8 +60,8 @@ test_that("CNpreprocessing() must return expected results 01", {
         "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
         bpendCol="chrom.pos.end",
         blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-        distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-        normalMedian=normSegs, mySeed=444)
+        nJobs=1, modelNames="E", normalLength=normalLength,
+        normalMedian=normSegs)
     row.names(results) <- NULL
     
     expected <- segExample
@@ -99,14 +99,14 @@ test_that("CNpreprocessing() must return expected results 02", {
     set.seed(424)
     
     results <- CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", 
-                               "start", "end", chromCol="chrom", 
-                               bpstartCol="chrom.pos.start", 
-                               bpendCol="chrom.pos.end",
-                               blsize=3, minJoin=0.25, cWeight=0.4, bstimes=1, 
-                               chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", 
-                               normalLength=normalLength,
-                               normalMedian=normSegs, mySeed=424)
+                                "start", "end", chromCol="chrom", 
+                                bpstartCol="chrom.pos.start", 
+                                bpendCol="chrom.pos.end",
+                                blsize=3, minJoin=0.25, cWeight=0.4, bstimes=1, 
+                                chromRange=1,
+                                nJobs=1, modelNames="E", 
+                                normalLength=normalLength,
+                                normalMedian=normSegs)
     row.names(results) <- NULL
     
     expected <- segExample
@@ -153,8 +153,8 @@ test_that("CNpreprocessing() must return expected results 03", {
                                "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
                                bpendCol="chrom.pos.end",
                                blsize=3, minJoin=0.25, cWeight=0.2, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed = 411)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs)
     row.names(results) <- NULL
     
     expected <- segExample
@@ -191,8 +191,8 @@ test_that("CNpreprocessing() must return expected results when columns names are
                                "Start", "End", chromCol="Chrom", bpstartCol="Chrom.Pos.Start", 
                                bpendCol="Chrom.Pos.End",
                                blsize=3, minJoin=0.55, cWeight=0.2, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed = 41)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs)
     row.names(results) <- NULL
     
     expected <- segExample
@@ -227,8 +227,8 @@ test_that("CNpreprocessing() must return expected results when not ratall", {
                                "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
                                bpendCol="chrom.pos.end",
                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed=444)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs)
     
     expected <- segExample
     
@@ -240,11 +240,11 @@ test_that("CNpreprocessing() must return expected message when not ratall", {
     message <- "No raw table, proceeding to comparison"
     
     expect_output(CNpreprocessing(segall=segExample, ratall=NULL, "ID", 
-                               "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
-                               bpendCol="chrom.pos.end",
-                               blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed = 444), message)
+                                "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
+                                bpendCol="chrom.pos.end",
+                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
+                                nJobs=1, modelNames="E", normalLength=normalLength,
+                                normalMedian=normSegs), message)
 })
 
 
@@ -256,8 +256,8 @@ test_that("CNpreprocessing() must return error when not idcol", {
                                "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
                                bpendCol="chrom.pos.end",
                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed=444), message)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs), message)
     
 })
 
@@ -271,9 +271,9 @@ test_that("CNpreprocessing() must return expected message when not idcol and no 
                                  bpendCol="chrom.pos.end",
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, 
                                  chromRange=1,
-                                 distrib="vanilla", nJobs=1, modelNames="E", 
+                                 nJobs=1, modelNames="E", 
                                  normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=443), message)
+                                 normalMedian=normSegs), message)
     
 })
 
@@ -286,9 +286,9 @@ test_that("CNpreprocessing() must return expected results when not idcol and no 
                                     bpendCol="chrom.pos.end",
                                     blsize=5, minJoin=0.25, cWeight=0.4, 
                                     bstimes=1, chromRange=1,
-                                    distrib="vanilla", nJobs=1, modelNames="E", 
+                                    nJobs=1, modelNames="E", 
                                     normalLength=normalLength,
-                                    normalMedian=normSegs, mySeed=433)
+                                    normalMedian=normSegs)
     
     expected <- segExample
     
@@ -303,8 +303,8 @@ test_that("CNpreprocessing() must return expected error when not startCol and no
                                startCol=NULL,  endCol="end", chromCol="chrom", bpstartCol=NULL, 
                                bpendCol="chrom.pos.end",
                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed=444), message)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs), message)
 })
 
 test_that("CNpreprocessing() must return expected error when annotation table given without start and chrom column names", {
@@ -320,8 +320,8 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
                                  startCol=NULL,  endCol=NULL, chromCol="chrom", bpstartCol="chrom.pos.start", 
                                  bpendCol="chrom.pos.end", annot = annotationTmp,
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
-                                 distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                 nJobs=1, modelNames="E", normalLength=normalLength,
+                                 normalMedian=normSegs), message)
 })
 
 
@@ -339,8 +339,8 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
                                  bpendCol="chrom.pos.end", annot = annotationTmp, annotChromCol="CHROM",
                                  annotStartCol="CHROM.POS",annotEndCol=NULL,
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
-                                 distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                 nJobs=1, modelNames="E", normalLength=normalLength,
+                                 normalMedian=normSegs), message)
 })
 
 test_that("CNpreprocessing() must return expected error when annotation table given without end column name and useEnd set to FALSE", {
@@ -353,12 +353,12 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
                                                                                                  106394039))
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", useEnd=FALSE,
-                                 startCol=NULL,  endCol=NULL, chromCol="chrom", bpstartCol="chrom.pos.start", 
-                                 bpendCol="chrom.pos.end", annot = annotationTmp, annotChromCol = "CHROM",
-                                 annotStartCol="CHROM.POS",annotEndCol=NULL,
-                                 blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
-                                 distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                    startCol=NULL,  endCol=NULL, chromCol="chrom", bpstartCol="chrom.pos.start", 
+                                    bpendCol="chrom.pos.end", annot = annotationTmp, annotChromCol = "CHROM",
+                                    annotStartCol="CHROM.POS",annotEndCol=NULL,
+                                    blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
+                                    nJobs=1, modelNames="E", normalLength=normalLength,
+                                    normalMedian=normSegs), message)
 })
 
 
@@ -371,10 +371,9 @@ test_that("CNpreprocessing() must return expected error when not startCol and no
                                  bpstartCol="chrom.pos.start", 
                                  bpendCol="chrom.pos.end",
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, 
-                                 chromRange=1,
-                                 distrib="vanilla", nJobs=1, modelNames="E", 
+                                 chromRange=1, nJobs=1, modelNames="E", 
                                  normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                 normalMedian=normSegs), message)
 })
 
 
@@ -399,6 +398,6 @@ test_that("CNpreprocessing() must return expected error when not idcol and ratal
                                  startCol=NULL,  endCol="end", chromCol="chrom", bpstartCol="chrom.pos.start", 
                                  bpendCol="chrom.pos.end",
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                                 distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                 nJobs=1, modelNames="E", normalLength=normalLength,
+                                 normalMedian=normSegs), message)
 })

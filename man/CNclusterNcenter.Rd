@@ -5,7 +5,7 @@
 \title{TODO}
 \usage{
 CNclusterNcenter(segrat, blsize, minjoin, ntrial, bestbic, modelNames,
-  cweight, bstimes, chromrange, seedme)
+  cweight, bstimes, chromrange)
 }
 \arguments{
 \item{segrat}{a \code{list}}
@@ -40,9 +40,6 @@ assignment for the segment.}
 
 \item{chromrange}{A \code{integer} vector enumerating chromosomes from 
 which segments are to be used for initial model-based clustering.}
-
-\item{seedme}{A single \code{integer} value to seed the random number 
-generator.}
 }
 \value{
 TODO

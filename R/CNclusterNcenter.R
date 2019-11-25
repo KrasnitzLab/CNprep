@@ -35,9 +35,6 @@
 #' @param chromrange A \code{integer} vector enumerating chromosomes from 
 #' which segments are to be used for initial model-based clustering.
 #' 
-#' @param seedme A single \code{integer} value to seed the random number 
-#' generator.
-#' 
 #' @return TODO
 #'
 #' @examples
@@ -49,7 +46,7 @@
 #' @importFrom mclust Mclust
 #' @keywords internal
 CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
-    modelNames, cweight, bstimes, chromrange, seedme) {
+    modelNames, cweight, bstimes, chromrange) {
 
     ## Create and assign seeds
     # .lec.CreateStream(segrat$stream)
