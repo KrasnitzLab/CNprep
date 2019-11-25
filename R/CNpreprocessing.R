@@ -242,7 +242,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
     } else {
-        coreParam <- SnowParam(workers = nbrThreads, RNGseed = .Random.seed[1])
+        seed <- get(".Random.seed", 1)[1]
+        coreParam <- SnowParam(workers = nbrThreads, RNGseed = seed)
     }
     
     
@@ -372,9 +373,11 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                 BPPARAM = coreParam)
         
         # processed <- switch(distrib,
-        #     vanilla=lapply(X = profpack, FUN = CNclusterNcenter, blsize=blsize,
+        #     vanilla=lapply(X = profpack, FUN = CNclusterNcenter, 
+        #         blsize=blsize,
         #         minjoin = minJoin, ntrial = nTrial, bestbic = bestbic,
-        #         modelNames = modelNames, cweight = cWeight, bstimes = bstimes, 
+        #         modelNames = modelNames, cweight = cWeight, 
+        #         bstimes = bstimes, 
         #         chromrange = chromRange, seedme = mySeed),
         #     Rparallel=parLapply(cl, X = profpack, fun=CNclusterNcenter,
         #         blsize=blsize, minjoin = minJoin, ntrial = nTrial, 

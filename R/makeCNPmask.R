@@ -31,8 +31,8 @@
 #' @param uthresh A \code{numeric} specifying the upper threshold for 
 #' the event frequency or (if \code{nprof = 1}) for the event count.
 #' 
-#' @param dthresh A \code{numeric} specifying the upper and lower thresholds for 
-#' the event frequency or (if \code{nprof = 1}) for the event count.
+#' @param dthresh A \code{numeric} specifying the upper and lower thresholds 
+#' for the event frequency or (if \code{nprof = 1}) for the event count.
 #' 
 #' @return A \code{matrix} of \code{numeric} (used as integer) 
 #' with three columns, called 
@@ -66,7 +66,7 @@ makeCNPmask <- function(imat, chromcol=1, startcol=2, endcol=3, nprof=1,
                         uthresh, dthresh)
 {
     ## Call makeCNPmask.chrom for each chromosome separately
-    CNPmask <- by(imat, INDICES = as.factor(imat[, chromcol]), 
+    CNPmask <- by(imat, INDICES=as.factor(imat[, chromcol]), 
                     FUN=makeCNPmask.chrom,
                     startcol=startcol,
                     endcol=endcol,

@@ -135,15 +135,15 @@ applyCNPmask <- function(segTable, chrom, startPos, endPos, startProbe,
                     endProbe, eventIndex, maskTable, maskChrom, maskStart,
                     maskEnd, maskIndex, minCover=1, indexVals=c(-1, 1)) 
 {
-    breakCNPs <- by(segTable, INDICES = as.factor(segTable[,chrom]),
-        FUN = breakIntoCNPs.chrom, chrom = chrom, startPos = startPos, 
-        endPos = endPos, startProbe = startProbe, endProbe = endProbe, 
-        eventIndex = eventIndex, cnpTable = maskTable, cnpChrom = maskChrom, 
-        cnpStart = maskStart, cnpEnd = maskEnd, cnpIndex = maskIndex, 
-        minCover = minCover, indexVals = indexVals, simplify = TRUE)
+    breakCNPs <- by(segTable, INDICES=as.factor(segTable[,chrom]),
+        FUN=breakIntoCNPs.chrom, chrom=chrom, startPos=startPos, 
+        endPos=endPos, startProbe=startProbe, endProbe=endProbe, 
+        eventIndex=eventIndex, cnpTable=maskTable, cnpChrom=maskChrom, 
+        cnpStart=maskStart, cnpEnd=maskEnd, cnpIndex=maskIndex, 
+        minCover=minCover, indexVals=indexVals, simplify=TRUE)
 
     myCNPs <- matrix(ncol=3, byrow=TRUE, 
-                     data=unlist(lapply(breakCNPs, t)))
+                        data=unlist(lapply(breakCNPs, t)))
     
     dimnames(myCNPs)[[2]] <- c("StartProbe", "EndProbe", "toremove")
     

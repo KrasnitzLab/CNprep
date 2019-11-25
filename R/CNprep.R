@@ -84,16 +84,16 @@ NULL
 #' ## of integer postions in terms of measuring units(probes), such 
 #' ## as "mysegs" below 
 #' 
-#' mysegs<-segexample[,c(1,5:12)]
+#' mysegs <- segexample[,c(1,5:12)]
 #' 
 #' ## Analysis limited to chromosomes 1 and 2
 #' ## The bstimes variable should be higher for a real analysis
-#' ##segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, "ID",
-#' ##    chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
-#' ##    annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
-#' ##   annotChromCol="CHROM", blsize=50, minjoin=0.25, cWeight=0.4, bstimes=5,
-#' ##    chromrange=1:2, nJobs=1, modelNames="E", 
-#' ##    normalLength=normsegs[,1], normalMedian=normsegs[,2])
+#' segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, "ID",
+#'     chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
+#'     annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
+#'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bstimes=5,
+#'     chromRange=1:2, nJobs=1, modelNames="E", 
+#'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' 
 NULL
 

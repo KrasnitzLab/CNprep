@@ -25,8 +25,8 @@
 #' @param uthresh A \code{numeric} specifying the upper threshold for 
 #' the event frequency or (if \code{nprof = 1}) for the event count.
 #' 
-#' @param dthresh A \code{numeric} specifying the upper and lower thresholds for 
-#' the event frequency or (if \code{nprof = 1}) for the event count.
+#' @param dthresh A \code{numeric} specifying the upper and lower thresholds 
+#' for the event frequency or (if \code{nprof = 1}) for the event count.
 #' 
 #' @return A \code{matrix} of \code{numeric} (used as integer) 
 #' with three columns that represent the masked regions:
