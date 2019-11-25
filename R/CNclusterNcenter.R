@@ -45,18 +45,17 @@
 #' # TODO
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
-#' @importFrom rlecuyer .lec.CreateStream .lec.SetSeed .lec.ResetNextSubstream .lec.CurrentStream .lec.CurrentStreamEnd .lec.DeleteStream
-#' @importFrom mclust Mclust
 #' @importFrom stats median var
+#' @importFrom mclust Mclust
 #' @keywords internal
 CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     modelNames, cweight, bstimes, chromrange, seedme) {
 
     ## Create and assign seeds
-    .lec.CreateStream(segrat$stream)
-    .lec.SetSeed(segrat$stream,seedme)
-    for( j in seq_len(segrat$sub)) .lec.ResetNextSubstream(segrat$stream)
-        .lec.CurrentStream(segrat$stream)
+    # .lec.CreateStream(segrat$stream)
+    # .lec.SetSeed(segrat$stream,seedme)
+    # for( j in seq_len(segrat$sub)) .lec.ResetNextSubstream(segrat$stream)
+    #     .lec.CurrentStream(segrat$stream)
 
     startcol <- "StartProbe"
     endcol   <- "EndProbe"
@@ -122,8 +121,8 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     w <- t(matrix(nrow=bstimes, data=segs[,3]))
     segerr <- sqrt(apply(w, 1, var, na.rm=TRUE))
     
-    .lec.CurrentStreamEnd()
-    .lec.DeleteStream(segrat$stream)
+    # .lec.CurrentStreamEnd()
+    # .lec.DeleteStream(segrat$stream)
         
     return(cbind(segrat$seg[, medcol], segrat$seg[,madcol], mediandev, segerr, 
                     centerz, cpb, maxz, maxzmean, maxzsigma))

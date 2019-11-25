@@ -108,10 +108,10 @@ division of the segment length in internal units by \code{blsize}.}
 \item{minJoin}{A single numeric value between 0 and 1 specifying the 
 degree of overlap above which two clusters will be joined into one.}
 
-\item{nTrial}{A single \code{integer} specifying the number of times 
-a model-based 
+\item{nTrial}{A single positive \code{integer} specifying the number of 
+times a model-based 
 clustering is attempted for each profile in order to achieve the 
-highest Bayesian information criterion (BIC). The default is \code{10}.}
+highest Bayesian information criterion (BIC). Default: \code{10}.}
 
 \item{bestbic}{A single \code{numeric} value for initalizing BIC 
 maximization. A large negative value is recommended. The default 
@@ -141,8 +141,9 @@ For \code{"vanilla"} (default) no distributed computing is performed. For
 \code{"Rparallel"} the \code{parallel} package of \code{R} core is used 
 for multi-core processing.}
 
-\item{nJobs}{A single integer specifying the number of worker jobs 
-to create in case of distributed computation. Default: \code{1}.}
+\item{nJobs}{A single positive \code{integer} specifying the number of 
+worker jobs to create in case of distributed computation. 
+Default: \code{1} and always \code{1} for Windows.}
 
 \item{normalLength}{An integer \code{vector} specifying the genomic lengths 
 of segments in the normal reference data. Default: \code{NULL}.}
