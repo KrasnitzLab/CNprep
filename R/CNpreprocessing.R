@@ -98,10 +98,10 @@
 #' @param minJoin A single numeric value between 0 and 1 specifying the 
 #' degree of overlap above which two clusters will be joined into one. 
 #' 
-#' @param nTrial A single \code{integer} specifying the number of times 
-#' a model-based 
+#' @param nTrial A single positive \code{integer} specifying the number of 
+#' times a model-based 
 #' clustering is attempted for each profile in order to achieve the 
-#' highest Bayesian information criterion (BIC). The default is \code{10}.
+#' highest Bayesian information criterion (BIC). Default: \code{10}.
 #' 
 #' @param bestbic A single \code{numeric} value for initalizing BIC 
 #' maximization. A large negative value is recommended. The default 
@@ -122,17 +122,9 @@
 #' from which segments are to be used for initial model-based clustering.
 #' Default: \code{NULL}.
 #' 
-#' @param mySeed A single \code{integer} value to seed the random number 
-#' generator. Default: \code{123}.
-#' 
-#' @param distrib One of \code{"vanilla", "Rparallel"} to specify the 
-#' distributed computing option for the cluster assignment step. 
-#' For \code{"vanilla"} (default) no distributed computing is performed. For 
-#' \code{"Rparallel"} the \code{parallel} package of \code{R} core is used 
-#' for multi-core processing.
-#' 
-#' @param nJobs A single integer specifying the number of worker jobs 
-#' to create in case of distributed computation. Default: \code{1}.
+#' @param nJobs A single positive \code{integer} specifying the number of 
+#' worker jobs to create in case of distributed computation. 
+#' Default: \code{1} and always \code{1} for Windows.
 #' 
 #' @param normalLength An integer \code{vector} specifying the genomic lengths 
 #' of segments in the normal reference data. Default: \code{NULL}.
@@ -205,7 +197,7 @@
 #'     chromCol="chrom", bpstartCol="chrom.pos.start", 
 #'     bpendCol="chrom.pos.end", blsize=50, 
 #'     minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
-#'     distrib="vanilla", nJobs=1, modelNames="E", normalLength=normsegs[,1],
+#'     nJobs=1, modelNames="E", normalLength=normsegs[,1],
 #'     normalMedian=normsegs[,2])
 #'     
 #' \dontrun{
@@ -213,7 +205,7 @@
 #' segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
 #'    "start","end", chromCol="chrom",bpstartCol="chrom.pos.start",
 #'    bpendCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
-#'    bstimes=50, chromRange=1:22, distrib="Rparallel", nJobs=40, 
+#'    bstimes=50, chromRange=1:22, nJobs=40, 
 #'    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #'    
 #' ## Example 2: how to use annotexample, when segment table does not have 
@@ -227,22 +219,33 @@
 #'     chromCol="chrom", bpstartCol="chrom.pos.start",bpendCol="chrom.pos.end",
 #'     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
 #'     annotChromCol="CHROM", blsize=50,minJoin=0.25, cWeight=0.4, bstimes=50,
-#'     chromRange=1:22, distrib="Rparallel", nJobs=40, modelNames="E", 
+#'     chromRange=1:22, nJobs=40, modelNames="E", 
 #'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' }
 #' 
 #' @author Alexander Krasnitz
-#' @importFrom parallel makeCluster clusterEvalQ parLapply stopCluster detectCores
+#' @importFrom BiocParallel multicoreWorkers SnowParam SerialParam bplapply
 #' @export
 CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     endCol=NULL, medCol=NULL, madCol=NULL, errorCol=NULL, chromCol=NULL,
     bpstartCol=NULL, bpendCol=NULL, annot=NULL, annotStartCol=NULL, 
     annotEndCol=NULL, annotChromCol=NULL, useEnd=FALSE, blsize=NULL, 
     minJoin=NULL, nTrial=10, bestbic=-1e7, modelNames="E", cWeight=NULL,
-    bstimes=NULL, chromRange=NULL, mySeed=123, distrib=c("vanilla","Rparallel"),
-    nJobs=1, normalLength=NULL, normalMedian=NULL, normalMad=NULL,
+    bstimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
+    normalMedian=NULL, normalMad=NULL,
     normalError=NULL) {
 
+    
+    
+    ## Select the type of object used for parallel processing
+    nbrThreads <- as.integer(nJobs)
+    if (nbrThreads == 1 || multicoreWorkers() == 1) {
+        coreParam <- SerialParam()
+    } else {
+        coreParam <- SnowParam(workers = nbrThreads, RNGseed = .Random.seed[1])
+    }
+    
+    
     ## When the column for the profile ID is not specified, see if it can
     ## deducted from the data
     ## If only one column in the ratall table is numerical, it will be 
@@ -304,13 +307,21 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             maxbpend <- ifelse(useEnd, 
                         max(c(segall[,bpendCol], annot[,annotEndCol])),
                         max(c(segall[,bpendCol], annot[,annotStartCol]))) + 1
-            startprobe <- match((segall[,chromCol]-1)*maxbpstart+segall[,bpstartCol],
-                                ceiling((annot[,annotChromCol]-1)*maxbpstart+annot[,annotStartCol]))
-            endprobe <- ifelse(rep(useEnd,length(startprobe)),
-                            match((segall[,chromCol]-1)*maxbpend+segall[,bpendCol],
-                                ceiling((annot[,annotChromCol]-1)*maxbpend+annot[,annotEndCol])),
-                            match((segall[,chromCol]-1)*maxbpend+segall[,bpendCol],
-                                ceiling((annot[,annotChromCol]-1)*maxbpend+annot[,annotStartCol])))
+            
+            startprobe <- match((segall[,chromCol] - 1) * maxbpstart + 
+                                            segall[,bpstartCol],
+                            ceiling((annot[,annotChromCol] - 1) * maxbpstart + 
+                                            annot[,annotStartCol]))
+            
+            endprobe <- ifelse(rep(useEnd, length(startprobe)),
+                            match((segall[,chromCol] - 1) * maxbpend + 
+                                        segall[,bpendCol],
+                                ceiling((annot[,annotChromCol] - 1) * maxbpend +
+                                        annot[,annotEndCol])),
+                            match((segall[,chromCol] - 1) * maxbpend + 
+                                        segall[,bpendCol],
+                                ceiling((annot[,annotChromCol] - 1) * maxbpend +
+                                        annot[,annotStartCol])))
             
             if (!all(!is.na(startprobe) & !is.na(endprobe))) {
                 stop("Incomplete start and end annotation of segments\n")
@@ -341,27 +352,37 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         
         rm(ratall)
         gc()
-        distrib <- match.arg(distrib)
-
-        if (distrib == "Rparallel") {
-            ncores <- min(nJobs, length(profnames), detectCores())
-            cl <- parallel::makeCluster(getOption("cl.cores", ncores))
-            parallel::clusterEvalQ(cl=cl, expr=requireNamespace("rlecuyer"))
-            parallel::clusterEvalQ(cl=cl, expr=requireNamespace("mclust"))
-            parallel::clusterEvalQ(cl=cl, expr=requireNamespace("CNprep"))
-        }
-
-        processed <- switch(distrib,
-            vanilla=lapply(X = profpack, FUN = CNclusterNcenter, blsize=blsize,
-                minjoin = minJoin, ntrial = nTrial, bestbic = bestbic,
-                modelNames = modelNames, cweight = cWeight, bstimes = bstimes, 
-                chromrange = chromRange, seedme = mySeed),
-            Rparallel=parLapply(cl, X = profpack, fun=CNclusterNcenter,
-                blsize=blsize, minjoin = minJoin, ntrial = nTrial, 
-                bestbic=bestbic, modelNames=modelNames, cweight=cWeight,
-                bstimes=bstimes, chromrange=chromRange, seedme=mySeed))
         
-        if (distrib=="Rparallel") stopCluster(cl)
+        #distrib <- match.arg(distrib)
+
+        # if (distrib == "Rparallel") {
+        #     ncores <- min(nJobs, length(profnames), detectCores())
+        #     cl <- parallel::makeCluster(getOption("cl.cores", ncores))
+        #     parallel::clusterEvalQ(cl=cl, expr=requireNamespace("rlecuyer"))
+        #     parallel::clusterEvalQ(cl=cl, expr=requireNamespace("mclust"))
+        #     parallel::clusterEvalQ(cl=cl, expr=requireNamespace("CNprep"))
+        # }
+
+        ## Running each chromosome on a separate thread
+        processed <- bplapply(X=profpack, FUN=CNclusterNcenter, 
+                                blsize=blsize, minjoin=minJoin, ntrial=nTrial, 
+                                bestbic=bestbic, modelNames=modelNames, 
+                                cweight=cWeight, bstimes=bstimes, 
+                                chromrange=chromRange, 
+                                BPPARAM = coreParam)
+        
+        # processed <- switch(distrib,
+        #     vanilla=lapply(X = profpack, FUN = CNclusterNcenter, blsize=blsize,
+        #         minjoin = minJoin, ntrial = nTrial, bestbic = bestbic,
+        #         modelNames = modelNames, cweight = cWeight, bstimes = bstimes, 
+        #         chromrange = chromRange, seedme = mySeed),
+        #     Rparallel=parLapply(cl, X = profpack, fun=CNclusterNcenter,
+        #         blsize=blsize, minjoin = minJoin, ntrial = nTrial, 
+        #         bestbic=bestbic, modelNames=modelNames, cweight=cWeight,
+        #         bstimes=bstimes, chromrange=chromRange, seedme=mySeed))
+        # 
+        #if (distrib=="Rparallel") stopCluster(cl)
+        
         segall <- cbind(segall, do.call(rbind, processed))
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
             c("segmedian", "segmad", "mediandev", "segerr", "centerz",
@@ -400,3 +421,4 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     
     return(segall)
 }
+

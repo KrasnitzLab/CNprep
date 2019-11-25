@@ -10,8 +10,7 @@ CNpreprocessing(segall, ratall = NULL, idCol = NULL, startCol = NULL,
   annot = NULL, annotStartCol = NULL, annotEndCol = NULL,
   annotChromCol = NULL, useEnd = FALSE, blsize = NULL,
   minJoin = NULL, nTrial = 10, bestbic = -1e+07, modelNames = "E",
-  cWeight = NULL, bstimes = NULL, chromRange = NULL, mySeed = 123,
-  distrib = c("vanilla", "Rparallel"), nJobs = 1,
+  cWeight = NULL, bstimes = NULL, chromRange = NULL, nJobs = 1,
   normalLength = NULL, normalMedian = NULL, normalMad = NULL,
   normalError = NULL)
 }
@@ -108,10 +107,10 @@ division of the segment length in internal units by \code{blsize}.}
 \item{minJoin}{A single numeric value between 0 and 1 specifying the 
 degree of overlap above which two clusters will be joined into one.}
 
-\item{nTrial}{A single \code{integer} specifying the number of times 
-a model-based 
+\item{nTrial}{A single positive \code{integer} specifying the number of 
+times a model-based 
 clustering is attempted for each profile in order to achieve the 
-highest Bayesian information criterion (BIC). The default is \code{10}.}
+highest Bayesian information criterion (BIC). Default: \code{10}.}
 
 \item{bestbic}{A single \code{numeric} value for initalizing BIC 
 maximization. A large negative value is recommended. The default 
@@ -132,17 +131,9 @@ assignment for the segment. Default: \code{NULL}.}
 from which segments are to be used for initial model-based clustering.
 Default: \code{NULL}.}
 
-\item{mySeed}{A single \code{integer} value to seed the random number 
-generator. Default: \code{123}.}
-
-\item{distrib}{One of \code{"vanilla", "Rparallel"} to specify the 
-distributed computing option for the cluster assignment step. 
-For \code{"vanilla"} (default) no distributed computing is performed. For 
-\code{"Rparallel"} the \code{parallel} package of \code{R} core is used 
-for multi-core processing.}
-
-\item{nJobs}{A single integer specifying the number of worker jobs 
-to create in case of distributed computation. Default: \code{1}.}
+\item{nJobs}{A single positive \code{integer} specifying the number of 
+worker jobs to create in case of distributed computation. 
+Default: \code{1} and always \code{1} for Windows.}
 
 \item{normalLength}{An integer \code{vector} specifying the genomic lengths 
 of segments in the normal reference data. Default: \code{NULL}.}
@@ -223,7 +214,7 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
     chromCol="chrom", bpstartCol="chrom.pos.start", 
     bpendCol="chrom.pos.end", blsize=50, 
     minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
-    distrib="vanilla", nJobs=1, modelNames="E", normalLength=normsegs[,1],
+    nJobs=1, modelNames="E", normalLength=normsegs[,1],
     normalMedian=normsegs[,2])
     
 \dontrun{
@@ -231,7 +222,7 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
 segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
    "start","end", chromCol="chrom",bpstartCol="chrom.pos.start",
    bpendCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
-   bstimes=50, chromRange=1:22, distrib="Rparallel", nJobs=40, 
+   bstimes=50, chromRange=1:22, nJobs=40, 
    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
    
 ## Example 2: how to use annotexample, when segment table does not have 
@@ -245,7 +236,7 @@ segtable <- CNpreprocessing(segall=mysegs,ratall=ratexample, idCol="ID",
     chromCol="chrom", bpstartCol="chrom.pos.start",bpendCol="chrom.pos.end",
     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
     annotChromCol="CHROM", blsize=50,minJoin=0.25, cWeight=0.4, bstimes=50,
-    chromRange=1:22, distrib="Rparallel", nJobs=40, modelNames="E", 
+    chromRange=1:22, nJobs=40, modelNames="E", 
     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 }
 

@@ -54,14 +54,14 @@ test_that("CNpreprocessing() must return expected results 01", {
     
     RNGkind("default")
     
-    set.seed(112211)
+    set.seed(444)
     
     results <- CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", 
         "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
         bpendCol="chrom.pos.end",
         blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-        distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-        normalMedian=normSegs, mySeed=444)
+        nJobs=1, modelNames="E", normalLength=normalLength,
+        normalMedian=normSegs)
     row.names(results) <- NULL
     
     expected <- segExample
@@ -72,17 +72,17 @@ test_that("CNpreprocessing() must return expected results 01", {
                             0.055535009470959, -0.028672732713390, 
                             0.006785138196383)
     expected$segerr <- as.double(rep(NA, 5))
-    expected$centerz <- c(0, 1, 0, 1, 0)
+    expected$centerz <- c(0, 1, 0, 1, 1)
     expected$marginalprob <- c(0.000000000000000, 0.004071344696112, 
                                0.000000000000000, 0.000000000000000, 
-                               0.000000000000000)
+                               0.125000000000)
     expected$maxz <- rep(1, 5)
-    expected$maxzmean <- c(0.058894220287678, 0.000000000000000, 
-                           0.072558957739817, 0.000000000000000, 
-                           0.038170879087330)
-    expected$maxzsigma <- c(0.000250592911274, 0.008253417945487, 
-                            0.000250592911274, 0.008253417945487, 
-                            0.000250592911274)
+    expected$maxzmean <- c(0.072558957740, 0.000000000000000, 
+                           0.035903580311, 0.000000000000000, 
+                           0.000000000000)
+    expected$maxzsigma <- c(0.000250592911, 0.008253417945, 
+                            0.000250592911, 0.008253417945, 
+                            0.008253417945)
     expected$samplesize <- c(111, 75, 41, 67, 42)
     expected$negtail <- c(1.000000000000000, 1.000000000000000, 
                           1.000000000000000, 0.000372936761926, 
@@ -96,17 +96,17 @@ test_that("CNpreprocessing() must return expected results 02", {
     
     RNGkind("default")
     
-    set.seed(1111)
+    set.seed(424)
     
     results <- CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", 
-                               "start", "end", chromCol="chrom", 
-                               bpstartCol="chrom.pos.start", 
-                               bpendCol="chrom.pos.end",
-                               blsize=3, minJoin=0.25, cWeight=0.4, bstimes=1, 
-                               chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", 
-                               normalLength=normalLength,
-                               normalMedian=normSegs, mySeed=424)
+                                "start", "end", chromCol="chrom", 
+                                bpstartCol="chrom.pos.start", 
+                                bpendCol="chrom.pos.end",
+                                blsize=3, minJoin=0.25, cWeight=0.4, bstimes=1, 
+                                chromRange=1,
+                                nJobs=1, modelNames="E", 
+                                normalLength=normalLength,
+                                normalMedian=normSegs)
     row.names(results) <- NULL
     
     expected <- segExample
@@ -116,28 +116,27 @@ test_that("CNpreprocessing() must return expected results 02", {
     expected$segmad <- c(0.064042079488653, 0.047642330818085, 
                          0.088332019979936, 0.041024077319856, 
                          0.075296460018356)
-    expected$mediandev <- c(0.022990639976770, 0.009558262267556, 
-                            0.013261330082376, -0.070946412101973, 
-                            -0.035488541192200)
+    expected$mediandev <- c(0.013432377709, 0.000000000000, 
+                            0.003703067815, -0.080504674370, 
+                            -0.045046803460)
     expected$segerr <- as.double(rep(NA, 5))
-    expected$centerz <- c(0.999999998957301, 1, 0.000313236786664, 1, 
-                          0.999603541409557)
-    expected$marginalprob <- c(0.226628739382506, 0.000201320973601, 
-                               0.000001658880667, 0.000003555056814, 
-                               0.019922632948820)
-    expected$maxz <- c(0.999999998957301, 1.000000000000000, 
-                       0.999686763213336, 1.000000000000000, 
-                       0.999603541409557)
+    expected$centerz <- c(1, 1, 1, 1, 1)
+    expected$marginalprob <- c(0.11060608999034, 0.00745060160527, 
+                               0.00000000013607, 0.12406080228155, 
+                               0.12625540759334)
+    expected$maxz <- c(1.000000000000000, 1.000000000000000, 
+                       1.000000000000000, 1.000000000000000, 
+                       1.000000000000000)
     expected$maxzmean <- c(0.000000000000000, 0.000000000000000, 
-                           0.058475688108603, 0.000000000000000, 
+                           0.00000000000000, 0.000000000000000, 
                            0.000000000000000)
-    expected$maxzsigma <- c(0.027105140390175, 0.027105140390175, 
-                            0.006398052253952, 0.027105140390175, 
-                            0.027105140390175)
+    expected$maxzsigma <- c(0.03254613676447, 0.03254613676447, 
+                            0.03254613676447, 0.03254613676447, 
+                            0.03254613676447)
     expected$samplesize <- c(111, 75, 41, 67, 42)
-    expected$negtail <- c(0.992841083588778, 0.991391357872609, 
-                          0.992841083588778, 0.000000000000000, 
-                          0.000372936761926)
+    expected$negtail <- c(0.99284108358878, 0.28368794713877, 
+                          0.83060809160502, 0.00000000000000, 
+                          0.00000000000000)
     row.names(expected) <- NULL
     
     expect_equal(results, expected)
@@ -154,23 +153,23 @@ test_that("CNpreprocessing() must return expected results 03", {
                                "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
                                bpendCol="chrom.pos.end",
                                blsize=3, minJoin=0.25, cWeight=0.2, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed = 411)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs)
     row.names(results) <- NULL
     
     expected <- segExample
     
     expected$segmedian <- c(0.0866247523, 0.0731923746, 0.0768954424, -0.0073122998, 0.0281455711)
     expected$segmad <- c(0.0640420795, 0.0476423308, 0.0883320200, 0.0410240773, 0.0752964600)
-    expected$mediandev <- c(0.020723341200, 0.007290963491, 0.010994031306, -0.073213710878, -0.037755839969)
+    expected$mediandev <- c(0.066954486664, 0.053522108955, 0.057225176770, -0.026982565414, 0.008475305495)
     expected$segerr <- as.double(rep(NA, 5))
-    expected$centerz <- c(1.0000000000000, 1.0000000000000, 1.0000000000000, 1.0000000000000, 1.0000000000000)
-    expected$marginalprob <- c(0.004981793166, 0.159091644887, 0.002082848719, 0.001749959525, 0.267552180977)
-    expected$maxz <- c(1.000000000000, 1.000000000000, 1.000000000000, 1.0000000000000, 1.000000000000)
-    expected$maxzmean <- c(0.000000000000, 0.000000000000, 0.000000000000, 0.0000000000000, 0.000000000000)
-    expected$maxzsigma <- c(0.033111813274, 0.033111813274, 0.033111813274, 0.033111813274, 0.033111813274)
+    expected$centerz <- c(0.000000000000, 0.000000000000, 0.000000000000, 1.0000000000000, 1.0000000000000)
+    expected$marginalprob <- c(0.000000000000, 0.000000000000, 0.000000000000, 0.346096852689, 0.311712141420)
+    expected$maxz <- c(0.999999998520, 0.834268228444, 1.000000000000, 1.0000000000000, 1.000000000000)
+    expected$maxzmean <- c(0.075934303028, 0.075934303028, 0.075934303028, 0.000000000000, 0.000000000000)
+    expected$maxzsigma <- c(0.003110734568, 0.003110734568, 0.003110734568, 0.011700403554, 0.011700403554)
     expected$samplesize <- c(111, 75, 41, 67, 42)
-    expected$negtail <- c(0.992841083589, 0.970092206277, 0.991391357873, 0.000000000000, 0.000000000000)
+    expected$negtail <- c(1.000000000000, 1.000000000000, 1.000000000000, 0.000372936762, 0.991391357873)
     row.names(expected) <- NULL
     
     expect_equal(results, expected)
@@ -192,8 +191,8 @@ test_that("CNpreprocessing() must return expected results when columns names are
                                "Start", "End", chromCol="Chrom", bpstartCol="Chrom.Pos.Start", 
                                bpendCol="Chrom.Pos.End",
                                blsize=3, minJoin=0.55, cWeight=0.2, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed = 41)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs)
     row.names(results) <- NULL
     
     expected <- segExample
@@ -205,15 +204,15 @@ test_that("CNpreprocessing() must return expected results when columns names are
     
     expected$segmedian <- c(0.0866247523, 0.0731923746, 0.0768954424, -0.0073122998, 0.0281455711)
     expected$segmad <- c(0.0640420795, 0.0476423308, 0.0883320200, 0.0410240773, 0.0752964600)
-    expected$mediandev <- c(0.0939370521, 0.0805046744, 0.0842077422, 0.0000000000, 0.0354578709)
+    expected$mediandev <- c(0.066954486664, 0.053522108955, 0.057225176770, -0.026982565414, 0.008475305495)
     expected$segerr <- as.double(rep(NA, 5))
     expected$centerz <- c(0.0000000000000, 0.0000000000000, 0.0000000000000, 1.0000000000000, 1.0000000000000)
-    expected$marginalprob <- c(0.000000000000, 0.000000000000, 0.000000000000, 0.004912523442, 0.097269097009)
-    expected$maxz <- c(1.000000000000, 1.000000000000, 1.000000000000, 1.0000000000000, 1.000000000000)
-    expected$maxzmean <- c(0.088688311377, 0.016544392756, 0.060472662089, 0.0000000000000, 0.000000000000)
-    expected$maxzsigma <- c(0.000286971609, 0.000286971609, 0.000286971609, 0.013376927175, 0.013376927175)
+    expected$marginalprob <- c(0.000000000000, 0.000000000000, 0.000000000000, 0.346096852689, 0.311712141420)
+    expected$maxz <- c(0.999999998520, 0.834268228444, 1.000000000000, 1.0000000000000, 1.000000000000)
+    expected$maxzmean <- c(0.075934303028, 0.075934303028, 0.075934303028, 0.000000000000, 0.000000000000)
+    expected$maxzsigma <- c(0.003110734568, 0.003110734568, 0.003110734568, 0.011700403554, 0.011700403554)
     expected$samplesize <- c(111, 75, 41, 67, 42)
-    expected$negtail <- c(1.000000000000, 1.000000000000, 1.000000000000, 0.283687947139, 1.000000000000)
+    expected$negtail <- c(1.000000000000, 1.000000000000, 1.000000000000, 0.000372936762, 0.991391357873)
     row.names(expected) <- NULL
     
     expect_equal(results, expected)
@@ -228,8 +227,8 @@ test_that("CNpreprocessing() must return expected results when not ratall", {
                                "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
                                bpendCol="chrom.pos.end",
                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed=444)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs)
     
     expected <- segExample
     
@@ -241,11 +240,11 @@ test_that("CNpreprocessing() must return expected message when not ratall", {
     message <- "No raw table, proceeding to comparison"
     
     expect_output(CNpreprocessing(segall=segExample, ratall=NULL, "ID", 
-                               "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
-                               bpendCol="chrom.pos.end",
-                               blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed = 444), message)
+                                "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
+                                bpendCol="chrom.pos.end",
+                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
+                                nJobs=1, modelNames="E", normalLength=normalLength,
+                                normalMedian=normSegs), message)
 })
 
 
@@ -257,8 +256,8 @@ test_that("CNpreprocessing() must return error when not idcol", {
                                "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
                                bpendCol="chrom.pos.end",
                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed=444), message)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs), message)
     
 })
 
@@ -272,9 +271,9 @@ test_that("CNpreprocessing() must return expected message when not idcol and no 
                                  bpendCol="chrom.pos.end",
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, 
                                  chromRange=1,
-                                 distrib="vanilla", nJobs=1, modelNames="E", 
+                                 nJobs=1, modelNames="E", 
                                  normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=443), message)
+                                 normalMedian=normSegs), message)
     
 })
 
@@ -287,9 +286,9 @@ test_that("CNpreprocessing() must return expected results when not idcol and no 
                                     bpendCol="chrom.pos.end",
                                     blsize=5, minJoin=0.25, cWeight=0.4, 
                                     bstimes=1, chromRange=1,
-                                    distrib="vanilla", nJobs=1, modelNames="E", 
+                                    nJobs=1, modelNames="E", 
                                     normalLength=normalLength,
-                                    normalMedian=normSegs, mySeed=433)
+                                    normalMedian=normSegs)
     
     expected <- segExample
     
@@ -304,8 +303,8 @@ test_that("CNpreprocessing() must return expected error when not startCol and no
                                startCol=NULL,  endCol="end", chromCol="chrom", bpstartCol=NULL, 
                                bpendCol="chrom.pos.end",
                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                               distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                               normalMedian=normSegs, mySeed=444), message)
+                               nJobs=1, modelNames="E", normalLength=normalLength,
+                               normalMedian=normSegs), message)
 })
 
 test_that("CNpreprocessing() must return expected error when annotation table given without start and chrom column names", {
@@ -321,8 +320,8 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
                                  startCol=NULL,  endCol=NULL, chromCol="chrom", bpstartCol="chrom.pos.start", 
                                  bpendCol="chrom.pos.end", annot = annotationTmp,
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
-                                 distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                 nJobs=1, modelNames="E", normalLength=normalLength,
+                                 normalMedian=normSegs), message)
 })
 
 
@@ -340,8 +339,8 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
                                  bpendCol="chrom.pos.end", annot = annotationTmp, annotChromCol="CHROM",
                                  annotStartCol="CHROM.POS",annotEndCol=NULL,
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
-                                 distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                 nJobs=1, modelNames="E", normalLength=normalLength,
+                                 normalMedian=normSegs), message)
 })
 
 test_that("CNpreprocessing() must return expected error when annotation table given without end column name and useEnd set to FALSE", {
@@ -354,12 +353,12 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
                                                                                                  106394039))
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", useEnd=FALSE,
-                                 startCol=NULL,  endCol=NULL, chromCol="chrom", bpstartCol="chrom.pos.start", 
-                                 bpendCol="chrom.pos.end", annot = annotationTmp, annotChromCol = "CHROM",
-                                 annotStartCol="CHROM.POS",annotEndCol=NULL,
-                                 blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
-                                 distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                    startCol=NULL,  endCol=NULL, chromCol="chrom", bpstartCol="chrom.pos.start", 
+                                    bpendCol="chrom.pos.end", annot = annotationTmp, annotChromCol = "CHROM",
+                                    annotStartCol="CHROM.POS",annotEndCol=NULL,
+                                    blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
+                                    nJobs=1, modelNames="E", normalLength=normalLength,
+                                    normalMedian=normSegs), message)
 })
 
 
@@ -372,10 +371,9 @@ test_that("CNpreprocessing() must return expected error when not startCol and no
                                  bpstartCol="chrom.pos.start", 
                                  bpendCol="chrom.pos.end",
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, 
-                                 chromRange=1,
-                                 distrib="vanilla", nJobs=1, modelNames="E", 
+                                 chromRange=1, nJobs=1, modelNames="E", 
                                  normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                 normalMedian=normSegs), message)
 })
 
 
@@ -400,6 +398,6 @@ test_that("CNpreprocessing() must return expected error when not idcol and ratal
                                  startCol=NULL,  endCol="end", chromCol="chrom", bpstartCol="chrom.pos.start", 
                                  bpendCol="chrom.pos.end",
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
-                                 distrib="vanilla", nJobs=1, modelNames="E", normalLength=normalLength,
-                                 normalMedian=normSegs, mySeed=444), message)
+                                 nJobs=1, modelNames="E", normalLength=normalLength,
+                                 normalMedian=normSegs), message)
 })

@@ -90,8 +90,8 @@ Masking is performed separately for each value in
 value of \code{eventIndex} are examined for coverage by mask intervals 
 with that same value of \code{maskIndex} in \code{maskTable}. If the 
 coverage is at least \code{minCover}, the segment is slated for masking, 
-while its flanking segments are extended to a random point within the segment 
-being masked.
+while its flanking segments are extended to a random point within the 
+segment being masked.
 }
 \examples{
 
@@ -106,7 +106,7 @@ segtable <- CNpreprocessing(segall = segexample[segexample[,"ID"] == "WZ1",],
     ratall = ratexample, idCol = "ID", startCol = "start", endCol = "end",
     chromCol = "chrom", bpstartCol = "chrom.pos.start", 
     bpendCol = "chrom.pos.end", blsize = 50, minJoin = 0.25, cWeight = 0.4,
-    bstimes = 50, chromRange = 1:22, distrib = "vanilla", nJobs = 1, 
+    bstimes = 50, chromRange = 1:22, nJobs = 1, 
     modelNames = "E", normalLength = normsegs[,1], 
     normalMedian = normsegs[,2])
 

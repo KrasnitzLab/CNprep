@@ -78,7 +78,7 @@ mysegs<-segexample[,c(1,5:12)]
 ##    chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
 ##    annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
 ##   annotChromCol="CHROM", blsize=50, minjoin=0.25, cWeight=0.4, bstimes=5,
-##    chromrange=1:2, distrib="vanilla", nJobs=1, modelNames="E", 
+##    chromrange=1:2, nJobs=1, modelNames="E", 
 ##    normalLength=normsegs[,1], normalMedian=normsegs[,2])
 
 
@@ -102,7 +102,7 @@ segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, idCol="ID",
     chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
     annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bstimes=3,
-    chromRange=1:2, distrib="vanilla", nJobs=1, modelNames="E", 
+    chromRange=1:2, nJobs=1, modelNames="E", 
     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 
 }

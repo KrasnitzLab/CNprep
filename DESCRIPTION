@@ -3,8 +3,10 @@ Type: Package
 Title: Pre-process DNA Copy Number (CN) Data for Detection of CN Events
 Version: 2.1.1
 Date: 2012-12-06
-Author: Alex Krasnitz, Guoli Sun
-Maintainer: Guoli Sun <guolisun87@gmail.com>
+Authors@R: c(person("Alex", "Krasnitz",
+        email="pascal_belleau@hotmail.com", role=c("aut")),
+        person("Guoli", "Sun", email="guolisun87@gmail.com",
+        role=c("aut", "cre")))
 Description: This package evaluates DNA copy number data, using both their 
     initial form (copy number as a noisy function of genomic position) and 
     their approximation by a piecewise-constant function (segmentation), for 
@@ -13,14 +15,15 @@ Description: This package evaluates DNA copy number data, using both their
 License: GPL-2
 Encoding: UTF-8
 Depends: R (>= 3.6), 
-    parallel, 
-    mclust, 
-    rlecuyer, 
+    BiocParallel,
+    mclust,
     stats
 Suggests: testthat,
     BiocStyle,
     knitr, 
     rmarkdown
+biocViews: Software, StatisticalMethod, WholeGenome, Microarray, 
+    CopyNumberVariation
 Packaged: 2014-12-31 17:11:09 UTC; gsun
 NeedsCompilation: no
 VignetteBuilder: knitr
