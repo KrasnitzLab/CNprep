@@ -234,17 +234,33 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     bstimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
     normalMedian=NULL, normalMad=NULL,
     normalError=NULL) {
+    
+    ## Parameters validation
+    validateCNpreprocessing(segall=segall, ratall=ratall, idCol=idCol, 
+                            startCol=startCol,endCol=endCol, medCol=medCol, 
+                            madCol=madCol, errorCol=errorCol, 
+                            chromCol=chromCol, bpstartCol=bpstartCol, 
+                            bpendCol=bpendCol, annot=annot, 
+                            annotStartCol=annotStartCol, 
+                            annotEndCol=annotEndCol, 
+                            annotChromCol=annotChromCol, useEnd=useEnd, 
+                            blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
+                            bestbic=bestbic, modelNames=modelNames, 
+                            cWeight=cWeight, bstimes=bstimes, 
+                            chromRange=chromRange, 
+                            nJobs=nJobs, 
+                            normalLength=normalLength, 
+                            normalMedian=normalMedian, normalMad=normalMad,
+                            normalError=normalError)
 
-    
-    
-    ## Select the type of object used for parallel processing
+    ## Select the type of parallel environment used for parallel processing
     nbrThreads <- as.integer(nJobs)
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
     } else {
-        coreParam <- SnowParam(workers = nbrThreads, RNGseed = .Random.seed[1])
+        seed <- get(".Random.seed", 1)[1]
+        coreParam <- SnowParam(workers = nbrThreads, RNGseed = seed)
     }
-    
     
     ## When the column for the profile ID is not specified, see if it can
     ## deducted from the data
@@ -334,7 +350,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             endCol <- "EndProbe"
         }
         
-        profpack <- vector(mode="list", length = length(profnames))
+        profpack <- vector(mode="list", length=length(profnames))
         names(profpack) <- profnames
         
         for (pn in profnames) {
@@ -352,16 +368,6 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         
         rm(ratall)
         gc()
-        
-        #distrib <- match.arg(distrib)
-
-        # if (distrib == "Rparallel") {
-        #     ncores <- min(nJobs, length(profnames), detectCores())
-        #     cl <- parallel::makeCluster(getOption("cl.cores", ncores))
-        #     parallel::clusterEvalQ(cl=cl, expr=requireNamespace("rlecuyer"))
-        #     parallel::clusterEvalQ(cl=cl, expr=requireNamespace("mclust"))
-        #     parallel::clusterEvalQ(cl=cl, expr=requireNamespace("CNprep"))
-        # }
 
         ## Running each chromosome on a separate thread
         processed <- bplapply(X=profpack, FUN=CNclusterNcenter, 
@@ -371,18 +377,6 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                 chromrange=chromRange, 
                                 BPPARAM = coreParam)
         
-        # processed <- switch(distrib,
-        #     vanilla=lapply(X = profpack, FUN = CNclusterNcenter, blsize=blsize,
-        #         minjoin = minJoin, ntrial = nTrial, bestbic = bestbic,
-        #         modelNames = modelNames, cweight = cWeight, bstimes = bstimes, 
-        #         chromrange = chromRange, seedme = mySeed),
-        #     Rparallel=parLapply(cl, X = profpack, fun=CNclusterNcenter,
-        #         blsize=blsize, minjoin = minJoin, ntrial = nTrial, 
-        #         bestbic=bestbic, modelNames=modelNames, cweight=cWeight,
-        #         bstimes=bstimes, chromrange=chromRange, seedme=mySeed))
-        # 
-        #if (distrib=="Rparallel") stopCluster(cl)
-        
         segall <- cbind(segall, do.call(rbind, processed))
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
             c("segmedian", "segmad", "mediandev", "segerr", "centerz",
@@ -391,8 +385,10 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         madCol <- "segmad"
         errorCol <- "segerr"
     }
+    
     if (!(is.null(normalLength) | is.null(normalMedian) | is.null(medCol))) {
-        if (is.null(bpstartCol) | is.null(bpendCol)) {  #try to annotate
+        if (is.null(bpstartCol) | is.null(bpendCol)) {  
+            ## Try to annotate
             if (is.null(startCol) | is.null(endCol) | is.null(annot) | 
                 is.null(annotStartCol) | is.null(annotEndCol)) {
                 stop("Insufficient annotation for comparison")
@@ -401,7 +397,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             tumorlength <- annot[segall[,endCol], annotEndCol] -
                 annot[segall[,startCol], annotStartCol] + 1
         } else {
-            tumorlength<-segall[, bpendCol] - segall[, bpstartCol] + 1
+            tumorlength <- segall[, bpendCol] - segall[, bpstartCol] + 1
         }
         
         tumormedian <- segall[, medCol]

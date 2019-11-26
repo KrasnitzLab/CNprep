@@ -73,9 +73,9 @@ consolidate <- function(emfit, minover) {
                             (newem$pro[gl]+newem$pro[gr])
             
             newem$sigmasq[gl] <- (newem$pro[gl] * 
-                                      (newem$sigmasq[gl] + newem$mu[gl]^2) +
+                                    (newem$sigmasq[gl] + newem$mu[gl]^2) +
                                     newem$pro[gr] * 
-                                      (newem$sigmasq[gr] + newem$mu[gr]^2))/
+                                        (newem$sigmasq[gr] + newem$mu[gr]^2))/
                                         (newem$pro[gl] + newem$pro[gr]) - numu^2
             
             newem$mu[gl] <- numu

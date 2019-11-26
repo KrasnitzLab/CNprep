@@ -26,8 +26,8 @@ of copy number profiles from which the events originated. Default: \code{1}.}
 \item{uthresh}{A \code{numeric} specifying the upper threshold for 
 the event frequency or (if \code{nprof = 1}) for the event count.}
 
-\item{dthresh}{A \code{numeric} specifying the upper and lower thresholds for 
-the event frequency or (if \code{nprof = 1}) for the event count.}
+\item{dthresh}{A \code{numeric} specifying the upper and lower thresholds 
+for the event frequency or (if \code{nprof = 1}) for the event count.}
 }
 \value{
 A \code{matrix} of \code{numeric} (used as integer) 
