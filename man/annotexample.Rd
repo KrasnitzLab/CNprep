@@ -75,7 +75,7 @@ mysegs <- segexample[,c(1,5:12)]
 ## Analysis limited to chromosomes 1 and 2
 ## The bstimes variable should be higher for a real analysis
 segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, "ID",
-    chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
+    chromCol="chrom", bpStartCol="chrom.pos.start", bpEndCol="chrom.pos.end",
     annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bstimes=5,
     chromRange=1:2, nJobs=1, modelNames="E", 
@@ -99,7 +99,7 @@ mysegs <- segexample[,c(1,5:12)]
 ## Analysis limited to chromosomes 1 and 2
 ## The bstimes variable should be higher for a real analysis
 segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, idCol="ID",
-    chromCol="chrom", bpstartCol="chrom.pos.start", bpendCol="chrom.pos.end",
+    chromCol="chrom", bpStartCol="chrom.pos.start", bpEndCol="chrom.pos.end",
     annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bstimes=3,
     chromRange=1:2, nJobs=1, modelNames="E", 

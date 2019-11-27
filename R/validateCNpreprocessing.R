@@ -43,11 +43,11 @@
 #' column in \code{segall} tabulating the (integer) chromosome number for 
 #' each segment.
 #' 
-#' @param bpstartCol A \code{character} string specifying the name of 
+#' @param bpStartCol A \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic start 
 #' coordinate of each segment.
 #' 
-#' @param bpendCol A \code{character} string specifying the name of 
+#' @param bpEndCol A \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic end 
 #' coordinate of each segment.
 #' 
@@ -72,7 +72,7 @@
 #' microarrays.
 #' 
 #' @param useEnd A single \code{logical} value specifying whether the segment 
-#' end positions as given by the \code{bpendCol} of \code{segall} are to be 
+#' end positions as given by the \code{bpEndCol} of \code{segall} are to be 
 #' looked up in the \code{annotEndCol} column of \code{annot} 
 #' (if \code{useEnd=TRUE}) or in the \code{annotStartCol} column (default). 
 #' 
@@ -89,7 +89,7 @@
 #' clustering is attempted for each profile in order to achieve the 
 #' highest Bayesian information criterion (BIC). 
 #' 
-#' @param bestbic A single \code{numeric} value for initalizing BIC 
+#' @param bestBIC A single \code{numeric} value for initalizing BIC 
 #' maximization. A large negative value is recommended. 
 #' 
 #' @param modelNames A \code{vector} of \code{character} strings specifying 
@@ -136,8 +136,8 @@
 #' ## Return zero as all parameters are valid
 #' CNprep:::validateCNpreprocessing(segall=segexample,
 #'     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
-#'     chromCol="chrom", bpstartCol="chrom.pos.start", 
-#'     bpendCol="chrom.pos.end", blsize=50, nTrial=10,
+#'     chromCol="chrom", bpStartCol="chrom.pos.start", 
+#'     bpEndCol="chrom.pos.end", blsize=50, nTrial=10,
 #'     useEnd=FALSE, minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
 #'     nJobs=1, modelNames="E", normalLength=normsegs[,1],
 #'     normalMedian=normsegs[,2])
@@ -147,10 +147,10 @@
 #' @keywords internal
 validateCNpreprocessing <- function(segall, ratall, idCol, 
         startCol, endCol, medCol, madCol, errorCol, 
-        chromCol, bpstartCol, bpendCol, annot, 
+        chromCol, bpStartCol, bpEndCol, annot, 
         annotStartCol, 
         annotEndCol, annotChromCol, useEnd, blsize, 
-        minJoin, nTrial, bestbic, modelNames, cWeight,
+        minJoin, nTrial, bestBIC, modelNames, cWeight,
         bstimes, chromRange, nJobs, normalLength, 
         normalMedian, normalMad,
         normalError) 

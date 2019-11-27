@@ -48,9 +48,9 @@ test_that("CNclusterNcenter() must return expected results 01", {
     
     
     results <- CNprep:::CNclusterNcenter(segrat = profpack[["WZ1"]], blsize = 5, 
-                                         minjoin = 0.25, ntrial = 10, bestbic = -1e7, 
+                                         minJoin = 0.25, nTrial = 10, bestBIC = -1e7, 
                                          modelNames = "E", cweight = 0.4, 
-                                         bstimes = 50, chromrange = 1:22)
+                                         bstimes = 50, chromRange = 1:22)
     
     expected <- matrix(c(-0.0169307400, 0.0000022222, 0.0007927841, -0.0169307400, 0.0000022222, 
                          0.041594444, 0.016489634, 0.009542733, 0.291743003, 0.016489634, 

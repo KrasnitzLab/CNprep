@@ -9,15 +9,15 @@
 #' clustering. The number of times a segment is sampled is then given by the 
 #' (integer) division of the segment length in internal units by \code{blsize}.
 #' 
-#' @param minjoin A single \code{numeric} value between \code{0} and \code{1} 
+#' @param minJoin A single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the degree of overlap above which two clusters will be joined 
 #' into one.
 #' 
-#' @param ntrial A single \code{integer} specifying the number of times 
+#' @param nTrial A single \code{integer} specifying the number of times 
 #' a model-based clustering is attempted for each profile in order to 
 #' achieve the highest Bayesian information criterion (BIC).
 #' 
-#' @param bestbic A single \code{numeric} value for initalizing BIC 
+#' @param bestBIC A single \code{numeric} value for initalizing BIC 
 #' maximization. A large negative value is recommended. The default 
 #' is \code{-1e7}.
 #' 
@@ -32,7 +32,7 @@
 #' time the median of each segment is sampled in order to predict the cluster 
 #' assignment for the segment.
 #' 
-#' @param chromrange A \code{integer} vector enumerating chromosomes from 
+#' @param chromRange A \code{integer} vector enumerating chromosomes from 
 #' which segments are to be used for initial model-based clustering.
 #' 
 #' @return TODO
@@ -45,8 +45,8 @@
 #' @importFrom stats median var
 #' @importFrom mclust Mclust
 #' @keywords internal
-CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
-    modelNames, cweight, bstimes, chromrange) {
+CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
+    modelNames, cweight, bstimes, chromRange) {
 
     ## Create and assign seeds
     # .lec.CreateStream(segrat$stream)
@@ -66,7 +66,7 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
 
     dimnames(segrat$seg)[[2]] <- c(startcol, endcol, chromcol, medcol, madcol)
     
-    seguse <- segrat$seg[segrat$seg[, chromcol] %in% chromrange,, drop=FALSE]
+    seguse <- segrat$seg[segrat$seg[, chromcol] %in% chromRange,, drop=FALSE]
     
     aux <- rep(0, length(segrat$rat))
     aux[seguse[, startcol]] <- 1
@@ -76,20 +76,20 @@ CNclusterNcenter <- function(segrat, blsize, minjoin, ntrial, bestbic,
     
     ratuse <- segrat$rat[aux == 1]
 
-    for(j in seq_len(ntrial)) {
+    for(j in seq_len(nTrial)) {
         aaa <- segsample(seguse, ratuse, blocksize=blsize)
         if (all(unique(aaa[,3]) == 0)) { 
             aaa[,3] <- 1e-10 
         }
         emfit <- Mclust(aaa[,3], maxG=15, modelNames=modelNames)
-        if (emfit$bic >= bestbic) {
+        if (emfit$bic >= bestBIC) {
             bestaaa <- aaa
             bestem  <- emfit
-            bestbic <- emfit$bic
+            bestBIC <- emfit$bic
         }
     }
 
-    newem <- consolidate(bestem, minjoin)
+    newem <- consolidate(bestem, minJoin)
     newem <- get.center(newem, cweight)
     
     if (length(bestem$parameters$mean) == 1) { 
