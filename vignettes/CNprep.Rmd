@@ -27,10 +27,11 @@ knitr::opts_chunk$set(echo = TRUE)
 # License
 
 The *CNprep* package and the underlying *CNprep* code 
-are distributed under the [GPL-2 License](https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt). You are free to use and redistribute this software. 
+are distributed under the 
+[GPL-2 License](https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt). You 
+are free to use and redistribute this software. 
 
 # Citing
-
 
 If you use this package for a publication, we would ask you to cite the 
 following:
@@ -40,12 +41,21 @@ following:
 
 # Introduction
 
-Copy number variation is a significant source of variation in the human genome.
-Copy number variants (CNVs) has been associated with a number of diseases, such 
+Copy number variations (CNVs) are associated with a wide spectrum of 
+pathological conditions and complex traits, such 
 as Tourette Disorder [@Wang2018] and especially 
-cancer [@Pelttari2018; @Franch-Exposito2018a]. Even 
-more, CNVs can potentially be used as biomarker for cancer 
+cancer [@Pelttari2018; @Franch-Exposito2018a]. Furthermore, CNVs can 
+potentially be used as biomarker for cancer 
 diagnosis [@Pan2018].
+
+One commonly used technology to detect CNVs is the Comparative Genomic 
+Hybridization array (array CGH). From those arrays, software such as 
+*DNACopy* [@Seshan] can identify regions of gained and lost copy number.
+The availability and low cost of next-generation technologies have
+made it possible to detect CNVs for the entire genome with the exclusion of few 
+hard to map regions. This leaded to the development of software adapted to 
+whole-genome and whole-exome sequencing, such as *CNVkit* [@Talevich] and 
+*exomecopy* [@Love].
 
 The *CNprep* package evaluates DNA copy number data, using both their initial 
 form (copy number as a noisy function of genomic position) and their 
