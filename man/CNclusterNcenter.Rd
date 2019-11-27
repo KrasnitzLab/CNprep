@@ -4,8 +4,8 @@
 \alias{CNclusterNcenter}
 \title{TODO}
 \usage{
-CNclusterNcenter(segrat, blsize, minjoin, ntrial, bestbic, modelNames,
-  cweight, bstimes, chromrange)
+CNclusterNcenter(segrat, blsize, minJoin, nTrial, bestBIC, modelNames,
+  cweight, bstimes, chromRange)
 }
 \arguments{
 \item{segrat}{a \code{list}}
@@ -15,15 +15,15 @@ sampling rate of segment medians to generate input for model-based
 clustering. The number of times a segment is sampled is then given by the 
 (integer) division of the segment length in internal units by \code{blsize}.}
 
-\item{minjoin}{A single \code{numeric} value between \code{0} and \code{1} 
+\item{minJoin}{A single \code{numeric} value between \code{0} and \code{1} 
 specifying the degree of overlap above which two clusters will be joined 
 into one.}
 
-\item{ntrial}{A single \code{integer} specifying the number of times 
+\item{nTrial}{A single \code{integer} specifying the number of times 
 a model-based clustering is attempted for each profile in order to 
 achieve the highest Bayesian information criterion (BIC).}
 
-\item{bestbic}{A single \code{numeric} value for initalizing BIC 
+\item{bestBIC}{A single \code{numeric} value for initalizing BIC 
 maximization. A large negative value is recommended. The default 
 is \code{-1e7}.}
 
@@ -38,7 +38,7 @@ specifying the minimal share of the central cluster in each profile.}
 time the median of each segment is sampled in order to predict the cluster 
 assignment for the segment.}
 
-\item{chromrange}{A \code{integer} vector enumerating chromosomes from 
+\item{chromRange}{A \code{integer} vector enumerating chromosomes from 
 which segments are to be used for initial model-based clustering.}
 }
 \value{

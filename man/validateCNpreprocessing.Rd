@@ -5,8 +5,8 @@
 \title{Parameters validation for the \code{\link{CNpreprocessing}} function}
 \usage{
 validateCNpreprocessing(segall, ratall, idCol, startCol, endCol, medCol,
-  madCol, errorCol, chromCol, bpstartCol, bpendCol, annot, annotStartCol,
-  annotEndCol, annotChromCol, useEnd, blsize, minJoin, nTrial, bestbic,
+  madCol, errorCol, chromCol, bpStartCol, bpEndCol, annot, annotStartCol,
+  annotEndCol, annotChromCol, useEnd, blsize, minJoin, nTrial, bestBIC,
   modelNames, cWeight, bstimes, chromRange, nJobs, normalLength,
   normalMedian, normalMad, normalError)
 }
@@ -51,11 +51,11 @@ the function (\code{medCol}) for the segment.}
 column in \code{segall} tabulating the (integer) chromosome number for 
 each segment.}
 
-\item{bpstartCol}{A \code{character} string specifying the name of 
+\item{bpStartCol}{A \code{character} string specifying the name of 
 column in \code{segall} that tabulates the (integer) genomic start 
 coordinate of each segment.}
 
-\item{bpendCol}{A \code{character} string specifying the name of 
+\item{bpEndCol}{A \code{character} string specifying the name of 
 column in \code{segall} that tabulates the (integer) genomic end 
 coordinate of each segment.}
 
@@ -80,7 +80,7 @@ number for each copy number measuring unit, such as a probe in case of CGH
 microarrays.}
 
 \item{useEnd}{A single \code{logical} value specifying whether the segment 
-end positions as given by the \code{bpendCol} of \code{segall} are to be 
+end positions as given by the \code{bpEndCol} of \code{segall} are to be 
 looked up in the \code{annotEndCol} column of \code{annot} 
 (if \code{useEnd=TRUE}) or in the \code{annotStartCol} column (default).}
 
@@ -97,7 +97,7 @@ times a model-based
 clustering is attempted for each profile in order to achieve the 
 highest Bayesian information criterion (BIC).}
 
-\item{bestbic}{A single \code{numeric} value for initalizing BIC 
+\item{bestBIC}{A single \code{numeric} value for initalizing BIC 
 maximization. A large negative value is recommended.}
 
 \item{modelNames}{A \code{vector} of \code{character} strings specifying 
@@ -149,8 +149,8 @@ data(normsegs)
 ## Return zero as all parameters are valid
 CNprep:::validateCNpreprocessing(segall=segexample,
     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
-    chromCol="chrom", bpstartCol="chrom.pos.start", 
-    bpendCol="chrom.pos.end", blsize=50, nTrial=10,
+    chromCol="chrom", bpStartCol="chrom.pos.start", 
+    bpEndCol="chrom.pos.end", blsize=50, nTrial=10,
     useEnd=FALSE, minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
     nJobs=1, modelNames="E", normalLength=normsegs[,1],
     normalMedian=normsegs[,2])

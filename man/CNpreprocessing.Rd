@@ -6,10 +6,10 @@
 \usage{
 CNpreprocessing(segall, ratall = NULL, idCol = NULL, startCol = NULL,
   endCol = NULL, medCol = NULL, madCol = NULL, errorCol = NULL,
-  chromCol = NULL, bpstartCol = NULL, bpendCol = NULL,
+  chromCol = NULL, bpStartCol = NULL, bpEndCol = NULL,
   annot = NULL, annotStartCol = NULL, annotEndCol = NULL,
   annotChromCol = NULL, useEnd = FALSE, blsize = NULL,
-  minJoin = NULL, nTrial = 10, bestbic = -1e+07, modelNames = "E",
+  minJoin = NULL, nTrial = 10, bestBIC = -1e+07, modelNames = "E",
   cWeight = NULL, bstimes = NULL, chromRange = NULL, nJobs = 1,
   normalLength = NULL, normalMedian = NULL, normalMad = NULL,
   normalError = NULL)
@@ -19,7 +19,7 @@ CNpreprocessing(segall, ratall = NULL, idCol = NULL, startCol = NULL,
 number profiles. It may have a character column, with a name specified 
 by \code{idCol}, and/or numeric columns with names specified by 
 \code{startCol, endCol, medCol, madCol,errorCol}  
-\code{,chromCol, bpstartCol, bpendCol}. Each row of \code{segall} 
+\code{,chromCol, bpStartCol, bpEndCol}. Each row of \code{segall} 
 corresponds to a segment belonging to one of the profiles 
 to be pre-processed.}
 
@@ -65,11 +65,11 @@ the function (\code{medCol}) for the segment. Default: \code{NULL}.}
 column in \code{segall} tabulating the (integer) chromosome number for 
 each segment.}
 
-\item{bpstartCol}{A \code{character} string specifying the name of 
+\item{bpStartCol}{A \code{character} string specifying the name of 
 column in \code{segall} that tabulates the (integer) genomic start 
 coordinate of each segment.}
 
-\item{bpendCol}{A \code{character} string specifying the name of 
+\item{bpEndCol}{A \code{character} string specifying the name of 
 column in \code{segall} that tabulates the (integer) genomic end 
 coordinate of each segment.}
 
@@ -94,7 +94,7 @@ number for each copy number measuring unit, such as a probe in case of CGH
 microarrays.}
 
 \item{useEnd}{A single logical value specifying whether the segment end 
-positions as given by the \code{bpendCol} of \code{segall} are to be 
+positions as given by the \code{bpEndCol} of \code{segall} are to be 
 looked up in the \code{annotEndCol} column of \code{annot} 
 (if \code{useEnd=TRUE}) or in the \code{annotStartCol} column (default). 
 Default: \code{FALSE}.}
@@ -112,7 +112,7 @@ times a model-based
 clustering is attempted for each profile in order to achieve the 
 highest Bayesian information criterion (BIC). Default: \code{10}.}
 
-\item{bestbic}{A single \code{numeric} value for initalizing BIC 
+\item{bestBIC}{A single \code{numeric} value for initalizing BIC 
 maximization. A large negative value is recommended. The default 
 is \code{-1e7}.}
 
@@ -211,8 +211,8 @@ data(normsegs)
 ## Small toy example
 segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
-    chromCol="chrom", bpstartCol="chrom.pos.start", 
-    bpendCol="chrom.pos.end", blsize=50, 
+    chromCol="chrom", bpStartCol="chrom.pos.start", 
+    bpEndCol="chrom.pos.end", blsize=50, 
     minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
     nJobs=1, modelNames="E", normalLength=normsegs[,1],
     normalMedian=normsegs[,2])
@@ -220,8 +220,8 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
 \dontrun{
 ## Example 1: 5 whole genome analysis, choosing the right format of arguments
 segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
-   "start","end", chromCol="chrom",bpstartCol="chrom.pos.start",
-   bpendCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
+   "start","end", chromCol="chrom",bpStartCol="chrom.pos.start",
+   bpEndCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
    bstimes=50, chromRange=1:22, nJobs=40, 
    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
    
@@ -233,9 +233,9 @@ mysegs <- segexample[,c(1,5:12)]
 data(annotexample)
 
 segtable <- CNpreprocessing(segall=mysegs,ratall=ratexample, idCol="ID",
-    chromCol="chrom", bpstartCol="chrom.pos.start",bpendCol="chrom.pos.end",
+    chromCol="chrom", bpStartCol="chrom.pos.start",bpEndCol="chrom.pos.end",
     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
-    annotChromCol="CHROM", blsize=50,minJoin=0.25, cWeight=0.4, bstimes=50,
+    annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bstimes=50,
     chromRange=1:22, nJobs=40, modelNames="E", 
     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 }

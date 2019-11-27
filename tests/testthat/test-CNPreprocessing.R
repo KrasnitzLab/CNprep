@@ -57,8 +57,8 @@ test_that("CNpreprocessing() must return expected results 01", {
     set.seed(444)
     
     results <- CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", 
-        "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
-        bpendCol="chrom.pos.end",
+        "start", "end", chromCol="chrom", bpStartCol="chrom.pos.start", 
+        bpEndCol="chrom.pos.end",
         blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
         nJobs=1, modelNames="E", normalLength=normalLength,
         normalMedian=normSegs)
@@ -100,8 +100,8 @@ test_that("CNpreprocessing() must return expected results 02", {
     
     results <- CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", 
                                 "start", "end", chromCol="chrom", 
-                                bpstartCol="chrom.pos.start", 
-                                bpendCol="chrom.pos.end",
+                                bpStartCol="chrom.pos.start", 
+                                bpEndCol="chrom.pos.end",
                                 blsize=3, minJoin=0.25, cWeight=0.4, bstimes=1, 
                                 chromRange=1,
                                 nJobs=1, modelNames="E", 
@@ -150,8 +150,8 @@ test_that("CNpreprocessing() must return expected results 03", {
     set.seed(2211)
     
     results <- CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", 
-                               "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
-                               bpendCol="chrom.pos.end",
+                               "start", "end", chromCol="chrom", bpStartCol="chrom.pos.start", 
+                               bpEndCol="chrom.pos.end",
                                blsize=3, minJoin=0.25, cWeight=0.2, bstimes=1, chromRange=1,
                                nJobs=1, modelNames="E", normalLength=normalLength,
                                normalMedian=normSegs)
@@ -188,8 +188,8 @@ test_that("CNpreprocessing() must return expected results when columns names are
                                  "Cytoband.End", "Abs.Pos.Start", "Abs.Pos.End")
     
     results <- CNpreprocessing(segall=segExampleTmp, ratall=rateExample, idCol="Id", 
-                               "Start", "End", chromCol="Chrom", bpstartCol="Chrom.Pos.Start", 
-                               bpendCol="Chrom.Pos.End",
+                               "Start", "End", chromCol="Chrom", bpStartCol="Chrom.Pos.Start", 
+                               bpEndCol="Chrom.Pos.End",
                                blsize=3, minJoin=0.55, cWeight=0.2, bstimes=1, chromRange=1,
                                nJobs=1, modelNames="E", normalLength=normalLength,
                                normalMedian=normSegs)
@@ -224,8 +224,8 @@ test_that("CNpreprocessing() must return expected results when columns names are
 test_that("CNpreprocessing() must return expected results when not ratall", {
     
     results <- CNpreprocessing(segall=segExample, ratall=NULL, "ID", 
-                               "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
-                               bpendCol="chrom.pos.end",
+                               "start", "end", chromCol="chrom", bpStartCol="chrom.pos.start", 
+                               bpEndCol="chrom.pos.end",
                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
                                nJobs=1, modelNames="E", normalLength=normalLength,
                                normalMedian=normSegs)
@@ -240,8 +240,8 @@ test_that("CNpreprocessing() must return expected message when not ratall", {
     message <- "No raw table, proceeding to comparison"
     
     expect_output(CNpreprocessing(segall=segExample, ratall=NULL, "ID", 
-                                "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
-                                bpendCol="chrom.pos.end",
+                                "start", "end", chromCol="chrom", bpStartCol="chrom.pos.start", 
+                                bpEndCol="chrom.pos.end",
                                 blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
                                 nJobs=1, modelNames="E", normalLength=normalLength,
                                 normalMedian=normSegs), message)
@@ -253,8 +253,8 @@ test_that("CNpreprocessing() must return error when not idcol", {
     message <- "Found unmatched segmented profile IDs"
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idCol=NULL, 
-                               "start", "end", chromCol="chrom", bpstartCol="chrom.pos.start", 
-                               bpendCol="chrom.pos.end",
+                               "start", "end", chromCol="chrom", bpStartCol="chrom.pos.start", 
+                               bpEndCol="chrom.pos.end",
                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
                                nJobs=1, modelNames="E", normalLength=normalLength,
                                normalMedian=normSegs), message)
@@ -267,8 +267,8 @@ test_that("CNpreprocessing() must return expected message when not idcol and no 
     
     expect_output(CNpreprocessing(segall=segExample, ratall=NULL, idCol=NULL, 
                                  "start", "end", chromCol="chrom", 
-                                 bpstartCol="chrom.pos.start", 
-                                 bpendCol="chrom.pos.end",
+                                 bpStartCol="chrom.pos.start", 
+                                 bpEndCol="chrom.pos.end",
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, 
                                  chromRange=1,
                                  nJobs=1, modelNames="E", 
@@ -282,8 +282,8 @@ test_that("CNpreprocessing() must return expected results when not idcol and no 
     
     results <- CNpreprocessing(segall=segExample, ratall=NULL, idCol=NULL, 
                                     "start", "end", chromCol="chrom", 
-                                    bpstartCol="chrom.pos.start", 
-                                    bpendCol="chrom.pos.end",
+                                    bpStartCol="chrom.pos.start", 
+                                    bpEndCol="chrom.pos.end",
                                     blsize=5, minJoin=0.25, cWeight=0.4, 
                                     bstimes=1, chromRange=1,
                                     nJobs=1, modelNames="E", 
@@ -295,13 +295,13 @@ test_that("CNpreprocessing() must return expected results when not idcol and no 
     expect_equal(results, expected)
 })
 
-test_that("CNpreprocessing() must return expected error when not startCol and no bpstartCol", {
+test_that("CNpreprocessing() must return expected error when not startCol and no bpStartCol", {
     
     message <- "Unable to proceed: incomplete segment annotation"
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", 
-                               startCol=NULL,  endCol="end", chromCol="chrom", bpstartCol=NULL, 
-                               bpendCol="chrom.pos.end",
+                               startCol=NULL,  endCol="end", chromCol="chrom", bpStartCol=NULL, 
+                               bpEndCol="chrom.pos.end",
                                blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
                                nJobs=1, modelNames="E", normalLength=normalLength,
                                normalMedian=normSegs), message)
@@ -317,8 +317,8 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
                                                                               106394039))
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", 
-                                 startCol=NULL,  endCol=NULL, chromCol="chrom", bpstartCol="chrom.pos.start", 
-                                 bpendCol="chrom.pos.end", annot = annotationTmp,
+                                 startCol=NULL,  endCol=NULL, chromCol="chrom", bpStartCol="chrom.pos.start", 
+                                 bpEndCol="chrom.pos.end", annot = annotationTmp,
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
                                  nJobs=1, modelNames="E", normalLength=normalLength,
                                  normalMedian=normSegs), message)
@@ -335,8 +335,8 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
                                                                                                  106394039))
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", useEnd=TRUE,
-                                 startCol=NULL,  endCol=NULL, chromCol="chrom", bpstartCol="chrom.pos.start", 
-                                 bpendCol="chrom.pos.end", annot = annotationTmp, annotChromCol="CHROM",
+                                 startCol=NULL,  endCol=NULL, chromCol="chrom", bpStartCol="chrom.pos.start", 
+                                 bpEndCol="chrom.pos.end", annot = annotationTmp, annotChromCol="CHROM",
                                  annotStartCol="CHROM.POS",annotEndCol=NULL,
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
                                  nJobs=1, modelNames="E", normalLength=normalLength,
@@ -353,8 +353,8 @@ test_that("CNpreprocessing() must return expected error when annotation table gi
                                                                                                  106394039))
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", useEnd=FALSE,
-                                    startCol=NULL,  endCol=NULL, chromCol="chrom", bpstartCol="chrom.pos.start", 
-                                    bpendCol="chrom.pos.end", annot = annotationTmp, annotChromCol = "CHROM",
+                                    startCol=NULL,  endCol=NULL, chromCol="chrom", bpStartCol="chrom.pos.start", 
+                                    bpEndCol="chrom.pos.end", annot = annotationTmp, annotChromCol = "CHROM",
                                     annotStartCol="CHROM.POS",annotEndCol=NULL,
                                     blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=NULL,
                                     nJobs=1, modelNames="E", normalLength=normalLength,
@@ -368,8 +368,8 @@ test_that("CNpreprocessing() must return expected error when not startCol and no
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExample, idCol="ID", 
                                  startCol=NULL,  endCol="end", chromCol="chrom", 
-                                 bpstartCol="chrom.pos.start", 
-                                 bpendCol="chrom.pos.end",
+                                 bpStartCol="chrom.pos.start", 
+                                 bpEndCol="chrom.pos.end",
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, 
                                  chromRange=1, nJobs=1, modelNames="E", 
                                  normalLength=normalLength,
@@ -395,8 +395,8 @@ test_that("CNpreprocessing() must return expected error when not idcol and ratal
     
     
     expect_error(CNpreprocessing(segall=segExample, ratall=rateExampleTmp, idCol=NULL, 
-                                 startCol=NULL,  endCol="end", chromCol="chrom", bpstartCol="chrom.pos.start", 
-                                 bpendCol="chrom.pos.end",
+                                 startCol=NULL,  endCol="end", chromCol="chrom", bpStartCol="chrom.pos.start", 
+                                 bpEndCol="chrom.pos.end",
                                  blsize=5, minJoin=0.25, cWeight=0.4, bstimes=1, chromRange=1,
                                  nJobs=1, modelNames="E", normalLength=normalLength,
                                  normalMedian=normSegs), message)

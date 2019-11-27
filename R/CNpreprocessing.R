@@ -10,7 +10,7 @@
 #' number profiles. It may have a character column, with a name specified 
 #' by \code{idCol}, and/or numeric columns with names specified by 
 #' \code{startCol, endCol, medCol, madCol,errorCol}  
-#' \code{,chromCol, bpstartCol, bpendCol}. Each row of \code{segall} 
+#' \code{,chromCol, bpStartCol, bpEndCol}. Each row of \code{segall} 
 #' corresponds to a segment belonging to one of the profiles 
 #' to be pre-processed.
 #' 
@@ -56,11 +56,11 @@
 #' column in \code{segall} tabulating the (integer) chromosome number for 
 #' each segment.
 #' 
-#' @param bpstartCol A \code{character} string specifying the name of 
+#' @param bpStartCol A \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic start 
 #' coordinate of each segment.
 #' 
-#' @param bpendCol A \code{character} string specifying the name of 
+#' @param bpEndCol A \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic end 
 #' coordinate of each segment.
 #' 
@@ -85,7 +85,7 @@
 #' microarrays.
 #' 
 #' @param useEnd A single logical value specifying whether the segment end 
-#' positions as given by the \code{bpendCol} of \code{segall} are to be 
+#' positions as given by the \code{bpEndCol} of \code{segall} are to be 
 #' looked up in the \code{annotEndCol} column of \code{annot} 
 #' (if \code{useEnd=TRUE}) or in the \code{annotStartCol} column (default). 
 #' Default: \code{FALSE}.
@@ -103,7 +103,7 @@
 #' clustering is attempted for each profile in order to achieve the 
 #' highest Bayesian information criterion (BIC). Default: \code{10}.
 #' 
-#' @param bestbic A single \code{numeric} value for initalizing BIC 
+#' @param bestBIC A single \code{numeric} value for initalizing BIC 
 #' maximization. A large negative value is recommended. The default 
 #' is \code{-1e7}.
 #' 
@@ -194,8 +194,8 @@
 #' ## Small toy example
 #' segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
 #'     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
-#'     chromCol="chrom", bpstartCol="chrom.pos.start", 
-#'     bpendCol="chrom.pos.end", blsize=50, 
+#'     chromCol="chrom", bpStartCol="chrom.pos.start", 
+#'     bpEndCol="chrom.pos.end", blsize=50, 
 #'     minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
 #'     nJobs=1, modelNames="E", normalLength=normsegs[,1],
 #'     normalMedian=normsegs[,2])
@@ -203,8 +203,8 @@
 #' \dontrun{
 #' ## Example 1: 5 whole genome analysis, choosing the right format of arguments
 #' segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
-#'    "start","end", chromCol="chrom",bpstartCol="chrom.pos.start",
-#'    bpendCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
+#'    "start","end", chromCol="chrom",bpStartCol="chrom.pos.start",
+#'    bpEndCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
 #'    bstimes=50, chromRange=1:22, nJobs=40, 
 #'    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #'    
@@ -216,9 +216,9 @@
 #' data(annotexample)
 #' 
 #' segtable <- CNpreprocessing(segall=mysegs,ratall=ratexample, idCol="ID",
-#'     chromCol="chrom", bpstartCol="chrom.pos.start",bpendCol="chrom.pos.end",
+#'     chromCol="chrom", bpStartCol="chrom.pos.start",bpEndCol="chrom.pos.end",
 #'     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
-#'     annotChromCol="CHROM", blsize=50,minJoin=0.25, cWeight=0.4, bstimes=50,
+#'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bstimes=50,
 #'     chromRange=1:22, nJobs=40, modelNames="E", 
 #'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' }
@@ -228,9 +228,9 @@
 #' @export
 CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     endCol=NULL, medCol=NULL, madCol=NULL, errorCol=NULL, chromCol=NULL,
-    bpstartCol=NULL, bpendCol=NULL, annot=NULL, annotStartCol=NULL, 
+    bpStartCol=NULL, bpEndCol=NULL, annot=NULL, annotStartCol=NULL, 
     annotEndCol=NULL, annotChromCol=NULL, useEnd=FALSE, blsize=NULL, 
-    minJoin=NULL, nTrial=10, bestbic=-1e7, modelNames="E", cWeight=NULL,
+    minJoin=NULL, nTrial=10, bestBIC=-1e7, modelNames="E", cWeight=NULL,
     bstimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
     normalMedian=NULL, normalMad=NULL,
     normalError=NULL) {
@@ -239,13 +239,13 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     validateCNpreprocessing(segall=segall, ratall=ratall, idCol=idCol, 
                             startCol=startCol,endCol=endCol, medCol=medCol, 
                             madCol=madCol, errorCol=errorCol, 
-                            chromCol=chromCol, bpstartCol=bpstartCol, 
-                            bpendCol=bpendCol, annot=annot, 
+                            chromCol=chromCol, bpStartCol=bpStartCol, 
+                            bpEndCol=bpEndCol, annot=annot, 
                             annotStartCol=annotStartCol, 
                             annotEndCol=annotEndCol, 
                             annotChromCol=annotChromCol, useEnd=useEnd, 
                             blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
-                            bestbic=bestbic, modelNames=modelNames, 
+                            bestBIC=bestBIC, modelNames=modelNames, 
                             cWeight=cWeight, bstimes=bstimes, 
                             chromRange=chromRange, 
                             nJobs=nJobs, 
@@ -296,7 +296,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             
             # Will need an annotation table
             
-            if (is.null(bpstartCol) | is.null(bpendCol) | is.null(chromCol)) {
+            if (is.null(bpStartCol) | is.null(bpEndCol) | is.null(chromCol)) {
                 stop("Unable to proceed: incomplete segment annotation\n")
             }
             
@@ -319,23 +319,23 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                             "annotation table\n"))
             }
             
-            maxbpstart <- max(c(segall[,bpstartCol], annot[,annotStartCol])) + 1
+            maxbpstart <- max(c(segall[,bpStartCol], annot[,annotStartCol])) + 1
             maxbpend <- ifelse(useEnd, 
-                        max(c(segall[,bpendCol], annot[,annotEndCol])),
-                        max(c(segall[,bpendCol], annot[,annotStartCol]))) + 1
+                        max(c(segall[,bpEndCol], annot[,annotEndCol])),
+                        max(c(segall[,bpEndCol], annot[,annotStartCol]))) + 1
             
             startprobe <- match((segall[,chromCol] - 1) * maxbpstart + 
-                                            segall[,bpstartCol],
+                                            segall[,bpStartCol],
                             ceiling((annot[,annotChromCol] - 1) * maxbpstart + 
                                             annot[,annotStartCol]))
             
             endprobe <- ifelse(rep(useEnd, length(startprobe)),
                             match((segall[,chromCol] - 1) * maxbpend + 
-                                        segall[,bpendCol],
+                                        segall[,bpEndCol],
                                 ceiling((annot[,annotChromCol] - 1) * maxbpend +
                                         annot[,annotEndCol])),
                             match((segall[,chromCol] - 1) * maxbpend + 
-                                        segall[,bpendCol],
+                                        segall[,bpEndCol],
                                 ceiling((annot[,annotChromCol] - 1) * maxbpend +
                                         annot[,annotStartCol])))
             
@@ -371,11 +371,11 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
 
         ## Running each chromosome on a separate thread
         processed <- bplapply(X=profpack, FUN=CNclusterNcenter, 
-                                blsize=blsize, minjoin=minJoin, ntrial=nTrial, 
-                                bestbic=bestbic, modelNames=modelNames, 
+                                blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
+                                bestBIC=bestBIC, modelNames=modelNames, 
                                 cweight=cWeight, bstimes=bstimes, 
-                                chromrange=chromRange, 
-                                BPPARAM = coreParam)
+                                chromRange=chromRange, 
+                                BPPARAM=coreParam)
         
         segall <- cbind(segall, do.call(rbind, processed))
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
@@ -387,7 +387,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     }
     
     if (!(is.null(normalLength) | is.null(normalMedian) | is.null(medCol))) {
-        if (is.null(bpstartCol) | is.null(bpendCol)) {  
+        if (is.null(bpStartCol) | is.null(bpEndCol)) {  
             ## Try to annotate
             if (is.null(startCol) | is.null(endCol) | is.null(annot) | 
                 is.null(annotStartCol) | is.null(annotEndCol)) {
@@ -397,7 +397,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             tumorlength <- annot[segall[,endCol], annotEndCol] -
                 annot[segall[,startCol], annotStartCol] + 1
         } else {
-            tumorlength <- segall[, bpendCol] - segall[, bpstartCol] + 1
+            tumorlength <- segall[, bpEndCol] - segall[, bpStartCol] + 1
         }
         
         tumormedian <- segall[, medCol]
