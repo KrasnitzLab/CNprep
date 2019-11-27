@@ -3,8 +3,7 @@ Type: Package
 Title: Pre-process DNA Copy Number (CN) Data for Detection of CN Events
 Version: 2.1.1
 Date: 2012-12-06
-Authors@R: c(person("Alex", "Krasnitz",
-        email="pascal_belleau@hotmail.com", role=c("aut")),
+Authors@R: c(person("Alex", "Krasnitz", role=c("aut")),
         person("Guoli", "Sun", email="guolisun87@gmail.com",
         role=c("aut", "cre")))
 Description: This package evaluates DNA copy number data, using both their 
