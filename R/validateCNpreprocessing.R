@@ -99,9 +99,9 @@
 #' @param cWeight A single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the minimal share of the central cluster in each profile.
 #' 
-#' @param bstimes A single \code{double} value specifying the number of 
-#' time the median of each segment is sampled in order to predict the cluster 
-#' assignment for the segment.
+#' @param bsTimes A single positive \code{double} value specifying the number 
+#' of time the median of each segment is sampled in order to predict the 
+#' cluster assignment for the segment.
 #' 
 #' @param chromRange A \code{integer} \code{vector} enumerating chromosomes 
 #' from which segments are to be used for initial model-based clustering.
@@ -138,7 +138,7 @@
 #'     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
 #'     chromCol="chrom", bpStartCol="chrom.pos.start", 
 #'     bpEndCol="chrom.pos.end", blsize=50, nTrial=10,
-#'     useEnd=FALSE, minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
+#'     useEnd=FALSE, minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, 
 #'     nJobs=1, modelNames="E", normalLength=normsegs[,1],
 #'     normalMedian=normsegs[,2])
 #' 
@@ -151,7 +151,7 @@ validateCNpreprocessing <- function(segall, ratall, idCol,
         annotStartCol, 
         annotEndCol, annotChromCol, useEnd, blsize, 
         minJoin, nTrial, bestBIC, modelNames, cWeight,
-        bstimes, chromRange, nJobs, normalLength, 
+        bsTimes, chromRange, nJobs, normalLength, 
         normalMedian, normalMad,
         normalError) 
 {
@@ -175,6 +175,12 @@ validateCNpreprocessing <- function(segall, ratall, idCol,
     ## Validate that useEnd is logical
     if (!is.logical(useEnd)) {
         stop("useEnd must be a logical value")
+    }
+    
+    ## Validate that bsTimes is an positive integer
+    if (!(isSingleInteger(bsTimes) || isSingleNumber(bsTimes)) ||
+        as.integer(bsTimes) < 1) {
+        stop("bsTimes must be a positive integer")
     }
     
     return(0L)

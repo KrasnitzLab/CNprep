@@ -7,7 +7,7 @@
 validateCNpreprocessing(segall, ratall, idCol, startCol, endCol, medCol,
   madCol, errorCol, chromCol, bpStartCol, bpEndCol, annot, annotStartCol,
   annotEndCol, annotChromCol, useEnd, blsize, minJoin, nTrial, bestBIC,
-  modelNames, cWeight, bstimes, chromRange, nJobs, normalLength,
+  modelNames, cWeight, bsTimes, chromRange, nJobs, normalLength,
   normalMedian, normalMad, normalError)
 }
 \arguments{
@@ -107,7 +107,7 @@ the names of models to be used in model-based clustering (see package
 \item{cWeight}{A single \code{numeric} value between \code{0} and \code{1} 
 specifying the minimal share of the central cluster in each profile.}
 
-\item{bstimes}{A single \code{double} value specifying the number of 
+\item{bsTimes}{A single \code{double} value specifying the number of 
 time the median of each segment is sampled in order to predict the cluster 
 assignment for the segment.}
 
@@ -151,7 +151,7 @@ CNprep:::validateCNpreprocessing(segall=segexample,
     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
     chromCol="chrom", bpStartCol="chrom.pos.start", 
     bpEndCol="chrom.pos.end", blsize=50, nTrial=10,
-    useEnd=FALSE, minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
+    useEnd=FALSE, minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, 
     nJobs=1, modelNames="E", normalLength=normsegs[,1],
     normalMedian=normsegs[,2])
 
