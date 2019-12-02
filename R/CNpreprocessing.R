@@ -95,17 +95,18 @@
 #' number of times a segment is sampled is then given by the (integer) 
 #' division of the segment length in internal units by \code{blsize}.
 #' 
-#' @param minJoin A single numeric value between 0 and 1 specifying the 
-#' degree of overlap above which two clusters will be joined into one. 
+#' @param minJoin A single \code{numeric} value between 0 and 1 specifying the 
+#' degree of overlap above which two clusters will be joined into one. Default:
+#' \code{NULL}. TODO= HAVE a default value, not NULL.
 #' 
 #' @param nTrial A single positive \code{integer} specifying the number of 
 #' times a model-based 
 #' clustering is attempted for each profile in order to achieve the 
 #' highest Bayesian information criterion (BIC). Default: \code{10}.
 #' 
-#' @param bestBIC A single \code{numeric} value for initalizing BIC 
-#' maximization. A large negative value is recommended. The default 
-#' is \code{-1e7}.
+#' @param bestBIC A single \code{numeric} value for initalizing the
+#' Bayesian information criterion (BIC) 
+#' maximization. A large negative value is recommended. Default: \code{-1e7}.
 #' 
 #' @param modelNames A \code{vector} of \code{character} strings specifying 
 #' the names of models to be used in model-based clustering (see package 
@@ -114,9 +115,10 @@
 #' @param cWeight A single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the minimal share of the central cluster in each profile.
 #' 
-#' @param bstimes A single \code{double} value specifying the number of 
-#' time the median of each segment is sampled in order to predict the cluster 
-#' assignment for the segment. Default: \code{NULL}.
+#' @param bsTimes A single positive \code{double} value specifying the number 
+#' of time the median of each segment is sampled in order to predict the 
+#' cluster assignment for the segment. Default: \code{NULL}. TODO: select a 
+#' default value that is not null.
 #' 
 #' @param chromRange A \code{integer} \code{vector} enumerating chromosomes 
 #' from which segments are to be used for initial model-based clustering.
@@ -196,7 +198,7 @@
 #'     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
 #'     chromCol="chrom", bpStartCol="chrom.pos.start", 
 #'     bpEndCol="chrom.pos.end", blsize=50, 
-#'     minJoin=0.25, cWeight=0.4, bstimes=50, chromRange=1:3, 
+#'     minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, 
 #'     nJobs=1, modelNames="E", normalLength=normsegs[,1],
 #'     normalMedian=normsegs[,2])
 #'     
@@ -205,7 +207,7 @@
 #' segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
 #'    "start","end", chromCol="chrom",bpStartCol="chrom.pos.start",
 #'    bpEndCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
-#'    bstimes=50, chromRange=1:22, nJobs=40, 
+#'    bsTimes=50, chromRange=1:22, nJobs=40, 
 #'    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #'    
 #' ## Example 2: how to use annotexample, when segment table does not have 
@@ -218,7 +220,7 @@
 #' segtable <- CNpreprocessing(segall=mysegs,ratall=ratexample, idCol="ID",
 #'     chromCol="chrom", bpStartCol="chrom.pos.start",bpEndCol="chrom.pos.end",
 #'     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
-#'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bstimes=50,
+#'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bsTimes=50,
 #'     chromRange=1:22, nJobs=40, modelNames="E", 
 #'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' }
@@ -231,7 +233,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     bpStartCol=NULL, bpEndCol=NULL, annot=NULL, annotStartCol=NULL, 
     annotEndCol=NULL, annotChromCol=NULL, useEnd=FALSE, blsize=NULL, 
     minJoin=NULL, nTrial=10, bestBIC=-1e7, modelNames="E", cWeight=NULL,
-    bstimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
+    bsTimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
     normalMedian=NULL, normalMad=NULL,
     normalError=NULL) {
     
@@ -246,9 +248,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                             annotChromCol=annotChromCol, useEnd=useEnd, 
                             blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
                             bestBIC=bestBIC, modelNames=modelNames, 
-                            cWeight=cWeight, bstimes=bstimes, 
-                            chromRange=chromRange, 
-                            nJobs=nJobs, 
+                            cWeight=cWeight, bsTimes=bsTimes, 
+                            chromRange=chromRange, nJobs=nJobs, 
                             normalLength=normalLength, 
                             normalMedian=normalMedian, normalMad=normalMad,
                             normalError=normalError)
@@ -373,7 +374,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         processed <- bplapply(X=profpack, FUN=CNclusterNcenter, 
                                 blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
                                 bestBIC=bestBIC, modelNames=modelNames, 
-                                cweight=cWeight, bstimes=bstimes, 
+                                cweight=cWeight, bstimes=bsTimes, 
                                 chromRange=chromRange, 
                                 BPPARAM=coreParam)
         

@@ -94,7 +94,7 @@
 #'     ratall = ratexample, idCol = "ID", startCol = "start", endCol = "end",
 #'     chromCol = "chrom", bpStartCol = "chrom.pos.start", 
 #'     bpEndCol = "chrom.pos.end", blsize = 50, minJoin = 0.25, cWeight = 0.4,
-#'     bstimes = 50, chromRange = 1:22, nJobs = 1, 
+#'     bsTimes = 50, chromRange = 1:22, nJobs = 1, 
 #'     modelNames = "E", normalLength = normsegs[,1], 
 #'     normalMedian = normsegs[,2])
 #' 
@@ -109,11 +109,11 @@
 #' 
 #' ## Create a mask table using amplification and deletion regions as input
 #' namps17 <- cnpexample[cnpexample[,"copy.num"] == "amp",]
-#' aCNPmask <- makeCNPmask(imat=namps17, chromcol=2, startcol=3, 
-#'     endcol=4, nprof=1203, uthresh=0.02, dthresh=0.008)
+#' aCNPmask <- makeCNPmask(imat=namps17, chromCol=2, startCol=3, 
+#'     endCol=4, nProf=1203, uthresh=0.02, dthresh=0.008)
 #' ndels17 <- cnpexample[cnpexample[,"copy.num"] == "del",]
-#' dCNPmask <- makeCNPmask(imat=ndels17, chromcol=2, startcol=3, 
-#'     endcol=4, nprof=1203, uthresh=0.02, dthresh=0.008)
+#' dCNPmask <- makeCNPmask(imat=ndels17, chromCol=2, startCol=3, 
+#'     endCol=4, nProf=1203, uthresh=0.02, dthresh=0.008)
 #' maskTable <- rbind(cbind(aCNPmask, cnpindex=1), 
 #'     cbind(dCNPmask, cnpindex=-1))
 #' 

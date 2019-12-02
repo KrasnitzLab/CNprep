@@ -4,36 +4,35 @@
 \alias{makeCNPmask}
 \title{Given a set of copy-number events, create a DNA copy-number mask.}
 \usage{
-makeCNPmask(imat, chromcol = 1, startcol = 2, endcol = 3,
-  nprof = 1, uthresh, dthresh)
+makeCNPmask(imat, chromCol = 1, startCol = 2, endCol = 3,
+  nProf = 1, uthresh, dthresh)
 }
 \arguments{
 \item{imat}{A \code{matrix} or a \code{data.frame} tabulating the chromosome 
-numbers and endpoint positions of the interval events.}
+numbers and startpoint/endpoint positions of the interval events.}
 
-\item{chromcol}{A \code{character} string or \code{numeric} representing an
-integer  
-specifying the column of \code{imat} containing the chromosome numbers 
-of the interval events.}
+\item{chromCol}{A \code{character} string or \code{numeric} representing an
+integer specifying the column of \code{imat} containing the chromosome 
+numbers of the interval events.}
 
-\item{startcol}{A \code{character} string or \code{numeric} representing an
+\item{startCol}{A \code{character} string or \code{numeric} representing an
 integer   
 specifying the column of \code{imat} containing the left (right) endpoint of
 the interval events.}
 
-\item{endcol}{A \code{character} string or \code{numeric} representing an
-integer 
-specifying the column of \code{imat} containing the right endpoint 
+\item{endCol}{A \code{character} string or \code{numeric} representing an
+integer specifying the column of \code{imat} containing the right endpoint 
 of the interval events.}
 
-\item{nprof}{A \code{numeric} acting as an integer specifying the number 
-of copy number profiles from which the events originated. Default: \code{1}.}
+\item{nProf}{A positive \code{numeric} acting as an integer specifying 
+the number of copy number profiles from which the events originated. 
+Default: \code{1}.}
 
 \item{uthresh}{A \code{numeric} specifying the upper threshold for 
-the event frequency or (if \code{nprof = 1}) for the event count.}
+the event frequency or (if \code{nProf = 1}) for the event count.}
 
 \item{dthresh}{A \code{numeric} specifying the upper and lower thresholds 
-for the event frequency or (if \code{nprof = 1}) for the event count.}
+for the event frequency or (if \code{nProf = 1}) for the event count.}
 }
 \value{
 A \code{matrix} of \code{numeric} (used as integer) 
@@ -67,8 +66,8 @@ data(cnpexample)
 amps <- cnpexample[cnpexample[,"copy.num"] == "amp",]
 
 # Create a mask using this table.
-ampCNPmask <- makeCNPmask(imat=amps, chromcol="chrom",
-    startcol="chrom.start", endcol="chrom.end", nprof=1203,
+ampCNPmask <- makeCNPmask(imat=amps, chromCol="chrom",
+    startCol="chrom.start", endCol="chrom.end", nProf=1203,
     uthresh=0.02, dthresh=0.008)
 
 }
