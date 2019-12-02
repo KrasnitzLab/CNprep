@@ -107,9 +107,9 @@ the names of models to be used in model-based clustering (see package
 \item{cWeight}{A single \code{numeric} value between \code{0} and \code{1} 
 specifying the minimal share of the central cluster in each profile.}
 
-\item{bsTimes}{A single \code{double} value specifying the number of 
-time the median of each segment is sampled in order to predict the cluster 
-assignment for the segment.}
+\item{bsTimes}{A single positive \code{double} value specifying the number 
+of time the median of each segment is sampled in order to predict the 
+cluster assignment for the segment.}
 
 \item{chromRange}{A \code{integer} \code{vector} enumerating chromosomes 
 from which segments are to be used for initial model-based clustering.}

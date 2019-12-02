@@ -19,9 +19,9 @@ test_that("makeCNPmask() must return expected results 01", {
     
     set.seed(211)
     
-    results <- makeCNPmask(imat=ampTemp01, chromcol="chrom", 
-                           startcol="chrom.start", endcol="chrom.end",
-                           nprof=3, uthresh=0.02, dthresh=0.008)
+    results <- makeCNPmask(imat=ampTemp01, chromCol="chrom", 
+                           startCol="chrom.start", endCol="chrom.end",
+                           nProf=3, uthresh=0.02, dthresh=0.008)
     
     expected <- matrix(c(1, 2, 3, 5, 
                          12842827, 86198238, 199030879, 233492, 
@@ -44,9 +44,9 @@ test_that("makeCNPmask() must return no result", {
     
     set.seed(2211)
     
-    results <- makeCNPmask(imat=ampTemp01, chromcol="chrom", 
-                           startcol="chrom.start", endcol="chrom.end",
-                           nprof=100, uthresh=0.02, dthresh=0.008)
+    results <- makeCNPmask(imat=ampTemp01, chromCol="chrom", 
+                           startCol="chrom.start", endCol="chrom.end",
+                           nProf=100, uthresh=0.02, dthresh=0.008)
     
     expected <- matrix(data = as.double(c(NULL)), ncol = 3, nrow = 0,
                        dimnames = list(NULL, c("chrom", "start", "end")))

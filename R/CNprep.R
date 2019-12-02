@@ -143,7 +143,6 @@ NULL
 #' @source Strong association of de novo copy number mutations with autism.
 #' Sebat J, Lakshmi B, Malhotra D, Troge J, Lese-Martin C, Walsh T, Yamrom B, 
 #' Yoon S, Krasnitz A, Kendall J, Leotta A, Pai D, Zhang R, Lee YH, Hicks J, 
-#' Spence SJ, Lee AT, Puura K, Lehtimaki T, Ledbetter D, Gregersen PK, 
 #' Bregman J, Sutcliffe JS, Jobanputra V, Chung W, Warburton D, King MC, 
 #' Skuse D, Geschwind DH, Gilliam TC, Ye K, Wigler M. 
 #' Science. 2007 Apr 20;316(5823):445-9.
@@ -155,11 +154,11 @@ NULL
 #'
 #' ## Create masked table usign cnpindex vector 
 #' ##namps17 <- cnpexample[cnpexample[,"copy.num"]=="amp",] 
-#' ##aCNPmask <- makeCNPmask(imat=namps17, chromcol=2, startcol=3, endcol=4, 
-#' ##    nprof=1203, uthresh=0.02, dthresh=0.008) 
+#' ##aCNPmask <- makeCNPmask(imat=namps17, chromCol=2, startCol=3, endCol=4, 
+#' ##    nProf=1203, uthresh=0.02, dthresh=0.008) 
 #' ##ndels17 <- cnpexample[cnpexample[,"copy.num"]=="del",] 
-#' ##dCNPmask <- makeCNPmask(imat=ndels17, chromcol=2, startcol=3, endcol=4, 
-#' ##    nprof=1203, uthresh=0.02, dthresh=0.008) 
+#' ##dCNPmask <- makeCNPmask(imat=ndels17, chromCol=2, startCol=3, endCol=4, 
+#' ##    nProf=1203, uthresh=0.02, dthresh=0.008) 
 #' ##cnptable <- rbind(cbind(aCNPmask,cnpindex=1),cbind(dCNPmask,cnpindex=-1))
 #' 
 #' # TODO
