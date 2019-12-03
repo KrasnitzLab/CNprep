@@ -92,36 +92,38 @@ library(CNprep)
 
 ## Make copy number mask
 
-The *makeCNPmask* function takes as an input a table of copy number events with 
-genomic positions. First, interval regions where 
+The *makeCNPmask()* function takes as an input a table of copy number events 
+with genomic positions. First, interval regions where 
 the event count is above the lower threshold are identified. Among those 
 retained regions, the function only returns the interval regions that
 contain at least one sub-interval with the count above 
 the upper threshold.
 
-As an example, in Figure \@ref(fig:demoMask), the first section represent
+As an example, a mask in created from copy number events detected in 10 
+samples. In Figure \@ref(fig:demoMask), the first section represent
 copy number events detected on 10 samples for a small region of chromosome 1.
 The middle section shows the frequency of the events with the lower and upper
-thresholds selected for the analysis. The last section shows the result of
-the #makeCNPmask* function for this dataset when the upper threshold is set to
-0.45 and lower threshold to 0.25.
+thresholds selected for this analysis. The last section displays the result of
+the #makeCNPmask* function for this dataset when the lower threshold is set to
+0.25 and upper threshold to 0.45.
 
-```{r demoMask, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap="Example"}
-dataTest <- data.frame(chrom=rep("chr1", 10), start=c(12742927, 13071912,
-    12862827, 12708592, 13271912, 13071612, 12838592, 13091712, 12842827, 
-    12742827), end=c(13039275, 13439275, 12939275, 13039175, 13551912, 
-    13191012, 12930000, 13542827, 13456522, 13706522), 
-    value=seq(from=0.05, to = 0.95, by = .1))
-
+```{r demoMask, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap="Example of makeCNPmask() function. Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section."}
 library(GenomicRanges)
-gr <- GRanges(
-    seqnames = Rle(c("chr1"), c(10)),
+library(gtrellis)
+
+dataTest <- data.frame(chrom=rep("chr1", 10), 
+                start=c(12742927, 13071912, 12862827, 12708592, 13271912, 
+                        13071612, 12838592, 13091712, 12842827, 12742827), 
+                end=c(13039275, 13439275, 12939275, 13039175, 13551912, 
+                        13191012, 12930000, 13542827, 13456522, 13706522), 
+                value=seq(from=0.05, to=0.95, by=.1))
+
+gr <- GRanges(seqnames = Rle(c("chr1"), c(10)),
     ranges = IRanges(start = dataTest$start, end = dataTest$end, 
                         names = head(letters, 10)),
     strand = Rle(strand(c("*")), c(10)))
 
-covN <- GRanges(coverage(gr))
-covN <- as.data.frame(covN)
+covN <- as.data.frame(GRanges(coverage(gr)))
 covN <- covN[-1,]
 covN2 <- covN
 covN2$start <- covN2$end
@@ -137,7 +139,6 @@ covNT$freq <- covNT$score/10
 minThres <- data.frame(chrom=rep("chr1", 1), start=c(12708592, 13706522), 
                         end=c(12708592, 13706522))
 
-library(gtrellis)
 gtrellis_layout(data=dataTest, xpadding = c(0.015, 0.015), n_track = 3, 
                 track_ylim = c(0, 1, 0, 0.70, 0, 1), add_name_track = TRUE,
                 track_height = unit.c(unit(2, "null"), unit(4, "null"), 
@@ -175,28 +176,30 @@ add_segments_track(mask, value=0.5, gp=gpar(col="darkorange4", lwd=6))
 ```
 
 
-In Figure \@ref(fig:demoMask2), using a upper threshold of 0.55 on the same 
-copy number events detected on 10 samples result in only one genomic region in
-the mask. This region is the only one to respect both lower and upper 
-thresholds. 
+Using a upper threshold of 0.55 on the same copy number events detected on 10 
+samples results in only one genomic region in the mask, as shown in 
+Figure \@ref(fig:demoMask2). This region is the only one to respect both 
+lower and upper thresholds. 
 
-```{r demoMask2, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap="Example"}
-dataTest <- data.frame(chrom=rep("chr1", 10), start=c(12742927, 13071912,
-    12862827, 12708592, 13271912, 13071612, 12838592, 13091712, 12842827, 
-    12742827), end=c(13039275, 13439275, 12939275, 13039175, 13551912, 
-    13191012, 12930000, 13542827, 13456522, 13706522), 
-    value=seq(from=0.05, to = 0.95, by = .1))
-
+```{r demoMask2, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap="Example of makeCNPmask() function with stringent parameters. Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section."}
 library(GenomicRanges)
-gr <- GRanges(
-    seqnames = Rle(c("chr1"), c(10)),
-    ranges = IRanges(start = dataTest$start, end = dataTest$end, 
-                        names = head(letters, 10)),
-    strand = Rle(strand(c("*")), c(10)))
+library(gtrellis)
+# 
+# dataTest <- data.frame(chrom=rep("chr1", 10), 
+#                 start=c(12742927, 13071912, 12862827, 12708592, 13271912, 
+#                     13071612, 12838592, 13091712, 12842827, 12742827), 
+#                 end=c(13039275, 13439275, 12939275, 13039175, 13551912, 
+#                     13191012, 12930000, 13542827, 13456522, 13706522), 
+#                 value=seq(from=0.05, to = 0.95, by = .1))
 
-covN <- GRanges(coverage(gr))
-covN <- as.data.frame(covN)
-covN <- covN[-1,]
+gr <- GRanges(seqnames = Rle(c("chr1"), c(10)),
+        ranges=IRanges(start=c(12742927, 13071912, 12862827, 12708592, 
+                13271912, 13071612, 12838592, 13091712, 12842827, 12742827), 
+            end=c(13039275, 13439275, 12939275, 13039175, 13551912, 
+                13191012, 12930000, 13542827, 13456522, 13706522),
+            names = head(letters, 10)), strand=Rle(strand(c("*")), c(10)))
+
+covN <- as.data.frame(GRanges(coverage(gr)))[-1,]
 covN2 <- covN
 covN2$start <- covN2$end
 covN$end <-covN$start
@@ -208,12 +211,12 @@ covNT$freq <- covNT$score/10
 #lgd = Legend(at = c("lower", "upper"), title = "Threshold", type = "points", legend_gp = gpar(col = 2:3))
 
 
-minThres <- data.frame(chrom=rep("chr1", 1), start=c(12708592, 13706522), 
+thresholdInfo <- data.frame(chrom=rep("chr1", 1), start=c(12708592, 13706522), 
                             end=c(12708592, 13706522))
 
-library(gtrellis)
-gtrellis_layout(data=dataTest, xpadding = c(0.015, 0.015), n_track = 3, 
-                track_ylim = c(0, 1, 0, 0.70, 0, 1), add_name_track = TRUE,
+## Create trellis graph
+gtrellis_layout(data=gr, xpadding = c(0.015, 0.015), n_track=3, 
+                track_ylim = c(0, 1, 0, 0.70, 0, 1), add_name_track=TRUE,
                 track_height = unit.c(unit(2, "null"), unit(4, "null"), 
                                         unit(1, "null")),
                 track_axis = c(FALSE, TRUE, FALSE),  
@@ -221,21 +224,21 @@ gtrellis_layout(data=dataTest, xpadding = c(0.015, 0.015), n_track = 3,
                 track_ylab = c("Copy Number Event", "Event Frequency", "Mask"))
 
 ## Add segments representing the copy number events
-add_segments_track(dataTest, value=dataTest$value, gp=gpar(col="darkorange3", 
+add_segments_track(gr, value=dataTest$value, gp=gpar(col="darkorange3", 
                                                             lwd=4))
 
 ## Adding the frequency (nb events/nb samples)
 add_lines_track(covNT, value=covNT$freq, gp=gpar(lwd=3, col="darkblue"))
 
 ## Adding lower threshold
-add_lines_track(minThres, value=0.25, gp=gpar(col="red3", lty=4, lwd=2), 
+add_lines_track(thresholdInfo, value=0.25, gp=gpar(col="red3", lty=4, lwd=2), 
                     track=current_track())
 
 ## Adding upper threshold
-add_lines_track(minThres, value=0.55, gp=gpar(col="red3", lty=3, lwd=2), 
+add_lines_track(thresholdInfo, value=0.55, gp=gpar(col="red3", lty=3, lwd=2), 
                     track=current_track())
 
-dataTest2 <- dataTest
+dataTest2 <- as.data.frame(gr)
 dataTest2$chrom <- rep(1, 10)
 
 mask <- makeCNPmask(imat=dataTest2, chromCol="chrom",
