@@ -155,10 +155,10 @@ NULL
 #' ## Create masked table usign cnpindex vector 
 #' ##namps17 <- cnpexample[cnpexample[,"copy.num"]=="amp",] 
 #' ##aCNPmask <- makeCNPmask(imat=namps17, chromCol=2, startCol=3, endCol=4, 
-#' ##    nProf=1203, uthresh=0.02, dthresh=0.008) 
+#' ##    nProf=1203, uThresh=0.02, dThresh=0.008) 
 #' ##ndels17 <- cnpexample[cnpexample[,"copy.num"]=="del",] 
 #' ##dCNPmask <- makeCNPmask(imat=ndels17, chromCol=2, startCol=3, endCol=4, 
-#' ##    nProf=1203, uthresh=0.02, dthresh=0.008) 
+#' ##    nProf=1203, uThresh=0.02, dThresh=0.008) 
 #' ##cnptable <- rbind(cbind(aCNPmask,cnpindex=1),cbind(dCNPmask,cnpindex=-1))
 #' 
 #' # TODO

@@ -167,7 +167,7 @@ dataTest2$chrom <- rep(1, 10)
 
 mask <- makeCNPmask(imat=dataTest2, chromCol="chrom",
     startCol="start", endCol="end", nProf=10,
-    uthresh=0.45, dthresh=0.25)
+    uThresh=0.45, dThresh=0.25)
 mask <- as.data.frame(mask)
 mask$chrom <- rep("chr1", nrow(mask))
 
@@ -243,7 +243,7 @@ dataTest2$chrom <- rep(1, 10)
 
 mask <- makeCNPmask(imat=dataTest2, chromCol="chrom",
     startCol="start", endCol="end", nProf=10,
-    uthresh=0.55, dthresh=0.25)
+    uThresh=0.55, dThresh=0.25)
 mask <- as.data.frame(mask)
 mask$chrom <- rep("chr1", nrow(mask))
 
@@ -276,7 +276,7 @@ head(ampCNP, n=4)
 ## is needed (nProf parameter).
 ampCNPmask <- makeCNPmask(imat=ampCNP, chromCol="chrom",
     startCol="chrom.start", endCol="chrom.end", nProf=1203,
-    uthresh=0.2, dthresh=0.01)
+    uThresh=0.2, dThresh=0.01)
 
 ```
 
