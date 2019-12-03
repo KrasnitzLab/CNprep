@@ -51,17 +51,147 @@ diagnosis [@Pan2018].
 One commonly used technology to detect CNVs is the Comparative Genomic 
 Hybridization array (array CGH). From those arrays, software such as 
 *DNACopy* [@Seshan] can identify regions of gained and lost copy number.
-The availability and low cost of next-generation technologies have
-made it possible to detect CNVs for the entire genome with the exclusion of few 
-hard to map regions. This leaded to the development of software adapted to 
+However, because of the low resolution of the array, detection of short 
+CNVs is limited [@Duan].
+The availability and low cost of Next Generation Sequencing (NGS)
+have enabled precise detection of CNVs for the entire genome with 
+the exclusion of few hard to map regions. This leaded to the 
+development of software adapted to 
 whole-genome and whole-exome sequencing, such as *CNVkit* [@Talevich] and 
-*exomecopy* [@Love].
+*exomecopy* [@Love]. 
 
 The *CNprep* package evaluates DNA copy number data, using both their initial 
 form (copy number as a noisy function of genomic position) and their 
 approximation by a piecewise-constant function (segmentation), for the purpose 
 of identifying genomic regions where the copy number differs from the norm.
 
+
+# Installing and loading *CNprep* package
+
+The *CNprep* package can be installed from github website using 
+*devtools* package:
+
+```{r install, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+library(devtools)
+devtools::install_github("belleau/CNprep")
+```
+
+As with any R package, the `r Rpackage("CNprep")` package has to be loaded 
+with the following command:
+
+```{r loadingPackage, warning=FALSE, message=FALSE}
+library(CNprep)
+```
+
+
+# Processing copy number 
+
+
+# Create and apply a mask to copy number events
+
+
+## Make copy number mask
+
+The *makeCNPmask* function takes as an input a table of copy number events with 
+integer-valued boundary positions. Interval regions where 
+the event count is above each of two specified thresholds, upper and lower, are 
+identified and the function returns the interval regions with the count above 
+the lower threshold that contain sub-interval regions with the count above 
+the upper threshold.
+
+```{r demoMask, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6, fig.width=5}
+dataTest <- data.frame(chrom=rep("chr1", 10), start=c(12742927, 13071912,
+    12862827, 12708592, 13271912, 13071612, 12838592, 13091712, 12842827, 
+    12942827), end=c(13239275, 13439275, 12939275, 13039175, 13551912, 
+    13191012, 12930000, 13542827, 13456522, 13706522), value=seq(from=0.05, to = 0.95, by = .1))
+
+library(GenomicRanges)
+gr <- GRanges(
+    seqnames = Rle(c("chr1"), c(10)),
+    ranges = IRanges(start = dataTest$start, end = dataTest$end, names = head(letters, 10)),
+    strand = Rle(strand(c("*")), c(10)))
+
+covN <- GRanges(coverage(gr))
+covN <- as.data.frame(covN)
+covN <- covN[-1,]
+covN2 <- covN
+covN2$start <- covN2$end
+covN$end <-covN$start
+covNT <- rbind(covN, covN2)
+covNT <- covNT[order(covNT$start),]
+covNT$freq <- covNT$score/10
+
+#library(ComplexHeatmap)
+#lgd = Legend(at = c("lower", "upper"), title = "Threshold", type = "points", legend_gp = gpar(col = 2:3))
+
+
+minThres <- data.frame(chrom=rep("chr1", 1), start=c(12708592, 13706522), end=c(12708592, 13706522))
+
+library(gtrellis)
+gtrellis_layout(data=dataTest, xpadding = c(0.015, 0.015), n_track = 2, 
+                track_ylim = c(0, 1, 0, 0.75), add_name_track = TRUE,
+                track_height = unit.c(unit(1, "null"), unit(2, "null")),
+                track_axis = c(FALSE, TRUE),  
+                track_ylab = c("Copy Number Event", "Event Frequency"))
+
+add_segments_track(dataTest, value=dataTest$value, gp=gpar(col="darkorange3", lwd=4))
+add_lines_track(covNT, value=covNT$freq, gp=gpar(lwd=3, col="darkblue"))
+
+
+add_lines_track(minThres, value=0.25, gp=gpar(col="red3", lty=4, lwd=2), track = current_track())
+
+add_lines_track(minThres, value=0.45, gp=gpar(col="red3", lty=3, lwd=2), track = current_track())
+
+
+```
+
+
+```{r makeMask, echo=TRUE}
+## Load example containing the copy number events for 1203 samples
+data(cnpexample)
+
+## Retaining only the amplification events
+ampCNP <- subset(cnpexample, copy.num == "amp")
+
+## The amplification table has 4 columns:
+## copy.num identifies the type of event
+## chrom is the number identifying the chromosome
+## chrom.start is the starting position of the event
+## Chrom.end is the ending psoition of the event
+head(ampCNP, n=4)
+
+## Create a mask using the amplification events.
+## The name of the columns for the chromosome 
+## identification (chromCol parameter), the
+## starting and ending positions (startcol and endcol parameters) must 
+## be given.
+## The number of samples on which the events have been detected  
+## is needed (nProf parameter).
+
+ampCNPmask <- makeCNPmask(imat=ampCNP, chromCol="chrom",
+    startCol="chrom.start", endCol="chrom.end", nProf=1203,
+    uthresh=0.02, dthresh=0.008)
+
+
+```
+
+
+```{r treillisMask, echo=TRUE, message=FALSE, warning=FALSE}
+ampCNP2 <- ampCNP[ampCNP$chrom ==1, c("chrom", "chrom.start", "chrom.end")]
+ampCNP2$chrom <- paste0("chr", ampCNP2$chrom)
+ampCNP2$value <- rep(1, nrow(ampCNP2))
+
+library(gtrellis)
+gtrellis_layout(category = c("chr1"))
+add_segments_track(ampCNP2, value = 0.5)
+
+
+```
+
+
+## Apply mask to a table of copy number events
+
+The *applyCNPmask* function
 
 # Session info
 
