@@ -5,7 +5,7 @@
 \title{Given a set of copy-number events, create a DNA copy-number mask.}
 \usage{
 makeCNPmask(imat, chromCol = 1, startCol = 2, endCol = 3,
-  nProf = 1, uthresh, dthresh)
+  nProf = 1, uThresh, dThresh)
 }
 \arguments{
 \item{imat}{A \code{matrix} or a \code{data.frame} tabulating the chromosome 
@@ -28,10 +28,10 @@ of the interval events.}
 the number of copy number profiles from which the events originated. 
 Default: \code{1}.}
 
-\item{uthresh}{A \code{numeric} specifying the upper threshold for 
+\item{uThresh}{A \code{numeric} specifying the upper threshold for 
 the event frequency or (if \code{nProf = 1}) for the event count.}
 
-\item{dthresh}{A \code{numeric} specifying the upper and lower thresholds 
+\item{dThresh}{A \code{numeric} specifying the upper and lower thresholds 
 for the event frequency or (if \code{nProf = 1}) for the event count.}
 }
 \value{
@@ -68,7 +68,7 @@ amps <- cnpexample[cnpexample[,"copy.num"] == "amp",]
 # Create a mask using this table.
 ampCNPmask <- makeCNPmask(imat=amps, chromCol="chrom",
     startCol="chrom.start", endCol="chrom.end", nProf=1203,
-    uthresh=0.02, dthresh=0.008)
+    uThresh=0.02, dThresh=0.008)
 
 }
 \author{

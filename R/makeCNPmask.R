@@ -27,10 +27,10 @@
 #' the number of copy number profiles from which the events originated. 
 #' Default: \code{1}.
 #' 
-#' @param uthresh A \code{numeric} specifying the upper threshold for 
+#' @param uThresh A \code{numeric} specifying the upper threshold for 
 #' the event frequency or (if \code{nProf = 1}) for the event count.
 #' 
-#' @param dthresh A \code{numeric} specifying the upper and lower thresholds 
+#' @param dThresh A \code{numeric} specifying the upper and lower thresholds 
 #' for the event frequency or (if \code{nProf = 1}) for the event count.
 #' 
 #' @return A \code{matrix} of \code{numeric} (used as integer) 
@@ -57,12 +57,12 @@
 #' # Create a mask using this table.
 #' ampCNPmask <- makeCNPmask(imat=amps, chromCol="chrom",
 #'     startCol="chrom.start", endCol="chrom.end", nProf=1203,
-#'     uthresh=0.02, dthresh=0.008)
+#'     uThresh=0.02, dThresh=0.008)
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @export
 makeCNPmask <- function(imat, chromCol=1, startCol=2, endCol=3, nProf=1,
-                        uthresh, dthresh)
+                        uThresh, dThresh)
 {
     ## Call makeCNPmask.chrom for each chromosome separately
     CNPmask <- by(imat, INDICES=as.factor(imat[, chromCol]), 
@@ -70,8 +70,8 @@ makeCNPmask <- function(imat, chromCol=1, startCol=2, endCol=3, nProf=1,
                     startcol=startCol,
                     endcol=endCol,
                     nprof=nProf,
-                    uthresh=uthresh,
-                    dthresh=dthresh, simplify=TRUE)
+                    uthresh=uThresh,
+                    dthresh=dThresh, simplify=TRUE)
     
     ## Create a matrix containing all results
     myCNPmask <- matrix(ncol=2, byrow=TRUE, 
