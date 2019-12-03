@@ -21,6 +21,9 @@ Depends: R (>= 3.6),
 Suggests: testthat,
     BiocStyle,
     knitr, 
+    gtrellis,
+    GenomicRanges,
+    devtools,
     rmarkdown
 biocViews: Software, StatisticalMethod, WholeGenome, Microarray, 
     CopyNumberVariation
