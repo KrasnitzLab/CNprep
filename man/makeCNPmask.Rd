@@ -29,16 +29,22 @@ the number of copy number profiles from which the events originated.
 Default: \code{1}.}
 
 \item{uThresh}{A \code{numeric} specifying the upper threshold for 
-the event frequency or (if \code{nProf = 1}) for the event count.}
+the event frequency or (if \code{nProf = 1}) for the event count. The upper
+threshold must be equal or superior to the lower threshold (\code{dThresh}).}
 
-\item{dThresh}{A \code{numeric} specifying the upper and lower thresholds 
-for the event frequency or (if \code{nProf = 1}) for the event count.}
+\item{dThresh}{A \code{numeric} specifying the lower thresholds 
+for the event frequency or (if \code{nProf = 1}) for the event count.
+The lower threshold must be equal or inferior to the upper 
+threshold (\code{uThresh}).}
 }
 \value{
 A \code{matrix} of \code{numeric} (used as integer) 
-with three columns, called 
-"chrom","start" and "end", specifying the chromosome number and 
-boundary positions of the mask.
+with three columns:
+\itemize{
+\item "chrom", the chromosome number
+\item "start", the left boundary position of the mask
+\item "end", the right boundary position of the mask
+}
 }
 \description{
 The function takes as an input a set of intervals with 
@@ -49,6 +55,7 @@ threshold that contain interval regions with the count above the upper
 threshold.
 }
 \details{
+TODO details with strange parameters. 
 Masking is performed separately for each value in 
 \code{indexvals}. Segments (rows of \code{segtable}) with that 
 value of \code{eventIndex} are examined for coverage by mask intervals 

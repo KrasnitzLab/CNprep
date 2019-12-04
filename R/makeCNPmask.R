@@ -28,17 +28,24 @@
 #' Default: \code{1}.
 #' 
 #' @param uThresh A \code{numeric} specifying the upper threshold for 
-#' the event frequency or (if \code{nProf = 1}) for the event count.
+#' the event frequency or (if \code{nProf = 1}) for the event count. The upper
+#' threshold must be equal or superior to the lower threshold (\code{dThresh}).
 #' 
-#' @param dThresh A \code{numeric} specifying the upper and lower thresholds 
+#' @param dThresh A \code{numeric} specifying the lower thresholds 
 #' for the event frequency or (if \code{nProf = 1}) for the event count.
+#' The lower threshold must be equal or inferior to the upper 
+#' threshold (\code{uThresh}).
 #' 
 #' @return A \code{matrix} of \code{numeric} (used as integer) 
-#' with three columns, called 
-#' "chrom","start" and "end", specifying the chromosome number and 
-#' boundary positions of the mask.
+#' with three columns:
+#' \itemize{
+#' \item "chrom", the chromosome number
+#' \item "start", the left boundary position of the mask
+#' \item "end", the right boundary position of the mask
+#' }
 #' 
-#' @details Masking is performed separately for each value in 
+#' @details TODO details with strange parameters. 
+#' Masking is performed separately for each value in 
 #' \code{indexvals}. Segments (rows of \code{segtable}) with that 
 #' value of \code{eventIndex} are examined for coverage by mask intervals 
 #' with that value of \code{maskindex} in \code{masktable}. If the coverage 
@@ -64,6 +71,10 @@
 makeCNPmask <- function(imat, chromCol=1, startCol=2, endCol=3, nProf=1,
                         uThresh, dThresh)
 {
+    ## Validate input parameters
+    validateMakeCNPmask(imat=imat, chromCol=chromCol, startCol=startCol,
+                endCol=endCol, nProf=nProf, uThresh=uThresh, dThresh=dThresh)
+    
     ## Call makeCNPmask.chrom for each chromosome separately
     CNPmask <- by(imat, INDICES=as.factor(imat[, chromCol]), 
                     FUN=makeCNPmask.chrom,
