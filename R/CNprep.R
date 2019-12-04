@@ -21,6 +21,10 @@
 #' \itemize{
 #' \item \code{\link{CNpreprocessing}} { for pre-processing DNA copy number 
 #' (CN) data for detection of CN events.}
+#' \item \code{\link{makeCNPmask}} { for creating a mask given a set of
+#' copy number events.}
+#' \item \code{\link{applyCNPmask}} { for applying a mask to a set of
+#' copy number events.}
 #' }
 #'
 #' @keywords package
@@ -242,3 +246,55 @@ NULL
 #'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' 
 NULL
+
+
+#' @title Example of copy number log ratio dataset
+#' 
+#' @description Log ratio data for 5 breast cancer genomes, derived using 
+#' Representational Oligonucleotide Microarray Analysis (ROMA), an array-based 
+#' hybridization method that uses genomic complexity reduction based 
+#' on representations.
+#' 
+#' @name ratexample
+#'
+#' @docType data
+#'
+#' @aliases ratexample
+#'
+#' @format a log ratio \code{matrix} with 83055 rows, one per 
+#' oligonucleotide probe, and 5 columns, one for each breast tumor sample.
+#'
+#' @return a log ratio \code{matrix} with 83055 rows, one per 
+#' oligonucleotide probe, and 5 columns, one for each breast tumor sample.
+#' 
+#' @details The values are natural log copy number ratios, consistent with 
+#' data in \code{segexample} (segmented data for these tumors) and 
+#' \code{normsegs}. These copy number ratios are normalized using an 
+#' intensity-based lowess curve fitting algorithm.
+#' 
+#' @seealso
+#' \itemize{
+#' \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
+#' data for detection of CN events.}
+#' }
+#'
+#' @usage data(ratexample)
+#'
+#' @keywords datasets
+#' 
+#' @source Hicks, J. et al. Novel patterns of genome rearrangement and their 
+#' association with survival in breast cancer. Genome Res. 2006. 16:1465–1479.
+#' doi: 10.1101/gr.5460106
+#' 
+#' @examples
+#'
+#' ## Loading log ratio dataset
+#' data(ratexample)
+#'
+#' ## Plot the whole genome log ratio data for the first profile "WZ1"
+#' ## Note X and Y chromosomes at the far right of the plot
+#' plot(ratexample[,"WZ1"], ylab="log ratio", xlab="position")
+#' 
+NULL
+
+
