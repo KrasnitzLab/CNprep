@@ -298,3 +298,88 @@ NULL
 NULL
 
 
+#' @title Example of a segmented copy number table
+#' 
+#' @description Segmented log ratio data for 5 breast cancer genomes, derived 
+#' using Representational Oligonucleotide Microarray Analysis (ROMA) platform. 
+#' ROMA detects genomic amplifications and deletions with boundaries defined 
+#' at a resolution of 50 kb. In this segmented table, each row represents 
+#' a segment.
+#' 
+#' @name segexample
+#'
+#' @docType data
+#'
+#' @aliases segexample
+#'
+#' @format a \code{data.frame} with 479 rows/segments and 12 columns/variables:
+#' \itemize{
+#' \item{\code{ID}}{a character vector of profile IDs}
+#' \item{\code{start}}{a numeric vector (segment start probe number)}
+#' \item{\code{end}}{a numeric vector (segment end probe number)}
+#' \item{\code{num.probes}}{a numeric vector (number of probes in the segment)}
+#' \item{\code{seg.median}}{a numeric vector (median log ratio)}
+#' \item{\code{chrom}}{a numeric vector (chromosome number)}
+#' \item{\code{chrom.pos.start}}{a numeric vector (genomic start)}
+#' \item{\code{chrom.pos.end}}{a numeric vector (genomic end)}
+#' \item{\code{cytoband.start}}{a character vector (cytogenetic band start)}
+#' \item{\code{cytoband.end}}{a character vector (cytogenetic band end)}
+#' \item{\code{abs.pos.start}}{a numeric vector (genomic start, absolute)}
+#' \item{\code{abs.pos.end}}{a numeric vector (genomic end, absolute)}
+#' }
+#'
+#' @return a \code{data.frame} with 479 rows/segments and 12 columns/variables:
+#' \itemize{
+#' \item{\code{ID}}{a character vector of profile IDs}
+#' \item{\code{start}}{a numeric vector (segment start probe number)}
+#' \item{\code{end}}{a numeric vector (segment end probe number)}
+#' \item{\code{num.probes}}{a numeric vector (number of probes in the segment)}
+#' \item{\code{seg.median}}{a numeric vector (median log ratio)}
+#' \item{\code{chrom}}{a numeric vector (chromosome number)}
+#' \item{\code{chrom.pos.start}}{a numeric vector (genomic start)}
+#' \item{\code{chrom.pos.end}}{a numeric vector (genomic end)}
+#' \item{\code{cytoband.start}}{a character vector (cytogenetic band start)}
+#' \item{\code{cytoband.end}}{a character vector (cytogenetic band end)}
+#' \item{\code{abs.pos.start}}{a numeric vector (genomic start, absolute)}
+#' \item{\code{abs.pos.end}}{a numeric vector (genomic end, absolute)}
+#' }
+#' 
+#' @details Segment medians are computed from log copy number ratio. The 
+#' corresponding raw data table is \code{ratexample} in this package.
+#' 
+#' @seealso
+#' \itemize{
+#' \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
+#' data for detection of CN events.}
+#' }
+#'
+#' @usage data(segexample)
+#'
+#' @keywords datasets
+#' 
+#' @source Hicks, J. et al. Novel patterns of genome rearrangement and their 
+#' association with survival in breast cancer. Genome Res. 2006. 16:1465–1479.
+#' doi: 10.1101/gr.5460106
+#' 
+#' @examples
+#'
+#' ## Loading log ratio dataset
+#' data(segexample)
+#'
+#' ## Load datasets
+#' data(segexample)
+#' data(ratexample)
+#' data(normsegs)
+
+#' ## Preprocess segments for WZ1 sample
+#' segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ1",],
+#'                  ratall=ratexample, idCol="ID", startCol = "start", 
+#'                  endCol="end", chromCol="chrom", 
+#'                  bpStartCol="chrom.pos.start", 
+#'                  bpEndCol="chrom.pos.end", blsize=50, 
+#'                  minJoin=0.25, cWeight=0.4,
+#'                  bsTimes = 40, chromRange=1:22, nJobs=1, 
+#'                  modelNames="E", normalLength=normsegs[,1], 
+#'                  normalMedian=normsegs[,2])
+#' 
+NULL
