@@ -38,6 +38,7 @@ data(segexample)
 data(segexample)
 data(ratexample)
 data(normsegs)
+
 ## Preprocess segments for WZ3 sample
 segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ3",],
                  ratall=ratexample, idCol="ID", startCol = "start", 
