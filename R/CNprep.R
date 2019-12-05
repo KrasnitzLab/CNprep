@@ -371,13 +371,82 @@ NULL
 #' data(ratexample)
 #' data(normsegs)
 
-#' ## Preprocess segments for WZ1 sample
-#' segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ1",],
+#' ## Preprocess segments for WZ2 sample
+#' segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ2",],
 #'                  ratall=ratexample, idCol="ID", startCol = "start", 
 #'                  endCol="end", chromCol="chrom", 
 #'                  bpStartCol="chrom.pos.start", 
 #'                  bpEndCol="chrom.pos.end", blsize=50, 
 #'                  minJoin=0.25, cWeight=0.4,
+#'                  bsTimes = 30, chromRange=1:22, nJobs=1, 
+#'                  modelNames="E", normalLength=normsegs[,1], 
+#'                  normalMedian=normsegs[,2])
+#' 
+NULL
+
+
+#' @title A reference set of segments
+#' 
+#' @description A table of segment lengths and log copy number ratios for 
+#' a large set of human diploid genomes.
+#' 
+#' @name normsegs
+#'
+#' @docType data
+#'
+#' @aliases normsegs
+#'
+#' @format a \code{matrix} with 43497 rows/segments and 2 columns/variables. 
+#' The 2 columns are:
+#' \itemize{
+#' \item{\code{length}}{a numeric \code{vector} of segment genomic length}
+#' \item{\code{segmedian}}{a numeric \code{vector} of segment median computed 
+#' from log copy number ratio}
+#' }
+#'
+#' @return a \code{matrix} with 43497 rows/segments and 2 columns/variables. 
+#' The 2 columns are:
+#' \itemize{
+#' \item{\code{length}}{a numeric \code{vector} of segment genomic length}
+#' \item{\code{segmedian}}{a numeric \code{vector} of segment median computed 
+#' from log copy number ratio}
+#' 
+#' @details The table originates in a set of copy number profiles of over 
+#' 1000 individuals, obtained using Representational Oligonucleotide Microarray 
+#' Analysis (ROMA) technology. To ensure ploidy of 2 segments from X and Y 
+#' chromosomes and segments shorter than 5Mb were excluded.
+#' 
+#' @seealso
+#' \itemize{
+#' \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
+#' data for detection of CN events.}
+#' }
+#'
+#' @usage data(normsegs)
+#'
+#' @keywords datasets
+#' 
+#' @source Sebat J, et al. Strong association of de novo copy number 
+#' mutations with autism. Science. 2007 Apr 20;316(5823):445-9. 
+#' Epub 2007 Mar 15.
+#' 
+#' @examples
+#'
+#' ## Loading log ratio dataset
+#' data(segexample)
+#'
+#' ## Load datasets
+#' data(segexample)
+#' data(ratexample)
+#' data(normsegs)
+
+#' ## Preprocess segments for WZ3 sample
+#' segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ3",],
+#'                  ratall=ratexample, idCol="ID", startCol = "start", 
+#'                  endCol="end", chromCol="chrom", 
+#'                  bpStartCol="chrom.pos.start", 
+#'                  bpEndCol="chrom.pos.end", blsize=50, 
+#'                  minJoin=0.30, cWeight=0.4,
 #'                  bsTimes = 40, chromRange=1:22, nJobs=1, 
 #'                  modelNames="E", normalLength=normsegs[,1], 
 #'                  normalMedian=normsegs[,2])

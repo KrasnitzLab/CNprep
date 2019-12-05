@@ -64,14 +64,14 @@ data(segexample)
 data(segexample)
 data(ratexample)
 data(normsegs)
-## Preprocess segments for WZ1 sample
-segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ1",],
+## Preprocess segments for WZ2 sample
+segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ2",],
                  ratall=ratexample, idCol="ID", startCol = "start", 
                  endCol="end", chromCol="chrom", 
                  bpStartCol="chrom.pos.start", 
                  bpEndCol="chrom.pos.end", blsize=50, 
                  minJoin=0.25, cWeight=0.4,
-                 bsTimes = 40, chromRange=1:22, nJobs=1, 
+                 bsTimes = 30, chromRange=1:22, nJobs=1, 
                  modelNames="E", normalLength=normsegs[,1], 
                  normalMedian=normsegs[,2])
 
