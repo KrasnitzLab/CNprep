@@ -2,28 +2,57 @@
 % Please edit documentation in R/containment.indicator.R
 \name{containment.indicator}
 \alias{containment.indicator}
-\title{TODO}
+\title{Idenfication oflower threshold segments to retain}
 \usage{
 containment.indicator(vstart, vend, wstart, wend)
 }
 \arguments{
-\item{vstart}{TODO}
+\item{vstart}{a \code{vector} of \code{numeric} representing the 
+left boundary positions of segments that respect the upper threshold limit.}
 
-\item{vend}{TODO}
+\item{vend}{a \code{vector} of \code{numeric} representing the 
+right boundary positions of segments that respect the upper threshold limit.}
 
-\item{wstart}{TODO}
+\item{wstart}{a \code{vector} of \code{numeric} representing the 
+left boundary positions of segments that respect the lower threshold limit.}
 
-\item{wend}{TODO}
+\item{wend}{a \code{vector} of \code{numeric} representing the 
+right boundary positions of segments that respect the lower threshold limit.}
 }
 \value{
-TODO
+a \code{matrix} with a number of rows corresponding to the length of
+\code{wstart} and with 2 columns:
+\itemize{
+\item {\code{startafterstart}}{ a \code{numeric} identifying the upper 
+segment that starts after the lower segment associated to the row.}
+\item {\code{endbeforeend}}{ a \code{numeric} identifying the upper segment 
+that ends before the lower segment associated to the row.}
+}
 }
 \description{
+This function idenfies the segments for the lower threshold 
+that also contain at least one segment that respect the upper threshold.
+}
+\details{
 TODO
 }
 \examples{
 
-# TODO
+## Vectors of left and right boundary positions for segments that respect
+## the upper threshold limit
+upperStart <- c(75794987, 87695620, 88864215, 111800683)
+upperEnd   <- c(75809906, 87762703, 95041220, 111898394)
+
+## Vectors of left and right boundary positions for segments that respect
+## the lower threshold limit
+lowerStart <- c(75794987, 87647882, 88805625, 111799423, 153624187, 
+                184116712)
+lowerEnd   <- c(75809906, 87763963, 95062284, 112097412, 153624592, 
+                184150457)
+
+## TODO
+CNprep:::containment.indicator(vstart=upperStart, vend=upperEnd, 
+                                    wstart=lowerStart, wend=lowerEnd)
 
 }
 \author{
