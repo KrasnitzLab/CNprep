@@ -410,6 +410,7 @@ NULL
 #' \item{\code{length}}{a numeric \code{vector} of segment genomic length}
 #' \item{\code{segmedian}}{a numeric \code{vector} of segment median computed 
 #' from log copy number ratio}
+#' }
 #' 
 #' @details The table originates in a set of copy number profiles of over 
 #' 1000 individuals, obtained using Representational Oligonucleotide Microarray 
