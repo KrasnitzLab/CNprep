@@ -19,6 +19,15 @@ Epub 2007 Mar 15.
 \usage{
 data(normsegs)
 }
+\value{
+a \code{matrix} with 43497 rows/segments and 2 columns/variables. 
+The 2 columns are:
+\itemize{
+\item{\code{length}}{a numeric \code{vector} of segment genomic length}
+\item{\code{segmedian}}{a numeric \code{vector} of segment median computed 
+from log copy number ratio}
+}
+}
 \description{
 A table of segment lengths and log copy number ratios for 
 a large set of human diploid genomes.
