@@ -23,6 +23,7 @@ Suggests: testthat,
     knitr, 
     gtrellis,
     GenomicRanges,
+    ComplexHeatmap,
     devtools,
     rmarkdown
 biocViews: Software, StatisticalMethod, WholeGenome, Microarray, 
