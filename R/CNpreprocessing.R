@@ -150,10 +150,15 @@
 #' \item{segmad}{MAD for the function of copy number}
 #' \item{mediandev}{median function of copy number relative to its 
 #' central value}
-#' \item{segerr}{error estimate for the function of copy number}
-#' \item{segz}{the probability that the segment is in the central cluster}
+#' \item{segerr}{a \code{numeric}, error estimate for the 
+#' function of copy number}
+#' \item{centerz}{the probability that the segment is in the central cluster}
 #' \item{marginalprob}{marginal probability for the segment in the central 
 #' cluster}
+#' \item{maxz}{TODO}
+#' \item{maxzmean}{TODO}
+#' \item{maxzsigma}{TODO}
+#' \item{samplesize}{TODO}
 #' \item{negtail}{the probability of finding the deviation as observed or 
 #' larger in a collection of central segments}
 #' \item{negtailnormad}{the probability of finding the deviation/MAD as 
