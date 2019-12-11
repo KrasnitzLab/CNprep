@@ -2,15 +2,25 @@
 % Please edit documentation in R/segsample.R
 \name{segsample}
 \alias{segsample}
-\title{Calculate the median of the samples copy number values from bins 
-associated to selected segments. The median can be calculated zero, one or
-multiples times for each segment according to the specified parameters.}
+\title{Calculate the median of the sampled copy number values from bins 
+associated to selected segments.}
 \usage{
 segsample(mysegs, ratcol, startcol = "StartProbe", endcol = "EndProbe",
   blocksize = 0, times = 0)
 }
 \arguments{
-\item{mysegs}{a \code{data.frame} containing information about the segments.}
+\item{mysegs}{a \code{data.frame} containing information about the 
+segments in 5 columns: \itemize{
+\item{\code{StartProbe}}{a \code{numeric} that tabulates the (integer) 
+    start position of each segment in internal units such as probe numbers.}
+\item{\code{EndProbe}}{a \code{numeric} that tabulates the (integer) 
+    end position of each segment in internal units such as probe numbers.}
+\item{\code{chrom}}{a \code{numeric} representing the chromosome.}
+\item{\code{segmedian}}{a \code{numeric} representing the median for the 
+    group of bins associated to one segment}
+\item{\code{segmad}}{a \code{numeric} representing the median absolute 
+    deviation for the group of bins associated to one segment}
+}}
 
 \item{ratcol}{a \code{vector} containing the copy number values (usually in
 log2) for each bin associated to a segment present in \code{mysegs}. The
@@ -38,12 +48,20 @@ Either \code{blocksize} or \code{times} must be specified by user.
 Default: \code{0}.}
 }
 \value{
-a \code{data.frame} cotaining the information about the selected
+a \code{data.frame} containing the information about the selected
 segments and the median of the sampled copy number values with replacement 
-from the associated bins.
+from the associated bins. It contains 3 columns:
+\itemize{
+\item{\code{StartProbe}}{a \code{numeric} that tabulates the (integer) 
+    start position of each segment in internal units such as probe numbers.}
+\item{\code{EndProbe}}{a \code{numeric} that tabulates the (integer) 
+    end position of each segment in internal units such as probe numbers.}
+\item{\code{NoName}}{a \code{numeric} representing the median value of the
+sampled bins.}
+}
 }
 \description{
-This function calculates the median of the samples copy number
+This function calculates the median of the sampled copy number
 values from bins associated to selected segments. The median of the samples
 copy number values can be calculated multiple times for the same segments 
 (sampling with replacement, bootstrap).
