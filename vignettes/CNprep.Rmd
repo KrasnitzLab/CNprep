@@ -94,10 +94,10 @@ library(CNprep)
 ## Make copy number mask
 
 The *makeCNPmask()* function takes as an input a table of copy number events 
-with genomic positions. First, interval regions where 
-the event count is above the lower threshold are identified. Among those 
-retained regions, the function only returns the interval regions that
-contain at least one sub-interval with the count above 
+with genomic positions and 2 thresholds (upper and lower). First, interval 
+regions where the event count is above the lower threshold are identified. 
+Among those retained regions, the function only returns the interval regions 
+that contain at least one sub-interval with the count above 
 the upper threshold.
 
 As an example, a mask in created from copy number events detected in 10 
@@ -193,7 +193,6 @@ Figure \@ref(fig:demoMask2). This region is the only one to respect both
 lower and upper thresholds. 
 
 ```{r demoMask2, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap="Example of makeCNPmask() function with stringent parameters. Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section."}
-
 ## Create trellis 
 gtrellis_layout(data=dataTest, n_track=3, 
                 track_ylim=c(0, 1, 0, 0.70, 0, 1), add_name_track=TRUE,
@@ -232,9 +231,14 @@ mask$chrom <- rep("chr1", nrow(mask))
 add_segments_track(mask, value=0.5, gp=gpar(col="darkorange4", lwd=6))
 ```
 
+The following section demonstrates the usage of makeCNPmask() on a more
+complexe dataset of 1203 samples.
 
+```{r makeMask, echo=TRUE, warning=FALSE, collapse=TRUE, fig.align='center', fig.cap="Example of makeCNPmask() on a dataset of 1203 samples. The amplification events are shown, in blue, in the top section. Result of the makeCNPmask() are shown for four chromosomes, in red, in the bottom section. The chromosome 7 doesn't have any mask."}
+## Needed libraries
+library(GenomicRanges)
+library(gtrellis)
 
-```{r makeMask, echo=TRUE, warning=FALSE, collapse=TRUE}
 ## Load example containing the copy number events for 1203 samples
 data(cnpexample)
 
@@ -242,30 +246,54 @@ data(cnpexample)
 ampCNP <- subset(cnpexample, copy.num == "amp")
 
 ## The amplification table has 4 columns:
-## copy.num identifies the type of event
-## chrom is the number identifying the chromosome
-## chrom.start is the starting position of the event
-## Chrom.end is the ending psoition of the event
+##     copy.num identifies the type of event
+##     chrom is the number identifying the chromosome
+##     chrom.start is the starting position of the event
+##     chrom.end is the ending position of the event
 head(ampCNP, n=4)
 
 ## Create a mask using the amplification events.
-## The name of the columns for the chromosome 
-## identification (chromCol parameter), the
-## starting and ending positions (startCol and endCol parameters) must 
-## be given.
+## The name of the columns for the chromosome identification 
+## (chromCol parameter), the starting and ending positions 
+## (startCol and endCol parameters) must be given.
 ## The number of samples on which the events have been detected  
 ## is needed (nProf parameter).
 ampCNPmask <- makeCNPmask(imat=ampCNP, chromCol="chrom",
     startCol="chrom.start", endCol="chrom.end", nProf=1203,
     uThresh=0.2, dThresh=0.01)
 
+## Transfrom the mask segments into Genomic Ranges
+grAmpCNP <- GRanges(seqnames = Rle(paste0("chr", ampCNP$chrom)),
+    ranges = IRanges(start = ampCNP$chrom.start, end = ampCNP$chrom.end +1),
+    strand = Rle(strand(c("*")), nrow(ampCNP)))
+
+## Create trellis graph
+gtrellis_layout(species = "hg19", category=paste0("chr", c(1,7,9,15)), 
+    n_track=3, nrow=2, track_height=unit.c(2*grobHeight(textGrob("chr1")), 
+    unit(10, "null"), unit(2, "null")))
+
+## Add track for chromosome names
+add_track(panel_fun = function(gr) {
+    chr <- get_cell_meta_data("name")  
+    grid.rect(gp=gpar(fill="#EEEEEE"))
+    grid.text(chr)
+})
+
+## Add segments representing the copy number events
+add_segments_track(grAmpCNP, value=runif(length(grAmpCNP)), 
+    gp=gpar(col="blue", lwd=4))
+
+## Add segments representing the masks
+maskFinal <- as.data.frame(ampCNPmask)
+maskFinal$chrom <- paste0("chr", as.character(maskFinal$chrom))
+add_rect_track(maskFinal, h1=0, h2=1, gp=gpar(col="red2", fill="red2"))
 ```
 
 
 
 ## Apply mask to a table of copy number events
 
-The *applyCNPmask()* function
+The *applyCNPmask()* function ... TODO
 
 # Session info
 
