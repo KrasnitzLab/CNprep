@@ -57,10 +57,10 @@ del <- cnpexample[cnpexample$chrom == 2,]
 ## Create a table of deletion events only.
 del <- del[del[,"copy.num"] == "del",]
 
-# Create a mask for chromosome 2 using this table.
-delCNPmask <- CNprep:::makeCNPmask.chrom(imat=del,
-    startcol="chrom.start", endcol="chrom.end", nprof=1203,
-    uthresh=0.02, dthresh=0.008)
+## Create a mask for chromosome 2 using this table, lower threshold of
+## 0.008 and upper threshold of 0.02
+CNprep:::makeCNPmask.chrom(imat=del, startcol="chrom.start", 
+    endcol="chrom.end", nprof=1203, uthresh=0.02, dthresh=0.008)
 
 }
 \author{

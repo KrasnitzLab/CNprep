@@ -47,10 +47,10 @@
 #' ## Create a table of deletion events only.
 #' del <- del[del[,"copy.num"] == "del",]
 #' 
-#' # Create a mask for chromosome 2 using this table.
-#' delCNPmask <- CNprep:::makeCNPmask.chrom(imat=del,
-#'     startcol="chrom.start", endcol="chrom.end", nprof=1203,
-#'     uthresh=0.02, dthresh=0.008)
+#' ## Create a mask for chromosome 2 using this table, lower threshold of
+#' ## 0.008 and upper threshold of 0.02
+#' CNprep:::makeCNPmask.chrom(imat=del, startcol="chrom.start", 
+#'     endcol="chrom.end", nprof=1203, uthresh=0.02, dthresh=0.008)
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
@@ -66,20 +66,23 @@ makeCNPmask.chrom <- function(imat, startcol=1, endcol=2, nprof=1, uthresh,
     z <- z[nrow(z) - rev(match(rev(unique(z[, 1])), rev(z[, 1]))) + 1, ]
     #z[,1] gives unique start and end positions; z[,2] gives event counts there
     
-    ## Mark positions w/counts above upper thresh
+    ## Mark positions w/counts above upper threshold
     z <- cbind(z,z[,2] >= (uthresh*nprof)) 
     zsteps <- z[,3] - c(0, z[-nrow(z), 3])
     ustart <- z[zsteps == 1, 1]
     zsteps <- z[,3] - c(z[-1, 3], 0)
     
-    ## Mark starts and ends of intervals w/count above upper thresh
+    ## Mark starts and ends of intervals w/count above lower threshold
     uend <- z[zsteps == 1, 1] 
     z[,3] <- z[,2] >= (dthresh*nprof)
     zsteps <- z[,3] - c(0, z[-nrow(z), 3])
     dstart <- z[zsteps == 1, 1]
     zsteps <- z[,3] - c(z[-1, 3], 0)
     dend <- z[zsteps == 1, 1] #likewise for the lower thresh
+    
+    ## Create final matrix
     if (length(ustart) > 0) {
+        ## Identify segments that respect both thresholds
         ci <- containment.indicator(ustart, uend, dstart, dend)
         return(matrix(ncol=2, data=c(dstart[ci[, 2] >= ci[, 1]],
                 dend[ci[, 2] >= ci[, 1]]), 
