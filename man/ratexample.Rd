@@ -44,6 +44,10 @@ plot(ratexample[,"WZ1"], ylab="log ratio", xlab="position")
 \itemize{
 \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
 data for detection of CN events.}
+\item \code{\link{makeCNPmask}} {for creating a mask given a set of
+copy number events.}
+\item \code{\link{applyCNPmask}} {for applying a mask to a set of
+copy number events.}
 }
 }
 \keyword{datasets}
