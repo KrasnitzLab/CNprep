@@ -6,18 +6,26 @@
 \title{Example of a segmented copy number table}
 \format{a \code{data.frame} with 479 rows/segments and 12 columns/variables:
 \itemize{
-\item{\code{ID}}{a character vector of profile IDs}
-\item{\code{start}}{a numeric vector (segment start probe number)}
-\item{\code{end}}{a numeric vector (segment end probe number)}
-\item{\code{num.probes}}{a numeric vector (number of probes in the segment)}
-\item{\code{seg.median}}{a numeric vector (median log ratio)}
-\item{\code{chrom}}{a numeric vector (chromosome number)}
-\item{\code{chrom.pos.start}}{a numeric vector (genomic start)}
-\item{\code{chrom.pos.end}}{a numeric vector (genomic end)}
-\item{\code{cytoband.start}}{a character vector (cytogenetic band start)}
-\item{\code{cytoband.end}}{a character vector (cytogenetic band end)}
-\item{\code{abs.pos.start}}{a numeric vector (genomic start, absolute)}
-\item{\code{abs.pos.end}}{a numeric vector (genomic end, absolute)}
+\item{\code{ID}}{ a \code{character} \code{vector} of profile IDs}
+\item{\code{start}}{ a \code{numeric} \code{vector} (segment start 
+    probe number)}
+\item{\code{end}}{ a \code{numeric} \code{vector} (segment end 
+    probe number)}
+\item{\code{num.probes}}{ a \code{numeric} \code{vector} (number of probes 
+    in the segment)}
+\item{\code{seg.median}}{ a \code{numeric} \code{vector} (median log ratio)}
+\item{\code{chrom}}{ a \code{numeric} \code{vector} (chromosome number)}
+\item{\code{chrom.pos.start}}{ a \code{numeric} \code{vector} (genomic 
+    start)}
+\item{\code{chrom.pos.end}}{ a \code{numeric} \code{vector} (genomic end)}
+\item{\code{cytoband.start}}{ a \code{character} \code{vector} 
+    (cytogenetic band start)}
+\item{\code{cytoband.end}}{ a \code{character} \code{vector} (cytogenetic 
+    band end)}
+\item{\code{abs.pos.start}}{ a \code{numeric} \code{vector} (genomic 
+    start, absolute)}
+\item{\code{abs.pos.end}}{ a \code{numeric} \code{vector} (genomic 
+    end, absolute)}
 }}
 \source{
 Hicks, J. et al. Novel patterns of genome rearrangement and their 
@@ -30,18 +38,26 @@ data(segexample)
 \value{
 a \code{data.frame} with 479 rows/segments and 12 columns/variables:
 \itemize{
-\item{\code{ID}}{a character vector of profile IDs}
-\item{\code{start}}{a numeric vector (segment start probe number)}
-\item{\code{end}}{a numeric vector (segment end probe number)}
-\item{\code{num.probes}}{a numeric vector (number of probes in the segment)}
-\item{\code{seg.median}}{a numeric vector (median log ratio)}
-\item{\code{chrom}}{a numeric vector (chromosome number)}
-\item{\code{chrom.pos.start}}{a numeric vector (genomic start)}
-\item{\code{chrom.pos.end}}{a numeric vector (genomic end)}
-\item{\code{cytoband.start}}{a character vector (cytogenetic band start)}
-\item{\code{cytoband.end}}{a character vector (cytogenetic band end)}
-\item{\code{abs.pos.start}}{a numeric vector (genomic start, absolute)}
-\item{\code{abs.pos.end}}{a numeric vector (genomic end, absolute)}
+\item{\code{ID}}{ a \code{character} \code{vector} of profile IDs}
+\item{\code{start}}{ a \code{numeric} \code{vector} (segment start 
+    probe number)}
+\item{\code{end}}{ a \code{numeric} \code{vector} (segment end 
+    probe number)}
+\item{\code{num.probes}}{ a \code{numeric} \code{vector} (number of probes 
+    in the segment)}
+\item{\code{seg.median}}{ a \code{numeric} \code{vector} (median log ratio)}
+\item{\code{chrom}}{ a \code{numeric} \code{vector} (chromosome number)}
+\item{\code{chrom.pos.start}}{ a \code{numeric} \code{vector} (genomic 
+    start)}
+\item{\code{chrom.pos.end}}{ a \code{numeric} \code{vector} (genomic end)}
+\item{\code{cytoband.start}}{ a \code{character} \code{vector} 
+    (cytogenetic band start)}
+\item{\code{cytoband.end}}{ a \code{character} \code{vector} (cytogenetic 
+    band end)}
+\item{\code{abs.pos.start}}{ a \code{numeric} \code{vector} (genomic 
+    start, absolute)}
+\item{\code{abs.pos.end}}{ a \code{numeric} \code{vector} (genomic 
+    end, absolute)}
 }
 }
 \description{
