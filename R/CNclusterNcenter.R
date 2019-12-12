@@ -2,7 +2,18 @@
 #' 
 #' @description TODO
 #' 
-#' @param segrat a \code{list}
+#' @param segrat a \code{list} containing:
+#' \itemize{
+#' \item{\code{seg}}{a \code{data.frame} with 3 columns:} \itemize{
+#'     \item{\code{StartProbe}}{a \code{numeric} that tabulates the (integer) 
+#'     start position of each segment in internal units such as probe numbers.}
+#'     \item{\code{EndProbe}}{a \code{numeric} that tabulates the (integer) 
+#'     end position of each segment in internal units such as probe numbers.}
+#'     \item{\code{chrom}}{a \code{numeric} representing the chromosome.}}
+#' \item{\code{rat}}{TODO}
+#' \item{\code{stream}}{TODO}
+#' \item{\code{sub}}{TODO}
+#' }
 #' 
 #' @param blsize A single \code{integer} specifying the bootstrap 
 #' sampling rate of segment medians to generate input for model-based 
@@ -41,6 +52,9 @@
 #'
 #' # TODO
 #' 
+#' ## Create a list that contain information about the segments and bins 
+#' ## related to one 
+#' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @importFrom stats median var
 #' @importFrom mclust Mclust
@@ -60,12 +74,17 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     medcol   <- "segmedian"
     madcol   <- "segmad"
 
-    segrat$seg<-cbind(segrat$seg,
+    ## Add to the current data.frame a column with the median and a column
+    ## with the median absolute deviation for each group of bins forming 
+    ## a specific segment
+    segrat$seg <- cbind(segrat$seg,
                         t(apply(segrat$seg[,c(startcol, endcol, chromcol),
                         drop=FALSE], 1, smedmad, v=segrat$rat)))
-
+    
+    ## Assigning the column names of the updated data.frame
     dimnames(segrat$seg)[[2]] <- c(startcol, endcol, chromcol, medcol, madcol)
     
+    ## Only retain the selected chromosomes
     seguse <- segrat$seg[segrat$seg[, chromcol] %in% chromRange,, drop=FALSE]
     
     aux <- rep(0, length(segrat$rat))
@@ -75,7 +94,8 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     aux[seguse[, endcol]]   <- 1
     
     ratuse <- segrat$rat[aux == 1]
-
+    
+    ## Run trials and keep best cluster from all trial (best BIC value)
     for(j in seq_len(nTrial)) {
         aaa <- segsample(seguse, ratuse, blocksize=blsize)
         if (all(unique(aaa[,3]) == 0)) { 
