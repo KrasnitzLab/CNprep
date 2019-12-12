@@ -4,7 +4,8 @@
 \name{segexample}
 \alias{segexample}
 \title{Example of a segmented copy number table}
-\format{a \code{data.frame} with 479 rows/segments and 12 columns/variables:
+\format{a \code{data.frame} with 479 rows/segments and 12 
+columns/variables:
 \itemize{
 \item{\code{ID}}{ a \code{character} \code{vector} of profile IDs}
 \item{\code{start}}{ a \code{numeric} \code{vector} (segment start 
@@ -96,6 +97,8 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ2",],
 \itemize{
 \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
 data for detection of CN events.}
+\item \code{\link{applyCNPmask}} {for applying a mask to a table of 
+copy number events.}
 }
 }
 \keyword{datasets}
