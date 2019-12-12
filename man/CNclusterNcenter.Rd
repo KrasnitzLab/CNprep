@@ -8,7 +8,18 @@ CNclusterNcenter(segrat, blsize, minJoin, nTrial, bestBIC, modelNames,
   cweight, bstimes, chromRange)
 }
 \arguments{
-\item{segrat}{a \code{list}}
+\item{segrat}{a \code{list} containing:
+\itemize{
+\item{\code{seg}}{a \code{data.frame} with 3 columns:} \itemize{
+    \item{\code{StartProbe}}{a \code{numeric} that tabulates the (integer) 
+    start position of each segment in internal units such as probe numbers.}
+    \item{\code{EndProbe}}{a \code{numeric} that tabulates the (integer) 
+    end position of each segment in internal units such as probe numbers.}
+    \item{\code{chrom}}{a \code{numeric} representing the chromosome.}}
+\item{\code{rat}}{TODO}
+\item{\code{stream}}{TODO}
+\item{\code{sub}}{TODO}
+}}
 
 \item{blsize}{A single \code{integer} specifying the bootstrap 
 sampling rate of segment medians to generate input for model-based 
@@ -50,6 +61,9 @@ TODO
 \examples{
 
 # TODO
+
+## Create a list that contain information about the segments and bins 
+## related to one 
 
 }
 \author{
