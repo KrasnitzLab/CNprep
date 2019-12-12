@@ -194,6 +194,7 @@
 #' 
 #' @examples
 #'
+#' ## Load needed datasets
 #' data(segexample)
 #' data(ratexample)
 #' data(normsegs)
@@ -375,7 +376,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         rm(ratall)
         gc()
 
-        ## Running each chromosome on a separate thread
+        ## Running each profile id on a separate thread
         processed <- bplapply(X=profpack, FUN=CNclusterNcenter, 
                                 blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
                                 bestBIC=bestBIC, modelNames=modelNames, 
