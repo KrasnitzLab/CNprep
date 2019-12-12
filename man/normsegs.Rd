@@ -7,9 +7,10 @@
 \format{a \code{matrix} with 43497 rows/segments and 2 columns/variables. 
 The 2 columns are:
 \itemize{
-\item{\code{length}}{a numeric \code{vector} of segment genomic length}
-\item{\code{segmedian}}{a numeric \code{vector} of segment median computed 
-from log copy number ratio}
+\item{\code{length}}{ a \code{numeric} \code{vector}, used as integer, of 
+    segment genomic length}
+\item{\code{segmedian}}{ a \code{numeric} \code{vector} of segment 
+    median computed from log copy number ratio}
 }}
 \source{
 Sebat J, et al. Strong association of de novo copy number 
@@ -23,9 +24,10 @@ data(normsegs)
 a \code{matrix} with 43497 rows/segments and 2 columns/variables. 
 The 2 columns are:
 \itemize{
-\item{\code{length}}{a numeric \code{vector} of segment genomic length}
-\item{\code{segmedian}}{a numeric \code{vector} of segment median computed 
-from log copy number ratio}
+\item{\code{length}}{ a \code{numeric} \code{vector}, used as integer, of 
+    segment genomic length}
+\item{\code{segmedian}}{ a \code{numeric} \code{vector} of segment 
+    median computed from log copy number ratio}
 }
 }
 \description{

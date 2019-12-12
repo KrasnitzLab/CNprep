@@ -289,6 +289,10 @@ NULL
 #' \itemize{
 #' \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
 #' data for detection of CN events.}
+#' \item \code{\link{makeCNPmask}} {for creating a mask given a set of
+#' copy number events.}
+#' \item \code{\link{applyCNPmask}} {for applying a mask to a set of
+#' copy number events.}
 #' }
 #'
 #' @usage data(ratexample)
@@ -325,7 +329,8 @@ NULL
 #'
 #' @aliases segexample
 #'
-#' @format a \code{data.frame} with 479 rows/segments and 12 columns/variables:
+#' @format a \code{data.frame} with 479 rows/segments and 12 
+#' columns/variables:
 #' \itemize{
 #' \item{\code{ID}}{ a \code{character} \code{vector} of profile IDs}
 #' \item{\code{start}}{ a \code{numeric} \code{vector} (segment start 
@@ -380,6 +385,8 @@ NULL
 #' \itemize{
 #' \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
 #' data for detection of CN events.}
+#' \item \code{\link{applyCNPmask}} {for applying a mask to a table of 
+#' copy number events.}
 #' }
 #'
 #' @usage data(segexample)
@@ -428,17 +435,19 @@ NULL
 #' @format a \code{matrix} with 43497 rows/segments and 2 columns/variables. 
 #' The 2 columns are:
 #' \itemize{
-#' \item{\code{length}}{a numeric \code{vector} of segment genomic length}
-#' \item{\code{segmedian}}{a numeric \code{vector} of segment median computed 
-#' from log copy number ratio}
+#' \item{\code{length}}{ a \code{numeric} \code{vector}, used as integer, of 
+#'     segment genomic length}
+#' \item{\code{segmedian}}{ a \code{numeric} \code{vector} of segment 
+#'     median computed from log copy number ratio}
 #' }
 #'
 #' @return a \code{matrix} with 43497 rows/segments and 2 columns/variables. 
 #' The 2 columns are:
 #' \itemize{
-#' \item{\code{length}}{a numeric \code{vector} of segment genomic length}
-#' \item{\code{segmedian}}{a numeric \code{vector} of segment median computed 
-#' from log copy number ratio}
+#' \item{\code{length}}{ a \code{numeric} \code{vector}, used as integer, of 
+#'     segment genomic length}
+#' \item{\code{segmedian}}{ a \code{numeric} \code{vector} of segment 
+#'     median computed from log copy number ratio}
 #' }
 #' 
 #' @details The table originates in a set of copy number profiles of over 
