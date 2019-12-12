@@ -4,46 +4,46 @@
 #' 
 #' @param segrat a \code{list} containing:
 #' \itemize{
-#' \item{\code{seg}}{a \code{data.frame} with 3 columns:} \itemize{
-#'     \item{\code{StartProbe}}{a \code{numeric} that tabulates the (integer) 
+#' \item{\code{seg}}{ a \code{data.frame} with 3 columns:} \itemize{
+#'     \item{\code{StartProbe}}{ a \code{numeric} that tabulates the (integer) 
 #'     start position of each segment in internal units such as probe numbers.}
-#'     \item{\code{EndProbe}}{a \code{numeric} that tabulates the (integer) 
+#'     \item{\code{EndProbe}}{ a \code{numeric} that tabulates the (integer) 
 #'     end position of each segment in internal units such as probe numbers.}
-#'     \item{\code{chrom}}{a \code{numeric} representing the chromosome.}}
-#' \item{\code{rat}}{TODO}
-#' \item{\code{stream}}{TODO}
-#' \item{\code{sub}}{TODO}
+#'     \item{\code{chrom}}{ a \code{numeric} representing the chromosome.}}
+#' \item{\code{rat}}{ TODO}
+#' \item{\code{stream}}{ TODO}
+#' \item{\code{sub}}{ TODO}
 #' }
 #' 
-#' @param blsize A single \code{integer} specifying the bootstrap 
+#' @param blsize a single \code{integer} specifying the bootstrap 
 #' sampling rate of segment medians to generate input for model-based 
 #' clustering. The number of times a segment is sampled is then given by the 
 #' (integer) division of the segment length in internal units by \code{blsize}.
 #' 
-#' @param minJoin A single \code{numeric} value between \code{0} and \code{1} 
+#' @param minJoin a single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the degree of overlap above which two clusters will be joined 
 #' into one.
 #' 
-#' @param nTrial A single \code{integer} specifying the number of times 
+#' @param nTrial a single \code{integer} specifying the number of times 
 #' a model-based clustering is attempted for each profile in order to 
 #' achieve the highest Bayesian information criterion (BIC).
 #' 
-#' @param bestBIC A single \code{numeric} value for initalizing BIC 
+#' @param bestBIC a single \code{numeric} value for initalizing BIC 
 #' maximization. A large negative value is recommended. The default 
 #' is \code{-1e7}.
 #' 
-#' @param modelNames A \code{vector} of \code{character} strings specifying 
+#' @param modelNames a \code{vector} of \code{character} strings specifying 
 #' the names of models to be used in model-based clustering (see package 
 #' \code{mclust} for further details). The default is \code{"E"}.
 #' 
-#' @param cweight A single \code{numeric} value between \code{0} and \code{1} 
+#' @param cweight a single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the minimal share of the central cluster in each profile.
 #' 
-#' @param bstimes A single \code{double} value specifying the number of 
+#' @param bstimes a single \code{double} value specifying the number of 
 #' time the median of each segment is sampled in order to predict the cluster 
 #' assignment for the segment.
 #' 
-#' @param chromRange A \code{integer} vector enumerating chromosomes from 
+#' @param chromRange a \code{integer} vector enumerating chromosomes from 
 #' which segments are to be used for initial model-based clustering.
 #' 
 #' @return TODO
