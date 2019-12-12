@@ -43,12 +43,12 @@ consolidate <- function(emfit, minover) {
                     ngroups=length(emfit$parameters$mean),
                     sigmasq=emfit$parameters$variance$sigmasq)
     
-    ## Ensure that z value is a matrix in the newem object
+    ## Ensure that z entry is a matrix in the newem object
     if (is.null(emfit$z)) {
         newem$z <- matrix(ncol=1, data=rep(1, emfit$n))
     }
     
-    ## Ensure that sigmasq has the same length than mu in newem object
+    ## Ensure that sigmasq entry has the same length than mu in newem object
     if (length(newem$sigmasq) == 1) {
         newem$sigmasq <- rep(newem$sigmasq, length(emfit$parameters$mean))
     }

@@ -119,7 +119,7 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     }
 
     mediandev <- segrat$seg[, medcol] - profcenter
-    segs <- segsample(segrat$seg, segrat$rat, times = bstimes)
+    segs <- segsample(segrat$seg, segrat$rat, times=bstimes)
 
     if (all(unique(aaa[,3]) == 1e-10)) { 
         segs[segs[,3] == 0, 3] <- 1e-10 
