@@ -5,36 +5,37 @@
 #' zero together until the main cluster contain the minimum required ratio 
 #' of data, as specified by the user.
 #' 
-#' @param emfit A \code{list} with entries providing information about a 
+#' @param emfit a \code{list} with entries providing information about a 
 #' mixture model estimation:
 #' \itemize{
-#' \item{\code{mu}}{TODO}
-#' \item{\code{pro}}{A \code{vector} whose \emph{k}th component is the mixing 
-#' proportion for the \emph{k}th component of the mixture model. If missing, 
-#' equal proportions are assumed.}
-#' \item{\code{z}}{A \code{matrix} whose \emph{[i,k]}th entry is the 
-#' probability that observation \emph{i} in the tested data belongs to 
-#' the \emph{k}th class}
-#' \item{\code{groups}}{TODO}
-#' \item{\code{ngroups}}{A \code{numeric} representing the number of clusters.}
+#' \item{\code{mu}}{ TODO}
+#' \item{\code{pro}}{ a \code{vector} whose \emph{k}th component is the mixing 
+#'     proportion for the \emph{k}th component of the mixture model. If 
+#'     missing, equal proportions are assumed.}
+#' \item{\code{z}}{ a \code{matrix} whose \emph{[i,k]}th entry is the 
+#'     probability that observation \emph{i} in the tested data belongs to 
+#'     the \emph{k}th class}
+#' \item{\code{groups}}{ TODO}
+#' \item{\code{ngroups}}{ a \code{numeric} representing the number of 
+#'     clusters.}
 #' \item{\code{sigmasq}}{TODO}
 #' }
 #' 
-#' @param minCenter A single \code{numeric} value between \code{0} and \code{1} 
+#' @param minCenter a single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the minimal share of the central cluster in each profile.
 #' 
-#' @return TODO A \code{list} with entries providing updated information about 
+#' @return TODO a \code{list} with entries providing updated information about 
 #' a mixture model estimation:
 #' \itemize{
 #' \item \code{mu} TODO
-#' \item \code{pro} A \code{vector} whose \emph{k}th component is the mixing 
+#' \item \code{pro} a \code{vector} whose \emph{k}th component is the mixing 
 #' proportion for the \emph{k}th component of the mixture model. If missing, 
 #' equal proportions are assumed.
-#' \item \code{z} A \code{matrix} whose \emph{[i,k]}th entry is the 
+#' \item \code{z} a \code{matrix} whose \emph{[i,k]}th entry is the 
 #' probability that observation \emph{i} in the tested data belongs to 
 #' the \emph{k}th class.
 #' \item \code{groups} TODO
-#' \item \code{ngroups} {A \code{numeric} representing the number of clusters.}
+#' \item \code{ngroups} {a \code{numeric} representing the number of clusters.}
 #' \item \code{sigmasq} TODO
 #' \item \code{center} TODO
 #' }
@@ -63,7 +64,7 @@
 #' result <- CNprep:::get.center(emfit=demoEM, minCenter=0.4)
 #' 
 #' ## The result contain only 4 clusters as the clusters 3 and 4 have been
-#' ## grouped together to form 1 group that includes 40% of the data
+#' ## grouped together to form a group that includes 40% of the data (group 3)
 #' result$ngroups
 #' result$pro
 #' 
