@@ -11,14 +11,14 @@ segsample(mysegs, ratcol, startcol = "StartProbe", endcol = "EndProbe",
 \arguments{
 \item{mysegs}{a \code{data.frame} containing information about the 
 segments in 5 columns: \itemize{
-\item{\code{StartProbe}}{a \code{numeric} that tabulates the (integer) 
+\item{\code{StartProbe}}{ a \code{numeric} that tabulates the (integer) 
     start position of each segment in internal units such as probe numbers.}
-\item{\code{EndProbe}}{a \code{numeric} that tabulates the (integer) 
+\item{\code{EndProbe}}{ a \code{numeric} that tabulates the (integer) 
     end position of each segment in internal units such as probe numbers.}
-\item{\code{chrom}}{a \code{numeric} representing the chromosome.}
-\item{\code{segmedian}}{a \code{numeric} representing the median for the 
+\item{\code{chrom}}{ a \code{numeric} representing the chromosome.}
+\item{\code{segmedian}}{ a \code{numeric} representing the median for the 
     group of bins associated to one segment}
-\item{\code{segmad}}{a \code{numeric} representing the median absolute 
+\item{\code{segmad}}{ a \code{numeric} representing the median absolute 
     deviation for the group of bins associated to one segment}
 }}
 
@@ -52,11 +52,11 @@ a \code{data.frame} containing the information about the selected
 segments and the median of the sampled copy number values with replacement 
 from the associated bins. It contains 3 columns:
 \itemize{
-\item{\code{StartProbe}}{a \code{numeric} that tabulates the (integer) 
+\item{\code{StartProbe}}{ a \code{numeric} that tabulates the (integer) 
     start position of each segment in internal units such as probe numbers.}
-\item{\code{EndProbe}}{a \code{numeric} that tabulates the (integer) 
+\item{\code{EndProbe}}{ a \code{numeric} that tabulates the (integer) 
     end position of each segment in internal units such as probe numbers.}
-\item{\code{NoName}}{a \code{numeric} representing the median value of the
+\item{\code{NoName}}{ a \code{numeric} representing the median value of the
 sampled bins.}
 }
 }
