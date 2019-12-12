@@ -5,11 +5,15 @@
 \alias{annotexample}
 \title{Annotation table for ROMA CGH platform and human genome 
 version 17.}
-\format{A data frame with 83055 observations on the following 3 variables.
+\format{A \code{data.frame} with 83055 observations on the following 
+3 variables:
 \describe{
-\item{\code{PROBEID}}{a character vector}
-\item{\code{CHROM}}{a numeric vector}
-\item{\code{CHROM.POS}}{a numeric vector}
+\item{\code{PROBEID}}{ a \code{character} \code{vector} representing the
+    prode identifiant.}
+\item{\code{CHROM}}{ a \code{numeric} \code{vector} used as integer 
+    representing the chromosome on which the probe is located.}
+\item{\code{CHROM.POS}}{ a \code{numeric} \code{vector} representing the
+    position of the probe on the chromosome.}
 }}
 \source{
 GEO accession GPL9775, 
@@ -24,11 +28,15 @@ data(annotexample)
 data(annotexample)
 }
 \value{
-A data frame with 83055 observations on the following 3 variables.
+A \code{data.frame} with 83055 observations on the following 
+3 variables:
 \describe{
-\item{\code{PROBEID}}{a character vector}
-\item{\code{CHROM}}{a numeric vector}
-\item{\code{CHROM.POS}}{a numeric vector}
+\item{\code{PROBEID}}{ a \code{character} \code{vector} representing the
+    prode identifiant.}
+\item{\code{CHROM}}{ a \code{numeric} \code{vector} used as integer 
+    representing the chromosome on which the probe is located.}
+\item{\code{CHROM.POS}}{ a \code{numeric} \code{vector} representing the
+    position of the probe on the chromosome.}
 }
 
 a \code{data.frame} with 83055 observations on the following 3 
