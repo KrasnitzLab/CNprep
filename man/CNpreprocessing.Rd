@@ -211,6 +211,7 @@ statistics are available.
 }
 \examples{
 
+## Load needed datasets
 data(segexample)
 data(ratexample)
 data(normsegs)
