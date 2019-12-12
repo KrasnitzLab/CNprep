@@ -123,24 +123,28 @@ NULL
 #'
 #' @aliases cnpexample
 #'
-#' @format A data frame with 19188 rows and 4 columns. 
+#' @format a \code{data.frame} with 19188 rows and 4 columns: 
 #' \describe{
-#' \item{\code{copy.num}}{a character vector indicating whether an event is
-#' a gain ("amp") or a loss ("del"). }
-#' \item{\code{chrom}}{a numeric vector indicating which chromosome the 
-#' event is in.}
-#' \item{\code{chrom.start}}{a numeric vector of event start positions.}
-#' \item{\code{chrom.end}}{a numeric vector of event start positions.}
+#' \item{\code{copy.num}}{ a \code{character} \code{vector} indicating 
+#'     whether an event is a gain ("amp") or a loss ("del"). }
+#' \item{\code{chrom}}{ a \code{numeric} \code{vector} used as an integer 
+#'     indicating which chromosome the event is in.}
+#' \item{\code{chrom.start}}{ a \code{numeric} \code{vector}, used as an 
+#'     integer, representing the event start positions.}
+#' \item{\code{chrom.end}}{ a \code{numeric} \code{vector}, used as an integer,
+#'     of event start positions.}
 #' }
 #'
-#' @return A data frame with 19188 rows and 4 columns. 
+#' @return a \code{data.frame} with 19188 rows and 4 columns: 
 #' \describe{
-#' \item{\code{copy.num}}{a character vector indicating whether an event is
-#' a gain ("amp") or a loss ("del"). }
-#' \item{\code{chrom}}{a numeric vector indicating which chromosome the 
-#' event is in.}
-#' \item{\code{chrom.start}}{a numeric vector of event start positions.}
-#' \item{\code{chrom.end}}{a numeric vector of event start positions.}
+#' \item{\code{copy.num}}{ a \code{character} \code{vector} indicating 
+#'     whether an event is a gain ("amp") or a loss ("del"). }
+#' \item{\code{chrom}}{ a \code{numeric} \code{vector} used as an integer 
+#'     indicating which chromosome the event is in.}
+#' \item{\code{chrom.start}}{ a \code{numeric} \code{vector}, used as an 
+#'     integer, representing the event start positions.}
+#' \item{\code{chrom.end}}{ a \code{numeric} \code{vector}, used as an integer,
+#'     of event start positions.}
 #' }
 #' 
 #' @seealso
@@ -323,34 +327,50 @@ NULL
 #'
 #' @format a \code{data.frame} with 479 rows/segments and 12 columns/variables:
 #' \itemize{
-#' \item{\code{ID}}{a character vector of profile IDs}
-#' \item{\code{start}}{a numeric vector (segment start probe number)}
-#' \item{\code{end}}{a numeric vector (segment end probe number)}
-#' \item{\code{num.probes}}{a numeric vector (number of probes in the segment)}
-#' \item{\code{seg.median}}{a numeric vector (median log ratio)}
-#' \item{\code{chrom}}{a numeric vector (chromosome number)}
-#' \item{\code{chrom.pos.start}}{a numeric vector (genomic start)}
-#' \item{\code{chrom.pos.end}}{a numeric vector (genomic end)}
-#' \item{\code{cytoband.start}}{a character vector (cytogenetic band start)}
-#' \item{\code{cytoband.end}}{a character vector (cytogenetic band end)}
-#' \item{\code{abs.pos.start}}{a numeric vector (genomic start, absolute)}
-#' \item{\code{abs.pos.end}}{a numeric vector (genomic end, absolute)}
+#' \item{\code{ID}}{ a \code{character} \code{vector} of profile IDs}
+#' \item{\code{start}}{ a \code{numeric} \code{vector} (segment start 
+#'     probe number)}
+#' \item{\code{end}}{ a \code{numeric} \code{vector} (segment end 
+#'     probe number)}
+#' \item{\code{num.probes}}{ a \code{numeric} \code{vector} (number of probes 
+#'     in the segment)}
+#' \item{\code{seg.median}}{ a \code{numeric} \code{vector} (median log ratio)}
+#' \item{\code{chrom}}{ a \code{numeric} \code{vector} (chromosome number)}
+#' \item{\code{chrom.pos.start}}{ a \code{numeric} \code{vector} (genomic 
+#'     start)}
+#' \item{\code{chrom.pos.end}}{ a \code{numeric} \code{vector} (genomic end)}
+#' \item{\code{cytoband.start}}{ a \code{character} \code{vector} 
+#'     (cytogenetic band start)}
+#' \item{\code{cytoband.end}}{ a \code{character} \code{vector} (cytogenetic 
+#'     band end)}
+#' \item{\code{abs.pos.start}}{ a \code{numeric} \code{vector} (genomic 
+#'     start, absolute)}
+#' \item{\code{abs.pos.end}}{ a \code{numeric} \code{vector} (genomic 
+#'     end, absolute)}
 #' }
 #'
 #' @return a \code{data.frame} with 479 rows/segments and 12 columns/variables:
 #' \itemize{
-#' \item{\code{ID}}{a character vector of profile IDs}
-#' \item{\code{start}}{a numeric vector (segment start probe number)}
-#' \item{\code{end}}{a numeric vector (segment end probe number)}
-#' \item{\code{num.probes}}{a numeric vector (number of probes in the segment)}
-#' \item{\code{seg.median}}{a numeric vector (median log ratio)}
-#' \item{\code{chrom}}{a numeric vector (chromosome number)}
-#' \item{\code{chrom.pos.start}}{a numeric vector (genomic start)}
-#' \item{\code{chrom.pos.end}}{a numeric vector (genomic end)}
-#' \item{\code{cytoband.start}}{a character vector (cytogenetic band start)}
-#' \item{\code{cytoband.end}}{a character vector (cytogenetic band end)}
-#' \item{\code{abs.pos.start}}{a numeric vector (genomic start, absolute)}
-#' \item{\code{abs.pos.end}}{a numeric vector (genomic end, absolute)}
+#' \item{\code{ID}}{ a \code{character} \code{vector} of profile IDs}
+#' \item{\code{start}}{ a \code{numeric} \code{vector} (segment start 
+#'     probe number)}
+#' \item{\code{end}}{ a \code{numeric} \code{vector} (segment end 
+#'     probe number)}
+#' \item{\code{num.probes}}{ a \code{numeric} \code{vector} (number of probes 
+#'     in the segment)}
+#' \item{\code{seg.median}}{ a \code{numeric} \code{vector} (median log ratio)}
+#' \item{\code{chrom}}{ a \code{numeric} \code{vector} (chromosome number)}
+#' \item{\code{chrom.pos.start}}{ a \code{numeric} \code{vector} (genomic 
+#'     start)}
+#' \item{\code{chrom.pos.end}}{ a \code{numeric} \code{vector} (genomic end)}
+#' \item{\code{cytoband.start}}{ a \code{character} \code{vector} 
+#'     (cytogenetic band start)}
+#' \item{\code{cytoband.end}}{ a \code{character} \code{vector} (cytogenetic 
+#'     band end)}
+#' \item{\code{abs.pos.start}}{ a \code{numeric} \code{vector} (genomic 
+#'     start, absolute)}
+#' \item{\code{abs.pos.end}}{ a \code{numeric} \code{vector} (genomic 
+#'     end, absolute)}
 #' }
 #' 
 #' @details Segment medians are computed from log copy number ratio. The 
