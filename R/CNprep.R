@@ -123,24 +123,28 @@ NULL
 #'
 #' @aliases cnpexample
 #'
-#' @format A data frame with 19188 rows and 4 columns. 
+#' @format a \code{data.frame} with 19188 rows and 4 columns: 
 #' \describe{
-#' \item{\code{copy.num}}{a character vector indicating whether an event is
-#' a gain ("amp") or a loss ("del"). }
-#' \item{\code{chrom}}{a numeric vector indicating which chromosome the 
-#' event is in.}
-#' \item{\code{chrom.start}}{a numeric vector of event start positions.}
-#' \item{\code{chrom.end}}{a numeric vector of event start positions.}
+#' \item{\code{copy.num}}{ a \code{character} \code{vector} indicating 
+#'     whether an event is a gain ("amp") or a loss ("del"). }
+#' \item{\code{chrom}}{ a \code{numeric} \code{vector} used as an integer 
+#'     indicating which chromosome the event is in.}
+#' \item{\code{chrom.start}}{ a \code{numeric} \code{vector}, used as an 
+#'     integer, representing the event start positions.}
+#' \item{\code{chrom.end}}{ a \code{numeric} \code{vector}, used as an integer,
+#'     of event start positions.}
 #' }
 #'
-#' @return A data frame with 19188 rows and 4 columns. 
+#' @return a \code{data.frame} with 19188 rows and 4 columns: 
 #' \describe{
-#' \item{\code{copy.num}}{a character vector indicating whether an event is
-#' a gain ("amp") or a loss ("del"). }
-#' \item{\code{chrom}}{a numeric vector indicating which chromosome the 
-#' event is in.}
-#' \item{\code{chrom.start}}{a numeric vector of event start positions.}
-#' \item{\code{chrom.end}}{a numeric vector of event start positions.}
+#' \item{\code{copy.num}}{ a \code{character} \code{vector} indicating 
+#'     whether an event is a gain ("amp") or a loss ("del"). }
+#' \item{\code{chrom}}{ a \code{numeric} \code{vector} used as an integer 
+#'     indicating which chromosome the event is in.}
+#' \item{\code{chrom.start}}{ a \code{numeric} \code{vector}, used as an 
+#'     integer, representing the event start positions.}
+#' \item{\code{chrom.end}}{ a \code{numeric} \code{vector}, used as an integer,
+#'     of event start positions.}
 #' }
 #' 
 #' @seealso
