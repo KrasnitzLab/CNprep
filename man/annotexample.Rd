@@ -5,7 +5,8 @@
 \alias{annotexample}
 \title{Annotation table for ROMA CGH platform and human genome 
 version 17.}
-\format{A data frame with 83055 observations on the following 3 variables.
+\format{A \code{data.frame} with 83055 observations on the following 
+3 variables:
 \describe{
 \item{\code{PROBEID}}{ a \code{character} \code{vector} representing the
     prode identifiant.}
@@ -27,7 +28,8 @@ data(annotexample)
 data(annotexample)
 }
 \value{
-A data frame with 83055 observations on the following 3 variables.
+A \code{data.frame} with 83055 observations on the following 
+3 variables:
 \describe{
 \item{\code{PROBEID}}{ a \code{character} \code{vector} representing the
     prode identifiant.}

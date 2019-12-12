@@ -44,7 +44,8 @@ NULL
 #' Oligonucleotide Microarray Analysis (ROMA) CGH platform, 
 #' human genome version 17.
 #'
-#' @format A data frame with 83055 observations on the following 3 variables.
+#' @format A \code{data.frame} with 83055 observations on the following 
+#' 3 variables:
 #' \describe{
 #' \item{\code{PROBEID}}{ a \code{character} \code{vector} representing the
 #'     prode identifiant.}
@@ -55,7 +56,8 @@ NULL
 #' }
 #'
 #'
-#' @return A data frame with 83055 observations on the following 3 variables.
+#' @return A \code{data.frame} with 83055 observations on the following 
+#' 3 variables:
 #' \describe{
 #' \item{\code{PROBEID}}{ a \code{character} \code{vector} representing the
 #'     prode identifiant.}
