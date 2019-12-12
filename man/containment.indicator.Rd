@@ -34,7 +34,9 @@ This function idenfies the segments for the lower threshold
 that also contain at least one segment that respect the upper threshold.
 }
 \details{
-TODO
+Segments to retain correspond to rows where the 
+\code{endbeforeend} value is equal or larger than 
+the \code{startafterstart} value.
 }
 \examples{
 
@@ -50,7 +52,8 @@ lowerStart <- c(75794987, 87647882, 88805625, 111799423, 153624187,
 lowerEnd   <- c(75809906, 87763963, 95062284, 112097412, 153624592, 
                 184150457)
 
-## TODO
+## Segments to retain correspond to rows where the endbeforeend value 
+## is equal or larger than the startafterstart value.
 CNprep:::containment.indicator(vstart=upperStart, vend=upperEnd, 
                                     wstart=lowerStart, wend=lowerEnd)
 

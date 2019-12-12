@@ -24,7 +24,9 @@
 #' that ends before the lower segment associated to the row.}
 #' }
 #'
-#' @details TODO
+#' @details Segments to retain correspond to rows where the 
+#' \code{endbeforeend} value is equal or larger than 
+#' the \code{startafterstart} value.
 #' 
 #' @examples
 #'
@@ -40,7 +42,8 @@
 #' lowerEnd   <- c(75809906, 87763963, 95062284, 112097412, 153624592, 
 #'                 184150457)
 #' 
-#' ## TODO
+#' ## Segments to retain correspond to rows where the endbeforeend value 
+#' ## is equal or larger than the startafterstart value.
 #' CNprep:::containment.indicator(vstart=upperStart, vend=upperEnd, 
 #'                                     wstart=lowerStart, wend=lowerEnd)
 #' 
