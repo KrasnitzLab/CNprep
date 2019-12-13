@@ -40,12 +40,13 @@ A \code{data.frame} with 83055 observations on the following
 }
 
 a \code{data.frame} with 83055 observations on the following 3 
-variables. 
+variables.
 \describe{
-\item{\code{PROBEID}}{a \code{character} \code{vector} of probe names.}
-\item{\code{CHROM}}{a \code{numeric} \code{vector} of chromosome positions.}
-\item{\code{CHROM.POS}}{a \code{numeric} \code{vector} of genomic 
-positions.}
+\item{\code{PROBEID}}{ a \code{character} \code{vector} of probe names.}
+\item{\code{CHROM}}{ a \code{numeric} \code{vector}, used as integer, of 
+    chromosome positions.}
+\item{\code{CHROM.POS}}{ a \code{numeric} \code{vector}, used as integer, 
+of genomic positions.}
 }
 }
 \description{
@@ -123,6 +124,10 @@ data for detection of CN events.}
 \itemize{
 \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
 data for detection of CN events.}
+\item \code{\link{makeCNPmask}} {for creating a mask given a set of
+copy number events.}
+\item \code{\link{applyCNPmask}} {for applying a mask to a set of
+copy number events.}
 }
 }
 \keyword{datasets}
