@@ -1,33 +1,47 @@
-#' @title TODO
+#' @title Join clusters until the minimum degree of overlap is reached
 #' 
-#' @description TODO
+#' @description The function join clusters that have the minimum ratio of
+#' overlap as specified by user.
 #' 
-#' @param emfit An object of class \code{Mclust} providing a 
+#' @param emfit an object of class \code{Mclust} providing a 
 #' mixture model estimation. 
 #' 
-#' @param minover A single \code{numeric} value between \code{0} and \code{1} 
+#' @param minover a single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the degree of overlap above which two clusters will be joined 
 #' into one.
 #' 
-#' @return TODO A \code{list} containing:
+#' @return a \code{list} containing information about the updated
+#' clusters:
 #' \itemize{
-#' \item \code{mu} TODO
-#' \item \code{pro} A \code{vector} whose \emph{k}th component is the mixing 
-#' proportion for the \emph{k}th component of the mixture model. If missing, 
-#' equal proportions are assumed.
-#' \item \code{z} A \code{matrix} whose \emph{[i,k]}th entry is the probability 
-#' that observation \emph{i} in the test data belongs to the \emph{k}th class.
-#' \item \code{groups} TODO
-#' \item \code{ngroups} TODO
-#' \item \code{sigmasq}  A scalar giving the common variance for all 
-#' components in the mixture model "E".
-#' \item \code{center} TODO
+#' \item \code{mu} a \code{numeric} \code{vector} representing the mean 
+#'     for each component. If there is more than one component, the 
+#'     kth element is the mean of the kth component of the mixture model.
+#' \item \code{pro} a \code{vector} whose \emph{k}th component is the mixing 
+#'     proportion for the \emph{k}th component of the mixture model. If 
+#'     missing, equal proportions are assumed.
+#' \item \code{z} a \code{numeric} \code{matrix} whose \emph{[i,k]}th entry 
+#'     is the probability that observation \emph{i} in the test data belongs 
+#'     to the \emph{k}th class.
+#' \item \code{groups} a \code{matrix} with the number of rows corresponding
+#'     to the current number of clusters while the number of columns is 
+#'     corresponding to the initial number of clusters. The presence of 
+#'     \code{1} in position [k,i] indicates that the initial \emph{i}th cluster
+#'     is now part of the new \emph{k}th cluster.
+#' \item \code{ngroups} a \code{numeric}, used as an integer, giving the final
+#'     number of clusters.
+#' \item \code{sigmasq}  a \code{numeric} \code{vector} giving the common 
+#'     variance for each component in the mixture model "E".
 #' }
 #' 
-#'
 #' @examples
 #'
-#' # TODO
+#' # Load Mclust object
+#' data(EMexample)
+#' 
+#' ## Group clusters that have at least 0.4% of overlap
+#' ## The inital object has 5 clusters while the return object has only 
+#' ## 4 clusters
+#' CNprep:::consolidate(EMexample, minover=0.004)
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @importFrom mclust Mclust
@@ -75,8 +89,8 @@ consolidate <- function(emfit, minover) {
             newem$sigmasq[gl] <- (newem$pro[gl] * 
                                     (newem$sigmasq[gl] + newem$mu[gl]^2) +
                                     newem$pro[gr] * 
-                                        (newem$sigmasq[gr] + newem$mu[gr]^2))/
-                                        (newem$pro[gl] + newem$pro[gr]) - numu^2
+                                    (newem$sigmasq[gr] + newem$mu[gr]^2))/
+                                    (newem$pro[gl] + newem$pro[gr]) - numu^2
             
             newem$mu[gl] <- numu
             newem$mu <- newem$mu[-gr]
