@@ -11,7 +11,7 @@
 #' into one.
 #' 
 #' @return a \code{list} containing information about the updated
-#' clusters:
+#' clusters obtained from a mixture model estimation:
 #' \itemize{
 #' \item \code{mu} a \code{numeric} \code{vector} representing the mean 
 #'     for each component. If there is more than one component, the 
