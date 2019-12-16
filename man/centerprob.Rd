@@ -9,12 +9,12 @@ centerprob(logr, emfit, zgroup, times, center)
 \arguments{
 \item{logr}{TODO a \code{vector} of \code{numeric}}
 
-\item{emfit}{An object of class \code{Mclust} providing a 
+\item{emfit}{an object of class \code{Mclust} providing a 
 mixture model estimation.}
 
-\item{times}{A single \code{double} value specifying the number of 
-time the median of each segment is sampled in order to predict the cluster 
-assignment for the segment.}
+\item{times}{a single \code{numeric} value, used as an integer, specifying 
+the number of time the median of each segment is sampled in order to 
+predict the cluster assignment for the segment.}
 
 \item{center}{TODO}
 }
