@@ -4,12 +4,12 @@
 #' 
 #' @param logr TODO a \code{vector} of \code{numeric}
 #' 
-#' @param emfit An object of class \code{Mclust} providing a 
+#' @param emfit an object of class \code{Mclust} providing a 
 #' mixture model estimation. 
 #' 
-#' @param times A single \code{double} value specifying the number of 
-#' time the median of each segment is sampled in order to predict the cluster 
-#' assignment for the segment.
+#' @param times a single \code{numeric} value, used as an integer, specifying 
+#' the number of time the median of each segment is sampled in order to 
+#' predict the cluster assignment for the segment.
 #' 
 #' @param center TODO
 #' 
