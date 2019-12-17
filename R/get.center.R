@@ -5,39 +5,56 @@
 #' zero together until the main cluster contain the minimum required ratio 
 #' of data, as specified by the user.
 #' 
-#' @param emfit a \code{list} with entries providing information about a 
-#' mixture model estimation:
+#' @param emfit a \code{list} containing information about the current 
+#' clusters obtained from a mixture model estimation:
 #' \itemize{
-#' \item{\code{mu}}{ TODO}
-#' \item{\code{pro}}{ a \code{vector} whose \emph{k}th component is the mixing 
+#' \item \code{mu} a \code{numeric} \code{vector} representing the mean 
+#'     for each component. If there is more than one component, the 
+#'     kth element is the mean of the kth component of the mixture model.
+#' \item \code{pro} a \code{vector} whose \emph{k}th component is the mixing 
 #'     proportion for the \emph{k}th component of the mixture model. If 
-#'     missing, equal proportions are assumed.}
-#' \item{\code{z}}{ a \code{matrix} whose \emph{[i,k]}th entry is the 
-#'     probability that observation \emph{i} in the tested data belongs to 
-#'     the \emph{k}th class}
-#' \item{\code{groups}}{ TODO}
-#' \item{\code{ngroups}}{ a \code{numeric} representing the number of 
-#'     clusters.}
-#' \item{\code{sigmasq}}{TODO}
+#'     missing, equal proportions are assumed.
+#' \item \code{z} a \code{numeric} \code{matrix} whose \emph{[i,k]}th entry 
+#'     is the probability that observation \emph{i} in the test data belongs 
+#'     to the \emph{k}th class.
+#' \item \code{groups} a \code{matrix} with the number of rows corresponding
+#'     to the current number of clusters while the number of columns is 
+#'     corresponding to the initial number of clusters. The presence of 
+#'     \code{1} in position [k,i] indicates that the initial \emph{i}th cluster
+#'     is now part of the new \emph{k}th cluster.
+#' \item \code{ngroups} a \code{numeric}, used as an integer, giving the final
+#'     number of clusters.
+#' \item \code{sigmasq}  a \code{numeric} \code{vector} giving the common 
+#'     variance for each component in the mixture model "E".
 #' }
+#' 
 #' 
 #' @param minCenter a single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the minimal share of the central cluster in each profile.
 #' 
-#' @return TODO a \code{list} with entries providing updated information about 
-#' a mixture model estimation:
+#' @return a \code{list} containing information about the current 
+#' clusters obtained from a mixture model estimation:
 #' \itemize{
-#' \item \code{mu} TODO
+#' \item \code{mu} a \code{numeric} \code{vector} representing the mean 
+#'     for each component. If there is more than one component, the 
+#'     kth element is the mean of the kth component of the mixture model.
 #' \item \code{pro} a \code{vector} whose \emph{k}th component is the mixing 
-#' proportion for the \emph{k}th component of the mixture model. If missing, 
-#' equal proportions are assumed.
-#' \item \code{z} a \code{matrix} whose \emph{[i,k]}th entry is the 
-#' probability that observation \emph{i} in the tested data belongs to 
-#' the \emph{k}th class.
-#' \item \code{groups} TODO
-#' \item \code{ngroups} {a \code{numeric} representing the number of clusters.}
-#' \item \code{sigmasq} TODO
-#' \item \code{center} TODO
+#'     proportion for the \emph{k}th component of the mixture model. If 
+#'     missing, equal proportions are assumed.
+#' \item \code{z} a \code{numeric} \code{matrix} whose \emph{[i,k]}th entry 
+#'     is the probability that observation \emph{i} in the test data belongs 
+#'     to the \emph{k}th class.
+#' \item \code{groups} a \code{matrix} with the number of rows corresponding
+#'     to the current number of clusters while the number of columns is 
+#'     corresponding to the initial number of clusters. The presence of 
+#'     \code{1} in position [k,i] indicates that the initial \emph{i}th cluster
+#'     is now part of the new \emph{k}th cluster.
+#' \item \code{ngroups} a \code{numeric}, used as an integer, giving the final
+#'     number of clusters.
+#' \item \code{sigmasq}  a \code{numeric} \code{vector} giving the common 
+#'     variance for each component in the mixture model "E".
+#' \item \code{center} a \code{numeric}, used as an integer, indicating the
+#'     cluster that has the mean closest to zero.
 #' }
 #' 
 #' @examples
@@ -64,7 +81,7 @@
 #' result <- CNprep:::get.center(emfit=demoEM, minCenter=0.4)
 #' 
 #' ## The result contain only 4 clusters as the clusters 3 and 4 have been
-#' ## grouped together to form a group that includes 40% of the data (group 3)
+#' ## grouped together to form a cluster that includes 40% of the data (group 3)
 #' result$ngroups
 #' result$pro
 #' 
