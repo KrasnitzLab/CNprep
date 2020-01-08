@@ -35,12 +35,11 @@ a model-based clustering is attempted for each profile in order to
 achieve the highest Bayesian information criterion (BIC).}
 
 \item{bestBIC}{a single \code{numeric} value for initalizing BIC 
-maximization. A large negative value is recommended. The default 
-is \code{-1e7}.}
+maximization. A large negative value is recommended.}
 
 \item{modelNames}{a \code{vector} of \code{character} strings specifying 
 the names of models to be used in model-based clustering (see package 
-\code{mclust} for further details). The default is \code{"E"}.}
+\code{mclust} for further details).}
 
 \item{cweight}{a single \code{numeric} value between \code{0} and \code{1} 
 specifying the minimal share of the central cluster in each profile.}
@@ -53,7 +52,21 @@ assignment for the segment.}
 which segments are to be used for initial model-based clustering.}
 }
 \value{
-TODO
+a \code{matrix} with 9 columns:
+\itemize{
+\item{\code{untititled}}{ TODO}
+\item{\code{untititled}}{ TODO}
+\item{\code{mediandev}}{ a \code{numeric}, the median function of copy 
+number relative to its central value}
+\item{\code{segerr}}{ a \code{numeric}, the error estimate for the 
+function of copy number}
+\item{\code{centerz}}{ a \code{numeric} between \code{0} and \code{1}, the 
+probability that the segment is in the central cluster}
+\item{\code{cpb}}{ TODO}
+\item{\code{maxz}}{ TODO}
+\item{\code{maxzmean}}{ TODO}
+\item{\code{maxzsigma}}{ TODO}
+}
 }
 \description{
 TODO
@@ -64,6 +77,8 @@ TODO
 
 ## Create a list that contain information about the segments and bins 
 ## related to one 
+
+
 
 }
 \author{

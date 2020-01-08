@@ -24,9 +24,9 @@ corresponds to a segment belonging to one of the profiles
 to be pre-processed.}
 
 \item{ratall}{A \code{matrix} whose rows correspond to genomic positions 
-and columns to copy number profiles. Its matrix elements are functions of 
-copy number, most often log ratios of copy number to the expected standard 
-value, such as 2 in diploid genomes.}
+and columns to copy number profiles. The elements of this matrix are 
+functions of copy number, most often log ratios of copy number to 
+the expected standard value, such as 2 in diploid genomes.}
 
 \item{idCol}{A \code{character} string specifying the name for the 
 column in \code{segall} tabulating the profile IDs. When not specified,
@@ -158,11 +158,12 @@ the following columns may be bound, depending on the availability of input:
 \itemize{
 \item{segmedian}{Median function of copy number}
 \item{segmad}{MAD for the function of copy number}
-\item{mediandev}{median function of copy number relative to its 
-central value}
-\item{segerr}{a \code{numeric}, error estimate for the 
+\item{mediandev}{a \code{numeric}, the median function of copy number 
+relative to its central value}
+\item{segerr}{a \code{numeric}, the error estimate for the 
 function of copy number}
-\item{centerz}{the probability that the segment is in the central cluster}
+\item{centerz}{a \code{numeric} between \code{0} and \code{1}, the 
+probability that the segment is in the central cluster}
 \item{marginalprob}{marginal probability for the segment in the central 
 cluster}
 \item{maxz}{TODO}
