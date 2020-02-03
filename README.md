@@ -6,6 +6,7 @@
 
 A R package that evaluates DNA copy number data, using both their initial form (copy number as a noisy function of genomic position) and their approximation by a piecewise-constant function (segmentation), for the purpose of identifying genomic regions where the copy number differs from the norm.
 
+
 ## Authors ##
 
 Alexander Krasnitz, [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Belleau") and Guoli Sun
