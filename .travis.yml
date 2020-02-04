@@ -7,6 +7,10 @@ r: release
 # Package caching only makes sense for the release versions.
 #cache: packages
 
+# APT packages
+apt_packages:
+  - libmagick++-dev
+  
 # Packages from Bioconductor needed
 bioc_required: true
 
