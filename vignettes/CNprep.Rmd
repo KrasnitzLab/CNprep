@@ -1,6 +1,6 @@
 ---
 title: "CNprep"
-author: "Alex Krasnitz, Guoli Sun"
+author: "Guoli Sun, Pascal Belleau, Astrid Deschênes et Alex Krasnitz"
 date: "`r Sys.Date()`"
 bibliography: CNprep_biblio.bibtex
 output: 
@@ -36,7 +36,7 @@ are free to use and redistribute this software.
 If you use this package for a publication, we would ask you to cite the 
 following:
 
-> Alex Krasnitz and Guoli Sun (2014). CNprep: Pre-process DNA Copy Number (CN) Data for Detection of CN Events. R package version 2.0. https://CRAN.R-project.org/package=CNprep
+> Guoli Sun, Pascal Belleau, Astrid Deschênes and Alex Krasnitz (2020). CNprep: Pre-process DNA Copy Number (CN) Data for Detection of CN Events. R package version 2.1beta. https://github.com/belleau/CNprep
 
 
 # Introduction
@@ -65,7 +65,7 @@ In the analysis of bulk tumor DNA cells, not all cells share the same
 ploidy or harbor the same copy number alterations. Hence, segments
 identified may not shared integer copy number. So, evaluating the value of 
 the copy number corresponding to the normal state of the cells, relative to 
-which somatic alterations occur, is uneasy [@Kendall2011].
+which somatic alterations occur, is difficult [@Kendall2011].
 
 The `r Rpackage("CNprep")` package has been implemented to solve this 
 problematic. The `r Rpackage("CNprep")` package infers, through a multi-step 
@@ -94,17 +94,46 @@ library(CNprep)
 ```
 
 
-# Processing copy number 
+# Processing copy number
+
+## Processing copy number for bulk tumor
+
+## Processing copy number for bulk tumor when cancer-free tissues available
+
+
 
 
 # Create and apply a mask to copy number events
 
 
-## Make copy number mask
+## Remove non-somatic copy number events when matching normal profile is available
+
+Copy number alterations are not always specific to tumor tissues. Some 
+alterations can also be present in the cancer-free tissues, those
+are called inherited alterations. Yet,
+somatic copy number alterations, specific to cancer, are often
+the events of interest. 
+
+In the *CNprep* package, the *makeCNPmask()* function has been implemented
+to mask all inherited alterations. This function requires the copy number 
+profile of a matching normal tissue.
+
+TODO explain how to
+
+
+## Remove non-somatic copy number events when matching normal profile is not available but multiple cancer-free profiles are available
+
+TODO explain how to
+
+
+## Identify recurrent copy number events in a cohort
+
+when multiple bulk cancer tissues DNA profiles are available, the 
+*makeCNPmask()* function can be used to identify the recurrent copy number.
 
 The *makeCNPmask()* function takes as an input: 
 
-1. a table of copy number events with genomic positions
+1. a table of copy number events with genomic positions for all the profiles
 2. an upper threshold
 3. a lower threshold
 
@@ -115,12 +144,13 @@ that contain at least one sub-interval with the count above
 the upper threshold.
 
 As an example, a mask in created from copy number events detected in 10 
-samples. In Figure \@ref(fig:demoMask), the first section represent
-copy number events detected on 10 samples for a small region of chromosome 1.
+cancer samples. In Figure \@ref(fig:demoMask), the top section represent
+all copy number events detected in the 10 samples for a small region of 
+chromosome 1.
 The middle section shows the frequency of the events with the lower and upper
-thresholds selected for this analysis. The last section displays the result of
-the *makeCNPmask()* function for this dataset when the lower threshold is set 
-to 0.25 and upper threshold to 0.45.
+thresholds selected for this analysis. The bottom section displays the result 
+of the *makeCNPmask()* function for this dataset when the lower threshold is 
+set to 0.25 and upper threshold to 0.45.
 
 ```{r demoMask, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap="Example of makeCNPmask() function. Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section."}
 library(GenomicRanges)
@@ -200,8 +230,8 @@ mask$chrom <- rep("chr1", nrow(mask))
 add_segments_track(mask, value=0.5, gp=gpar(col="darkorange4", lwd=6))
 ```
 
-Using a upper threshold of 0.55 on the same copy number events detected on 10 
-samples results in only one genomic region in the mask, as shown in 
+Using an upper threshold of 0.55 on the same copy number events results in 
+only one genomic region in the mask, as shown in 
 Figure \@ref(fig:demoMask2). This region is the only one to respect both 
 lower and upper thresholds. 
 
@@ -245,7 +275,7 @@ add_segments_track(mask, value=0.5, gp=gpar(col="darkorange4", lwd=6))
 ```
 
 The following section demonstrates the usage of makeCNPmask() on a more
-complexe dataset of 1203 samples.
+complexe dataset composed of 1203 breast cancer samples.
 
 ```{r makeMask, echo=TRUE, warning=FALSE, collapse=TRUE, fig.align='center', fig.cap="Example of makeCNPmask() on a dataset of 1203 samples. The amplification events are shown, in blue, in the top section. Results of the makeCNPmask() are shown for four chromosomes, in red, in the bottom section. In this example, only chromosome 7 doesn't have any mask."}
 ## Needed libraries
@@ -263,7 +293,7 @@ ampCNP <- subset(cnpexample, copy.num == "amp")
 ##     chrom is the number identifying the chromosome
 ##     chrom.start is the starting position of the event
 ##     chrom.end is the ending position of the event
-head(ampCNP, n=4)
+head(ampCNP, n=3)
 
 ## Create a mask using the amplification events.
 ## The name of the columns for the chromosome identification 
@@ -289,8 +319,7 @@ gtrellis_layout(species = "hg19", category=paste0("chr", c(1,7,9,15)),
 add_track(panel_fun = function(gr) {
     chr <- get_cell_meta_data("name")  
     grid.rect(gp=gpar(fill="#EEEEEE"))
-    grid.text(chr)
-})
+    grid.text(chr) })
 
 ## Add segments representing the copy number events
 add_segments_track(grAmpCNP, value=runif(length(grAmpCNP)), 
@@ -310,7 +339,7 @@ The *applyCNPmask()* function ... TODO
 
 # Session info
 
-Here is the output of sessionInfo() on the system on which this document 
+Here is the output of *sessionInfo()* on the system on which this document 
 was compiled:
 
 ```{r sessionInfo, echo=FALSE}
