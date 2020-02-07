@@ -2,7 +2,7 @@ language: r
 sudo: required
 
 # R version
-r: bioc-release
+r: bioc-devel
 
 # Package caching only makes sense for the release versions.
 #cache: packages

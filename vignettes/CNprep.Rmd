@@ -105,6 +105,19 @@ library(CNprep)
 
 # Create and apply a mask to copy number events
 
+In the *CNprep* package, the *makeCNPmask()* and *applyCNPmask()* functions
+are complementary methods. 
+
+The *makeCNPmask()* enables the identification
+of genomic regions of interest. Those regions can be of interest because those
+are regions are not specific to the analysed condition(s), as an example,
+common copy number alterations that are not related to cancer should be 
+removed when alterations happening in cancer tissues is of interest. Those 
+regions can also be of interest because of their high recurrence in a specific
+cohort.
+
+The *applyCNPmask()* function removes the regions identified by
+the *makeCNPmask()* function from the dataset.
 
 ## Remove non-somatic copy number events when matching normal profile is available
 
@@ -115,7 +128,7 @@ somatic copy number alterations, specific to cancer, are often
 the events of interest. 
 
 In the *CNprep* package, the *makeCNPmask()* function has been implemented
-to mask all inherited alterations. This function requires the copy number 
+to identify all inherited alterations. This function requires the copy number 
 profile of a matching normal tissue.
 
 TODO explain how to
@@ -123,15 +136,20 @@ TODO explain how to
 
 ## Remove non-somatic copy number events when matching normal profile is not available but multiple cancer-free profiles are available
 
+When matching cancer-free profile is not available, the identification of 
+inherited alterations is based on the population-wide inherited copy number 
+data. To be able to do so, a cohort of cancer-free profiles is needed.
+
+
 TODO explain how to
 
 
 ## Identify recurrent copy number events in a cohort
 
-when multiple bulk cancer tissues DNA profiles are available, the 
+When multiple bulk cancer tissues DNA profiles are available, the 
 *makeCNPmask()* function can be used to identify the recurrent copy number.
 
-The *makeCNPmask()* function takes as an input: 
+The *makeCNPmask()* function takes as inputs: 
 
 1. a table of copy number events with genomic positions for all the profiles
 2. an upper threshold
@@ -142,6 +160,9 @@ regions where the event count is above the lower threshold are identified.
 Among those retained regions, the function only returns the interval regions 
 that contain at least one sub-interval with the count above 
 the upper threshold.
+
+Hence, the final mask is a set of genomic intervals that passed both 
+thresholds.
 
 As an example, a mask in created from copy number events detected in 10 
 cancer samples. In Figure \@ref(fig:demoMask), the top section represent
@@ -299,15 +320,14 @@ head(ampCNP, n=3)
 ## The name of the columns for the chromosome identification 
 ## (chromCol parameter), the starting and ending positions 
 ## (startCol and endCol parameters) must be given.
-## The number of samples on which the events have been detected  
-## is needed (nProf parameter).
-ampCNPmask <- makeCNPmask(imat=ampCNP, chromCol="chrom",
-    startCol="chrom.start", endCol="chrom.end", nProf=1203,
+## The number of samples (nProf parameter) is also needed.
+ampCNPmask <- makeCNPmask(imat=ampCNP, chromCol="chrom", 
+    startCol="chrom.start", endCol="chrom.end", nProf=1203, 
     uThresh=0.2, dThresh=0.01)
 
 ## Transfrom the mask segments into Genomic Ranges
 grAmpCNP <- GRanges(seqnames = Rle(paste0("chr", ampCNP$chrom)),
-    ranges = IRanges(start = ampCNP$chrom.start, end = ampCNP$chrom.end +1),
+    ranges = IRanges(start = ampCNP$chrom.start, end = ampCNP$chrom.end + 1),
     strand = Rle(strand(c("*")), nrow(ampCNP)))
 
 ## Create trellis graph
