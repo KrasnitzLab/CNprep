@@ -56,14 +56,14 @@ However, because of the low resolution of the array, detection of short
 CNVs is limited [@Duan].
 The availability and low cost of Next-Generation Sequencing (NGS)
 have enabled precise detection of CNVs for the entire genome with 
-the exclusion of few hard to map regions. This leaded to the 
+the exclusion of few hard to map regions. This lead to the 
 development of software adapted to 
 whole-genome and whole-exome sequencing, such as *CNVkit* [@Talevich] and 
 *exomecopy* [@Love]. 
 
 In the analysis of bulk tumor DNA cells, not all cells share the same
 ploidy or harbor the same copy number alterations. Hence, segments
-identified may not shared integer copy number. So, evaluating the value of 
+identified may not share integer copy number. So, evaluating the value of 
 the copy number corresponding to the normal state of the cells, relative to 
 which somatic alterations occur, is difficult [@Kendall2011].
 
