@@ -9,7 +9,7 @@ A R package that evaluates DNA copy number data, using both their initial form (
 
 ## Authors ##
 
-Alexander Krasnitz, [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Belleau") and Guoli Sun
+Guoli Sun, [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Belleau"), [Astrid Deschênes](http://ca.linkedin.com/in/astriddeschenes "Astrid Deschênes") and Alexander Krasnitz
 
 
 ## License ##
