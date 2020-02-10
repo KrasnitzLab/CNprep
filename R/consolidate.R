@@ -35,7 +35,7 @@
 #' 
 #' @examples
 #'
-#' # Load Mclust object
+#' ## Load Mclust object
 #' data(EMexample)
 #' 
 #' ## Group clusters that have at least 0.4% of overlap
