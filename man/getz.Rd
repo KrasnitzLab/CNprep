@@ -7,19 +7,27 @@
 getz(logr, emfit, zgroup, times)
 }
 \arguments{
-\item{logr}{TODO}
+\item{logr}{A \code{vector} of \code{double} representing the log ratio
+values.}
 
 \item{emfit}{An object of class \code{Mclust} providing a 
 mixture model estimation.}
 
-\item{zgroup}{TODO}
+\item{zgroup}{A \code{matrix} of \code{double}, used as 
+\code{integer}, with the number of rows corresponding to the current 
+number of clusters while the number of columns is 
+corresponding to the initial number of clusters. The presence of \code{1} 
+in position \emph{[i,k]} indicates that the initial \emph{i}th cluster 
+is now part of the new \emph{k}th cluster.}
 
 \item{times}{A single \code{double} value specifying the number of 
 time the median of each segment is sampled in order to predict the cluster 
 assignment for the segment.}
 }
 \value{
-TODO
+A \code{matrix} of \code{double} containing the probability for each
+observation to belong to each class of the mixture model with the updated 
+number of clusters.
 }
 \description{
 TODO
@@ -27,6 +35,9 @@ TODO
 \examples{
 
 # TODO
+
+## Load 
+data(EMexample)
 
 }
 \author{
