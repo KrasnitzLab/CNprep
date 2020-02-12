@@ -77,11 +77,6 @@
 CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     modelNames, cweight, bstimes, chromRange) {
 
-    ## Create and assign seeds
-    # .lec.CreateStream(segrat$stream)
-    # .lec.SetSeed(segrat$stream,seedme)
-    # for( j in seq_len(segrat$sub)) .lec.ResetNextSubstream(segrat$stream)
-    #     .lec.CurrentStream(segrat$stream)
 
     startcol <- "StartProbe"
     endcol   <- "EndProbe"
@@ -153,9 +148,6 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     w <- t(matrix(nrow=bstimes, data=segs[,3]))
     segerr <- sqrt(apply(w, 1, var, na.rm=TRUE))
     
-    # .lec.CurrentStreamEnd()
-    # .lec.DeleteStream(segrat$stream)
-        
     return(cbind(segrat$seg[, medcol], segrat$seg[,madcol], mediandev, segerr, 
                     centerz, cpb, maxz, maxzmean, maxzsigma))
 }
