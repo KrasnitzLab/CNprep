@@ -2,7 +2,7 @@
 #' 
 #' @description TODO
 #' 
-#' @param segrat a \code{list} containing:
+#' @param segrat a \code{list} containing information for one specific profile:
 #' \itemize{
 #' \item{\code{seg}}{ a \code{data.frame} with 3 columns:} \itemize{
 #'     \item{\code{StartProbe}}{ a \code{numeric} that tabulates the (integer) 
@@ -10,9 +10,14 @@
 #'     \item{\code{EndProbe}}{ a \code{numeric} that tabulates the (integer) 
 #'     end position of each segment in internal units such as probe numbers.}
 #'     \item{\code{chrom}}{ a \code{numeric} representing the chromosome.}}
-#' \item{\code{rat}}{ TODO}
-#' \item{\code{stream}}{ TODO}
-#' \item{\code{sub}}{ TODO}
+#' \item{\code{rat}}{ a \code{numeric} \code{vector} of elements that are 
+#'     functions of copy number, most often log ratios of copy number to 
+#'     the expected standard value, such as 2 in diploid genomes for a specific
+#'     profile. }
+#' \item{\code{stream}}{ a \code{character} \code{string} representing the 
+#'     profile ID.}
+#' \item{\code{sub}}{ a \code{numeric} representing the position of the current
+#'     profile ID in a \code{vector} of profiles.
 #' }
 #' 
 #' @param blsize a single \code{integer} specifying the bootstrap 
@@ -28,7 +33,7 @@
 #' a model-based clustering is attempted for each profile in order to 
 #' achieve the highest Bayesian information criterion (BIC).
 #' 
-#' @param bestBIC a single \code{numeric} value for initalizing BIC 
+#' @param bestBIC a single \code{numeric} value for initializing BIC 
 #' maximization. A large negative value is recommended. 
 #' 
 #' @param modelNames a \code{vector} of \code{character} strings specifying 
@@ -47,8 +52,8 @@
 #' 
 #' @return a \code{matrix} with 9 columns:
 #' \itemize{
-#' \item{\code{untititled}}{ TODO}
-#' \item{\code{untititled}}{ TODO}
+#' \item{\code{untitled}}{ TODO}
+#' \item{\code{untitled}}{ TODO}
 #' \item{\code{mediandev}}{ a \code{numeric}, the median function of copy 
 #' number relative to its central value}
 #' \item{\code{segerr}}{ a \code{numeric}, the error estimate for the 
@@ -94,14 +99,16 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     ## Assigning the column names of the updated data.frame
     dimnames(segrat$seg)[[2]] <- c(startcol, endcol, chromcol, medcol, madcol)
     
-    ## Only retain the selected chromosomes
+    ## Only retain the segments for the selected chromosomes
     seguse <- segrat$seg[segrat$seg[, chromcol] %in% chromRange,, drop=FALSE]
     
+    ## Identify bins that are associated to the retained segments
+    ## Only those bins will be kept for the analysis
     aux <- rep(0, length(segrat$rat))
-    aux[seguse[, startcol]] <- 1
-    aux[seguse[, endcol]]   <- (-1)
-    aux <- cumsum(aux)
-    aux[seguse[, endcol]]   <- 1
+    aux[seguse[, startcol]] <- 1  ## start position == 1
+    aux[seguse[, endcol]]   <- (-1) ## end position == -1
+    aux <- cumsum(aux) ## bins to retained are tagged 1 (except end position)
+    aux[seguse[, endcol]]   <- 1 ## end position == 1
     
     ratuse <- segrat$rat[aux == 1]
     

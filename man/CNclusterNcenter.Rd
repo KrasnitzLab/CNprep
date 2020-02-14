@@ -4,23 +4,19 @@
 \alias{CNclusterNcenter}
 \title{TODO}
 \usage{
-CNclusterNcenter(segrat, blsize, minJoin, nTrial, bestBIC, modelNames,
-  cweight, bstimes, chromRange)
+CNclusterNcenter(
+  segrat,
+  blsize,
+  minJoin,
+  nTrial,
+  bestBIC,
+  modelNames,
+  cweight,
+  bstimes,
+  chromRange
+)
 }
 \arguments{
-\item{segrat}{a \code{list} containing:
-\itemize{
-\item{\code{seg}}{ a \code{data.frame} with 3 columns:} \itemize{
-    \item{\code{StartProbe}}{ a \code{numeric} that tabulates the (integer) 
-    start position of each segment in internal units such as probe numbers.}
-    \item{\code{EndProbe}}{ a \code{numeric} that tabulates the (integer) 
-    end position of each segment in internal units such as probe numbers.}
-    \item{\code{chrom}}{ a \code{numeric} representing the chromosome.}}
-\item{\code{rat}}{ TODO}
-\item{\code{stream}}{ TODO}
-\item{\code{sub}}{ TODO}
-}}
-
 \item{blsize}{a single \code{integer} specifying the bootstrap 
 sampling rate of segment medians to generate input for model-based 
 clustering. The number of times a segment is sampled is then given by the 
@@ -34,7 +30,7 @@ into one.}
 a model-based clustering is attempted for each profile in order to 
 achieve the highest Bayesian information criterion (BIC).}
 
-\item{bestBIC}{a single \code{numeric} value for initalizing BIC 
+\item{bestBIC}{a single \code{numeric} value for initializing BIC 
 maximization. A large negative value is recommended.}
 
 \item{modelNames}{a \code{vector} of \code{character} strings specifying 
@@ -54,8 +50,8 @@ which segments are to be used for initial model-based clustering.}
 \value{
 a \code{matrix} with 9 columns:
 \itemize{
-\item{\code{untititled}}{ TODO}
-\item{\code{untititled}}{ TODO}
+\item{\code{untitled}}{ TODO}
+\item{\code{untitled}}{ TODO}
 \item{\code{mediandev}}{ a \code{numeric}, the median function of copy 
 number relative to its central value}
 \item{\code{segerr}}{ a \code{numeric}, the error estimate for the 
