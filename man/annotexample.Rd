@@ -3,42 +3,24 @@
 \docType{data}
 \name{annotexample}
 \alias{annotexample}
-\title{Annotation table for ROMA CGH platform and human genome 
-version 17.}
-\format{A \code{data.frame} with 83055 observations on the following 
-3 variables:
+\title{Annotation table for ROMA CGH platform and human genome version 17.}
+\format{a \code{data.frame} with 83055 observations on the following 3 
+variables.
 \describe{
-\item{\code{PROBEID}}{ a \code{character} \code{vector} representing the
-    prode identifiant.}
-\item{\code{CHROM}}{ a \code{numeric} \code{vector} used as integer 
-    representing the chromosome on which the probe is located.}
-\item{\code{CHROM.POS}}{ a \code{numeric} \code{vector} representing the
-    position of the probe on the chromosome.}
+\item{\code{PROBEID}}{ a \code{character} \code{vector} of probe names.}
+\item{\code{CHROM}}{ a \code{numeric} \code{vector}, used as integer, of 
+    chromosome positions.}
+\item{\code{CHROM.POS}}{ a \code{numeric} \code{vector}, used as integer, 
+of genomic positions.}
 }}
 \source{
-GEO accession GPL9775, 
-http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL9775
-
 GEO accession GPL9775, 
 http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL9775
 }
 \usage{
 data(annotexample)
-
-data(annotexample)
 }
 \value{
-A \code{data.frame} with 83055 observations on the following 
-3 variables:
-\describe{
-\item{\code{PROBEID}}{ a \code{character} \code{vector} representing the
-    prode identifiant.}
-\item{\code{CHROM}}{ a \code{numeric} \code{vector} used as integer 
-    representing the chromosome on which the probe is located.}
-\item{\code{CHROM.POS}}{ a \code{numeric} \code{vector} representing the
-    position of the probe on the chromosome.}
-}
-
 a \code{data.frame} with 83055 observations on the following 3 
 variables.
 \describe{
@@ -53,43 +35,12 @@ of genomic positions.}
 Whole genome annotation table using Representational 
 Oligonucleotide Microarray Analysis (ROMA) CGH platform, 
 human genome version 17.
-
-Whole genome annotation table using Representational 
-Oligonucleotide Microarray Analysis (ROMA) CGH platform, 
-human genome version 17.
 }
 \details{
 The values in the chromosome column are all integer, with 
 23 corresponding to X, 24 to Y and 25 to a set of non-human test probes.
-
-The values in the chromosome column are all integer, with 
-23 corresponding to X, 24 to Y and 25 to a set of non-human test probes.
 }
 \examples{
-
-## Loading annotation table dataset
-data(annotexample)
-
-## Loading other datasets
-data(ratexample)
-data(segexample)
-data(normsegs)
-
-## How to use annotexample, when segment table does not have columns 
-## of integer postions in terms of measuring units(probes), such 
-## as "mysegs" below 
-
-mysegs <- segexample[,c(1,5:12)]
-
-## Analysis limited to chromosomes 1 and 2
-## The bsTimes variable should be higher for a real analysis
-segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, "ID",
-    chromCol="chrom", bpStartCol="chrom.pos.start", bpEndCol="chrom.pos.end",
-    annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
-    annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bsTimes=5,
-    chromRange=1:2, nJobs=1, modelNames="E", 
-    normalLength=normsegs[,1], normalMedian=normsegs[,2])
-
 
 ## Loading annotation table dataset
 data(annotexample)
@@ -116,11 +67,6 @@ segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, idCol="ID",
 
 }
 \seealso{
-\itemize{
-\item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
-data for detection of CN events.}
-}
-
 \itemize{
 \item \code{\link{CNpreprocessing}} {for pre-process DNA copy number (CN) 
 data for detection of CN events.}
