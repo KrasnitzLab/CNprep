@@ -1,4 +1,4 @@
-#' @title Groups clusters together until the main cluster contain the
+#' @title Group clusters together until the main cluster contain the
 #' minimum required ratio of data.
 #' 
 #' @description The function groups clusters with the mean value closer to z
