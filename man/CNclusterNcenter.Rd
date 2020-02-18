@@ -17,6 +17,24 @@ CNclusterNcenter(
 )
 }
 \arguments{
+\item{segrat}{a \code{list} containing information for one specific profile:
+\itemize{
+\item{\code{seg}}{ a \code{data.frame} with 3 columns:} \itemize{
+    \item{\code{StartProbe}}{ a \code{numeric} that tabulates the (integer) 
+    start position of each segment in internal units such as probe numbers.}
+    \item{\code{EndProbe}}{ a \code{numeric} that tabulates the (integer) 
+    end position of each segment in internal units such as probe numbers.}
+    \item{\code{chrom}}{ a \code{numeric} representing the chromosome.}}
+\item{\code{rat}}{ a \code{numeric} \code{vector} of elements that are 
+    functions of copy number, most often log ratios of copy number to 
+    the expected standard value, such as 2 in diploid genomes for a specific
+    profile. }
+\item{\code{stream}}{ a \code{character} \code{string} representing the 
+    profile ID.}
+\item{\code{sub}}{ a \code{numeric} representing the position of the current
+    profile ID in a \code{vector} of profiles.}
+}}
+
 \item{blsize}{a single \code{integer} specifying the bootstrap 
 sampling rate of segment medians to generate input for model-based 
 clustering. The number of times a segment is sampled is then given by the 
