@@ -25,12 +25,12 @@
 #' profile IDs. Default: \code{NULL}.
 #' 
 #' @param startCol A \code{character} string specifying the name of column 
-#' in \code{segall} that tabulates the (integer) start postion of each segment 
+#' in \code{segall} that tabulates the (integer) start position of each segment 
 #' in internal units such as probe numbers for data of CGH microarray origin.
 #' Default: \code{NULL}.
 #' 
 #' @param endCol A \code{character} string specifying the name of column 
-#' in \code{segall} that tabulates the (integer) end postion of each segment 
+#' in \code{segall} that tabulates the (integer) end position of each segment 
 #' in internal units such as probe numbers for data of CGH microarray origin.
 #' Default: \code{NULL}.
 #' 
@@ -179,7 +179,7 @@
 #' will be performed. The central cluster (the one nearest the expected 
 #' unaltered value) will be identified and, if necessary, merged with adjacent 
 #' clusters in order to comprise the minimal required fraction of the data. 
-#' Deviation of each segment from the center, its probabilty to belong to the 
+#' Deviation of each segment from the center, its probability to belong to the 
 #' central cluster and its marginal probability in the central cluster will be 
 #' computed.
 #' 

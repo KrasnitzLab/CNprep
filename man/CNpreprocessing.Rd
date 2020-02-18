@@ -4,15 +4,37 @@
 \alias{CNpreprocessing}
 \title{Pre-process DNA copy number (CN) data for detection of CN events.}
 \usage{
-CNpreprocessing(segall, ratall = NULL, idCol = NULL, startCol = NULL,
-  endCol = NULL, medCol = NULL, madCol = NULL, errorCol = NULL,
-  chromCol = NULL, bpStartCol = NULL, bpEndCol = NULL,
-  annot = NULL, annotStartCol = NULL, annotEndCol = NULL,
-  annotChromCol = NULL, useEnd = FALSE, blsize = NULL,
-  minJoin = NULL, nTrial = 10, bestBIC = -1e+07, modelNames = "E",
-  cWeight = NULL, bsTimes = NULL, chromRange = NULL, nJobs = 1,
-  normalLength = NULL, normalMedian = NULL, normalMad = NULL,
-  normalError = NULL)
+CNpreprocessing(
+  segall,
+  ratall = NULL,
+  idCol = NULL,
+  startCol = NULL,
+  endCol = NULL,
+  medCol = NULL,
+  madCol = NULL,
+  errorCol = NULL,
+  chromCol = NULL,
+  bpStartCol = NULL,
+  bpEndCol = NULL,
+  annot = NULL,
+  annotStartCol = NULL,
+  annotEndCol = NULL,
+  annotChromCol = NULL,
+  useEnd = FALSE,
+  blsize = NULL,
+  minJoin = NULL,
+  nTrial = 10,
+  bestBIC = -1e+07,
+  modelNames = "E",
+  cWeight = NULL,
+  bsTimes = NULL,
+  chromRange = NULL,
+  nJobs = 1,
+  normalLength = NULL,
+  normalMedian = NULL,
+  normalMad = NULL,
+  normalError = NULL
+)
 }
 \arguments{
 \item{segall}{A \code{matrix} or a \code{data.frame} for segmented copy 
@@ -34,12 +56,12 @@ the numerical column of the \code{ratall} object will be used as the
 profile IDs. Default: \code{NULL}.}
 
 \item{startCol}{A \code{character} string specifying the name of column 
-in \code{segall} that tabulates the (integer) start postion of each segment 
+in \code{segall} that tabulates the (integer) start position of each segment 
 in internal units such as probe numbers for data of CGH microarray origin.
 Default: \code{NULL}.}
 
 \item{endCol}{A \code{character} string specifying the name of column 
-in \code{segall} that tabulates the (integer) end postion of each segment 
+in \code{segall} that tabulates the (integer) end position of each segment 
 in internal units such as probe numbers for data of CGH microarray origin.
 Default: \code{NULL}.}
 
@@ -197,7 +219,7 @@ Model-dependent clustering (fitting to a gaussian mixture) of the sample
 will be performed. The central cluster (the one nearest the expected 
 unaltered value) will be identified and, if necessary, merged with adjacent 
 clusters in order to comprise the minimal required fraction of the data. 
-Deviation of each segment from the center, its probabilty to belong to the 
+Deviation of each segment from the center, its probability to belong to the 
 central cluster and its marginal probability in the central cluster will be 
 computed.
 

@@ -17,7 +17,7 @@
 #' \item{\code{stream}}{ a \code{character} \code{string} representing the 
 #'     profile ID.}
 #' \item{\code{sub}}{ a \code{numeric} representing the position of the current
-#'     profile ID in a \code{vector} of profiles.
+#'     profile ID in a \code{vector} of profiles.}
 #' }
 #' 
 #' @param blsize a single \code{integer} specifying the bootstrap 
