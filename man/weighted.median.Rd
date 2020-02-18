@@ -17,7 +17,9 @@ each value of the \code{v} vector.}
 a \code{double} which is the weighted median of the vector.
 }
 \description{
-Compute the lower weighted median of a specified vector.
+Compute the lower weighted median of a specified vector. The
+weighted median is considered to be the value where the sum of probabilities
+of order values is equals to half of the total sum of all probabilities.
 }
 \examples{
 
@@ -25,7 +27,7 @@ Compute the lower weighted median of a specified vector.
 values <- c(0.06363411, 0.04342896, 0.07207384, 0.07319237, 0.07273546,
     0.01463932, 0.02136043, 0.01967027)
 
-## Vector of weigth associated to each value    
+## Vector of weight associated to each value    
 weight <- c(1, 1, 1, 1, 0, 0, 0, 0)
 
 ## Calculation of the weighted median
