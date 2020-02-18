@@ -2,7 +2,7 @@
 % Please edit documentation in R/get.center.R
 \name{get.center}
 \alias{get.center}
-\title{Groups clusters together until the main cluster contain the
+\title{Group clusters together until the main cluster contain the
 minimum required ratio of data.}
 \usage{
 get.center(emfit, minCenter)
