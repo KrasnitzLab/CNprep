@@ -4,27 +4,34 @@
 \alias{normalComparison}
 \title{TODO}
 \usage{
-normalComparison(normalmedian, normalength, tumormedian, tumorlength,
-  normalmad = NULL, normalerror = NULL, tumormad = NULL,
-  tumorerror = NULL)
+normalComparison(
+  normalmedian,
+  normalength,
+  tumormedian,
+  tumorlength,
+  normalmad = NULL,
+  normalerror = NULL,
+  tumormad = NULL,
+  tumorerror = NULL
+)
 }
 \arguments{
-\item{normalmedian}{A numeric \code{vector}, 
+\item{normalmedian}{a \code{numeric} \code{vector}, 
 of the same length as \code{normalength}, specifying the segment values
 of the normal reference segments.}
 
-\item{normalength}{An integer \code{vector} specifying the genomic lengths 
+\item{normalength}{an integer \code{vector} specifying the genomic lengths 
 of segments in the normal reference data.}
 
 \item{tumormedian}{TODO}
 
 \item{tumorlength}{TODO. Default: \code{NULL}.}
 
-\item{normalmad}{A numeric \code{vector}, 
+\item{normalmad}{a \code{numeric} \code{vector}, 
 of the same length as \code{normalength}, specifying the value spreads 
 of the normal reference segments. Default: \code{NULL}.}
 
-\item{normalerror}{A numeric \code{vector}, 
+\item{normalerror}{a numeric \code{vector}, 
 of the same length as \code{normalength}, specifying the error values
 of the normal reference segments.Default: \code{NULL}.}
 

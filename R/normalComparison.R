@@ -2,22 +2,22 @@
 #' 
 #' @description TODO
 #' 
-#' @param normalmedian A numeric \code{vector}, 
+#' @param normalmedian a \code{numeric} \code{vector}, 
 #' of the same length as \code{normalength}, specifying the segment values
 #' of the normal reference segments.
 #' 
-#' @param normalength An integer \code{vector} specifying the genomic lengths 
+#' @param normalength an integer \code{vector} specifying the genomic lengths 
 #' of segments in the normal reference data.
 #' 
 #' @param tumormedian TODO
 #' 
 #' @param tumorlength TODO. Default: \code{NULL}.
 #' 
-#' @param normalmad A numeric \code{vector}, 
+#' @param normalmad a \code{numeric} \code{vector}, 
 #' of the same length as \code{normalength}, specifying the value spreads 
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
-#' @param normalerror A numeric \code{vector}, 
+#' @param normalerror a numeric \code{vector}, 
 #' of the same length as \code{normalength}, specifying the error values
 #' of the normal reference segments.Default: \code{NULL}.
 #' 
