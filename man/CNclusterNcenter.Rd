@@ -68,12 +68,13 @@ which segments are to be used for initial model-based clustering.}
 \value{
 a \code{matrix} with 9 columns:
 \itemize{
-\item{\code{untitled}}{ TODO}
+\item{\code{untitled}}{ a \code{numeric}, the median value of the copy 
+    number elements forming each segment}
 \item{\code{untitled}}{ TODO}
 \item{\code{mediandev}}{ a \code{numeric}, the median function of copy 
-number relative to its central value}
+number relative to its central value for each segment}
 \item{\code{segerr}}{ a \code{numeric}, the error estimate for the 
-function of copy number}
+function of copy number for each segment}
 \item{\code{centerz}}{ a \code{numeric} between \code{0} and \code{1}, the 
 probability that the segment is in the central cluster}
 \item{\code{cpb}}{ TODO}

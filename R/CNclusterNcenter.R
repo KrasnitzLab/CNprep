@@ -52,12 +52,13 @@
 #' 
 #' @return a \code{matrix} with 9 columns:
 #' \itemize{
-#' \item{\code{untitled}}{ TODO}
+#' \item{\code{untitled}}{ a \code{numeric}, the median value of the copy 
+#'     number elements forming each segment}
 #' \item{\code{untitled}}{ TODO}
 #' \item{\code{mediandev}}{ a \code{numeric}, the median function of copy 
-#' number relative to its central value}
+#' number relative to its central value for each segment}
 #' \item{\code{segerr}}{ a \code{numeric}, the error estimate for the 
-#' function of copy number}
+#' function of copy number for each segment}
 #' \item{\code{centerz}}{ a \code{numeric} between \code{0} and \code{1}, the 
 #' probability that the segment is in the central cluster}
 #' \item{\code{cpb}}{ TODO}
@@ -126,16 +127,26 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
         }
     }
 
+    ## Join clusters with minimum overlap
+    ## The returned object is no more a Mclust object
     newem <- consolidate(bestem, minJoin)
+    
+    ## Join clusters until the main cluster contain the minimum required 
+    ## ratio of data
     newem <- get.center(newem, cweight)
     
+    ## Get the median of the central cluster. The central cluster is
+    ## the one with the mean closer to zero
     if (length(bestem$parameters$mean) == 1) { 
         profcenter <- median(bestaaa[,3]) 
     } else { 
         profcenter <- weighted.median(bestaaa[,3], newem$z[, newem$center]) 
     }
 
+    ## Calculate the median deviation to the central cluster
     mediandev <- segrat$seg[, medcol] - profcenter
+    
+    ## Bin sampling
     segs <- segsample(segrat$seg, segrat$rat, times=bstimes)
 
     if (all(unique(aaa[,3]) == 1e-10)) { 
