@@ -6,7 +6,7 @@
 #' purpose of identifying genomic regions where the copy number differs from 
 #' the norm.
 #' 
-#' @param segall A \code{matrix} or a \code{data.frame} for segmented copy 
+#' @param segall a \code{matrix} or a \code{data.frame} for segmented copy 
 #' number profiles. It may have a character column, with a name specified 
 #' by \code{idCol}, and/or numeric columns with names specified by 
 #' \code{startCol, endCol, medCol, madCol,errorCol}  
@@ -14,70 +14,68 @@
 #' corresponds to a segment belonging to one of the profiles 
 #' to be pre-processed.
 #' 
-#' @param ratall A \code{matrix} whose rows correspond to genomic positions 
+#' @param ratall a \code{matrix} whose rows correspond to genomic positions 
 #' and columns to copy number profiles. The elements of this matrix are 
 #' functions of copy number, most often log ratios of copy number to 
 #' the expected standard value, such as 2 in diploid genomes. 
 #' 
-#' @param idCol A \code{character} string specifying the name for the 
+#' @param idCol a \code{character} string specifying the name for the 
 #' column in \code{segall} tabulating the profile IDs. When not specified,
 #' the numerical column of the \code{ratall} object will be used as the
 #' profile IDs. Default: \code{NULL}.
 #' 
-#' @param startCol A \code{character} string specifying the name of column 
+#' @param startCol a \code{character} string specifying the name of column 
 #' in \code{segall} that tabulates the (integer) start position of each segment 
 #' in internal units such as probe numbers for data of CGH microarray origin.
 #' Default: \code{NULL}.
 #' 
-#' @param endCol A \code{character} string specifying the name of column 
+#' @param endCol a \code{character} string specifying the name of column 
 #' in \code{segall} that tabulates the (integer) end position of each segment 
 #' in internal units such as probe numbers for data of CGH microarray origin.
 #' Default: \code{NULL}.
 #' 
-#' @param medCol A \code{character} string specifying the 
+#' @param medCol a \code{character} string specifying the 
 #' name of column in \code{segall} that, for the function of copy number used 
 #' in the study (typically log ratios), tabulates the (numeric) values for 
 #' the function (\code{medCol}), a measure of its spread (\code{madCol}) and 
 #' its error (\code{errorCol}) for the segment. Default: \code{NULL}.
 #' 
-#' @param madCol A \code{character} string specifying the 
+#' @param madCol a \code{character} string specifying the 
 #' name of column in \code{segall} that, for the function of copy number used 
 #' in the study (typically log ratios), tabulates the (numeric) values for 
 #' a measure of spread (\code{madCol}) related to  
 #' the function (\code{medCol}) for the segment. Default: \code{NULL}.
 #' 
-#' @param errorCol A \code{character} string specifying the 
+#' @param errorCol a \code{character} string specifying the 
 #' name of column in \code{segall} that, for the function of copy number used 
 #' in the study (typically log ratios), tabulates the (numeric) values for 
 #' the error (\code{errorCol}) related to  
 #' the function (\code{medCol}) for the segment. Default: \code{NULL}.
 #' 
-#' @param chromCol A \code{character} string specifying the name for the 
+#' @param chromCol a \code{character} string specifying the name for the 
 #' column in \code{segall} tabulating the (integer) chromosome number for 
 #' each segment.
 #' 
-#' @param bpStartCol A \code{character} string specifying the name of 
+#' @param bpStartCol a \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic start 
 #' coordinate of each segment.
 #' 
-#' @param bpEndCol A \code{character} string specifying the name of 
+#' @param bpEndCol a \code{character} string specifying the name of 
 #' column in \code{segall} that tabulates the (integer) genomic end 
 #' coordinate of each segment.
 #' 
-#' @param annot A matrix or a \code{data.frame} that contains the annotation 
-#' for the copy number measurement platform in the study. It is generally 
-#' expected to contain columns with names specified by 
+#' @param annot a \code{matrix} or a \code{data.frame} that contains the 
+#' annotation for the copy number measurement platform in the study. It is 
+#' generally expected to contain columns with names specified by 
 #' \code{annotStartCol, annotEndCol, annotChromCol}.
 #' 
-#' @param annotStartCol A \code{character} string 
+#' @param annotStartCol a \code{character} string 
 #' specifying the name of column in \code{annot} that tabulates the (integer) 
-#' genomic start coordinates in case of CGH
-#' microarrays.
+#' genomic start coordinates in case of CGH microarrays.
 #' 
-#' @param annotEndCol A \code{character} string 
+#' @param annotEndCol a \code{character} string 
 #' specifying the name of column in \code{annot} that tabulates the (integer) 
-#' genomic end coordinates in case of CGH
-#' microarrays.
+#' genomic end coordinates in case of CGH microarrays.
 #' 
 #' @param annotChromCol A \code{character} string 
 #' specifying the name of column in \code{annot} that tabulates the chromosome
@@ -394,6 +392,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         errorCol <- "segerr"
     }
     
+    ## Use normal samples to extract extra information when available
     if (!(is.null(normalLength) | is.null(normalMedian) | is.null(medCol))) {
         if (is.null(bpStartCol) | is.null(bpEndCol)) {  
             ## Try to annotate

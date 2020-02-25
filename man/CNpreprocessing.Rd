@@ -37,7 +37,7 @@ CNpreprocessing(
 )
 }
 \arguments{
-\item{segall}{A \code{matrix} or a \code{data.frame} for segmented copy 
+\item{segall}{a \code{matrix} or a \code{data.frame} for segmented copy 
 number profiles. It may have a character column, with a name specified 
 by \code{idCol}, and/or numeric columns with names specified by 
 \code{startCol, endCol, medCol, madCol,errorCol}  
@@ -45,70 +45,68 @@ by \code{idCol}, and/or numeric columns with names specified by
 corresponds to a segment belonging to one of the profiles 
 to be pre-processed.}
 
-\item{ratall}{A \code{matrix} whose rows correspond to genomic positions 
+\item{ratall}{a \code{matrix} whose rows correspond to genomic positions 
 and columns to copy number profiles. The elements of this matrix are 
 functions of copy number, most often log ratios of copy number to 
 the expected standard value, such as 2 in diploid genomes.}
 
-\item{idCol}{A \code{character} string specifying the name for the 
+\item{idCol}{a \code{character} string specifying the name for the 
 column in \code{segall} tabulating the profile IDs. When not specified,
 the numerical column of the \code{ratall} object will be used as the
 profile IDs. Default: \code{NULL}.}
 
-\item{startCol}{A \code{character} string specifying the name of column 
+\item{startCol}{a \code{character} string specifying the name of column 
 in \code{segall} that tabulates the (integer) start position of each segment 
 in internal units such as probe numbers for data of CGH microarray origin.
 Default: \code{NULL}.}
 
-\item{endCol}{A \code{character} string specifying the name of column 
+\item{endCol}{a \code{character} string specifying the name of column 
 in \code{segall} that tabulates the (integer) end position of each segment 
 in internal units such as probe numbers for data of CGH microarray origin.
 Default: \code{NULL}.}
 
-\item{medCol}{A \code{character} string specifying the 
+\item{medCol}{a \code{character} string specifying the 
 name of column in \code{segall} that, for the function of copy number used 
 in the study (typically log ratios), tabulates the (numeric) values for 
 the function (\code{medCol}), a measure of its spread (\code{madCol}) and 
 its error (\code{errorCol}) for the segment. Default: \code{NULL}.}
 
-\item{madCol}{A \code{character} string specifying the 
+\item{madCol}{a \code{character} string specifying the 
 name of column in \code{segall} that, for the function of copy number used 
 in the study (typically log ratios), tabulates the (numeric) values for 
 a measure of spread (\code{madCol}) related to  
 the function (\code{medCol}) for the segment. Default: \code{NULL}.}
 
-\item{errorCol}{A \code{character} string specifying the 
+\item{errorCol}{a \code{character} string specifying the 
 name of column in \code{segall} that, for the function of copy number used 
 in the study (typically log ratios), tabulates the (numeric) values for 
 the error (\code{errorCol}) related to  
 the function (\code{medCol}) for the segment. Default: \code{NULL}.}
 
-\item{chromCol}{A \code{character} string specifying the name for the 
+\item{chromCol}{a \code{character} string specifying the name for the 
 column in \code{segall} tabulating the (integer) chromosome number for 
 each segment.}
 
-\item{bpStartCol}{A \code{character} string specifying the name of 
+\item{bpStartCol}{a \code{character} string specifying the name of 
 column in \code{segall} that tabulates the (integer) genomic start 
 coordinate of each segment.}
 
-\item{bpEndCol}{A \code{character} string specifying the name of 
+\item{bpEndCol}{a \code{character} string specifying the name of 
 column in \code{segall} that tabulates the (integer) genomic end 
 coordinate of each segment.}
 
-\item{annot}{A matrix or a \code{data.frame} that contains the annotation 
-for the copy number measurement platform in the study. It is generally 
-expected to contain columns with names specified by 
+\item{annot}{a \code{matrix} or a \code{data.frame} that contains the 
+annotation for the copy number measurement platform in the study. It is 
+generally expected to contain columns with names specified by 
 \code{annotStartCol, annotEndCol, annotChromCol}.}
 
-\item{annotStartCol}{A \code{character} string 
+\item{annotStartCol}{a \code{character} string 
 specifying the name of column in \code{annot} that tabulates the (integer) 
-genomic start coordinates in case of CGH
-microarrays.}
+genomic start coordinates in case of CGH microarrays.}
 
-\item{annotEndCol}{A \code{character} string 
+\item{annotEndCol}{a \code{character} string 
 specifying the name of column in \code{annot} that tabulates the (integer) 
-genomic end coordinates in case of CGH
-microarrays.}
+genomic end coordinates in case of CGH microarrays.}
 
 \item{annotChromCol}{A \code{character} string 
 specifying the name of column in \code{annot} that tabulates the chromosome
