@@ -5,8 +5,14 @@
 \title{Calculate the median of the sampled copy number values from bins 
 associated to selected segments.}
 \usage{
-segsample(mysegs, ratcol, startcol = "StartProbe", endcol = "EndProbe",
-  blocksize = 0, times = 0)
+segsample(
+  mysegs,
+  ratcol,
+  startcol = "StartProbe",
+  endcol = "EndProbe",
+  blocksize = 0,
+  times = 0
+)
 }
 \arguments{
 \item{mysegs}{a \code{data.frame} containing information about the 
@@ -28,7 +34,7 @@ length of the \code{vector} should correspond to the total number of bins
 present in \code{mysegs}.}
 
 \item{startcol}{a \code{character} string specifying the name of column 
-in \code{mysegs} that tabulates the (integer) start postion of each segment 
+in \code{mysegs} that tabulates the (integer) start position of each segment 
 in internal units such as probe numbers for data of CGH microarray origin.
 Default: "StartProbe".}
 

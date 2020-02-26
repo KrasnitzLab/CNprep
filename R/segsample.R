@@ -31,7 +31,7 @@
 #' present in \code{mysegs}. 
 #' 
 #' @param startcol a \code{character} string specifying the name of column 
-#' in \code{mysegs} that tabulates the (integer) start postion of each segment 
+#' in \code{mysegs} that tabulates the (integer) start position of each segment 
 #' in internal units such as probe numbers for data of CGH microarray origin.
 #' Default: "StartProbe".
 #' 
@@ -109,5 +109,8 @@ segsample <- function(mysegs, ratcol, startcol="StartProbe",
         segtable <- segtable[rep(seq_len(nrow(segtable)), each=times),]
     }
     
+    ## Calculate the mean of the sampled bins for each segment
+    ## Each segment may be sampled more than once depending of the
+    ## blocksize and times parameters
     return(cbind(segtable, apply(segtable, 1, smedian.sample, v=ratcol)))
 }
