@@ -77,93 +77,94 @@
 #' specifying the name of column in \code{annot} that tabulates the (integer) 
 #' genomic end coordinates in case of CGH microarrays.
 #' 
-#' @param annotChromCol A \code{character} string 
+#' @param annotChromCol a \code{character} string 
 #' specifying the name of column in \code{annot} that tabulates the chromosome
 #' number for each copy number measuring unit, such as a probe in case of CGH
 #' microarrays.
 #' 
-#' @param useEnd A single logical value specifying whether the segment end 
+#' @param useEnd a single logical value specifying whether the segment end 
 #' positions as given by the \code{bpEndCol} of \code{segall} are to be 
 #' looked up in the \code{annotEndCol} column of \code{annot} 
 #' (if \code{useEnd=TRUE}) or in the \code{annotStartCol} column (default). 
 #' Default: \code{FALSE}.
 #' 
-#' @param blsize A single \code{integer} specifying the bootstrap sampling 
+#' @param blsize a single \code{integer} specifying the bootstrap sampling 
 #' rate of segment medians to generate input for model-based clustering. The 
 #' number of times a segment is sampled is then given by the (integer) 
 #' division of the segment length in internal units by \code{blsize}.
 #' 
-#' @param minJoin A single \code{numeric} value between 0 and 1 specifying the 
+#' @param minJoin a single \code{numeric} value between 0 and 1 specifying the 
 #' degree of overlap above which two clusters will be joined into one. Default:
 #' \code{NULL}. TODO= HAVE a default value, not NULL.
 #' 
-#' @param nTrial A single positive \code{integer} specifying the number of 
+#' @param nTrial a single positive \code{integer} specifying the number of 
 #' times a model-based 
 #' clustering is attempted for each profile in order to achieve the 
 #' highest Bayesian information criterion (BIC). Default: \code{10}.
 #' 
-#' @param bestBIC A single \code{numeric} value for initalizing the
+#' @param bestBIC a single \code{numeric} value for initalizing the
 #' Bayesian information criterion (BIC) 
 #' maximization. A large negative value is recommended. Default: \code{-1e7}.
 #' 
-#' @param modelNames A \code{vector} of \code{character} strings specifying 
+#' @param modelNames a \code{vector} of \code{character} strings specifying 
 #' the names of models to be used in model-based clustering (see package 
 #' \code{mclust} for further details). The default is \code{"E"}.
 #' 
 #' @param cWeight A single \code{numeric} value between \code{0} and \code{1} 
 #' specifying the minimal share of the central cluster in each profile.
 #' 
-#' @param bsTimes A single positive \code{double} value specifying the number 
+#' @param bsTimes a single positive \code{double} value specifying the number 
 #' of time the median of each segment is sampled in order to predict the 
 #' cluster assignment for the segment. Default: \code{NULL}. TODO: select a 
 #' default value that is not null.
 #' 
-#' @param chromRange A \code{integer} \code{vector} enumerating chromosomes 
+#' @param chromRange a \code{integer} \code{vector} enumerating chromosomes 
 #' from which segments are to be used for initial model-based clustering.
 #' Default: \code{NULL}.
 #' 
-#' @param nJobs A single positive \code{integer} specifying the number of 
+#' @param nJobs a single positive \code{integer} specifying the number of 
 #' worker jobs to create in case of distributed computation. 
 #' Default: \code{1} and always \code{1} for Windows.
 #' 
-#' @param normalLength An integer \code{vector} specifying the genomic lengths 
+#' @param normalLength an integer \code{vector} specifying the genomic lengths 
 #' of segments in the normal reference data. Default: \code{NULL}.
 #' 
-#' @param normalMedian A numeric \code{vector}, 
+#' @param normalMedian a numeric \code{vector}, 
 #' of the same length as \code{normalLength}, specifying the segment values
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
-#' @param normalMad A numeric \code{vector}, 
+#' @param normalMad a numeric \code{vector}, 
 #' of the same length as \code{normalLength}, specifying the value spreads 
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
-#' @param normalError A numeric \code{vector}, 
+#' @param normalError a numeric \code{vector}, 
 #' of the same length as \code{normalLength}, specifying the error values
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
 #' @return The input \code{segall} \code{data.frame} to which some or all of 
 #' the following columns may be bound, depending on the availability of input:
 #' \itemize{
-#' \item{segmedian}{Median function of copy number}
-#' \item{segmad}{MAD for the function of copy number}
-#' \item{mediandev}{a \code{numeric}, the median function of copy number 
+#' \item{segmedian}{ a \code{numeric}, the median function of copy number}
+#' \item{segmad}{ a \code{numeric}, the MAD for the function of copy number}
+#' \item{mediandev}{ a \code{numeric}, the median function of copy number 
 #' relative to its central value}
-#' \item{segerr}{a \code{numeric}, the error estimate for the 
+#' \item{segerr}{ a \code{numeric}, the error estimate for the 
 #' function of copy number}
-#' \item{centerz}{a \code{numeric} between \code{0} and \code{1}, the 
+#' \item{centerz}{ a \code{numeric} between \code{0} and \code{1}, the 
 #' probability that the segment is in the central cluster}
-#' \item{marginalprob}{marginal probability for the segment in the central 
-#' cluster}
-#' \item{maxz}{TODO}
-#' \item{maxzmean}{TODO}
-#' \item{maxzsigma}{TODO}
-#' \item{samplesize}{TODO}
-#' \item{negtail}{the probability of finding the deviation as observed or 
+#' \item{marginalprob}{ a \code{numeric}, the marginal probability for 
+#' the segment in the central cluster}
+#' \item{maxz}{ TODO}
+#' \item{maxzmean}{ TODO}
+#' \item{maxzsigma}{ TODO}
+#' \item{samplesize}{ TODO}
+#' \item{negtail}{ the probability of finding the deviation as observed or 
 #' larger in a collection of central segments}
-#' \item{negtailnormad}{the probability of finding the deviation/MAD as 
+#' \item{negtailnormad}{ the probability of finding the deviation/MAD as 
 #' observed or larger in a collection of central segments}
-#' \item{negtailnormerror}{the probability of finding the deviation/error as 
-#' observed or larger in a collection of central segments}
+#' \item{negtailnormerror}{ a \code{numeric}, the probability of finding 
+#' the deviation/error as observed or larger in a collection of 
+#' central segments}
 #' }
 #'
 #' @details Depending on the availability of input, the function will 
