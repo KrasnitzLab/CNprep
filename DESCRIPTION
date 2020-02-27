@@ -5,9 +5,13 @@ Version: 2.1.1
 Date: 2012-12-06
 Authors@R: c(person("Alex", "Krasnitz", role=c("aut")),
         person("Pascal", "Belleau",
-        email="pascal_belleau@hotmail.com", role=c("aut")),
+        email="pascal_belleau@hotmail.com", 
+        role=c("aut"),
+        comment = c(ORCID = "0000-0002-0802-1071")),
         person("Astrid", "Deschênes",
-        email="adeschen@hotmail.com", role=c("aut")),
+        email="adeschen@hotmail.com", 
+        role=c("aut"),
+        comment = c(ORCID = "0000-0001-7846-6749")),
         person("Guoli", "Sun", 
         email="guolisun87@gmail.com", role=c("aut", "cre")))
 Description: This package evaluates DNA copy number data, using both their 
