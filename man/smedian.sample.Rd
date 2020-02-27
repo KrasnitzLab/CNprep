@@ -34,7 +34,7 @@ values <- c(0.072073840, 0.119913919, 0.154459489, 0.040994620,
     -0.195791649, 0.012126180, 0.043428961, 0.028435453, 0.075708220, 
     0.020358061)
 
-## Calculate the median of the sampled values from the subsetted vector
+## Calculate the median of the sampled values from the sampled vector
 CNprep:::smedian.sample(pos=position, v=values)
 
 }
