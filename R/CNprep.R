@@ -69,6 +69,10 @@ NULL
 #' 
 #' @seealso
 #' \itemize{
+#' \item \code{\link{CNpreprocessing}} { for pre-processing DNA copy number 
+#' (CN) data for detection of CN events.}
+#' \item \code{\link{makeCNPmask}} { for creating a mask given a set of
+#' copy number events.}
 #' \item \code{\link{applyCNPmask}} {for applying a mask to a table of 
 #' copy number events.}
 #' }
@@ -86,24 +90,51 @@ NULL
 #' 
 #' @examples
 #'
-#' ## Loading dataset
+#' ## Load datasets
+#' data(segexample)
+#' data(ratexample)
+#' data(normsegs)
 #' data(cnpexample)
-#'
-#' ## Create masked table usign cnpindex vector 
-#' ##namps17 <- cnpexample[cnpexample[,"copy.num"]=="amp",] 
-#' ##aCNPmask <- makeCNPmask(imat=namps17, chromCol=2, startCol=3, endCol=4, 
-#' ##    nProf=1203, uThresh=0.02, dThresh=0.008) 
-#' ##ndels17 <- cnpexample[cnpexample[,"copy.num"]=="del",] 
-#' ##dCNPmask <- makeCNPmask(imat=ndels17, chromCol=2, startCol=3, endCol=4, 
-#' ##    nProf=1203, uThresh=0.02, dThresh=0.008) 
-#' ##cnptable <- rbind(cbind(aCNPmask,cnpindex=1),cbind(dCNPmask,cnpindex=-1))
 #' 
-#' # TODO
-#' ## Run the CNP test using masked table
-#' #myCNPtable <- applyCNPmask(segtable,"chrom",startPos="chrom.pos.start", 
-#' #    endPos="chrom.pos.end","start","end","eventIndex",masktable=cnptable,
-#' #    "chrom", maskstart="start",maskend="end",maskindex="cnpindex",
-#' #    mincover=0.005,indexvals=c(-1,1))
+#' ## Create a table with segment information for profile WZ2 with help
+#' ## of normal samples
+#' segtable <- CNpreprocessing(segall = segexample[segexample[,"ID"] == "WZ2",],
+#'     ratall = ratexample, idCol = "ID", startCol = "start", endCol = "end",
+#'     chromCol = "chrom", bpStartCol = "chrom.pos.start", 
+#'     bpEndCol = "chrom.pos.end", blsize = 50, minJoin = 0.25, cWeight = 0.4,
+#'     bsTimes = 50, chromRange = 1:22, nJobs = 1, 
+#'     modelNames = "E", normalLength = normsegs[,1], 
+#'     normalMedian = normsegs[,2])
+#' 
+#' ## Add an eventIndex column to segtable that identifies the 
+#' ## amplication (marked as 1) and deletion (marked as -1) events
+#' eventIndex <- rep(0, nrow(segtable))
+#' eventIndex[segtable[,"marginalprob"] < 1e-4 & segtable[,"negtail"] > 0.999 & 
+#'     segtable[,"mediandev"] < 0] <- -1
+#' eventIndex[segtable[,"marginalprob"] < 1e-4 & segtable[,"negtail"] > 0.999 &
+#'     segtable[,"mediandev"] > 0] <- 1
+#' segtable <- cbind(segtable, eventIndex)
+#' 
+#' ## Create a mask table using amplification and deletion regions as input
+#' namps17 <- cnpexample[cnpexample[,"copy.num"] == "amp",]
+#' aCNPmask <- makeCNPmask(imat=namps17, chromCol=2, startCol=3, 
+#'     endCol=4, nProf=1203, uThresh=0.02, dThresh=0.008)
+#' ndels17 <- cnpexample[cnpexample[,"copy.num"] == "del",]
+#' dCNPmask <- makeCNPmask(imat=ndels17, chromCol=2, startCol=3, 
+#'     endCol=4, nProf=1203, uThresh=0.02, dThresh=0.008)
+#' maskTable <- rbind(cbind(aCNPmask, cnpindex=1), 
+#'     cbind(dCNPmask, cnpindex=-1))
+#' 
+#' ## Apply a mask to a table of copy number events
+#' maskedCNP <- applyCNPmask(segTable=segtable, chrom="chrom",
+#'     startPos="chrom.pos.start", endPos="chrom.pos.end", 
+#'     startProbe="start", endProbe="end", eventIndex="eventIndex",
+#'     maskTable=maskTable, maskChrom="chrom", maskStart="start", 
+#'     maskEnd="end", maskIndex="cnpindex", minCover=0.005,
+#'     indexVals=c(-1, 1))
+#' 
+#' ## Show some results
+#' tail(maskedCNP)
 #' 
 NULL
 
@@ -332,7 +363,7 @@ NULL
 #' data(segexample)
 #' data(ratexample)
 #' data(normsegs)
-
+#'
 #' ## Preprocess segments for WZ2 sample
 #' segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ2",],
 #'                  ratall=ratexample, idCol="ID", startCol = "start", 

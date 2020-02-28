@@ -98,6 +98,9 @@ segsample <- function(mysegs, ratcol, startcol="StartProbe",
         stop("Only one of blocksize or times can be set")
     }
     
+    ## Number of bootstraps done one each segment depends of the
+    ## segment length if blocksize parameter is used
+    ## Otherwise, the number of bootstraps is the same for all segments
     segtable <- mysegs[,c(startcol, endcol), drop=FALSE]
     ## Comment Pascal: at least one result should be different from zero
     if (blocksize != 0) {
