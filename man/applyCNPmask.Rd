@@ -4,9 +4,22 @@
 \alias{applyCNPmask}
 \title{Apply a mask to a table of copy number events.}
 \usage{
-applyCNPmask(segTable, chrom, startPos, endPos, startProbe, endProbe,
-  eventIndex, maskTable, maskChrom, maskStart, maskEnd, maskIndex,
-  minCover = 1, indexVals = c(-1, 1))
+applyCNPmask(
+  segTable,
+  chrom,
+  startPos,
+  endPos,
+  startProbe,
+  endProbe,
+  eventIndex,
+  maskTable,
+  maskChrom,
+  maskStart,
+  maskEnd,
+  maskIndex,
+  minCover = 1,
+  indexVals = c(-1, 1)
+)
 }
 \arguments{
 \item{segTable}{a \code{matrix} or a \code{data.frame} with columns 
@@ -70,8 +83,10 @@ Default: \code{c(-1, 1)}.}
 a \code{matrix} with same number of observations/rows as 
 \code{segTable} and with following three columns:
 \itemize{
-\item{startProbe,endProbe}{ an \code{numeric} \code{vector} used as integer
-for the start and end positions of the segments after masking. }
+\item{StartProbe}{ an \code{numeric}, used as \code{integer},
+for the start position of the segments after masking. }
+\item{EndProbe}{ an \code{numeric}, used as integer
+for the end position of the segments after masking. }
 \item{toremove}{ an \code{numeric} \code{vector} used as integer 
 whose values are 1 if the segment is masked and 0 otherwise. }
 }
@@ -138,7 +153,7 @@ myCNPtable <- applyCNPmask(segTable=segtable, chrom="chrom",
     indexVals=c(-1, 1))
 
 ## Show some results
-head(myCNPtable)
+tail(myCNPtable)
 
 
 }
