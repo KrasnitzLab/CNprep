@@ -33,7 +33,7 @@ are free to use and redistribute this software.
 
 # Citing
 
-If you use this package for a publication, we would ask you to cite the 
+If you use this package for a publication, we ask you to cite the 
 following:
 
 > Guoli Sun, Pascal Belleau, Astrid Deschênes and Alex Krasnitz (2020). CNprep: Pre-process DNA Copy Number (CN) Data for Detection of CN Events. R package version 2.1beta. https://github.com/belleau/CNprep
@@ -41,11 +41,18 @@ following:
 
 # Introduction
 
+The `r Rpackage("CNprep")` package has been implemented to identify, through a 
+multi-step process, segments with significant copy number deviation from 
+normal state. To this end, 
+`r Rpackage("CNprep")` uses both DNA copy number initial form (copy number 
+as a noisy function of genomic position, also known as bins) and their 
+approximation by a piecewise-constant function (segmentation).
+
 Copy number variations (CNVs) are associated with a wide spectrum of 
 pathological conditions and complex traits, such 
 as Tourette Disorder [@Wang2018] and especially 
 cancer [@Pelttari2018; @Franch-Exposito2018a]. Furthermore, CNVs can 
-potentially be used as biomarker for cancer 
+potentially be used as biomarkers for cancer 
 diagnosis [@Pan2018].
 
 Since late 1990s, one commonly used technology to detect CNVs is 
@@ -67,13 +74,10 @@ identified may not share integer copy number. So, evaluating the value of
 the copy number corresponding to the normal state of the cells, relative to 
 which somatic alterations occur, is difficult [@Kendall2011].
 
-The `r Rpackage("CNprep")` package has been implemented to solve this 
-problematic. The `r Rpackage("CNprep")` package infers, through a multi-step 
-process, the likely normal state of the cells and identify segments with 
-significant copy number deviation from that state. To this end, 
-`r Rpackage("CNprep")` uses both DNA copy number initial form (copy number 
-as a noisy function of genomic position) and their 
-approximation by a piecewise-constant function (segmentation).
+The `r Rpackage("CNprep")` package has been implemented to identify, 
+
+TODO
+
 
 
 # Installing and loading *CNprep* package
@@ -110,7 +114,7 @@ are complementary methods.
 
 The *makeCNPmask()* enables the identification
 of genomic regions of interest. Those regions can be of interest because those
-are regions are not specific to the analysed condition(s), as an example,
+are regions are not specific to the analyzed condition(s), as an example,
 common copy number alterations that are not related to cancer should be 
 removed when alterations happening in cancer tissues is of interest. Those 
 regions can also be of interest because of their high recurrence in a specific
@@ -174,82 +178,86 @@ of the *makeCNPmask()* function for this dataset when the lower threshold is
 set to 0.25 and upper threshold to 0.45.
 
 ```{r demoMask, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap="Example of makeCNPmask() function. Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section."}
-library(GenomicRanges)
-library(gtrellis)
-library(ComplexHeatmap)
-
-dataTest <- data.frame(chrom=rep("chr1", 10), 
-                start=c(12742927, 13071912, 12862827, 12708592, 13271912, 
-                        13071612, 12838592, 13091712, 12842827, 12742827), 
-                end=c(13039275, 13439275, 12939275, 13039175, 13551912, 
-                        13191012, 12930000, 13542827, 13456522, 13706522), 
-                value=seq(from=0.05, to=0.95, by=.1))
-
-gr <- GRanges(seqnames = Rle(c("chr1"), c(10)),
-    ranges = IRanges(start = dataTest$start, end = dataTest$end, 
-                        names = head(letters, 10)),
-    strand = Rle(strand(c("*")), c(10)))
-
-covN <- as.data.frame(GRanges(coverage(gr)))[-1,]
-covN2 <- covN
-covN2$start <- covN2$end
-covN$end <-covN$start
-covNT <- rbind(covN, covN2)
-covNT <- covNT[order(covNT$start),]
-covNT$freq <- covNT$score/10
-
-## Create legend for the upper and lower thresholds
-lgd <- Legend(at=c("upper", "lower"), title="Thresholds", type="lines", 
-            legend_gp=gpar(col=rep("red3", 2), lwd=rep(3,2), lty=3:4),
-            gap=unit(10, "mm"), title_gap=unit(5, "mm"),
-            grid_width=unit(10, "mm"), size=unit(4, "mm"),
-            grid_height=unit(10, "mm"), 
-            title_gp=gpar(fontsize=18, fontface="bold"),
-            labels_gp=gpar(fontsize=16))
-
-## Create trellis 
-gtrellis_layout(data=dataTest, n_track=3, 
-                track_ylim=c(0, 1, 0, 0.70, 0, 1), add_name_track=TRUE,
-                track_height = unit.c(unit(2, "null"), unit(4, "null"), 
-                                        unit(1, "null")), gap=unit(2, "mm"),
-                axis_label_fontsize=13, lab_fontsize=15, legend_side="right",
-                track_axis=c(FALSE, TRUE, FALSE),  legend=lgd,
-                track_ylab=c("Copy Number Event", "Event Frequency", "Mask"))
-
-## Add segments representing the copy number events
-add_segments_track(dataTest, value=dataTest$value, gp=gpar(col="darkorange3", 
-                                                            lwd=4))
-
-## Adding the frequency (nb events/nb samples)
-add_lines_track(covNT, value=covNT$freq, gp=gpar(lwd=3, col="darkblue"))
-
-
+# library(GenomicRanges)
+# library(gtrellis)
+# library(ComplexHeatmap)
+#
+# dataTest <- data.frame(chrom=rep("chr1", 10),
+#                 start=c(12742927, 13071912, 12862827, 12708592, 13271912,
+#                         13071612, 12838592, 13091712, 12842827, 12742827),
+#                 end=c(13039275, 13439275, 12939275, 13039175, 13551912,
+#                         13191012, 12930000, 13542827, 13456522, 13706522),
+#                 value=seq(from=0.05, to=0.95, by=.1))
+# 
+# gr <- GRanges(seqnames = Rle(c("chr1"), c(10)),
+#     ranges = IRanges(start = dataTest$start, end = dataTest$end,
+#                         names = head(letters, 10)),
+#     strand = Rle(strand(c("*")), c(10)))
+# 
+# covN <- as.data.frame(GRanges(coverage(gr)))[-1,]
+# covN2 <- covN
+# covN2$start <- covN2$end
+# covN$end <-covN$start
+# covNT <- rbind(covN, covN2)
+# covNT <- covNT[order(covNT$start),]
+# covNT$freq <- covNT$score/10
+# 
+# ## Create legend for the upper and lower thresholds
+# lgd <- Legend(at=c("upper", "lower"), title="Thresholds", type="lines",
+#             legend_gp=gpar(col=rep("red3", 2), lwd=rep(3,2), lty=3:4),
+#             gap=unit(10, "mm"), title_gap=unit(5, "mm"),
+#             grid_width=unit(10, "mm"), size=unit(4, "mm"),
+#             grid_height=unit(10, "mm"),
+#             title_gp=gpar(fontsize=18, fontface="bold"),
+#             labels_gp=gpar(fontsize=16))
+#
+# ## Create trellis 
+# gtrellis_layout(data=dataTest, n_track=3, 
+#                 track_ylim=c(0, 1, 0, 0.70, 0, 1), add_name_track=TRUE,
+#                 track_height = unit.c(unit(2, "null"), unit(4, "null"), 
+#                                         unit(1, "null")), gap=unit(2, "mm"),
+#                 axis_label_fontsize=13, lab_fontsize=15, legend_side="right",
+#                 track_axis=c(FALSE, TRUE, FALSE),  legend=lgd,
+#                 track_ylab=c("Copy Number Event", "Event Frequency", "Mask"))
+# 
+# ## Add segments representing the copy number events
+# add_segments_track(dataTest, value=dataTest$value, gp=gpar(col="darkorange3", 
+#                                                             lwd=4))
+# 
+# ## Adding the frequency (nb events/nb samples)
+# add_lines_track(covNT, value=covNT$freq, gp=gpar(lwd=3, col="darkblue"))
+# 
+#
 ## Create data.frame with the current limit of the segments to be used
 ## to create the threshold lines
-chr1Limits <- data.frame(chrom=rep("chr1", 1), start=c(12708592, 13706522), 
-                        end=c(12708592, 13706522))
+# chr1Limits <- data.frame(chrom=rep("chr1", 1), start=c(12708592, 13706522),
+#                         end=c(12708592, 13706522))
+#
+# ## Adding lower threshold
+# add_lines_track(chr1Limits, value=0.25, gp=gpar(col="red3", lty=4, lwd=2), 
+#                     track=current_track())
+# 
+# ## Adding upper threshold
+# add_lines_track(chr1Limits, value=0.45, gp=gpar(col="red3", lty=3, lwd=2), 
+#                     track=current_track())
+# 
+# ## Get the mask for the current segment dataset
+# ## Chromosome must be transform into numbers
+# dataTest2 <- dataTest
+# dataTest2$chrom <- rep(1, 10)
+# 
+# mask <- makeCNPmask(imat=dataTest2, chromCol="chrom", startCol="start", 
+#                         endCol="end", nProf=10, uThresh=0.45, dThresh=0.25)
+# mask <- as.data.frame(mask)
+# mask$chrom <- rep("chr1", nrow(mask))
+# 
+# ## Add segments representing the copy number events
+# add_segments_track(mask, value=0.5, gp=gpar(col="darkorange4", lwd=6))
 
-## Adding lower threshold
-add_lines_track(chr1Limits, value=0.25, gp=gpar(col="red3", lty=4, lwd=2), 
-                    track=current_track())
 
-## Adding upper threshold
-add_lines_track(chr1Limits, value=0.45, gp=gpar(col="red3", lty=3, lwd=2), 
-                    track=current_track())
-
-## Get the mask for the current segment dataset
-## Chromosome must be transform into numbers
-dataTest2 <- dataTest
-dataTest2$chrom <- rep(1, 10)
-
-mask <- makeCNPmask(imat=dataTest2, chromCol="chrom", startCol="start", 
-                        endCol="end", nProf=10, uThresh=0.45, dThresh=0.25)
-mask <- as.data.frame(mask)
-mask$chrom <- rep("chr1", nrow(mask))
-
-## Add segments representing the copy number events
-add_segments_track(mask, value=0.5, gp=gpar(col="darkorange4", lwd=6))
+knitr::include_graphics("figures/DemoMask01.jpeg")
 ```
+
 
 Using an upper threshold of 0.55 on the same copy number events results in 
 only one genomic region in the mask, as shown in 
@@ -257,46 +265,51 @@ Figure \@ref(fig:demoMask2). This region is the only one to respect both
 lower and upper thresholds. 
 
 ```{r demoMask2, echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap="Example of makeCNPmask() function with stringent parameters. Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section."}
-## Create trellis 
-gtrellis_layout(data=dataTest, n_track=3, 
-                track_ylim=c(0, 1, 0, 0.70, 0, 1), add_name_track=TRUE,
-                track_height = unit.c(unit(2, "null"), unit(4, "null"), 
-                                        unit(1, "null")), gap=unit(2, "mm"),
-                axis_label_fontsize=13, lab_fontsize=15, legend_side="right",
-                track_axis=c(FALSE, TRUE, FALSE),  legend=lgd,
-                track_ylab=c("Copy Number Event", "Event Frequency", "Mask"))
+# ## Create trellis 
+# gtrellis_layout(data=dataTest, n_track=3, 
+#                 track_ylim=c(0, 1, 0, 0.70, 0, 1), add_name_track=TRUE,
+#                 track_height = unit.c(unit(2, "null"), unit(4, "null"), 
+#                                         unit(1, "null")), gap=unit(2, "mm"),
+#                 axis_label_fontsize=13, lab_fontsize=15, legend_side="right",
+#                 track_axis=c(FALSE, TRUE, FALSE),  legend=lgd,
+#                 track_ylab=c("Copy Number Event", "Event Frequency", "Mask"))
+# 
+# ## Add segments representing the copy number events
+# add_segments_track(gr, value=dataTest$value, gp=gpar(col="darkorange3", 
+#                                                             lwd=4))
+# 
+# ## Adding the frequency (nb events/nb samples)
+# add_lines_track(covNT, value=covNT$freq, gp=gpar(lwd=3, col="darkblue"))
+# 
+# ## Adding lower threshold
+# add_lines_track(chr1Limits, value=0.25, gp=gpar(col="red3", lty=4, lwd=2), 
+#                     track=current_track())
+# 
+# ## Adding upper threshold
+# add_lines_track(chr1Limits, value=0.55, gp=gpar(col="red3", lty=3, lwd=2), 
+#                     track=current_track())
+# 
+# ## Get the mask for the current segment dataset
+# ## Chromosome must be transform into numbers
+# dataTest2 <- as.data.frame(gr)
+# dataTest2$chrom <- rep(1, 10)
+# 
+# mask <- makeCNPmask(imat=dataTest2, chromCol="chrom", startCol="start", 
+#                         endCol="end", nProf=10, uThresh=0.55, dThresh=0.25)
+# mask <- as.data.frame(mask)
+# mask$chrom <- rep("chr1", nrow(mask))
+# 
+# ## Add segments representing the copy number events
+# add_segments_track(mask, value=0.5, gp=gpar(col="darkorange4", lwd=6))
 
-## Add segments representing the copy number events
-add_segments_track(gr, value=dataTest$value, gp=gpar(col="darkorange3", 
-                                                            lwd=4))
 
-## Adding the frequency (nb events/nb samples)
-add_lines_track(covNT, value=covNT$freq, gp=gpar(lwd=3, col="darkblue"))
-
-## Adding lower threshold
-add_lines_track(chr1Limits, value=0.25, gp=gpar(col="red3", lty=4, lwd=2), 
-                    track=current_track())
-
-## Adding upper threshold
-add_lines_track(chr1Limits, value=0.55, gp=gpar(col="red3", lty=3, lwd=2), 
-                    track=current_track())
-
-## Get the mask for the current segment dataset
-## Chromosome must be transform into numbers
-dataTest2 <- as.data.frame(gr)
-dataTest2$chrom <- rep(1, 10)
-
-mask <- makeCNPmask(imat=dataTest2, chromCol="chrom", startCol="start", 
-                        endCol="end", nProf=10, uThresh=0.55, dThresh=0.25)
-mask <- as.data.frame(mask)
-mask$chrom <- rep("chr1", nrow(mask))
-
-## Add segments representing the copy number events
-add_segments_track(mask, value=0.5, gp=gpar(col="darkorange4", lwd=6))
+knitr::include_graphics("figures/DemoMask02.jpeg")
 ```
 
+
+
 The following section demonstrates the usage of makeCNPmask() on a more
-complexe dataset composed of 1203 breast cancer samples.
+complex dataset composed of 1203 breast cancer samples.
 
 ```{r makeMask, echo=TRUE, warning=FALSE, collapse=TRUE, fig.align='center', fig.cap="Example of makeCNPmask() on a dataset of 1203 samples. The amplification events are shown, in blue, in the top section. Results of the makeCNPmask() are shown for four chromosomes, in red, in the bottom section. In this example, only chromosome 7 doesn't have any mask."}
 ## Needed libraries

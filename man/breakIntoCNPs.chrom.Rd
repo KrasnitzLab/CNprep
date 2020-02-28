@@ -5,9 +5,22 @@
 \title{Determine which segments have to be removed and redistribute 
 probes/bins from removed segments}
 \usage{
-breakIntoCNPs.chrom(segTable, chrom, startPos, endPos, startProbe,
-  endProbe, eventIndex, cnpTable, cnpChrom, cnpStart, cnpEnd, cnpIndex,
-  minCover, indexVals)
+breakIntoCNPs.chrom(
+  segTable,
+  chrom,
+  startPos,
+  endPos,
+  startProbe,
+  endProbe,
+  eventIndex,
+  cnpTable,
+  cnpChrom,
+  cnpStart,
+  cnpEnd,
+  cnpIndex,
+  minCover,
+  indexVals
+)
 }
 \arguments{
 \item{segTable}{a \code{matrix} or a \code{data.frame} with columns 

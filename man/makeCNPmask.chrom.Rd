@@ -5,8 +5,7 @@
 \title{Given a set of copy-number events, create a DNA copy-number mask for
 one specific chromosome.}
 \usage{
-makeCNPmask.chrom(imat, startcol = 1, endcol = 2, nprof = 1, uthresh,
-  dthresh)
+makeCNPmask.chrom(imat, startcol = 1, endcol = 2, nprof = 1, uthresh, dthresh)
 }
 \arguments{
 \item{imat}{A \code{matrix} or a \code{data.frame} tabulating the chromosome 
