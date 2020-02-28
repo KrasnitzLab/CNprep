@@ -309,7 +309,7 @@ knitr::include_graphics("figures/DemoMask02.jpeg")
 
 
 The following section demonstrates the usage of makeCNPmask() on a more
-complexe dataset composed of 1203 breast cancer samples.
+complex dataset composed of 1203 breast cancer samples.
 
 ```{r makeMask, echo=TRUE, warning=FALSE, collapse=TRUE, fig.align='center', fig.cap="Example of makeCNPmask() on a dataset of 1203 samples. The amplification events are shown, in blue, in the top section. Results of the makeCNPmask() are shown for four chromosomes, in red, in the bottom section. In this example, only chromosome 7 doesn't have any mask."}
 ## Needed libraries
