@@ -4,11 +4,37 @@
 \alias{validateCNpreprocessing}
 \title{Parameters validation for the \code{\link{CNpreprocessing}} function}
 \usage{
-validateCNpreprocessing(segall, ratall, idCol, startCol, endCol, medCol,
-  madCol, errorCol, chromCol, bpStartCol, bpEndCol, annot, annotStartCol,
-  annotEndCol, annotChromCol, useEnd, blsize, minJoin, nTrial, bestBIC,
-  modelNames, cWeight, bsTimes, chromRange, nJobs, normalLength,
-  normalMedian, normalMad, normalError)
+validateCNpreprocessing(
+  segall,
+  ratall,
+  idCol,
+  startCol,
+  endCol,
+  medCol,
+  madCol,
+  errorCol,
+  chromCol,
+  bpStartCol,
+  bpEndCol,
+  annot,
+  annotStartCol,
+  annotEndCol,
+  annotChromCol,
+  useEnd,
+  blsize,
+  minJoin,
+  nTrial,
+  bestBIC,
+  modelNames,
+  cWeight,
+  bsTimes,
+  chromRange,
+  nJobs,
+  normalLength,
+  normalMedian,
+  normalMad,
+  normalError
+)
 }
 \arguments{
 \item{ratall}{A \code{matrix} whose rows correspond to genomic positions 

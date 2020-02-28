@@ -4,8 +4,15 @@
 \alias{makeCNPmask}
 \title{Given a set of copy-number events, create a DNA copy-number mask.}
 \usage{
-makeCNPmask(imat, chromCol = 1, startCol = 2, endCol = 3,
-  nProf = 1, uThresh, dThresh)
+makeCNPmask(
+  imat,
+  chromCol = 1,
+  startCol = 2,
+  endCol = 3,
+  nProf = 1,
+  uThresh,
+  dThresh
+)
 }
 \arguments{
 \item{imat}{A \code{matrix} or a \code{data.frame} tabulating the chromosome 

@@ -4,8 +4,7 @@
 \alias{validateMakeCNPmask}
 \title{Parameters validation for the \code{\link{makeCNPmask}} function}
 \usage{
-validateMakeCNPmask(imat, chromCol, startCol, endCol, nProf, uThresh,
-  dThresh)
+validateMakeCNPmask(imat, chromCol, startCol, endCol, nProf, uThresh, dThresh)
 }
 \arguments{
 \item{imat}{A \code{matrix} or a \code{data.frame} tabulating the chromosome 
