@@ -67,8 +67,10 @@
 #' @return a \code{matrix} with same number of observations/rows as 
 #' \code{segTable} and with following three columns:
 #' \itemize{
-#' \item{startProbe,endProbe}{ an \code{numeric} \code{vector} used as integer
-#' for the start and end positions of the segments after masking. }
+#' \item{StartProbe}{ an \code{numeric}, used as \code{integer},
+#' for the start position of the segments after masking. }
+#' \item{EndProbe}{ an \code{numeric}, used as integer
+#' for the end position of the segments after masking. }
 #' \item{toremove}{ an \code{numeric} \code{vector} used as integer 
 #' whose values are 1 if the segment is masked and 0 otherwise. }
 #' }
@@ -126,7 +128,7 @@
 #'     indexVals=c(-1, 1))
 #' 
 #' ## Show some results
-#' head(myCNPtable)
+#' tail(myCNPtable)
 #' 
 #' 
 #' @author Alexander Krasnitz
