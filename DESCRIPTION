@@ -6,14 +6,14 @@ Date: 2012-12-06
 Authors@R: c(person("Alex", "Krasnitz", role=c("aut")),
         person("Pascal", "Belleau",
         email="pascal_belleau@hotmail.com", 
-        role=c("aut"),
+        role=c("aut", "cre"),
         comment = c(ORCID = "0000-0002-0802-1071")),
         person("Astrid", "Deschênes",
         email="adeschen@hotmail.com", 
         role=c("aut"),
         comment = c(ORCID = "0000-0001-7846-6749")),
         person("Guoli", "Sun", 
-        email="guolisun87@gmail.com", role=c("aut", "cre")))
+        email="guolisun87@gmail.com", role=c("aut")))
 Description: This package evaluates DNA copy number data, using both their 
     initial form (copy number as a noisy function of genomic position) and 
     their approximation by a piecewise-constant function (segmentation), for 
