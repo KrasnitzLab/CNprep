@@ -26,7 +26,7 @@ r_packages:
   - covr
   
 # Package from github
-r_github_packages: yihui/knitr
+# r_github_packages: yihui/knitr
 
 # When travis end with success, call codecov
 after_success:
