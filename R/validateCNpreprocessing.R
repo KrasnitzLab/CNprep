@@ -153,7 +153,7 @@ validateCNpreprocessing <- function(segall, ratall, idCol,
         minJoin, nTrial, bestBIC, modelNames, cWeight,
         bsTimes, chromRange, nJobs, normalLength, 
         normalMedian, normalMad,
-        normalError) 
+        normalError, weightall) 
 {
     ## Validate that nJobs is an positive integer
     if (!(isSingleInteger(nJobs) || isSingleNumber(nJobs)) ||

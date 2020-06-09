@@ -50,6 +50,11 @@
 #' Either \code{blocksize} or \code{times} must be specified by user.
 #' Default: \code{0}.
 #' 
+#' @param weightcol \code{vector} of \code{double} containing the values used 
+#' for the weight assign to each bin. The lenght of the \code{vector} should 
+#' be the same than \code{ratcol}. When \code{NULL}, the weight is not 
+#' used in the calculation.  Default: \code{NULL}.
+#' 
 #' @return a \code{data.frame} containing the information about the selected
 #' segments and the median of the sampled copy number values with replacement 
 #' from the associated bins. It contains 3 columns:
@@ -86,7 +91,7 @@
 #' @author Alexander Krasnitz, Guoli Sun
 #' @keywords internal
 segsample <- function(mysegs, ratcol, startcol="StartProbe", 
-                        endcol="EndProbe", blocksize=0, times=0)
+                        endcol="EndProbe", blocksize=0, times=0, weightcol=NULL)
 {
     ## At least one parameter (blocksize of times) must be set
     if(blocksize == 0 & times == 0) {
@@ -115,5 +120,7 @@ segsample <- function(mysegs, ratcol, startcol="StartProbe",
     ## Calculate the mean of the sampled bins for each segment
     ## Each segment may be sampled more than once depending of the
     ## blocksize and times parameters
-    return(cbind(segtable, apply(segtable, 1, smedian.sample, v=ratcol)))
+    # Modified for weight
+    return(cbind(segtable, apply(segtable, 1, smedian.sample, 
+                                 v=ratcol, w = weightcol)))
 }

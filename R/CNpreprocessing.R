@@ -141,6 +141,11 @@
 #' of the same length as \code{normalLength}, specifying the error values
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
+#' @param weightall A \code{matrix} whose rows correspond to genomic positions 
+#' and columns to copy number profiles (same as ratall). Its matrix elements 
+#' are functions of weight of the genomic region.
+#' Default: \code{NULL}.
+#' 
 #' @return The input \code{segall} \code{data.frame} to which some or all of 
 #' the following columns may be bound, depending on the availability of input:
 #' \itemize{
@@ -228,7 +233,7 @@
 #'     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
 #'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bsTimes=50,
 #'     chromRange=1:22, nJobs=40, modelNames="E", 
-#'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
+#'     normalLength=normsegs[,1], normalMedian=normsegs[,2], weightall=NULL)
 #' }
 #' 
 #' @author Alexander Krasnitz
@@ -241,7 +246,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     minJoin=NULL, nTrial=10, bestBIC=-1e7, modelNames="E", cWeight=NULL,
     bsTimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
     normalMedian=NULL, normalMad=NULL,
-    normalError=NULL) {
+    normalError=NULL, weightall=NULL) {
     
     ## Parameters validation
     validateCNpreprocessing(segall=segall, ratall=ratall, idCol=idCol, 
@@ -258,7 +263,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                             chromRange=chromRange, nJobs=nJobs, 
                             normalLength=normalLength, 
                             normalMedian=normalMedian, normalMad=normalMad,
-                            normalError=normalError)
+                            normalError=normalError, weightall)
 
     ## Select the type of parallel environment used for parallel processing
     nbrThreads <- as.integer(nJobs)
@@ -286,17 +291,33 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                         segall)
                 idCol <- "ID"
                 dimnames(segall)[[2]][1] <- idCol
+                if (!is.null(weightall)) {
+                    if(sum(apply(weightall, 2, data.class) == "numeric") > 1) {
+                        stop("Ambiguity: more than 1 numeric column ", 
+                             "in weight data table\n")
+                    }
+                }
             }
-        }
+        } 
     }
 
     if (is.null(ratall)) {
         cat("No raw table, proceeding to comparison\n")
+        if(!is.null(weightall)) {
+            stop("weightall without ratall\n")
+        }
+        
     } else {
         profnames <- unique(segall[,idCol])
         
         if (!all(profnames %in% dimnames(ratall)[[2]])) {
             stop("Found unmatched segmented profile IDs\n")
+        }
+        
+        if (!(is.null(weightall))) {
+            if (!all(profnames%in%dimnames(weightall)[[2]])) {
+                stop("Found unmatched segmented profile IDs in weightall\n")
+            }
         }
         
         if (is.null(startCol) | is.null(endCol)) { 
@@ -306,6 +327,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             if (is.null(bpStartCol) | is.null(bpEndCol) | is.null(chromCol)) {
                 stop("Unable to proceed: incomplete segment annotation\n")
             }
+            
+            
             
             if (is.null(chromRange)) {
                 chromRange <- sort(unique(segall[,chromCol]))
@@ -371,6 +394,12 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             profpack[[pn]]$rat <- ratall[,pn]
             profpack[[pn]]$stream <- pn
             profpack[[pn]]$sub <- match(pn, profnames)
+            
+            if (!(is.null(weightall))) {
+                profpack[[pn]]$weight <- weightall[, pn]
+            } else {
+                profpack[[pn]]$weight <- NULL
+            }
         }
         
         rm(ratall)

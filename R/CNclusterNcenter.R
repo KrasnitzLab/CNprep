@@ -18,6 +18,8 @@
 #'     profile ID.}
 #' \item{\code{sub}}{ a \code{numeric} representing the position of the current
 #'     profile ID in a \code{vector} of profiles.}
+#' \item{\code{weight}}{ a \code{numeric} \code{vector} of elements that are 
+#' weight the bin} 
 #' }
 #' 
 #' @param blsize a single \code{integer} specifying the bootstrap 
@@ -93,9 +95,11 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     ## Add to the current data.frame a column with the median and a column
     ## with the median absolute deviation for each group of bins forming 
     ## a specific segment
+    # Modified for weigh
     segrat$seg <- cbind(segrat$seg,
                         t(apply(segrat$seg[,c(startcol, endcol, chromcol),
-                        drop=FALSE], 1, smedmad, v=segrat$rat)))
+                        drop=FALSE], 1, smedmad, v=segrat$rat,
+                        w=segrat$weight)))
     
     ## Assigning the column names of the updated data.frame
     dimnames(segrat$seg)[[2]] <- c(startcol, endcol, chromcol, medcol, madcol)
@@ -113,9 +117,17 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     
     ratuse <- segrat$rat[aux == 1]
     
+    # Modified for weight
+    if (length(segrat$weight) > 0) {
+        weightuse <- segrat$weight[aux == 1]
+    } else{
+        weightuse <- NULL
+    }
+    
     ## Run trials and keep best cluster from all trial (best BIC value)
     for(j in seq_len(nTrial)) {
-        aaa <- segsample(seguse, ratuse, blocksize=blsize)
+        # Modified for weight
+        aaa <- segsample(seguse, ratuse, blocksize=blsize, weightcol=weightuse)
         if (all(unique(aaa[,3]) == 0)) { 
             aaa[,3] <- 1e-10 
         }
@@ -147,7 +159,9 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     mediandev <- segrat$seg[, medcol] - profcenter
     
     ## Bin sampling
-    segs <- segsample(segrat$seg, segrat$rat, times=bstimes)
+    # Modified for weight
+    segs <- segsample(segrat$seg, segrat$rat, times=bstimes, 
+                      weightcol=segrat$weight)
 
     if (all(unique(aaa[,3]) == 1e-10)) { 
         segs[segs[,3] == 0, 3] <- 1e-10 
