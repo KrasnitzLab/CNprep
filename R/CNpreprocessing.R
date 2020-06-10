@@ -263,7 +263,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                             chromRange=chromRange, nJobs=nJobs, 
                             normalLength=normalLength, 
                             normalMedian=normalMedian, normalMad=normalMad,
-                            normalError=normalError, weightall)
+                            normalError=normalError, weightall=NULL)
 
     ## Select the type of parallel environment used for parallel processing
     nbrThreads <- as.integer(nJobs)
