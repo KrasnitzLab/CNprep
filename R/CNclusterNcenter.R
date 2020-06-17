@@ -109,25 +109,25 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     
     ## Identify bins that are associated to the retained segments
     ## Only those bins will be kept for the analysis
-    aux <- rep(0, length(segrat$rat))
-    aux[seguse[, startcol]] <- 1  ## start position == 1
-    aux[seguse[, endcol]]   <- (-1) ## end position == -1
-    aux <- cumsum(aux) ## bins to retained are tagged 1 (except end position)
-    aux[seguse[, endcol]]   <- 1 ## end position == 1
-    
-    ratuse <- segrat$rat[aux == 1]
-    
-    # Modified for weight
-    if (length(segrat$weight) > 0) {
-        weightuse <- segrat$weight[aux == 1]
-    } else{
-        weightuse <- NULL
-    }
+    # aux <- rep(0, length(segrat$rat))
+    # aux[seguse[, startcol]] <- 1  ## start position == 1
+    # aux[seguse[, endcol]]   <- (-1) ## end position == -1
+    # aux <- cumsum(aux) ## bins to retained are tagged 1 (except end position)
+    # aux[seguse[, endcol]]   <- 1 ## end position == 1
+    # 
+    # ratuse <- segrat$rat[aux == 1]
+    # 
+    # # Modified for weight
+    # if (length(segrat$weight) > 0) {
+    #     weightuse <- segrat$weight[aux == 1]
+    # } else{
+    #     weightuse <- NULL
+    # }
     
     ## Run trials and keep best cluster from all trial (best BIC value)
     for(j in seq_len(nTrial)) {
         # Modified for weight
-        aaa <- segsample(seguse, ratuse, blocksize=blsize, weightcol=weightuse)
+        aaa <- segsample(seguse, segrat$rat, blocksize=blsize, weightcol=segrat$weight)
         if (all(unique(aaa[,3]) == 0)) { 
             aaa[,3] <- 1e-10 
         }
