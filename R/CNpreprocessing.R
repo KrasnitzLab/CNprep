@@ -246,7 +246,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     minJoin=NULL, nTrial=10, bestBIC=-1e7, modelNames="E", cWeight=NULL,
     bsTimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
     normalMedian=NULL, normalMad=NULL,
-    normalError=NULL, weightall=NULL) {
+    normalError=NULL, weightall=NULL, keepClust=FALSE) {
     
     ## Parameters validation
     validateCNpreprocessing(segall=segall, ratall=ratall, idCol=idCol, 
@@ -411,15 +411,30 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                 bestBIC=bestBIC, modelNames=modelNames, 
                                 cweight=cWeight, bstimes=bsTimes, 
                                 chromRange=chromRange, 
+                                keepClust=keepClust,
                                 BPPARAM=coreParam)
         
-        segall <- cbind(segall, do.call(rbind, processed))
+        #segall <- cbind(segall, do.call(rbind, processed))
+        segall <- cbind(segall, do.call(rbind, vapply(processed, FUN=function(x){return(list(x$seg))},FUN.VALUE = list(1))))
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
             c("segmedian", "segmad", "mediandev", "segerr", "centerz",
                 "marginalprob", "maxz", "maxzmean", "maxzsigma")
         medCol <- "mediandev"
         madCol <- "segmad"
         errorCol <- "segerr"
+        
+        if(keepClust){
+            listClust <- list()
+            for(i in seq_len(length(processed))){
+                idValue <- unique(processed$idcol)
+                if(length(idValue) > 1){
+                    warning(paste0("Problem of idcol for element ", idValue[1]))
+                    idValue <- paste0("Ind", i)
+                }
+                listClust[[idValue]] <- processed[[i]]$resClust
+            }
+            saveRDS(listClust, "listClust.rds")
+        }
     }
     
     ## Use normal samples to extract extra information when available

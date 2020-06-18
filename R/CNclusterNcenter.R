@@ -49,6 +49,8 @@
 #' time the median of each segment is sampled in order to predict the cluster 
 #' assignment for the segment.
 #' 
+#' @param keepClust a single \code{logical} if the mClust object is keep 
+#' 
 #' @param chromRange a \code{integer} vector enumerating chromosomes from 
 #' which segments are to be used for initial model-based clustering.
 #' 
@@ -83,7 +85,7 @@
 #' @importFrom mclust Mclust
 #' @keywords internal
 CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
-    modelNames, cweight, bstimes, chromRange) {
+    modelNames, cweight, bstimes, chromRange, keepClust=FALSE) {
 
 
     startcol <- "StartProbe"
@@ -138,7 +140,7 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
             bestBIC <- emfit$bic
         }
     }
-
+    
     ## Join clusters with minimum overlap
     ## The returned object is no more a Mclust object
     newem <- consolidate(bestem, minJoin)
@@ -146,7 +148,12 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     ## Join clusters until the main cluster contain the minimum required 
     ## ratio of data
     newem <- get.center(newem, cweight)
-    
+    clustRes <- NULL
+    if(keepClust){
+        clustRes <- list(bestaaa=bestaaa,
+                         bestem=bestem,
+                         newem=newem)
+    } 
     ## Get the median of the central cluster. The central cluster is
     ## the one with the mean closer to zero
     if (length(bestem$parameters$mean) == 1) { 
@@ -179,7 +186,8 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
                 newem$center)
     w <- t(matrix(nrow=bstimes, data=segs[,3]))
     segerr <- sqrt(apply(w, 1, var, na.rm=TRUE))
-    
-    return(cbind(segrat$seg[, medcol], segrat$seg[,madcol], mediandev, segerr, 
-                    centerz, cpb, maxz, maxzmean, maxzsigma))
+    res <- list(seg=cbind(segrat$seg[, medcol], segrat$seg[,madcol], mediandev, segerr, 
+                          centerz, cpb, maxz, maxzmean, maxzsigma),
+                clustRes=clustRes)
+    return()
 }
