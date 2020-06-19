@@ -189,5 +189,5 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     res <- list(seg=cbind(segrat$seg[, medcol], segrat$seg[,madcol], mediandev, segerr, 
                           centerz, cpb, maxz, maxzmean, maxzsigma),
                 clustRes=clustRes)
-    return()
+    return(res)
 }
