@@ -146,7 +146,7 @@
 #' are functions of weight of the genomic region.
 #' Default: \code{NULL}.
 #' 
-#' @return The input \code{segall} \code{data.frame} to which some or all of 
+#' @return If \code{keepCLust} is FALSE: the input \code{segall} \code{data.frame} to which some or all of 
 #' the following columns may be bound, depending on the availability of input:
 #' \itemize{
 #' \item{segmedian}{ a \code{numeric}, the median function of copy number}
@@ -170,6 +170,12 @@
 #' \item{negtailnormerror}{ a \code{numeric}, the probability of finding 
 #' the deviation/error as observed or larger in a collection of 
 #' central segments}
+#' }
+#' else if \code{keepCLust} is TRUE :
+#' a \code{list} with the component
+#' \itemize{
+#' \item{maxz}{ segall define before}
+#' \item{resCLust}{TODO}
 #' }
 #'
 #' @details Depending on the availability of input, the function will 
@@ -274,6 +280,10 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         coreParam <- SnowParam(workers = nbrThreads, RNGseed = seed)
     }
     
+    # Initialise the variables for the final result
+    res <- NULL
+    resClust <- NULL
+    
     ## When the column for the profile ID is not specified, see if it can
     ## deducted from the data
     ## If only one column in the ratall table is numerical, it will be 
@@ -300,7 +310,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             }
         } 
     }
-
+    
     if (is.null(ratall)) {
         cat("No raw table, proceeding to comparison\n")
         if(!is.null(weightall)) {
@@ -415,28 +425,30 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                 BPPARAM=coreParam)
         
         #segall <- cbind(segall, do.call(rbind, processed))
-        saveRDS(processed, "processed.rds")
-        segall <- processed
-        # segall <- cbind(segall, do.call(rbind, vapply(processed, FUN=function(x){return(list(x$seg))},FUN.VALUE = list(1))))
-        # dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
-        #     c("segmedian", "segmad", "mediandev", "segerr", "centerz",
-        #         "marginalprob", "maxz", "maxzmean", "maxzsigma")
-        # medCol <- "mediandev"
-        # madCol <- "segmad"
-        # errorCol <- "segerr"
-        # 
-        # if(keepClust){
-        #     listClust <- list()
-        #     for(i in seq_len(length(processed))){
-        #         idValue <- unique(processed$idcol)
-        #         if(length(idValue) > 1){
-        #             warning(paste0("Problem of idcol for element ", idValue[1]))
-        #             idValue <- paste0("Ind", i)
-        #         }
-        #         listClust[[idValue]] <- processed[[i]]$resClust
-        #     }
-        #     saveRDS(listClust, "listClust.rds")
-        # }
+        #saveRDS(processed, "processed.rds")
+        if(keepClust){
+            segall <- cbind(segall, 
+                            do.call(rbind, 
+                                    vapply(processed, 
+                                           FUN=function(x){return(list(x$seg))},
+                                           FUN.VALUE = list(1))))
+            resClust <- vapply(processed, 
+                               FUN=function(x){return(list(x$seg))},
+                               FUN.VALUE = list(1))
+            names(resClust) <- names(processed)
+            
+        } else{
+            segall <- cbind(segall, do.call(rbind, processed))
+        }
+        
+
+        dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
+            c("segmedian", "segmad", "mediandev", "segerr", "centerz",
+                "marginalprob", "maxz", "maxzmean", "maxzsigma")
+        medCol <- "mediandev"
+        madCol <- "segmad"
+        errorCol <- "segerr"
+        
     }
     
     ## Use normal samples to extract extra information when available
@@ -469,6 +481,13 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                     tumorerror))
     }
     
-    return(segall)
+    if(keepClust){
+        res <- list(segall=segall,
+                    resClust=resClust)
+    }else{
+        res=segall
+    }
+    
+    return(res)
 }
 
