@@ -433,7 +433,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                            FUN=function(x){return(list(x$seg))},
                                            FUN.VALUE = list(1))))
             resClust <- vapply(processed, 
-                               FUN=function(x){return(list(x$seg))},
+                               FUN=function(x){return(list(x$clustRes))},
                                FUN.VALUE = list(1))
             names(resClust) <- names(processed)
             
