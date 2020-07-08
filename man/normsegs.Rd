@@ -4,14 +4,16 @@
 \name{normsegs}
 \alias{normsegs}
 \title{A reference set of segments}
-\format{a \code{matrix} with 43497 rows/segments and 2 columns/variables. 
+\format{
+a \code{matrix} with 43497 rows/segments and 2 columns/variables. 
 The 2 columns are:
 \itemize{
 \item{\code{length}}{ a \code{numeric} \code{vector}, used as integer, of 
     segment genomic length}
 \item{\code{segmedian}}{ a \code{numeric} \code{vector} of segment 
     median computed from log copy number ratio}
-}}
+}
+}
 \source{
 Sebat J, et al. Strong association of de novo copy number 
 mutations with autism. Science. 2007 Apr 20;316(5823):445-9. 
@@ -52,14 +54,14 @@ data(normsegs)
 
 ## Preprocess segments for WZ3 sample
 segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ3",],
-                 ratall=ratexample, idCol="ID", startCol = "start", 
-                 endCol="end", chromCol="chrom", 
-                 bpStartCol="chrom.pos.start", 
-                 bpEndCol="chrom.pos.end", blsize=50, 
-                 minJoin=0.30, cWeight=0.4,
-                 bsTimes = 40, chromRange=1:22, nJobs=1, 
-                 modelNames="E", normalLength=normsegs[,1], 
-                 normalMedian=normsegs[,2])
+                 ratall = ratexample, idCol = "ID", startCol = "start", 
+                 endCol="end", chromCol = "chrom", 
+                 bpStartCol = "chrom.pos.start", 
+                 bpEndCol = "chrom.pos.end", blsize = 50, 
+                 minJoin = 0.30, cWeight = 0.4,
+                 bsTimes = 40, chromRange = 1:22, 
+                 modelNames = "E", normalLength = normsegs[,1], 
+                 normalMedian = normsegs[,2], BPPARAM = SerialParam())
 
 }
 \seealso{

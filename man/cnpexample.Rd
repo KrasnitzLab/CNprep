@@ -4,7 +4,8 @@
 \name{cnpexample}
 \alias{cnpexample}
 \title{Example of a boundary positions table.}
-\format{a \code{data.frame} with 19188 rows and 4 columns: 
+\format{
+a \code{data.frame} with 19188 rows and 4 columns: 
 \describe{
 \item{\code{copy.num}}{ a \code{character} \code{vector} indicating 
     whether an event is a gain ("amp") or a loss ("del"). }
@@ -14,7 +15,8 @@
     integer, representing the event start positions.}
 \item{\code{chrom.end}}{ a \code{numeric} \code{vector}, used as an integer,
     of event start positions.}
-}}
+}
+}
 \source{
 Strong association of de novo copy number mutations with autism.
 Sebat J, Lakshmi B, Malhotra D, Troge J, Lese-Martin C, Walsh T, Yamrom B, 
@@ -58,7 +60,7 @@ segtable <- CNpreprocessing(segall = segexample[segexample[,"ID"] == "WZ2",],
     ratall = ratexample, idCol = "ID", startCol = "start", endCol = "end",
     chromCol = "chrom", bpStartCol = "chrom.pos.start", 
     bpEndCol = "chrom.pos.end", blsize = 50, minJoin = 0.25, cWeight = 0.4,
-    bsTimes = 50, chromRange = 1:22, nJobs = 1, 
+    bsTimes = 50, chromRange = 1:22,  
     modelNames = "E", normalLength = normsegs[,1], 
     normalMedian = normsegs[,2])
 

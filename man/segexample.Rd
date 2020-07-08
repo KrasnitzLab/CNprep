@@ -4,7 +4,8 @@
 \name{segexample}
 \alias{segexample}
 \title{Example of a segmented copy number table}
-\format{a \code{data.frame} with 479 rows/segments and 12 
+\format{
+a \code{data.frame} with 479 rows/segments and 12 
 columns/variables:
 \itemize{
 \item{\code{ID}}{ a \code{character} \code{vector} of profile IDs}
@@ -27,7 +28,8 @@ columns/variables:
     start, absolute)}
 \item{\code{abs.pos.end}}{ a \code{numeric} \code{vector} (genomic 
     end, absolute)}
-}}
+}
+}
 \source{
 Hicks, J. et al. Novel patterns of genome rearrangement and their 
 association with survival in breast cancer. Genome Res. 2006. 16:1465–1479.
@@ -84,14 +86,14 @@ data(normsegs)
 
 ## Preprocess segments for WZ2 sample
 segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ2",],
-                 ratall=ratexample, idCol="ID", startCol = "start", 
-                 endCol="end", chromCol="chrom", 
-                 bpStartCol="chrom.pos.start", 
-                 bpEndCol="chrom.pos.end", blsize=50, 
-                 minJoin=0.25, cWeight=0.4,
-                 bsTimes = 30, chromRange=1:22, nJobs=1, 
-                 modelNames="E", normalLength=normsegs[,1], 
-                 normalMedian=normsegs[,2])
+                 ratall = ratexample, idCol = "ID", startCol = "start", 
+                 endCol = "end", chromCol = "chrom", 
+                 bpStartCol = "chrom.pos.start", 
+                 bpEndCol = "chrom.pos.end", blsize = 50, 
+                 minJoin = 0.25, cWeight = 0.4,
+                 bsTimes = 30, chromRange = 1:22,  
+                 modelNames = "E", normalLength = normsegs[,1], 
+                 normalMedian = normsegs[,2], BPPARAM = SerialParam())
 
 }
 \seealso{

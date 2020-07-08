@@ -122,10 +122,6 @@
 #' from which segments are to be used for initial model-based clustering.
 #' Default: \code{NULL}.
 #' 
-#' @param nJobs a single positive \code{integer} specifying the number of 
-#' worker jobs to create in case of distributed computation. 
-#' Default: \code{1} and always \code{1} for Windows.
-#' 
 #' @param normalLength an integer \code{vector} specifying the genomic lengths 
 #' of segments in the normal reference data. Default: \code{NULL}.
 #' 
@@ -140,6 +136,11 @@
 #' @param normalError a numeric \code{vector}, 
 #' of the same length as \code{normalLength}, specifying the error values
 #' of the normal reference segments. Default: \code{NULL}.
+#' 
+#' @param BPPARAM an optional \class{BiocParallelParam} parameter object 
+#' passed internally to \code{\link{bplapply}}. Depending on the settings, 
+#' this  object can enable parallelization. If not specified, the 
+#' parameters last registered with \code{\link{register}} will be used.
 #' 
 #' @return The input \code{segall} \code{data.frame} to which some or all of 
 #' the following columns may be bound, depending on the availability of input:
@@ -205,7 +206,7 @@
 #'     chromCol="chrom", bpStartCol="chrom.pos.start", 
 #'     bpEndCol="chrom.pos.end", blsize=50, 
 #'     minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, 
-#'     nJobs=1, modelNames="E", normalLength=normsegs[,1],
+#'     modelNames="E", normalLength=normsegs[,1],
 #'     normalMedian=normsegs[,2])
 #'     
 #' \dontrun{
@@ -213,11 +214,11 @@
 #' segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
 #'    "start","end", chromCol="chrom",bpStartCol="chrom.pos.start",
 #'    bpEndCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
-#'    bsTimes=50, chromRange=1:22, nJobs=40, 
+#'    bsTimes=50, chromRange=1:22, 
 #'    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #'    
 #' ## Example 2: how to use annotexample, when segment table does not have 
-#' columns of integer postions in terms of  measuring units(probes), such as 
+#' columns of integer positions in terms of  measuring units(probes), such as 
 #' "mysegs" below
 #' mysegs <- segexample[,c(1,5:12)]
 #' 
@@ -227,21 +228,21 @@
 #'     chromCol="chrom", bpStartCol="chrom.pos.start",bpEndCol="chrom.pos.end",
 #'     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
 #'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bsTimes=50,
-#'     chromRange=1:22, nJobs=40, modelNames="E", 
+#'     chromRange=1:22, modelNames="E", 
 #'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' }
 #' 
 #' @author Alexander Krasnitz
-#' @importFrom BiocParallel multicoreWorkers SnowParam SerialParam bplapply
+#' @importFrom BiocParallel multicoreWorkers SnowParam SerialParam bplapply bpparam
 #' @export
 CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     endCol=NULL, medCol=NULL, madCol=NULL, errorCol=NULL, chromCol=NULL,
     bpStartCol=NULL, bpEndCol=NULL, annot=NULL, annotStartCol=NULL, 
     annotEndCol=NULL, annotChromCol=NULL, useEnd=FALSE, blsize=NULL, 
     minJoin=NULL, nTrial=10, bestBIC=-1e7, modelNames="E", cWeight=NULL,
-    bsTimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
+    bsTimes=NULL, chromRange=NULL, normalLength=NULL, 
     normalMedian=NULL, normalMad=NULL,
-    normalError=NULL) {
+    normalError=NULL, BPPARAM=bpparam()) {
     
     ## Parameters validation
     validateCNpreprocessing(segall=segall, ratall=ratall, idCol=idCol, 
@@ -255,18 +256,18 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                             blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
                             bestBIC=bestBIC, modelNames=modelNames, 
                             cWeight=cWeight, bsTimes=bsTimes, 
-                            chromRange=chromRange, nJobs=nJobs, 
+                            chromRange=chromRange,  
                             normalLength=normalLength, 
                             normalMedian=normalMedian, normalMad=normalMad,
                             normalError=normalError)
 
-    ## Select the type of parallel environment used for parallel processing
-    nbrThreads <- as.integer(nJobs)
-    if (nbrThreads == 1 || multicoreWorkers() == 1) {
-        coreParam <- SerialParam()
-    } else {
-        coreParam <- SnowParam(workers = nbrThreads)
-    }
+    # ## Select the type of parallel environment used for parallel processing
+    # nbrThreads <- as.integer(nJobs)
+    # if (nbrThreads == 1 || multicoreWorkers() == 1) {
+    #     coreParam <- SerialParam()
+    # } else {
+    #     coreParam <- SnowParam(workers = nbrThreads)
+    # }
     
     ## When the column for the profile ID is not specified, see if it can
     ## deducted from the data
@@ -381,7 +382,20 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                 bestBIC=bestBIC, modelNames=modelNames, 
                                 cweight=cWeight, bstimes=bsTimes, 
                                 chromRange=chromRange, 
-                                BPPARAM=coreParam)
+                                BPPARAM=BPPARAM)
+        
+        # # Check for errors
+        # if (!all(bpok(processed))) {
+        #     
+        #     i <- grepl("stop", attr(processed[[1]], "traceback"))
+        #     i <- which(i)[1]
+        # 
+        #     msg <- strsplit(attr(processed[[1]], 
+        #                          "traceback")[i], "[()]")[[1]][2]
+        #     msg <- substring(msg, 2, nchar(msg) - 1)
+        #     stop(msg)
+        # }
+        
         
         segall <- cbind(segall, do.call(rbind, processed))
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-

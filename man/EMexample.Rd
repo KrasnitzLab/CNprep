@@ -4,7 +4,8 @@
 \name{EMexample}
 \alias{EMexample}
 \title{A model-based clustering}
-\format{an object of class \code{Mclust} providing the optimal (according 
+\format{
+an object of class \code{Mclust} providing the optimal (according 
 to BIC) mixture model estimation composed of 5 clusters. 
 The details of the output components are as follows:
 \itemize{
@@ -40,7 +41,8 @@ The details of the output components are as follows:
     classification corresponding to \code{z}}
 \item{\code{uncertainty}}{ a \code{double}, the uncertainty associated 
     with the classification}
-}}
+}
+}
 \usage{
 data(EMexample)
 }

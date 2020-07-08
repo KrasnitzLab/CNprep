@@ -29,11 +29,11 @@ CNpreprocessing(
   cWeight = NULL,
   bsTimes = NULL,
   chromRange = NULL,
-  nJobs = 1,
   normalLength = NULL,
   normalMedian = NULL,
   normalMad = NULL,
-  normalError = NULL
+  normalError = NULL,
+  BPPARAM = bpparam()
 )
 }
 \arguments{
@@ -153,10 +153,6 @@ default value that is not null.}
 from which segments are to be used for initial model-based clustering.
 Default: \code{NULL}.}
 
-\item{nJobs}{a single positive \code{integer} specifying the number of 
-worker jobs to create in case of distributed computation. 
-Default: \code{1} and always \code{1} for Windows.}
-
 \item{normalLength}{an integer \code{vector} specifying the genomic lengths 
 of segments in the normal reference data. Default: \code{NULL}.}
 
@@ -171,6 +167,11 @@ of the normal reference segments. Default: \code{NULL}.}
 \item{normalError}{a numeric \code{vector}, 
 of the same length as \code{normalLength}, specifying the error values
 of the normal reference segments. Default: \code{NULL}.}
+
+\item{BPPARAM}{an optional \class{BiocParallelParam} parameter object 
+passed internally to \code{\link{bplapply}}. Depending on the settings, 
+this  object can enable parallelization. If not specified, the 
+parameters last registered with \code{\link{register}} will be used.}
 }
 \value{
 The input \code{segall} \code{data.frame} to which some or all of 
@@ -244,7 +245,7 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
     chromCol="chrom", bpStartCol="chrom.pos.start", 
     bpEndCol="chrom.pos.end", blsize=50, 
     minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, 
-    nJobs=1, modelNames="E", normalLength=normsegs[,1],
+    modelNames="E", normalLength=normsegs[,1],
     normalMedian=normsegs[,2])
     
 \dontrun{
@@ -252,11 +253,11 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
 segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
    "start","end", chromCol="chrom",bpStartCol="chrom.pos.start",
    bpEndCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
-   bsTimes=50, chromRange=1:22, nJobs=40, 
+   bsTimes=50, chromRange=1:22, 
    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
    
 ## Example 2: how to use annotexample, when segment table does not have 
-columns of integer postions in terms of  measuring units(probes), such as 
+columns of integer positions in terms of  measuring units(probes), such as 
 "mysegs" below
 mysegs <- segexample[,c(1,5:12)]
 
@@ -266,7 +267,7 @@ segtable <- CNpreprocessing(segall=mysegs,ratall=ratexample, idCol="ID",
     chromCol="chrom", bpStartCol="chrom.pos.start",bpEndCol="chrom.pos.end",
     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bsTimes=50,
-    chromRange=1:22, nJobs=40, modelNames="E", 
+    chromRange=1:22, modelNames="E", 
     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 }
 
