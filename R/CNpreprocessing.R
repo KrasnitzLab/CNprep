@@ -265,8 +265,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
     } else {
-        seed <- get(".Random.seed", 1)[1]
-        coreParam <- SnowParam(workers = nbrThreads, RNGseed = seed)
+        coreParam <- SnowParam(workers = nbrThreads)
     }
     
     ## When the column for the profile ID is not specified, see if it can
