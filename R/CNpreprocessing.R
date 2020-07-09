@@ -137,9 +137,11 @@
 #' of the same length as \code{normalLength}, specifying the error values
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
-#' @param BPPARAM an optional \class{BiocParallelParam} parameter object 
-#' passed internally to \code{\link{bplapply}}. Depending on the settings, 
-#' this  object can enable parallelization. If not specified, the 
+#' @param BPPARAM an optional 
+#' \link[BiocParallel:BiocParallelParam]{BiocParallel::BiocParallelParam} 
+#' parameter object passed internally to 
+#' \code{\link[BiocParallel:bplapply]{BiocParallel::bplapply}}. Depending on 
+#' the settings, this object can enable parallelization. If not specified, the 
 #' parameters last registered with \code{\link{register}} will be used.
 #' 
 #' @return The input \code{segall} \code{data.frame} to which some or all of 

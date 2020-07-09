@@ -168,9 +168,11 @@ of the normal reference segments. Default: \code{NULL}.}
 of the same length as \code{normalLength}, specifying the error values
 of the normal reference segments. Default: \code{NULL}.}
 
-\item{BPPARAM}{an optional \class{BiocParallelParam} parameter object 
-passed internally to \code{\link{bplapply}}. Depending on the settings, 
-this  object can enable parallelization. If not specified, the 
+\item{BPPARAM}{an optional 
+\link[BiocParallel:BiocParallelParam]{BiocParallel::BiocParallelParam} 
+parameter object passed internally to 
+\code{\link[BiocParallel:bplapply]{BiocParallel::bplapply}}. Depending on 
+the settings, this object can enable parallelization. If not specified, the 
 parameters last registered with \code{\link{register}} will be used.}
 }
 \value{
