@@ -91,9 +91,9 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ2",],
                  bpStartCol = "chrom.pos.start", 
                  bpEndCol = "chrom.pos.end", blsize = 50, 
                  minJoin = 0.25, cWeight = 0.4,
-                 bsTimes = 30, chromRange = 1:22,  
+                 bsTimes = 30, chromRange = 1:22, nJobs = 1,
                  modelNames = "E", normalLength = normsegs[,1], 
-                 normalMedian = normsegs[,2], BPPARAM = SerialParam())
+                 normalMedian = normsegs[,2])
 
 }
 \seealso{

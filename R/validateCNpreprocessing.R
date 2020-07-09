@@ -106,6 +106,9 @@
 #' @param chromRange A \code{integer} \code{vector} enumerating chromosomes 
 #' from which segments are to be used for initial model-based clustering.
 #' 
+#' @param nJobs a single positive \code{integer} specifying the number of 
+#' worker jobs to create in case of distributed computation. 
+#' 
 #' @param normalLength An integer \code{vector} specifying the genomic lengths 
 #' of segments in the normal reference data. 
 #' 
@@ -135,7 +138,7 @@
 #'     chromCol="chrom", bpStartCol="chrom.pos.start", 
 #'     bpEndCol="chrom.pos.end", blsize=50, nTrial=10,
 #'     useEnd=FALSE, minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, 
-#'     modelNames="E", normalLength=normsegs[,1],
+#'     nJobs=1, modelNames="E", normalLength=normsegs[,1],
 #'     normalMedian=normsegs[,2])
 #' 
 #' @author Astrid Deschênes
@@ -147,14 +150,25 @@ validateCNpreprocessing <- function(segall, ratall, idCol,
         annotStartCol, 
         annotEndCol, annotChromCol, useEnd, blsize, 
         minJoin, nTrial, bestBIC, modelNames, cWeight,
-        bsTimes, chromRange, normalLength, 
+        bsTimes, chromRange, nJobs, normalLength, 
         normalMedian, normalMad,
         normalError) 
 {
+    ## Validate that nJobs is an positive integer
+    if (!(isSingleInteger(nJobs) || isSingleNumber(nJobs)) ||
+        as.integer(nJobs) < 1) {
+        stop("nJobs must be a positive integer")
+    }
+
     ## Validate that nTrial is an positive integer
     if (!(isSingleInteger(nTrial) || isSingleNumber(nTrial)) ||
         as.integer(nTrial) < 1) {
         stop("nTrial must be a positive integer")
+    }
+    
+    ## Validate that nJobs is set to 1 on Windows system
+    if (Sys.info()["sysname"] == "Windows" && as.integer(nJobs) != 1) {
+       stop("nJobs must be 1 on a Windows system")
     }
     
     ## Validate that useEnd is logical

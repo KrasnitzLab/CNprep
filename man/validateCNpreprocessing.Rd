@@ -29,6 +29,7 @@ validateCNpreprocessing(
   cWeight,
   bsTimes,
   chromRange,
+  nJobs,
   normalLength,
   normalMedian,
   normalMad,
@@ -139,6 +140,9 @@ cluster assignment for the segment.}
 \item{chromRange}{A \code{integer} \code{vector} enumerating chromosomes 
 from which segments are to be used for initial model-based clustering.}
 
+\item{nJobs}{a single positive \code{integer} specifying the number of 
+worker jobs to create in case of distributed computation.}
+
 \item{normalLength}{An integer \code{vector} specifying the genomic lengths 
 of segments in the normal reference data.}
 
@@ -173,7 +177,7 @@ CNprep:::validateCNpreprocessing(segall=segexample,
     chromCol="chrom", bpStartCol="chrom.pos.start", 
     bpEndCol="chrom.pos.end", blsize=50, nTrial=10,
     useEnd=FALSE, minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, 
-    modelNames="E", normalLength=normsegs[,1],
+    nJobs=1, modelNames="E", normalLength=normsegs[,1],
     normalMedian=normsegs[,2])
 
 }

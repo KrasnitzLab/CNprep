@@ -60,7 +60,7 @@ segtable <- CNpreprocessing(segall = segexample[segexample[,"ID"] == "WZ2",],
     ratall = ratexample, idCol = "ID", startCol = "start", endCol = "end",
     chromCol = "chrom", bpStartCol = "chrom.pos.start", 
     bpEndCol = "chrom.pos.end", blsize = 50, minJoin = 0.25, cWeight = 0.4,
-    bsTimes = 50, chromRange = 1:22,  
+    bsTimes = 50, chromRange = 1:22, nJobs = 1, 
     modelNames = "E", normalLength = normsegs[,1], 
     normalMedian = normsegs[,2])
 

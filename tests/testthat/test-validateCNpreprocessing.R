@@ -50,7 +50,7 @@ test_that("validateCNpreprocessing() must return error when nTrial is zero", {
                                 chromCol="chrom", bpStartCol="chrom.pos.start", 
                                 bpEndCol="chrom.pos.end", nTrial=0, useEnd=FALSE,
                                 blsize=5, minJoin=0.25, cWeight=0.4, bsTimes=1, chromRange=1,
-                                modelNames="E", normalLength=normalLength,
+                                nJobs=1, modelNames="E", normalLength=normalLength,
                                 normalMedian=normSegs), message)
 })
 
@@ -63,7 +63,7 @@ test_that("validateCNpreprocessing() must return error when nTrial is negative",
                                                   chromCol="chrom", bpStartCol="chrom.pos.start", 
                                                   bpEndCol="chrom.pos.end", nTrial=-1, useEnd=FALSE,
                                                   blsize=5, minJoin=0.25, cWeight=0.4, bsTimes=1, chromRange=1,
-                                                   modelNames="E", normalLength=normalLength,
+                                                  nJobs=1, modelNames="E", normalLength=normalLength,
                                                   normalMedian=normSegs), message)
 })
 
@@ -76,7 +76,7 @@ test_that("validateCNpreprocessing() must return error when nTrial is not an int
                                                   chromCol="chrom", bpStartCol="chrom.pos.start", 
                                                   bpEndCol="chrom.pos.end", nTrial="allo", useEnd=FALSE,
                                                   blsize=5, minJoin=0.25, cWeight=0.4, bsTimes=1, chromRange=1,
-                                                  modelNames="E", normalLength=normalLength,
+                                                  nJobs=1, modelNames="E", normalLength=normalLength,
                                                   normalMedian=normSegs), message)
 })
 
@@ -90,7 +90,7 @@ test_that("validateCNpreprocessing() must return error when useEnd is not a logi
                                                   chromCol="chrom", bpStartCol="chrom.pos.start", 
                                                   bpEndCol="chrom.pos.end", nTrial=4, useEnd="Frida",
                                                   blsize=5, minJoin=0.25, cWeight=0.4, bsTimes=1, chromRange=1,
-                                                  modelNames="E", normalLength=normalLength,
+                                                  nJobs=1, modelNames="E", normalLength=normalLength,
                                                   normalMedian=normSegs), message)
 })
 
@@ -101,7 +101,7 @@ test_that("validateCNpreprocessing() must return zero when all parameters valid"
                                                   chromCol="chrom", bpStartCol="chrom.pos.start", 
                                                   bpEndCol="chrom.pos.end", nTrial=4, useEnd=FALSE,
                                                   blsize=5, minJoin=0.25, cWeight=0.4, bsTimes=1, chromRange=1,
-                                                  modelNames="E", normalLength=normalLength,
+                                                nJobs=1, modelNames="E", normalLength=normalLength,
                                                   normalMedian=normSegs)
     
     expected <- 0L
@@ -119,7 +119,7 @@ test_that("validateCNpreprocessing() must return error when bsTimes is not an in
                                                   chromCol="chrom", bpStartCol="chrom.pos.start", 
                                                   bpEndCol="chrom.pos.end", nTrial=4, useEnd=FALSE,
                                                   blsize=5, minJoin=0.25, cWeight=0.4, bsTimes="hi", chromRange=1,
-                                                  modelNames="E", normalLength=normalLength,
+                                                  nJobs=1, modelNames="E", normalLength=normalLength,
                                                   normalMedian=normSegs), message)
 })
 
@@ -132,7 +132,7 @@ test_that("validateCNpreprocessing() must return error when bsTimes is zero", {
                                                   chromCol="chrom", bpStartCol="chrom.pos.start", 
                                                   bpEndCol="chrom.pos.end", nTrial=4, useEnd=FALSE,
                                                   blsize=5, minJoin=0.25, cWeight=0.4, bsTimes=0, chromRange=1,
-                                                  modelNames="E", normalLength=normalLength,
+                                                  nJobs=1, modelNames="E", normalLength=normalLength,
                                                   normalMedian=normSegs), message)
 })
 
@@ -145,6 +145,34 @@ test_that("validateCNpreprocessing() must return error when bsTimes is negative"
                                                   chromCol="chrom", bpStartCol="chrom.pos.start", 
                                                   bpEndCol="chrom.pos.end", nTrial=4, useEnd=FALSE,
                                                   blsize=5, minJoin=0.25, cWeight=0.4, bsTimes=-2, chromRange=1,
-                                                  modelNames="E", normalLength=normalLength,
+                                                  nJobs=1, modelNames="E", normalLength=normalLength,
+                                                  normalMedian=normSegs), message)
+})
+
+
+test_that("validateCNpreprocessing() must return error when nJobs is zero", {
+    
+    message <- "nJobs must be a positive integer"
+    
+    expect_error(CNprep:::validateCNpreprocessing(segall=segExample, ratall=NULL, 
+                                                  idCol="ID", startCol="start", endCol="end", 
+                                                  chromCol="chrom", bpStartCol="chrom.pos.start", 
+                                                  bpEndCol="chrom.pos.end", nTrial=4, useEnd=FALSE,
+                                                  blsize=5, minJoin=0.25, cWeight=0.4, bsTimes=1, chromRange=1,
+                                                  nJobs=0, modelNames="E", normalLength=normalLength,
+                                                  normalMedian=normSegs), message)
+})
+
+
+test_that("validateCNpreprocessing() must return error when nJobs is a string", {
+    
+    message <- "nJobs must be a positive integer"
+    
+    expect_error(CNprep:::validateCNpreprocessing(segall=segExample, ratall=NULL, 
+                                                  idCol="ID", startCol="start", endCol="end", 
+                                                  chromCol="chrom", bpStartCol="chrom.pos.start", 
+                                                  bpEndCol="chrom.pos.end", nTrial=4, useEnd=FALSE,
+                                                  blsize=5, minJoin=0.25, cWeight=0.4, bsTimes=1, chromRange=1,
+                                                  nJobs="NewYork", modelNames="E", normalLength=normalLength,
                                                   normalMedian=normSegs), message)
 })
