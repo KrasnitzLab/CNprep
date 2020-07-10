@@ -370,6 +370,34 @@ add_rect_track(maskFinal, h1=0, h2=1, gp=gpar(col="red2", fill="red2"))
 
 The *applyCNPmask()* function ... TODO
 
+
+
+# Using parallelization
+
+For experiments with many samples, one can take advantage of parallelized 
+computation. Parallelizing \code{CNpreprocessing } function can easily be 
+accomplished by setting the \code{nJobs} parameter to a number higher than 
+one. Beware that the parallelization is done per sample. So, the \code{nJobs} 
+should not be higher than the number of samples in the dataset.
+
+```{r parallel, echo=TRUE, eval=FALSE}
+
+## Load needed datasets
+data(segexample)
+data(ratexample)
+data(normsegs)
+
+## The number of threads is set to 4 (nJobs parameters)
+## Only the chromosomes 1 to 6 are analyzed (chromRange parameter)
+segtable <- CNpreprocessing(segall=segexample, ratall=ratexample, 
+    idCol="ID", startCol="start", endCol="end", chromCol="chrom", 
+    bpStartCol="chrom.pos.start", bpEndCol="chrom.pos.end", blsize=50,
+    minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:6, nJobs=4,
+    normalLength=normsegs[,1], normalMedian=normsegs[,2])
+
+```
+
+
 # Session info
 
 Here is the output of *sessionInfo()* on the system on which this document 
