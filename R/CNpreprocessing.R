@@ -232,7 +232,7 @@
 #' }
 #' 
 #' @author Alexander Krasnitz
-#' @importFrom BiocParallel multicoreWorkers SnowParam SerialParam bplapply
+#' @importFrom BiocParallel multicoreWorkers SnowParam SerialParam bplapply bptry bpok
 #' @export
 CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     endCol=NULL, medCol=NULL, madCol=NULL, errorCol=NULL, chromCol=NULL,
@@ -376,25 +376,16 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         gc()
 
         ## Running each profile id on a separate thread
-        processed <- bplapply(X=profpack, FUN=CNclusterNcenter, 
+        processed <- bptry(bplapply(X=profpack, FUN=CNclusterNcenter, 
                                 blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
                                 bestBIC=bestBIC, modelNames=modelNames, 
                                 cweight=cWeight, bstimes=bsTimes, 
                                 chromRange=chromRange, 
-                                BPPARAM=coreParam)
-        
-        # # Check for errors
-        # if (!all(bpok(processed))) {
-        #     
-        #     i <- grepl("stop", attr(processed[[1]], "traceback"))
-        #     i <- which(i)[1]
-        # 
-        #     msg <- strsplit(attr(processed[[1]], 
-        #                          "traceback")[i], "[()]")[[1]][2]
-        #     msg <- substring(msg, 2, nchar(msg) - 1)
-        #     stop(msg)
-        # }
-        
+                                BPPARAM=coreParam))
+        ## Check for errors
+        if (!all(bpok(processed))) {
+           stop("At least one parallel task has thrown an error.")
+        }
         
         segall <- cbind(segall, do.call(rbind, processed))
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
