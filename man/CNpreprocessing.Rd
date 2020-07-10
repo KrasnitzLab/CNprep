@@ -243,8 +243,8 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
     chromCol="chrom", bpStartCol="chrom.pos.start", 
     bpEndCol="chrom.pos.end", blsize=50, 
-    minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, 
-    nJobs=1, modelNames="E", normalLength=normsegs[,1],
+    minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, nJobs=1,
+    modelNames="E", normalLength=normsegs[,1],
     normalMedian=normsegs[,2])
     
 \dontrun{
@@ -252,11 +252,11 @@ segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"]=="WZ1",],
 segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
    "start","end", chromCol="chrom",bpStartCol="chrom.pos.start",
    bpEndCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
-   bsTimes=50, chromRange=1:22, nJobs=40, 
+   bsTimes=50, chromRange=1:22, nJobs=4,
    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
    
 ## Example 2: how to use annotexample, when segment table does not have 
-columns of integer postions in terms of  measuring units(probes), such as 
+columns of integer positions in terms of  measuring units(probes), such as 
 "mysegs" below
 mysegs <- segexample[,c(1,5:12)]
 
@@ -266,7 +266,7 @@ segtable <- CNpreprocessing(segall=mysegs,ratall=ratexample, idCol="ID",
     chromCol="chrom", bpStartCol="chrom.pos.start",bpEndCol="chrom.pos.end",
     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bsTimes=50,
-    chromRange=1:22, nJobs=40, modelNames="E", 
+    chromRange=1:22, modelNames="E", nJobs=4,
     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 }
 

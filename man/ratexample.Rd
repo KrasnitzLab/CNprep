@@ -4,8 +4,10 @@
 \name{ratexample}
 \alias{ratexample}
 \title{Example of copy number log ratio dataset}
-\format{a log ratio \code{matrix} with 83055 rows, one per 
-oligonucleotide probe, and 5 columns, one for each breast tumor sample.}
+\format{
+a log ratio \code{matrix} with 83055 rows, one per 
+oligonucleotide probe, and 5 columns, one for each breast tumor sample.
+}
 \source{
 Hicks, J. et al. Novel patterns of genome rearrangement and their 
 association with survival in breast cancer. Genome Res. 2006. 16:1465–1479.

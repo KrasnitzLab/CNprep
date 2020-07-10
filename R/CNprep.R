@@ -211,9 +211,9 @@ NULL
 #' segtable <- CNpreprocessing(segall=mysegs, ratall=ratexample, idCol="ID",
 #'     chromCol="chrom", bpStartCol="chrom.pos.start", bpEndCol="chrom.pos.end",
 #'     annot=annotexample, annotStartCol="CHROM.POS", annotEndCol="CHROM.POS",
-#'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bsTimes=3,
-#'     chromRange=1:2, nJobs=1, modelNames="E", 
-#'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
+#'     annotChromCol = "CHROM", blsize = 50, minJoin = 0.25, cWeight = 0.4, 
+#'     bsTimes = 3, chromRange = 1:2,  nJobs = 1, modelNames = "E", 
+#'     normalLength = normsegs[,1], normalMedian = normsegs[,2])
 #' 
 NULL
 
@@ -366,14 +366,14 @@ NULL
 #'
 #' ## Preprocess segments for WZ2 sample
 #' segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ2",],
-#'                  ratall=ratexample, idCol="ID", startCol = "start", 
-#'                  endCol="end", chromCol="chrom", 
-#'                  bpStartCol="chrom.pos.start", 
-#'                  bpEndCol="chrom.pos.end", blsize=50, 
-#'                  minJoin=0.25, cWeight=0.4,
-#'                  bsTimes = 30, chromRange=1:22, nJobs=1, 
-#'                  modelNames="E", normalLength=normsegs[,1], 
-#'                  normalMedian=normsegs[,2])
+#'                  ratall = ratexample, idCol = "ID", startCol = "start", 
+#'                  endCol = "end", chromCol = "chrom", 
+#'                  bpStartCol = "chrom.pos.start", 
+#'                  bpEndCol = "chrom.pos.end", blsize = 50, 
+#'                  minJoin = 0.25, cWeight = 0.4,
+#'                  bsTimes = 30, chromRange = 1:22, nJobs = 1,
+#'                  modelNames = "E", normalLength = normsegs[,1], 
+#'                  normalMedian = normsegs[,2])
 #' 
 NULL
 
@@ -438,14 +438,14 @@ NULL
 #' 
 #' ## Preprocess segments for WZ3 sample
 #' segtable <- CNpreprocessing(segall=segexample[segexample[,"ID"] == "WZ3",],
-#'                  ratall=ratexample, idCol="ID", startCol = "start", 
-#'                  endCol="end", chromCol="chrom", 
-#'                  bpStartCol="chrom.pos.start", 
-#'                  bpEndCol="chrom.pos.end", blsize=50, 
-#'                  minJoin=0.30, cWeight=0.4,
-#'                  bsTimes = 40, chromRange=1:22, nJobs=1, 
-#'                  modelNames="E", normalLength=normsegs[,1], 
-#'                  normalMedian=normsegs[,2])
+#'                  ratall = ratexample, idCol = "ID", startCol = "start", 
+#'                  endCol="end", chromCol = "chrom", 
+#'                  bpStartCol = "chrom.pos.start", 
+#'                  bpEndCol = "chrom.pos.end", blsize = 50, 
+#'                  minJoin = 0.30, cWeight = 0.4,
+#'                  bsTimes = 40, chromRange = 1:22, 
+#'                  modelNames = "E", normalLength = normsegs[,1], 
+#'                  normalMedian = normsegs[,2])
 #' 
 NULL
 

@@ -204,8 +204,8 @@
 #'     ratall=ratexample, idCol="ID", startCol="start", endCol="end", 
 #'     chromCol="chrom", bpStartCol="chrom.pos.start", 
 #'     bpEndCol="chrom.pos.end", blsize=50, 
-#'     minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, 
-#'     nJobs=1, modelNames="E", normalLength=normsegs[,1],
+#'     minJoin=0.25, cWeight=0.4, bsTimes=50, chromRange=1:3, nJobs=1,
+#'     modelNames="E", normalLength=normsegs[,1],
 #'     normalMedian=normsegs[,2])
 #'     
 #' \dontrun{
@@ -213,11 +213,11 @@
 #' segtable <- CNpreprocessing(segall=segexample,ratall=ratexample, idCol="ID", 
 #'    "start","end", chromCol="chrom",bpStartCol="chrom.pos.start",
 #'    bpEndCol="chrom.pos.end", blsize=50, minJoin=0.25, cWeight=0.4, 
-#'    bsTimes=50, chromRange=1:22, nJobs=40, 
+#'    bsTimes=50, chromRange=1:22, nJobs=4,
 #'    modelNames="E", normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #'    
 #' ## Example 2: how to use annotexample, when segment table does not have 
-#' columns of integer postions in terms of  measuring units(probes), such as 
+#' columns of integer positions in terms of  measuring units(probes), such as 
 #' "mysegs" below
 #' mysegs <- segexample[,c(1,5:12)]
 #' 
@@ -227,12 +227,12 @@
 #'     chromCol="chrom", bpStartCol="chrom.pos.start",bpEndCol="chrom.pos.end",
 #'     annot=annotexample, annotStartCol="CHROM.POS",annotEndCol="CHROM.POS",
 #'     annotChromCol="CHROM", blsize=50, minJoin=0.25, cWeight=0.4, bsTimes=50,
-#'     chromRange=1:22, nJobs=40, modelNames="E", 
+#'     chromRange=1:22, modelNames="E", nJobs=4,
 #'     normalLength=normsegs[,1], normalMedian=normsegs[,2])
 #' }
 #' 
 #' @author Alexander Krasnitz
-#' @importFrom BiocParallel multicoreWorkers SnowParam SerialParam bplapply
+#' @importFrom BiocParallel multicoreWorkers SnowParam SerialParam bplapply bptry bpok
 #' @export
 CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     endCol=NULL, medCol=NULL, madCol=NULL, errorCol=NULL, chromCol=NULL,
@@ -240,8 +240,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     annotEndCol=NULL, annotChromCol=NULL, useEnd=FALSE, blsize=NULL, 
     minJoin=NULL, nTrial=10, bestBIC=-1e7, modelNames="E", cWeight=NULL,
     bsTimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
-    normalMedian=NULL, normalMad=NULL,
-    normalError=NULL) {
+    normalMedian=NULL, normalMad=NULL, normalError=NULL) {
     
     ## Parameters validation
     validateCNpreprocessing(segall=segall, ratall=ratall, idCol=idCol, 
@@ -255,7 +254,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                             blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
                             bestBIC=bestBIC, modelNames=modelNames, 
                             cWeight=cWeight, bsTimes=bsTimes, 
-                            chromRange=chromRange, nJobs=nJobs, 
+                            chromRange=chromRange, nJobs=nJobs,  
                             normalLength=normalLength, 
                             normalMedian=normalMedian, normalMad=normalMad,
                             normalError=normalError)
@@ -265,7 +264,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     if (nbrThreads == 1 || multicoreWorkers() == 1) {
         coreParam <- SerialParam()
     } else {
-        seed <- get(".Random.seed", 1)[1]
+        seed <- sample(x=seq_len(999999), size=1)
         coreParam <- SnowParam(workers = nbrThreads, RNGseed = seed)
     }
     
@@ -377,12 +376,16 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         gc()
 
         ## Running each profile id on a separate thread
-        processed <- bplapply(X=profpack, FUN=CNclusterNcenter, 
+        processed <- bptry(bplapply(X=profpack, FUN=CNclusterNcenter, 
                                 blsize=blsize, minJoin=minJoin, nTrial=nTrial, 
                                 bestBIC=bestBIC, modelNames=modelNames, 
                                 cweight=cWeight, bstimes=bsTimes, 
                                 chromRange=chromRange, 
-                                BPPARAM=coreParam)
+                                BPPARAM=coreParam))
+        ## Check for errors
+        if (!all(bpok(processed))) {
+           stop("At least one parallel task has thrown an error.")
+        }
         
         segall <- cbind(segall, do.call(rbind, processed))
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
