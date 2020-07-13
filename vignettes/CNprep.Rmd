@@ -398,6 +398,14 @@ segtable <- CNpreprocessing(segall=segexample, ratall=ratexample,
 ```
 
 
+# Reproducible research
+
+To ensure reproducible results, \code{set.seed()} function should be call 
+before \code{CNpreprocessing}. Beware that the \code{nJobs} parameter must 
+also be fixed. A change in the value of the \code{nJobs} parameter will 
+lead to different results.
+
+
 # Session info
 
 Here is the output of *sessionInfo()* on the system on which this document 
