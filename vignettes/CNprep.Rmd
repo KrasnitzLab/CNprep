@@ -1,5 +1,5 @@
 ---
-title: "CNprep"
+title: "Copy Number Event Detection with CNprep"
 author: "Guoli Sun, Pascal Belleau, Astrid Deschênes et Alex Krasnitz"
 date: "`r Sys.Date()`"
 bibliography: CNprep_biblio.bibtex
