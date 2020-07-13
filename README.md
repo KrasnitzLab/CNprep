@@ -14,7 +14,7 @@ Guoli Sun, [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Bell
 
 ## License ##
 
-This package and the underlying *CNPrep* code are distributed under 
+This package and the underlying *CNprep* code are distributed under 
 the GPL-2. You are free to use and redistribute this software. 
 
 For more information on GPL-2 License see
