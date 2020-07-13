@@ -36,7 +36,7 @@ are free to use and redistribute this software.
 If you use this package for a publication, we ask you to cite the 
 following:
 
-> Guoli Sun, Pascal Belleau, Astrid Deschênes and Alex Krasnitz (2020). CNprep: Pre-process DNA Copy Number (CN) Data for Detection of CN Events. R package version 2.1beta. https://github.com/belleau/CNprep
+> Guoli Sun, Pascal Belleau, Astrid Deschênes and Alex Krasnitz (2020). CNprep: Pre-process DNA Copy Number (CN) Data for Detection of CN Events. R package version 2.1beta. https://github.com/KrasnitzLab/CNprep
 
 
 # Introduction
