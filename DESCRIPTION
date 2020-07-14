@@ -36,6 +36,8 @@ Suggests: testthat,
     rmarkdown
 biocViews: Software, StatisticalMethod, WholeGenome, Microarray, 
     CopyNumberVariation
+URL: https://github.com/KrasnitzLab/CNprep
+BugReports: https://github.com/KrasnitzLab/CNprep/issues
 NeedsCompilation: no
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
