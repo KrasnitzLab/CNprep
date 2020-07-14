@@ -106,9 +106,8 @@
 #' @param chromRange A \code{integer} \code{vector} enumerating chromosomes 
 #' from which segments are to be used for initial model-based clustering.
 #' 
-#' @param nJobs A single positive \code{integer} specifying the number of 
-#' worker jobs to create in case of distributed computation. The number of
-#' worker jobs should always be \code{1} for Windows.
+#' @param nJobs a single positive \code{integer} specifying the number of 
+#' worker jobs to create in case of distributed computation. 
 #' 
 #' @param normalLength An integer \code{vector} specifying the genomic lengths 
 #' of segments in the normal reference data. 
@@ -160,7 +159,7 @@ validateCNpreprocessing <- function(segall, ratall, idCol,
         as.integer(nJobs) < 1) {
         stop("nJobs must be a positive integer")
     }
-    
+
     ## Validate that nTrial is an positive integer
     if (!(isSingleInteger(nTrial) || isSingleNumber(nTrial)) ||
         as.integer(nTrial) < 1) {
@@ -169,7 +168,7 @@ validateCNpreprocessing <- function(segall, ratall, idCol,
     
     ## Validate that nJobs is set to 1 on Windows system
     if (Sys.info()["sysname"] == "Windows" && as.integer(nJobs) != 1) {
-        stop("nJobs must be 1 on a Windows system")
+       stop("nJobs must be 1 on a Windows system")
     }
     
     ## Validate that useEnd is logical

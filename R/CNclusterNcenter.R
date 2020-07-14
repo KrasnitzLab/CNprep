@@ -82,7 +82,7 @@
 #' 
 #' @author Alexander Krasnitz, Guoli Sun
 #' @importFrom stats median var
-#' @importFrom mclust Mclust
+#' @importFrom mclust Mclust mclustBIC
 #' @keywords internal
 CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     modelNames, cweight, bstimes, chromRange, keepClust=FALSE) {
