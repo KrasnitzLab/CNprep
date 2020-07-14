@@ -33,7 +33,8 @@ validateCNpreprocessing(
   normalLength,
   normalMedian,
   normalMad,
-  normalError
+  normalError,
+  weightall
 )
 }
 \arguments{

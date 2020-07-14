@@ -254,6 +254,16 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     normalMedian=NULL, normalMad=NULL,
     normalError=NULL, weightall=NULL, keepClust=FALSE) {
     
+    configCall <- list(nTrial=nTrial, 
+                       bestBIC=bestBIC, 
+                       modelNames=modelNames, 
+                       cWeight=cWeight,
+                       bsTimes=bsTimes, 
+                       chromRange=chromRange, 
+                       nJobs=nJobs, 
+                       normalLength=normalLength, 
+                       keepClust=keepClust)
+    
     ## Parameters validation
     validateCNpreprocessing(segall=segall, ratall=ratall, idCol=idCol, 
                             startCol=startCol,endCol=endCol, medCol=medCol, 

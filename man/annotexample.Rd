@@ -4,7 +4,8 @@
 \name{annotexample}
 \alias{annotexample}
 \title{Annotation table for ROMA CGH platform and human genome version 17.}
-\format{a \code{data.frame} with 83055 observations on the following 3 
+\format{
+a \code{data.frame} with 83055 observations on the following 3 
 variables.
 \describe{
 \item{\code{PROBEID}}{ a \code{character} \code{vector} of probe names.}
@@ -12,7 +13,8 @@ variables.
     chromosome positions.}
 \item{\code{CHROM.POS}}{ a \code{numeric} \code{vector}, used as integer, 
 of genomic positions.}
-}}
+}
+}
 \source{
 GEO accession GPL9775, 
 http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL9775

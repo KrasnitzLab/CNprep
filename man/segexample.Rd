@@ -4,7 +4,8 @@
 \name{segexample}
 \alias{segexample}
 \title{Example of a segmented copy number table}
-\format{a \code{data.frame} with 479 rows/segments and 12 
+\format{
+a \code{data.frame} with 479 rows/segments and 12 
 columns/variables:
 \itemize{
 \item{\code{ID}}{ a \code{character} \code{vector} of profile IDs}
@@ -27,7 +28,8 @@ columns/variables:
     start, absolute)}
 \item{\code{abs.pos.end}}{ a \code{numeric} \code{vector} (genomic 
     end, absolute)}
-}}
+}
+}
 \source{
 Hicks, J. et al. Novel patterns of genome rearrangement and their 
 association with survival in breast cancer. Genome Res. 2006. 16:1465–1479.
