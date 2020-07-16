@@ -308,7 +308,7 @@ knitr::include_graphics("figures/DemoMask02.jpeg")
 
 
 
-The following section demonstrates the usage of makeCNPmask() on a more
+The following section demonstrates the usage of *makeCNPmask()* on a more
 complex dataset composed of 1203 breast cancer samples.
 
 ```{r makeMask, echo=TRUE, warning=FALSE, collapse=TRUE, fig.align='center', fig.cap="Example of makeCNPmask() on a dataset of 1203 samples. The amplification events are shown, in blue, in the top section. Results of the makeCNPmask() are shown for four chromosomes, in red, in the bottom section. In this example, only chromosome 7 doesn't have any mask."}
@@ -375,9 +375,9 @@ The *applyCNPmask()* function ... TODO
 # Using parallelization
 
 For experiments with many samples, one can take advantage of parallelized 
-computation. Parallelizing \code{CNpreprocessing } function can easily be 
-accomplished by setting the \code{nJobs} parameter to a number higher than 
-one. Beware that the parallelization is done per sample. So, the \code{nJobs} 
+computation. Parallelizing *CNpreprocessing()* function can easily be 
+accomplished by setting the *nJobs* parameter to a number higher than 
+one. Beware that the parallelization is done per sample. So, the *nJobs 
 should not be higher than the number of samples in the dataset.
 
 ```{r parallel, echo=TRUE, eval=FALSE}
@@ -387,7 +387,7 @@ data(segexample)
 data(ratexample)
 data(normsegs)
 
-## The number of threads is set to 4 (nJobs parameters)
+## The number of threads is set to 4 (nJobs parameter)
 ## Only the chromosomes 1 to 6 are analyzed (chromRange parameter)
 segtable <- CNpreprocessing(segall=segexample, ratall=ratexample, 
     idCol="ID", startCol="start", endCol="end", chromCol="chrom", 
@@ -400,9 +400,9 @@ segtable <- CNpreprocessing(segall=segexample, ratall=ratexample,
 
 # Reproducible research
 
-To ensure reproducible results, \code{set.seed()} function should be call 
-before \code{CNpreprocessing}. Beware that the \code{nJobs} parameter must 
-also be fixed. A change in the value of the \code{nJobs} parameter will 
+To ensure reproducible results, *set.seed()* function should be call 
+before *CNpreprocessing()*. Beware that the *nJobs* parameter must 
+also be fixed. Change in the value of the *nJobs* parameter will 
 lead to different results.
 
 
