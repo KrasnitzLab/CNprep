@@ -12,6 +12,14 @@ A R package that evaluates DNA copy number data, using both their initial form (
 Guoli Sun, [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Belleau"), [Astrid Deschênes](http://ca.linkedin.com/in/astriddeschenes "Astrid Deschênes") and Alexander Krasnitz
 
 
+## Installation ##
+
+```r
+## To install the development version from GitHub
+install.packages("devtools")
+devtools::install_github("KrasnitzLab/CNprep")
+```
+
 ## License ##
 
 This package and the underlying *CNprep* code are distributed under 
