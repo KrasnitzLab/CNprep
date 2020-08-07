@@ -7,6 +7,14 @@
 A R package that evaluates DNA copy number data, using both their initial form (copy number as a noisy function of genomic position) and their approximation by a piecewise-constant function (segmentation), for the purpose of identifying genomic regions where the copy number differs from the normal state.
 
 
+## Citing ##
+
+If you use this package for a publication, we would ask you to cite the 
+following:
+
+> Belleau P, Deschênes A, Sun G et al. CNprep: Copy number event detection [version 1; not peer reviewed]. F1000Research 2020, 9:743 (poster) (https://doi.org/10.7490/f1000research.1118065.1)
+
+
 ## Authors ##
 
 Guoli Sun, [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Belleau"), [Astrid Deschênes](http://ca.linkedin.com/in/astriddeschenes "Astrid Deschênes") and Alexander Krasnitz
