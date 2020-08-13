@@ -5,7 +5,7 @@
 \title{Calculate the median of the sampled values with replacement from
 a contiguous subsection of specified vector.}
 \usage{
-smedian.sample(pos, v)
+smedian.sample(pos, v, w = NULL)
 }
 \arguments{
 \item{pos}{a \code{vector} of 2 \code{integer} that represent the first and 

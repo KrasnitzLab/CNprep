@@ -141,7 +141,12 @@
 #' of the same length as \code{normalLength}, specifying the error values
 #' of the normal reference segments. Default: \code{NULL}.
 #' 
-#' @return The input \code{segall} \code{data.frame} to which some or all of 
+#' @param weightall A \code{matrix} whose rows correspond to genomic positions 
+#' and columns to copy number profiles (same as ratall). Its matrix elements 
+#' are functions of weight of the genomic region.
+#' Default: \code{NULL}.
+#' 
+#' @return If \code{keepCLust} is FALSE: the input \code{segall} \code{data.frame} to which some or all of 
 #' the following columns may be bound, depending on the availability of input:
 #' \itemize{
 #' \item{segmedian}{ a \code{numeric}, the median function of copy number}
@@ -165,6 +170,12 @@
 #' \item{negtailnormerror}{ a \code{numeric}, the probability of finding 
 #' the deviation/error as observed or larger in a collection of 
 #' central segments}
+#' }
+#' else if \code{keepCLust} is TRUE :
+#' a \code{list} with the component
+#' \itemize{
+#' \item{maxz}{ segall define before}
+#' \item{resCLust}{TODO}
 #' }
 #'
 #' @details Depending on the availability of input, the function will 
@@ -240,8 +251,19 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
     annotEndCol=NULL, annotChromCol=NULL, useEnd=FALSE, blsize=NULL, 
     minJoin=NULL, nTrial=10, bestBIC=-1e7, modelNames="E", cWeight=NULL,
     bsTimes=NULL, chromRange=NULL, nJobs=1, normalLength=NULL, 
-    normalMedian=NULL, normalMad=NULL, normalError=NULL) {
+    normalMedian=NULL, normalMad=NULL,
+    normalError=NULL, weightall=NULL, keepClust=FALSE) {
     
+    configCall <- list(nTrial=nTrial, 
+                       bestBIC=bestBIC, 
+                       modelNames=modelNames, 
+                       cWeight=cWeight,
+                       bsTimes=bsTimes, 
+                       chromRange=chromRange, 
+                       nJobs=nJobs, 
+                       normalLength=normalLength, 
+                       keepClust=keepClust)
+
     ## Parameters validation
     validateCNpreprocessing(segall=segall, ratall=ratall, idCol=idCol, 
                             startCol=startCol,endCol=endCol, medCol=medCol, 
@@ -257,7 +279,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                             chromRange=chromRange, nJobs=nJobs,  
                             normalLength=normalLength, 
                             normalMedian=normalMedian, normalMad=normalMad,
-                            normalError=normalError)
+                            normalError=normalError, weightall=NULL)
 
     ## Select the type of parallel environment used for parallel processing
     nbrThreads <- as.integer(nJobs)
@@ -267,6 +289,10 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         seed <- sample(x=seq_len(999999), size=1)
         coreParam <- SnowParam(workers = nbrThreads, RNGseed = seed)
     }
+    
+    # Initialise the variables for the final result
+    res <- NULL
+    resClust <- NULL
     
     ## When the column for the profile ID is not specified, see if it can
     ## deducted from the data
@@ -285,17 +311,33 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                         segall)
                 idCol <- "ID"
                 dimnames(segall)[[2]][1] <- idCol
+                if (!is.null(weightall)) {
+                    if(sum(apply(weightall, 2, data.class) == "numeric") > 1) {
+                        stop("Ambiguity: more than 1 numeric column ", 
+                             "in weight data table\n")
+                    }
+                }
             }
-        }
+        } 
     }
-
+    
     if (is.null(ratall)) {
         cat("No raw table, proceeding to comparison\n")
+        if(!is.null(weightall)) {
+            stop("weightall without ratall\n")
+        }
+        
     } else {
         profnames <- unique(segall[,idCol])
         
         if (!all(profnames %in% dimnames(ratall)[[2]])) {
             stop("Found unmatched segmented profile IDs\n")
+        }
+        
+        if (!(is.null(weightall))) {
+            if (!all(profnames%in%dimnames(weightall)[[2]])) {
+                stop("Found unmatched segmented profile IDs in weightall\n")
+            }
         }
         
         if (is.null(startCol) | is.null(endCol)) { 
@@ -305,6 +347,8 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             if (is.null(bpStartCol) | is.null(bpEndCol) | is.null(chromCol)) {
                 stop("Unable to proceed: incomplete segment annotation\n")
             }
+            
+            
             
             if (is.null(chromRange)) {
                 chromRange <- sort(unique(segall[,chromCol]))
@@ -370,6 +414,12 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             profpack[[pn]]$rat <- ratall[,pn]
             profpack[[pn]]$stream <- pn
             profpack[[pn]]$sub <- match(pn, profnames)
+            
+            if (!(is.null(weightall))) {
+                profpack[[pn]]$weight <- weightall[, pn]
+            } else {
+                profpack[[pn]]$weight <- NULL
+            }
         }
         
         rm(ratall)
@@ -381,19 +431,38 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                 bestBIC=bestBIC, modelNames=modelNames, 
                                 cweight=cWeight, bstimes=bsTimes, 
                                 chromRange=chromRange, 
+                                keepClust=keepClust,
                                 BPPARAM=coreParam))
         ## Check for errors
         if (!all(bpok(processed))) {
            stop("At least one parallel task has thrown an error.")
         }
+
+        #segall <- cbind(segall, do.call(rbind, processed))
+        #saveRDS(processed, "processed.rds")
+        if(keepClust){
+            segall <- cbind(segall, 
+                            do.call(rbind, 
+                                    vapply(processed, 
+                                           FUN=function(x){return(list(x$seg))},
+                                           FUN.VALUE = list(1))))
+            resClust <- vapply(processed, 
+                               FUN=function(x){return(list(x$clustRes))},
+                               FUN.VALUE = list(1))
+            names(resClust) <- names(processed)
+            
+        } else{
+            segall <- cbind(segall, do.call(rbind, processed))
+        }
         
-        segall <- cbind(segall, do.call(rbind, processed))
+
         dimnames(segall)[[2]][(ncol(segall)-8):ncol(segall)] <-
             c("segmedian", "segmad", "mediandev", "segerr", "centerz",
                 "marginalprob", "maxz", "maxzmean", "maxzsigma")
         medCol <- "mediandev"
         madCol <- "segmad"
         errorCol <- "segerr"
+        
     }
     
     ## Use normal samples to extract extra information when available
@@ -426,6 +495,13 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                     tumorerror))
     }
     
-    return(segall)
+    if(keepClust){
+        res <- list(segall=segall,
+                    resClust=resClust)
+    }else{
+        res=segall
+    }
+    
+    return(res)
 }
 

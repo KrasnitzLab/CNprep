@@ -18,6 +18,8 @@
 #'     profile ID.}
 #' \item{\code{sub}}{ a \code{numeric} representing the position of the current
 #'     profile ID in a \code{vector} of profiles.}
+#' \item{\code{weight}}{ a \code{numeric} \code{vector} of elements that are 
+#' weight the bin} 
 #' }
 #' 
 #' @param blsize a single \code{integer} specifying the bootstrap 
@@ -46,6 +48,8 @@
 #' @param bstimes a single \code{double} value specifying the number of 
 #' time the median of each segment is sampled in order to predict the cluster 
 #' assignment for the segment.
+#' 
+#' @param keepClust a single \code{logical} if the mClust object is keep 
 #' 
 #' @param chromRange a \code{integer} vector enumerating chromosomes from 
 #' which segments are to be used for initial model-based clustering.
@@ -81,7 +85,7 @@
 #' @importFrom mclust Mclust mclustBIC
 #' @keywords internal
 CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
-    modelNames, cweight, bstimes, chromRange) {
+    modelNames, cweight, bstimes, chromRange, keepClust=FALSE) {
 
 
     startcol <- "StartProbe"
@@ -93,9 +97,11 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     ## Add to the current data.frame a column with the median and a column
     ## with the median absolute deviation for each group of bins forming 
     ## a specific segment
+    # Modified for weigh
     segrat$seg <- cbind(segrat$seg,
                         t(apply(segrat$seg[,c(startcol, endcol, chromcol),
-                        drop=FALSE], 1, smedmad, v=segrat$rat)))
+                        drop=FALSE], 1, smedmad, v=segrat$rat,
+                        w=segrat$weight)))
     
     ## Assigning the column names of the updated data.frame
     dimnames(segrat$seg)[[2]] <- c(startcol, endcol, chromcol, medcol, madcol)
@@ -105,17 +111,25 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     
     ## Identify bins that are associated to the retained segments
     ## Only those bins will be kept for the analysis
-    aux <- rep(0, length(segrat$rat))
-    aux[seguse[, startcol]] <- 1  ## start position == 1
-    aux[seguse[, endcol]]   <- (-1) ## end position == -1
-    aux <- cumsum(aux) ## bins to retained are tagged 1 (except end position)
-    aux[seguse[, endcol]]   <- 1 ## end position == 1
-    
-    ratuse <- segrat$rat[aux == 1]
+    # aux <- rep(0, length(segrat$rat))
+    # aux[seguse[, startcol]] <- 1  ## start position == 1
+    # aux[seguse[, endcol]]   <- (-1) ## end position == -1
+    # aux <- cumsum(aux) ## bins to retained are tagged 1 (except end position)
+    # aux[seguse[, endcol]]   <- 1 ## end position == 1
+    # 
+    # ratuse <- segrat$rat[aux == 1]
+    # 
+    # # Modified for weight
+    # if (length(segrat$weight) > 0) {
+    #     weightuse <- segrat$weight[aux == 1]
+    # } else{
+    #     weightuse <- NULL
+    # }
     
     ## Run trials and keep best cluster from all trial (best BIC value)
     for(j in seq_len(nTrial)) {
-        aaa <- segsample(seguse, ratuse, blocksize=blsize)
+        # Modified for weight
+        aaa <- segsample(seguse, segrat$rat, blocksize=blsize, weightcol=segrat$weight)
         if (all(unique(aaa[,3]) == 0)) { 
             aaa[,3] <- 1e-10 
         }
@@ -126,7 +140,7 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
             bestBIC <- emfit$bic
         }
     }
-
+    
     ## Join clusters with minimum overlap
     ## The returned object is no more a Mclust object
     newem <- consolidate(bestem, minJoin)
@@ -134,7 +148,12 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     ## Join clusters until the main cluster contain the minimum required 
     ## ratio of data
     newem <- get.center(newem, cweight)
-    
+    clustRes <- NULL
+    if(keepClust){
+        clustRes <- list(bestaaa=bestaaa,
+                         bestem=bestem,
+                         newem=newem)
+    } 
     ## Get the median of the central cluster. The central cluster is
     ## the one with the mean closer to zero
     if (length(bestem$parameters$mean) == 1) { 
@@ -147,7 +166,9 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
     mediandev <- segrat$seg[, medcol] - profcenter
     
     ## Bin sampling
-    segs <- segsample(segrat$seg, segrat$rat, times=bstimes)
+    # Modified for weight
+    segs <- segsample(segrat$seg, segrat$rat, times=bstimes, 
+                      weightcol=segrat$weight)
 
     if (all(unique(aaa[,3]) == 1e-10)) { 
         segs[segs[,3] == 0, 3] <- 1e-10 
@@ -165,7 +186,8 @@ CNclusterNcenter <- function(segrat, blsize, minJoin, nTrial, bestBIC,
                 newem$center)
     w <- t(matrix(nrow=bstimes, data=segs[,3]))
     segerr <- sqrt(apply(w, 1, var, na.rm=TRUE))
-    
-    return(cbind(segrat$seg[, medcol], segrat$seg[,madcol], mediandev, segerr, 
-                    centerz, cpb, maxz, maxzmean, maxzsigma))
+    res <- list(seg=cbind(segrat$seg[, medcol], segrat$seg[,madcol], mediandev, segerr, 
+                          centerz, cpb, maxz, maxzmean, maxzsigma),
+                clustRes=clustRes)
+    return(res)
 }

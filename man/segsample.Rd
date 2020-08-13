@@ -11,7 +11,8 @@ segsample(
   startcol = "StartProbe",
   endcol = "EndProbe",
   blocksize = 0,
-  times = 0
+  times = 0,
+  weightcol = NULL
 )
 }
 \arguments{
@@ -52,6 +53,11 @@ Default: \code{0}.}
 each segment must be sampled. 
 Either \code{blocksize} or \code{times} must be specified by user.
 Default: \code{0}.}
+
+\item{weightcol}{\code{vector} of \code{double} containing the values used 
+for the weight assign to each bin. The lenght of the \code{vector} should 
+be the same than \code{ratcol}. When \code{NULL}, the weight is not 
+used in the calculation.  Default: \code{NULL}.}
 }
 \value{
 a \code{data.frame} containing the information about the selected

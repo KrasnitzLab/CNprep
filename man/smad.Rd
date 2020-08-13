@@ -5,7 +5,7 @@
 \title{Calculate the median absolute deviation of the values from
 a contiguous subsection of specified vector.}
 \usage{
-smad(pos, v)
+smad(pos, v, w = NULL, cN = 1.4826)
 }
 \arguments{
 \item{pos}{a \code{vector} of 2 \code{integer} that represent the first and 
@@ -14,6 +14,15 @@ last positions of \code{vector} \code{v} to used for the calculation.}
 \item{v}{a \code{vector} of \code{double} containing the values used for
 the calculation. However, only a subsection of the \code{vector}, as set 
 by \code{pos}, is used.}
+
+\item{w}{\code{vector} of \code{double} containing the values used for
+the weight. However, only a subsection of the \code{vector}, as set 
+by \code{pos}, is used. When \code{NULL}, the weight is not used in
+the calculation.
+Default: \code{NULL}.}
+
+\item{cN}{a \code{double} a scale factor for the weighted mad
+Default: \code{1.4826}.}
 }
 \value{
 a \code{double} which is the median of the values.

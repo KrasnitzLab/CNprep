@@ -33,7 +33,9 @@ CNpreprocessing(
   normalLength = NULL,
   normalMedian = NULL,
   normalMad = NULL,
-  normalError = NULL
+  normalError = NULL,
+  weightall = NULL,
+  keepClust = FALSE
 )
 }
 \arguments{
@@ -171,9 +173,14 @@ of the normal reference segments. Default: \code{NULL}.}
 \item{normalError}{a numeric \code{vector}, 
 of the same length as \code{normalLength}, specifying the error values
 of the normal reference segments. Default: \code{NULL}.}
+
+\item{weightall}{A \code{matrix} whose rows correspond to genomic positions 
+and columns to copy number profiles (same as ratall). Its matrix elements 
+are functions of weight of the genomic region.
+Default: \code{NULL}.}
 }
 \value{
-The input \code{segall} \code{data.frame} to which some or all of 
+If \code{keepCLust} is FALSE: the input \code{segall} \code{data.frame} to which some or all of 
 the following columns may be bound, depending on the availability of input:
 \itemize{
 \item{segmedian}{ a \code{numeric}, the median function of copy number}
@@ -197,6 +204,12 @@ observed or larger in a collection of central segments}
 \item{negtailnormerror}{ a \code{numeric}, the probability of finding 
 the deviation/error as observed or larger in a collection of 
 central segments}
+}
+else if \code{keepCLust} is TRUE :
+a \code{list} with the component
+\itemize{
+\item{maxz}{ segall define before}
+\item{resCLust}{TODO}
 }
 }
 \description{

@@ -13,7 +13,8 @@ CNclusterNcenter(
   modelNames,
   cweight,
   bstimes,
-  chromRange
+  chromRange,
+  keepClust = FALSE
 )
 }
 \arguments{
@@ -33,6 +34,8 @@ CNclusterNcenter(
     profile ID.}
 \item{\code{sub}}{ a \code{numeric} representing the position of the current
     profile ID in a \code{vector} of profiles.}
+\item{\code{weight}}{ a \code{numeric} \code{vector} of elements that are 
+weight the bin} 
 }}
 
 \item{blsize}{a single \code{integer} specifying the bootstrap 
@@ -64,6 +67,8 @@ assignment for the segment.}
 
 \item{chromRange}{a \code{integer} vector enumerating chromosomes from 
 which segments are to be used for initial model-based clustering.}
+
+\item{keepClust}{a single \code{logical} if the mClust object is keep}
 }
 \value{
 a \code{matrix} with 9 columns:
