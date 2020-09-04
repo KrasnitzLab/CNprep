@@ -12,8 +12,7 @@ apt_packages:
   - libmagick++-dev
   
 # Packages from Bioconductor needed
-# bioc_required: true
-bioc_required: false
+bioc_required: true
 
 R_LIBS_USER=~/R/Library
 
