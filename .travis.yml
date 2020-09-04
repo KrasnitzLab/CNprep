@@ -12,7 +12,8 @@ apt_packages:
   - libmagick++-dev
   
 # Packages from Bioconductor needed
-bioc_required: true
+# bioc_required: true
+bioc_required: false
 
 # Be strict when checking package
 warnings_are_errors: true
