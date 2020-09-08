@@ -14,9 +14,6 @@ apt_packages:
 # Packages from Bioconductor needed
 bioc_required: true
 
-#R_LIBS_USER=~/R/Library
-
-
 # Be strict when checking package
 warnings_are_errors: true
 
