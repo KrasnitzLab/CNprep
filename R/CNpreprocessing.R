@@ -384,7 +384,7 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
                                 BPPARAM=coreParam))
         ## Check for errors
         if (!all(bpok(processed))) {
-           stop("At least one parallel task has thrown an error.")
+            stop("At least one parallel task has thrown an error.")
         }
         
         segall <- cbind(segall, do.call(rbind, processed))
