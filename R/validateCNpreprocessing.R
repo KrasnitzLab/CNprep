@@ -168,7 +168,7 @@ validateCNpreprocessing <- function(segall, ratall, idCol,
     
     ## Validate that nJobs is set to 1 on Windows system
     if (Sys.info()["sysname"] == "Windows" && as.integer(nJobs) != 1) {
-       stop("nJobs must be 1 on a Windows system")
+        stop("nJobs must be 1 on a Windows system")
     }
     
     ## Validate that useEnd is logical
