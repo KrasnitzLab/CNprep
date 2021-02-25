@@ -22,6 +22,9 @@ Guoli Sun, [Pascal Belleau](http://ca.linkedin.com/in/pascalbelleau "Pascal Bell
 
 ## Installation ##
 
+To install the latest accessible version, the  [devtools](https://cran.r-project.org/web/packages/devtools/index.html) 
+package is required.
+
 ```r
 ## To install the development version from GitHub
 install.packages("devtools")
