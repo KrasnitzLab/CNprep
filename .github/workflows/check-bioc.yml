@@ -34,16 +34,16 @@ name: R-CMD-check-bioc
 ## Note that you can always run a GHA test without the cache by using the word
 ## "/nocache" in the commit message.
 env:
-  has_testthat: 'false'
+  has_testthat: 'true'
   run_covr: 'false'
-  run_pkgdown: 'false'
+  run_pkgdown: 'true'
   has_RUnit: 'false'
-  cache-version: 'cache-v1'
+  cache-version: 'cache-v2'
 
 jobs:
   build-check:
     runs-on: ${{ matrix.config.os }}
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.os }} (R ${{ matrix.config.r }}) (Bioc ${{ matrix.config.bioc }})
     container: ${{ matrix.config.cont }}
     ## Environment variables unique to this job.
 
