@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/KrasnitzLab/CNprep.svg?branch=master)](https://travis-ci.org/KrasnitzLab/CNprep)
+[![R-CMD-check-bioc](https://github.com/adeschen/CNprep/actions/workflows/check-bioc.yml/badge.svg?branch=master)](https://github.com/adeschen/CNprep/actions/workflows/check-bioc.yml)
 [![codecov](https://codecov.io/gh/KrasnitzLab/CNprep/branch/master/graph/badge.svg)](https://codecov.io/gh/KrasnitzLab/CNprep)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
