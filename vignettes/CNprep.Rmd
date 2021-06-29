@@ -6,6 +6,9 @@ bibliography: CNprep_biblio.bibtex
 output: 
     BiocStyle::html_document:
         toc: true
+link-citations: yes
+pkgdown:
+  as_is: true
 vignette: >
   %\VignetteIndexEntry{CNprep}
   %\VignettePackage{CNprep}
@@ -420,8 +423,8 @@ The *applyCNPmask()* function ... TODO
 For experiments with many samples, one can take advantage of parallelized 
 computation. Parallelizing *CNpreprocessing()* function can easily be 
 accomplished by setting the *nJobs* parameter to a number higher than 
-one. Beware that the parallelization is done per sample. So, the *nJobs 
-should not be higher than the number of samples in the dataset.
+one. Beware that the parallelization is done per sample. So, the *nJobs*
+value should not be higher than the number of samples in the dataset.
 
 ```{r parallel, echo=TRUE, eval=FALSE}
 
