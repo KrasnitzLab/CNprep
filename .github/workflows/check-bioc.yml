@@ -235,6 +235,7 @@ jobs:
           BiocCheck::BiocCheck(
               dir('check', 'tar.gz$', full.names = TRUE),
               `quit-with-status` = TRUE,
+              `no-check-CRAN` = TRUE,
               `no-check-R-ver` = TRUE,
               `no-check-bioc-help` = TRUE
           )
