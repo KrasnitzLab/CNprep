@@ -276,9 +276,9 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
         cat("Found a single segmented profile with no ID","\n")
         if (!is.null(ratall)) {
             if (sum(apply(ratall, 2, data.class) == "numeric") > 1) {
-                stop(paste0("Ambiguity: more than 1 numeric column in ",
+                stop("Ambiguity: more than 1 numeric column in ",
                                 "\"ratall\" matrix. The \"idCol\" ", 
-                                "parameter should be specified.\n"))
+                                "parameter should be specified.\n")
             } else {
                 idrat <- which(apply(ratall, 2, data.class) == "numeric")
                 segall <- data.frame(rep(as.character(idrat), nrow(segall)), 
@@ -309,20 +309,20 @@ CNpreprocessing <- function(segall, ratall=NULL, idCol=NULL, startCol=NULL,
             if (is.null(chromRange)) {
                 chromRange <- sort(unique(segall[,chromCol]))
             }
-            
+
             if (is.null(annot)) {
-                stop(paste0("No annotation table; unable to determine ", 
-                                "boundary probes/bins\n"))
+                stop("No annotation table; unable to determine ", 
+                                "boundary probes/bins\n")
             }
             
             if (is.null(annotStartCol) | is.null(annotChromCol)) {
-                stop(paste0("No start and chrom column names provided for ", 
-                                "annotation table\n"))
+                stop("No start and chrom column names provided for ", 
+                                "annotation table\n")
             }
             
             if (useEnd & is.null(annotEndCol)) {
-                stop(paste0("End column name required but not provided in ", 
-                            "annotation table\n"))
+                stop("End column name required but not provided in ", 
+                            "annotation table\n")
             }
             
             maxbpstart <- max(c(segall[,bpStartCol], annot[,annotStartCol])) + 1
