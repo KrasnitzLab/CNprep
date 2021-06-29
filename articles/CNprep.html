@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+<meta name="author" content="Guoli Sun, Pascal Belleau, Astrid Deschênes et Alex Krasnitz">
+<meta name="date" content="2021-06-29">
+<title>Copy Number Event Detection with CNprep</title>
+<script src="CNprep_files/header-attrs-2.9/header-attrs.js"></script><script src="CNprep_files/jquery-1.11.3/jquery.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="CNprep_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="CNprep_files/bootstrap-3.3.5/js/bootstrap.min.js"></script><script src="CNprep_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script><script src="CNprep_files/bootstrap-3.3.5/shim/respond.min.js"></script><style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+</style>
+<script src="CNprep_files/navigation-1.1/tabsets.js"></script><style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script><style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+<link rel="stylesheet" href="/__w/_temp/Library/BiocStyle/resources/html/bioconductor.css" type="text/css">
+<style type="text/css">
+.main-container {
+  max-width: 828px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+<!-- tabsets --><style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+<!-- code folding --><script>
+function toggle_visibility(id1) {
+  var e = document.getElementById(id1);
+  e.style.display = ((e.style.display!="none") ? "none" : "block");
+}
+</script>
+</head>
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="hasAnchor">
+<a href="#header" class="anchor"></a>Copy Number Event Detection with CNprep</h1>
+<p class="author-name">Guoli Sun, Pascal Belleau, Astrid Deschênes et Alex Krasnitz</p>
+<h4 class="date">2021-06-29</h4>
+
+</div>
+
+<h1>Contents</h1>
+<div id="TOC">
+<ul>
+<li><a href="#license"><span class="toc-section-number">1</span> License</a></li>
+<li><a href="#citing"><span class="toc-section-number">2</span> Citing</a></li>
+<li><a href="#introduction"><span class="toc-section-number">3</span> Introduction</a></li>
+<li><a href="#installing-and-loading-cnprep-package"><span class="toc-section-number">4</span> Installing and loading <em>CNprep</em> package</a></li>
+<li>
+<a href="#processing-copy-number"><span class="toc-section-number">5</span> Processing copy number</a>
+<ul>
+<li><a href="#processing-copy-number-for-bulk-tumor"><span class="toc-section-number">5.1</span> Processing copy number for bulk tumor</a></li>
+<li><a href="#processing-copy-number-for-bulk-tumor-when-cancer-free-tissues-available"><span class="toc-section-number">5.2</span> Processing copy number for bulk tumor when cancer-free tissues available</a></li>
+</ul>
+</li>
+<li>
+<a href="#create-and-apply-a-mask-to-copy-number-events"><span class="toc-section-number">6</span> Create and apply a mask to copy number events</a>
+<ul>
+<li><a href="#remove-non-somatic-copy-number-events-when-matching-normal-profile-is-available"><span class="toc-section-number">6.1</span> Remove non-somatic copy number events when matching normal profile is available</a></li>
+<li><a href="#remove-non-somatic-copy-number-events-when-matching-normal-profile-is-not-available-but-multiple-cancer-free-profiles-are-available"><span class="toc-section-number">6.2</span> Remove non-somatic copy number events when matching normal profile is not available but multiple cancer-free profiles are available</a></li>
+<li><a href="#identify-recurrent-copy-number-events-in-a-cohort"><span class="toc-section-number">6.3</span> Identify recurrent copy number events in a cohort</a></li>
+<li><a href="#apply-mask-to-a-table-of-copy-number-events"><span class="toc-section-number">6.4</span> Apply mask to a table of copy number events</a></li>
+</ul>
+</li>
+<li><a href="#using-parallelization"><span class="toc-section-number">7</span> Using parallelization</a></li>
+<li><a href="#reproducible-research"><span class="toc-section-number">8</span> Reproducible research</a></li>
+<li><a href="#session-info"><span class="toc-section-number">9</span> Session info</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+<p><br><strong>Package</strong>: CNprep<br><strong>Authors</strong>: Alex Krasnitz [aut],
+Pascal Belleau [aut, cre] (<a href="https://orcid.org/0000-0002-0802-1071" class="uri">https://orcid.org/0000-0002-0802-1071</a>),
+Astrid Deschênes [aut] (<a href="https://orcid.org/0000-0001-7846-6749" class="uri">https://orcid.org/0000-0001-7846-6749</a>),
+Guoli Sun [aut]<br><strong>Version</strong>: 2.1.1<br><strong>Compiled date</strong>: 2021-06-29<br><strong>License</strong>: GPL-2<br></p>
+<div id="license" class="section level1" number="1">
+<h1 class="hasAnchor">
+<a href="#license" class="anchor"></a><span class="header-section-number">1</span> License</h1>
+<p>The <em>CNprep</em> package and the underlying <em>CNprep</em> code
+are distributed under the
+<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt">GPL-2 License</a>. You
+are free to use and redistribute this software.</p>
+</div>
+<div id="citing" class="section level1" number="2">
+<h1 class="hasAnchor">
+<a href="#citing" class="anchor"></a><span class="header-section-number">2</span> Citing</h1>
+<p>If you use this package for a publication, we ask you to cite the
+following:</p>
+<blockquote>
+<p>Belleau P, Deschênes A, Sun G et al. CNprep: Copy number event detection [version 1; not peer reviewed]. F1000Research 2020, 9:743 (poster) (<a href="https://doi.org/10.7490/f1000research.1118065.1" class="uri">https://doi.org/10.7490/f1000research.1118065.1</a>)</p>
+</blockquote>
+</div>
+<div id="introduction" class="section level1" number="3">
+<h1 class="hasAnchor">
+<a href="#introduction" class="anchor"></a><span class="header-section-number">3</span> Introduction</h1>
+<p>The <em>CNprep</em> package has been implemented to identify, through a
+multi-step process, segments with significant copy number deviation from
+normal state. To this end,
+<em>CNprep</em> uses both DNA copy number initial form (copy number
+as a noisy function of genomic position, also known as bins) and their
+approximation by a piecewise-constant function (segmentation).</p>
+<p>Copy number variations (CNVs) are associated with a wide spectrum of
+pathological conditions and complex traits, such
+as Tourette Disorder <span class="citation">(<a href="#ref-Wang2018" role="doc-biblioref">Wang et al. 2018</a>)</span> and especially
+cancer <span class="citation">(<a href="#ref-Pelttari2018" role="doc-biblioref">Pelttari et al. 2018</a>; <a href="#ref-Franch-Exposito2018a" role="doc-biblioref">Franch-Expósito et al. 2018</a>)</span>. Furthermore, CNVs can
+potentially be used as biomarkers for cancer
+diagnosis <span class="citation">(<a href="#ref-Pan2018" role="doc-biblioref">Pan et al. 2018</a>)</span>.</p>
+<p>Since late 1990s, one commonly used technology to detect CNVs is
+the Comparative Genomic Hybridization (CGH) microarray <span class="citation">(<a href="#ref-Carter" role="doc-biblioref">Carter 2007</a>)</span>. From those
+microarrays, software such as <em>DNACopy</em> <span class="citation">(<a href="#ref-Seshan" role="doc-biblioref">Seshan and Olshen 2019</a>)</span> can identify regions of
+gained and lost copy number.
+However, because of the low resolution of the array, detection of short
+CNVs is limited <span class="citation">(<a href="#ref-Duan" role="doc-biblioref">Duan et al. 2013</a>)</span>.
+The availability and low cost of Next-Generation Sequencing (NGS)
+have enabled precise detection of CNVs for the entire genome with
+the exclusion of few hard to map regions. This lead to the
+development of software adapted to
+whole-genome and whole-exome sequencing, such as <em>CNVkit</em> <span class="citation">(<a href="#ref-Talevich" role="doc-biblioref">Talevich et al. 2016</a>)</span> and
+<em>exomecopy</em> <span class="citation">(<a href="#ref-Love" role="doc-biblioref">Love 2019</a>)</span>.</p>
+<p>In the analysis of bulk tumor DNA cells, not all cells share the same
+ploidy or harbor the same copy number alterations. Hence, segments
+identified may not share integer copy number. So, evaluating the value of
+the copy number corresponding to the normal state of the cells, relative to
+which somatic alterations occur, is difficult <span class="citation">(<a href="#ref-Kendall2011" role="doc-biblioref">Kendall and Krasnitz 2014</a>)</span>.</p>
+<p>The <em>CNprep</em> package has been implemented to identify,</p>
+<p>TODO</p>
+</div>
+<div id="installing-and-loading-cnprep-package" class="section level1" number="4">
+<h1 class="hasAnchor">
+<a href="#installing-and-loading-cnprep-package" class="anchor"></a><span class="header-section-number">4</span> Installing and loading <em>CNprep</em> package</h1>
+<p>The <em>CNprep</em> package can be installed from github website using
+<em>devtools</em> package:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"belleau/CNprep"</span><span class="op">)</span></code></pre></div>
+<p>As with any R package, the <em>CNprep</em> package has to be loaded
+with the following command:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/KrasnitzLab/CNprep">CNprep</a></span><span class="op">)</span></code></pre></div>
+</div>
+<div id="processing-copy-number" class="section level1" number="5">
+<h1 class="hasAnchor">
+<a href="#processing-copy-number" class="anchor"></a><span class="header-section-number">5</span> Processing copy number</h1>
+<div id="processing-copy-number-for-bulk-tumor" class="section level2" number="5.1">
+<h2 class="hasAnchor">
+<a href="#processing-copy-number-for-bulk-tumor" class="anchor"></a><span class="header-section-number">5.1</span> Processing copy number for bulk tumor</h2>
+</div>
+<div id="processing-copy-number-for-bulk-tumor-when-cancer-free-tissues-available" class="section level2" number="5.2">
+<h2 class="hasAnchor">
+<a href="#processing-copy-number-for-bulk-tumor-when-cancer-free-tissues-available" class="anchor"></a><span class="header-section-number">5.2</span> Processing copy number for bulk tumor when cancer-free tissues available</h2>
+</div>
+</div>
+<div id="create-and-apply-a-mask-to-copy-number-events" class="section level1" number="6">
+<h1 class="hasAnchor">
+<a href="#create-and-apply-a-mask-to-copy-number-events" class="anchor"></a><span class="header-section-number">6</span> Create and apply a mask to copy number events</h1>
+<p>In the <em>CNprep</em> package, the <em>makeCNPmask()</em> and <em>applyCNPmask()</em> functions
+are complementary methods.</p>
+<p>The <em>makeCNPmask()</em> enables the identification
+of genomic regions of interest. Those regions can be of interest because those
+are regions are not specific to the analyzed condition(s), as an example,
+common copy number alterations that are not related to cancer should be
+removed when alterations happening in cancer tissues is of interest. Those
+regions can also be of interest because of their high recurrence in a specific
+cohort.</p>
+<p>The <em>applyCNPmask()</em> function removes the regions identified by
+the <em>makeCNPmask()</em> function from the dataset.</p>
+<div id="remove-non-somatic-copy-number-events-when-matching-normal-profile-is-available" class="section level2" number="6.1">
+<h2 class="hasAnchor">
+<a href="#remove-non-somatic-copy-number-events-when-matching-normal-profile-is-available" class="anchor"></a><span class="header-section-number">6.1</span> Remove non-somatic copy number events when matching normal profile is available</h2>
+<p>Copy number alterations are not always specific to tumor tissues. Some
+alterations can also be present in the cancer-free tissues, those
+are called inherited alterations. Yet,
+somatic copy number alterations, specific to cancer, are often
+the events of interest.</p>
+<p>In the <em>CNprep</em> package, the <em>makeCNPmask()</em> function has been implemented
+to identify all inherited alterations. This function requires the copy number
+profile of a matching normal tissue.</p>
+<p>TODO explain how to</p>
+</div>
+<div id="remove-non-somatic-copy-number-events-when-matching-normal-profile-is-not-available-but-multiple-cancer-free-profiles-are-available" class="section level2" number="6.2">
+<h2 class="hasAnchor">
+<a href="#remove-non-somatic-copy-number-events-when-matching-normal-profile-is-not-available-but-multiple-cancer-free-profiles-are-available" class="anchor"></a><span class="header-section-number">6.2</span> Remove non-somatic copy number events when matching normal profile is not available but multiple cancer-free profiles are available</h2>
+<p>When matching cancer-free profile is not available, the identification of
+inherited alterations is based on the population-wide inherited copy number
+data. To be able to do so, a cohort of cancer-free profiles is needed.</p>
+<p>TODO explain how to</p>
+</div>
+<div id="identify-recurrent-copy-number-events-in-a-cohort" class="section level2" number="6.3">
+<h2 class="hasAnchor">
+<a href="#identify-recurrent-copy-number-events-in-a-cohort" class="anchor"></a><span class="header-section-number">6.3</span> Identify recurrent copy number events in a cohort</h2>
+<p>When multiple bulk cancer tissues DNA profiles are available, the
+<em>makeCNPmask()</em> function can be used to identify the recurrent copy number.</p>
+<p>The <em>makeCNPmask()</em> function takes as inputs:</p>
+<ol style="list-style-type: decimal">
+<li>a table of copy number events with genomic positions for all the profiles</li>
+<li>an upper threshold</li>
+<li>a lower threshold</li>
+</ol>
+<p>As a first step, interval
+regions where the event count is above the lower threshold are identified.
+Among those retained regions, the function only returns the interval regions
+that contain at least one sub-interval with the count above
+the upper threshold.</p>
+<p>Hence, the final mask is a set of genomic intervals that passed both
+thresholds.</p>
+<p>As an example, a mask in created from copy number events detected in 10
+cancer samples. In Figure <a href="#fig:demoMask">1</a>, the top section represent
+all copy number events detected in the 10 samples for a small region of
+chromosome 1.
+The middle section shows the frequency of the events with the lower and upper
+thresholds selected for this analysis. The bottom section displays the result
+of the <em>makeCNPmask()</em> function for this dataset when the lower threshold is
+set to 0.25 and upper threshold to 0.45.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:demoMask"></span>
+<img src="figures/DemoMask01.jpeg" alt="Example of makeCNPmask() function. Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section." width="100%"><p class="caption">
+Figure 1: <span class="caption-title">Example of makeCNPmask() function</span><br>Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section.
+</p>
+</div>
+<p>Using an upper threshold of 0.55 on the same copy number events results in
+only one genomic region in the mask, as shown in
+Figure <a href="#fig:demoMask2">2</a>. This region is the only one to respect both
+lower and upper thresholds.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:demoMask2"></span>
+<img src="figures/DemoMask02.jpeg" alt="Example of makeCNPmask() function with stringent parameters. Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section." width="100%"><p class="caption">
+Figure 2: <span class="caption-title">Example of makeCNPmask() function with stringent parameters</span><br>Copy number events detected in 10 samples in top section. Frequency of the events with the selected lower and upper thresholds in the middle section. Result of the makeCNPmask() function for those thresholds in the bottom section.
+</p>
+</div>
+<p>The following section demonstrates the usage of <em>makeCNPmask()</em> on a more
+complex dataset composed of 1203 breast cancer samples.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Needed libraries</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges">GenomicRanges</a></span><span class="op">)</span>
+<span class="co">## Loading required package: IRanges</span>
+<span class="co">## Loading required package: GenomeInfoDb</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jokergoo/gtrellis">gtrellis</a></span><span class="op">)</span>
+<span class="co">## Loading required package: grid</span>
+<span class="co">## ========================================</span>
+<span class="co">## gtrellis version 1.24.0</span>
+<span class="co">## Bioconductor page: http://bioconductor.org/packages/gtrellis/</span>
+<span class="co">## Github page: https://github.com/jokergoo/gtrellis</span>
+<span class="co">## Documentation: http://bioconductor.org/packages/gtrellis/</span>
+<span class="co">## </span>
+<span class="co">## If you use it in published research, please cite:</span>
+<span class="co">## Gu, Z. gtrellis: an R/Bioconductor package for making genome-level </span>
+<span class="co">##   Trellis graphics. BMC Bioinformatics 2016.</span>
+<span class="co">## </span>
+<span class="co">## This message can be suppressed by:</span>
+<span class="co">##   suppressPackageStartupMessages(library(gtrellis))</span>
+<span class="co">## ========================================</span>
+
+<span class="co">## Load example containing the copy number events for 1203 samples</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">cnpexample</span><span class="op">)</span>
+
+<span class="co">## Retaining only the amplification events</span>
+<span class="va">ampCNP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">cnpexample</span>, <span class="va">copy.num</span> <span class="op">==</span> <span class="st">"amp"</span><span class="op">)</span>
+
+<span class="co">## The amplification table has 4 columns:</span>
+<span class="co">##     copy.num identifies the type of event</span>
+<span class="co">##     chrom is the number identifying the chromosome</span>
+<span class="co">##     chrom.start is the starting position of the event</span>
+<span class="co">##     chrom.end is the ending position of the event</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ampCNP</span>, n<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
+<span class="co">##    copy.num chrom chrom.start chrom.end</span>
+<span class="co">## 2       amp     1    12842827  13439275</span>
+<span class="co">## 5       amp     2    86198238  86575258</span>
+<span class="co">## 16      amp     5      772772    860239</span>
+
+<span class="co">## Create a mask using the amplification events.</span>
+<span class="co">## The name of the columns for the chromosome identification </span>
+<span class="co">## (chromCol parameter), the starting and ending positions </span>
+<span class="co">## (startCol and endCol parameters) must be given.</span>
+<span class="co">## The number of samples (nProf parameter) is also needed.</span>
+<span class="va">ampCNPmask</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeCNPmask.html">makeCNPmask</a></span><span class="op">(</span>imat<span class="op">=</span><span class="va">ampCNP</span>, chromCol<span class="op">=</span><span class="st">"chrom"</span>, 
+    startCol<span class="op">=</span><span class="st">"chrom.start"</span>, endCol<span class="op">=</span><span class="st">"chrom.end"</span>, nProf<span class="op">=</span><span class="fl">1203</span>, 
+    uThresh<span class="op">=</span><span class="fl">0.2</span>, dThresh<span class="op">=</span><span class="fl">0.01</span><span class="op">)</span>
+
+<span class="co">## Transfrom the mask segments into Genomic Ranges</span>
+<span class="va">grAmpCNP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span>seqnames <span class="op">=</span> <span class="fu">Rle</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"chr"</span>, <span class="va">ampCNP</span><span class="op">$</span><span class="va">chrom</span><span class="op">)</span><span class="op">)</span>,
+    ranges <span class="op">=</span> <span class="fu">IRanges</span><span class="op">(</span>start <span class="op">=</span> <span class="va">ampCNP</span><span class="op">$</span><span class="va">chrom.start</span>, end <span class="op">=</span> <span class="va">ampCNP</span><span class="op">$</span><span class="va">chrom.end</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>,
+    strand <span class="op">=</span> <span class="fu">Rle</span><span class="op">(</span><span class="fu">strand</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"*"</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">ampCNP</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co">## Create trellis graph</span>
+<span class="fu"><a href="https://rdrr.io/pkg/gtrellis/man/gtrellis_layout.html">gtrellis_layout</a></span><span class="op">(</span>species <span class="op">=</span> <span class="st">"hg19"</span>, category<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"chr"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">7</span>,<span class="fl">9</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span>, 
+    n_track<span class="op">=</span><span class="fl">3</span>, nrow<span class="op">=</span><span class="fl">2</span>, track_height<span class="op">=</span><span class="fu">unit.c</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="fu">grobHeight</span><span class="op">(</span><span class="fu">textGrob</span><span class="op">(</span><span class="st">"chr1"</span><span class="op">)</span><span class="op">)</span>, 
+    <span class="fu">unit</span><span class="op">(</span><span class="fl">10</span>, <span class="st">"null"</span><span class="op">)</span>, <span class="fu">unit</span><span class="op">(</span><span class="fl">2</span>, <span class="st">"null"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co">## Add track for chromosome names</span>
+<span class="fu"><a href="https://rdrr.io/pkg/gtrellis/man/add_track.html">add_track</a></span><span class="op">(</span>panel_fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">gr</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">chr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gtrellis/man/get_cell_meta_data.html">get_cell_meta_data</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span>  
+    <span class="fu">grid.rect</span><span class="op">(</span>gp<span class="op">=</span><span class="fu">gpar</span><span class="op">(</span>fill<span class="op">=</span><span class="st">"#EEEEEE"</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu">grid.text</span><span class="op">(</span><span class="va">chr</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span>
+
+<span class="co">## Add segments representing the copy number events</span>
+<span class="fu"><a href="https://rdrr.io/pkg/gtrellis/man/add_segments_track.html">add_segments_track</a></span><span class="op">(</span><span class="va">grAmpCNP</span>, value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">grAmpCNP</span><span class="op">)</span><span class="op">)</span>, 
+    gp<span class="op">=</span><span class="fu">gpar</span><span class="op">(</span>col<span class="op">=</span><span class="st">"blue"</span>, lwd<span class="op">=</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co">## Add segments representing the masks</span>
+<span class="va">maskFinal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">ampCNPmask</span><span class="op">)</span>
+<span class="va">maskFinal</span><span class="op">$</span><span class="va">chrom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"chr"</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">maskFinal</span><span class="op">$</span><span class="va">chrom</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/gtrellis/man/add_rect_track.html">add_rect_track</a></span><span class="op">(</span><span class="va">maskFinal</span>, h1<span class="op">=</span><span class="fl">0</span>, h2<span class="op">=</span><span class="fl">1</span>, gp<span class="op">=</span><span class="fu">gpar</span><span class="op">(</span>col<span class="op">=</span><span class="st">"red2"</span>, fill<span class="op">=</span><span class="st">"red2"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:makeMask"></span>
+<img src="CNprep_files/figure-html/makeMask-1.png" alt="Example of makeCNPmask() on a dataset of 1203 samples. The amplification events are shown, in blue, in the top section. Results of the makeCNPmask() are shown for four chromosomes, in red, in the bottom section. In this example, only chromosome 7 doesn't have any mask." width="100%"><p class="caption">
+Figure 3: <span class="caption-title">Example of makeCNPmask() on a dataset of 1203 samples</span><br>The amplification events are shown, in blue, in the top section. Results of the makeCNPmask() are shown for four chromosomes, in red, in the bottom section. In this example, only chromosome 7 doesn’t have any mask.
+</p>
+</div>
+</div>
+<div id="apply-mask-to-a-table-of-copy-number-events" class="section level2" number="6.4">
+<h2 class="hasAnchor">
+<a href="#apply-mask-to-a-table-of-copy-number-events" class="anchor"></a><span class="header-section-number">6.4</span> Apply mask to a table of copy number events</h2>
+<p>The <em>applyCNPmask()</em> function … TODO</p>
+</div>
+</div>
+<div id="using-parallelization" class="section level1" number="7">
+<h1 class="hasAnchor">
+<a href="#using-parallelization" class="anchor"></a><span class="header-section-number">7</span> Using parallelization</h1>
+<p>For experiments with many samples, one can take advantage of parallelized
+computation. Parallelizing <em>CNpreprocessing()</em> function can easily be
+accomplished by setting the <em>nJobs</em> parameter to a number higher than
+one. Beware that the parallelization is done per sample. So, the <em>nJobs</em>
+value should not be higher than the number of samples in the dataset.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Load needed datasets</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">segexample</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ratexample</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">normsegs</span><span class="op">)</span>
+
+<span class="co">## The number of threads is set to 4 (nJobs parameter)</span>
+<span class="co">## Only the chromosomes 1 to 6 are analyzed (chromRange parameter)</span>
+<span class="va">segtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CNpreprocessing.html">CNpreprocessing</a></span><span class="op">(</span>segall<span class="op">=</span><span class="va">segexample</span>, ratall<span class="op">=</span><span class="va">ratexample</span>, 
+    idCol<span class="op">=</span><span class="st">"ID"</span>, startCol<span class="op">=</span><span class="st">"start"</span>, endCol<span class="op">=</span><span class="st">"end"</span>, chromCol<span class="op">=</span><span class="st">"chrom"</span>, 
+    bpStartCol<span class="op">=</span><span class="st">"chrom.pos.start"</span>, bpEndCol<span class="op">=</span><span class="st">"chrom.pos.end"</span>, blsize<span class="op">=</span><span class="fl">50</span>,
+    minJoin<span class="op">=</span><span class="fl">0.25</span>, cWeight<span class="op">=</span><span class="fl">0.4</span>, bsTimes<span class="op">=</span><span class="fl">50</span>, chromRange<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, nJobs<span class="op">=</span><span class="fl">4</span>,
+    normalLength<span class="op">=</span><span class="va">normsegs</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, normalMedian<span class="op">=</span><span class="va">normsegs</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="reproducible-research" class="section level1" number="8">
+<h1 class="hasAnchor">
+<a href="#reproducible-research" class="anchor"></a><span class="header-section-number">8</span> Reproducible research</h1>
+<p>To ensure reproducible results, <em>set.seed()</em> function should be call
+before <em>CNpreprocessing()</em>. Beware that the <em>nJobs</em> parameter must
+also be fixed. Change in the value of the <em>nJobs</em> parameter will
+lead to different results.</p>
+</div>
+<div id="session-info" class="section level1" number="9">
+<h1 class="hasAnchor">
+<a href="#session-info" class="anchor"></a><span class="header-section-number">9</span> Session info</h1>
+<p>Here is the output of <em>sessionInfo()</em> on the system on which this document
+was compiled:</p>
+<pre><code>## R version 4.1.0 (2021-05-18)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 20.04.2 LTS
+## 
+## Matrix products: default
+## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+##  [1] grid      parallel  stats4    stats     graphics  grDevices utils    
+##  [8] datasets  methods   base     
+## 
+## other attached packages:
+##  [1] gtrellis_1.24.0      GenomicRanges_1.44.0 GenomeInfoDb_1.28.0 
+##  [4] IRanges_2.26.0       CNprep_2.1.1         mclust_5.4.7        
+##  [7] S4Vectors_0.30.0     BiocGenerics_0.38.0  BiocParallel_1.26.0 
+## [10] BiocStyle_2.20.2    
+## 
+## loaded via a namespace (and not attached):
+##  [1] compiler_4.1.0         BiocManager_1.30.16    highr_0.9             
+##  [4] XVector_0.32.0         bitops_1.0-7           tools_4.1.0           
+##  [7] zlibbioc_1.38.0        digest_0.6.27          evaluate_0.14         
+## [10] rlang_0.4.11           yaml_2.2.1             xfun_0.24             
+## [13] GenomeInfoDbData_1.2.6 stringr_1.4.0          knitr_1.33            
+## [16] GlobalOptions_0.1.2    GetoptLong_1.0.5       rmarkdown_2.9         
+## [19] bookdown_0.22          magrittr_2.0.1         htmltools_0.5.1.1     
+## [22] shape_1.4.6            circlize_0.4.13        colorspace_2.0-2      
+## [25] stringi_1.6.2          RCurl_1.98-1.3         crayon_1.4.1          
+## [28] rjson_0.2.20</code></pre>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Carter" class="csl-entry">
+Carter, NP. 2007. <span>“Methods and Strategies for Analyzing Copy Number Variation Using DNA Microarrays.”</span> <em>Nat Genet</em> 39: S16–21. <a href="https://doi.org/10.1038/ng2028">https://doi.org/10.1038/ng2028</a>.
+</div>
+<div id="ref-Duan" class="csl-entry">
+Duan, J, J-G Zhang, H-W Deng, and Y-P Wang. 2013. <span>“<span class="nocase">Comparative Studies of Copy Number Variation Detection Methods for Next-Generation Sequencing Technologies</span>.”</span> <em>PLoS ONE</em> 8. <a href="https://doi.org/10.1371/journal.pone.0059128">https://doi.org/10.1371/journal.pone.0059128</a>.
+</div>
+<div id="ref-Franch-Exposito2018a" class="csl-entry">
+Franch-Expósito, Sebastià, Clara Esteban-Jurado, Pilar Garre, Isabel Quintanilla, Saray Duran-Sanchon, Marcos Díaz-Gay, Laia Bonjoch, et al. 2018. <span>“<span class="nocase">Rare germline copy number variants in colorectal cancer predisposition characterized by exome sequencing analysis</span>.”</span> <em>Journal of Genetics and Genomics</em> 45: 41–45. <a href="https://doi.org/10.1016/j.jgg.2017.12.001">https://doi.org/10.1016/j.jgg.2017.12.001</a>.
+</div>
+<div id="ref-Kendall2011" class="csl-entry">
+Kendall, Jude, and Alexander Krasnitz. 2014. <span>“<span class="nocase">Computational Methods for DNA Copy-Number Analysis of Tumors</span>.”</span> In <em>Cancer Genomics and Proteomics</em>, edited by Narendra Wajapeyee, 1176:243–59. Methods in Molecular Biology 6. New York, NY: Springer New York. <a href="https://doi.org/10.1007/978-1-4939-0992-6_20">https://doi.org/10.1007/978-1-4939-0992-6_20</a>.
+</div>
+<div id="ref-Love" class="csl-entry">
+Love, Michael. 2019. <em>exomeCopy: Copy Number Variant Detection from Exome Sequencing Read Depth</em>.
+</div>
+<div id="ref-Pan2018" class="csl-entry">
+Pan, Xiaoyong, XiaoHua Hu, Yu-Hang Zhang, Lei Chen, LiuCun Zhu, ShiBao Wan, Tao Huang, and Yu-Dong Cai. 2018. <span>“<span class="nocase">Identification of the copy number variant biomarkers for breast cancer subtypes</span>.”</span> <em>Molecular Genetics and Genomics</em> 294: 95–110. <a href="https://doi.org/10.1007/s00438-018-1488-4">https://doi.org/10.1007/s00438-018-1488-4</a>.
+</div>
+<div id="ref-Pelttari2018" class="csl-entry">
+Pelttari, L. M., H. Shimelis, H. Toiminen, A. Kvist, T. Törngren, Borg, C. Blomqvist, et al. 2018. <span>“<span class="nocase">Gene-panel testing of breast and ovarian cancer patients identifies a recurrent RAD51C duplication</span>.”</span> <em>Clinical Genetics</em> 93 (3): 595–602. <a href="https://doi.org/10.1111/cge.13123">https://doi.org/10.1111/cge.13123</a>.
+</div>
+<div id="ref-Seshan" class="csl-entry">
+Seshan, Venkatraman E., and Adam Olshen. 2019. <em>DNAcopy: DNA Copy Number Data Analysis</em>.
+</div>
+<div id="ref-Talevich" class="csl-entry">
+Talevich, E, AH Shain, T Botton, and BC Bastian. 2016. <span>“CNVkit: Genome-Wide Copy Number Detection and Visualization from Targeted DNA Sequencing.”</span> <em>PLoS Comput Biol</em> 12 (4). <a href="https://doi.org/10.1371/journal.pcbi.1004873">https://doi.org/10.1371/journal.pcbi.1004873</a>.
+</div>
+<div id="ref-Wang2018" class="csl-entry">
+Wang, Sheng, Jeffrey D. Mandelll, Yogesh Kumarr, Nawei Sunn, Montana T. Morris, Juan Arbelaez, Cara Nasello, et al. 2018. <span>“<span class="nocase">De Novo Sequence and Copy Number Variants are Strongly Associated with Tourette Disorder and Implicate Cell Polarity in Pathogenesis</span>.”</span> <em>SSRN Electronic Journal</em> 24 (13): 3441–3454.e12. <a href="https://doi.org/10.2139/ssrn.3188485">https://doi.org/10.2139/ssrn.3188485</a>.
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script><!-- tabsets --><script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script><!-- code folding --><script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      styles: {
+        ".MathJax_Display": {
+           "text-align": "center",
+           padding: "0px 150px 0px 65px",
+           margin: "0px 0px 0.5em"
+        },
+        "@media screen and (max-width: 991px)": {
+            ".MathJax_Display": {
+               "text-align": "center",
+               padding: "0 0 0 0"
+            }
+         }
+      }
+    }
+  });
+</script>
+</body>
+</html>
