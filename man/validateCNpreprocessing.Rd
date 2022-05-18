@@ -140,9 +140,8 @@ cluster assignment for the segment.}
 \item{chromRange}{A \code{integer} \code{vector} enumerating chromosomes 
 from which segments are to be used for initial model-based clustering.}
 
-\item{nJobs}{A single positive \code{integer} specifying the number of 
-worker jobs to create in case of distributed computation. The number of
-worker jobs should always be \code{1} for Windows.}
+\item{nJobs}{a single positive \code{integer} specifying the number of 
+worker jobs to create in case of distributed computation.}
 
 \item{normalLength}{An integer \code{vector} specifying the genomic lengths 
 of segments in the normal reference data.}

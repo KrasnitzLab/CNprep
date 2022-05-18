@@ -1,0 +1,13 @@
+citEntry(entry="Misc",
+        title = "CNprep: Copy number event detection [version 1; not peer reviewed]",
+        author = personList( as.person("Pascal Belleau"),
+           as.person("Astrid Desch{\\^{e}}nes"),
+           as.person("Guoli Sun"),
+           as.person("David A. Tuveson"),
+           as.person("Alex Krasnitz")),
+        howpublished = "F1000Research, 2020, 9:743 (poster)",
+        doi = "10.7490/f1000research.1118065.1",
+        url = "https://doi.org/10.7490/f1000research.1118065.1",
+        textVersion =
+            "Belleau P, Deschênes A, Sun G, Tuveson DA, Krasnitz A. CNprep: Copy number event detection [version 1; not peer reviewed]. F1000Research 2020, 9:743 (poster) (https://doi.org/10.7490/f1000research.1118065.1)"
+)
