@@ -256,6 +256,7 @@ jobs:
         if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true' && runner.os == 'Linux'
         run: |
           apt-get update && apt-get install -y rsync
+          git config --global --add safe.directory /__w/CNprep/CNprep/github-pages-deploy-action-temp-deployment-folder
     
       - name: Deploy package
         if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true' && runner.os == 'Linux'
