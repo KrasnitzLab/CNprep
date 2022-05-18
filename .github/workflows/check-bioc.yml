@@ -23,7 +23,9 @@
 on:
   push:
   pull_request:
-
+permissions: 
+  contents: write
+  
 name: R-CMD-check-bioc
 
 ## These environment variables control whether to run GHA code later on that is
