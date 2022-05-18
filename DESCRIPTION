@@ -34,7 +34,7 @@ Suggests: testthat,
     ComplexHeatmap,
     devtools,
     rmarkdown
-biocViews: Software, StatisticalMethod, WholeGenome, Microarray, 
+biocViews: Software, StatisticalMethod, WholeGenome, Sequencing, Microarray, 
     CopyNumberVariation
 NeedsCompilation: no
 VignetteBuilder: knitr
