@@ -250,6 +250,11 @@ jobs:
         if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true' && runner.os == 'Linux'
         run: R CMD INSTALL .
 
+      - name: Install rsync
+        if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true' && runner.os == 'Linux'
+        run: |
+          apt-get update && apt-get install -y rsync
+    
       - name: Deploy package
         if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true' && runner.os == 'Linux'
         uses: JamesIves/github-pages-deploy-action@v4.3.3
