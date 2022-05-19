@@ -34,7 +34,7 @@ Suggests: testthat,
     ComplexHeatmap,
     devtools,
     rmarkdown
-biocViews: Software, StatisticalMethod, WholeGenome, Microarray, 
+biocViews: Software, StatisticalMethod, WholeGenome, Sequencing, Microarray, 
     CopyNumberVariation
 URL: https://github.com/KrasnitzLab/CNprep
 BugReports: https://github.com/KrasnitzLab/CNprep/issues

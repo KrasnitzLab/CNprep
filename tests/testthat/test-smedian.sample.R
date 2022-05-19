@@ -9,7 +9,8 @@ context("smedian.sample() results")
 
 test_that("smedian.sample() must return expected results 01", {
     
-    RNGkind("default")
+    RNGkind(kind="Mersenne-Twister", normal.kind="Inversion", 
+            sample.kind="Rejection")
     
     position <- c(1, 5)
     values <- c(0.072073840, 0.119913919, 0.154459489, 0.040994620, -0.082843732,
@@ -27,7 +28,8 @@ test_that("smedian.sample() must return expected results 01", {
 
 test_that("smedian.sample() must return expected results 02", {
     
-    RNGkind("default")
+    RNGkind(kind="Mersenne-Twister", normal.kind="Inversion", 
+            sample.kind="Rejection")
     
     position <- c(1, 5)
     values <- c(0.072073840, 0.119913919, 0.154459489, 0.040994620, -0.082843732,
@@ -44,7 +46,8 @@ test_that("smedian.sample() must return expected results 02", {
 
 test_that("smedian.sample() must return expected results when NA present", {
     
-    RNGkind("default")
+    RNGkind(kind="Mersenne-Twister", normal.kind="Inversion", 
+            sample.kind="Rejection")
     
     position <- c(1, 5)
     values <- c(0.072073840, NA, NA, NA, NA,
